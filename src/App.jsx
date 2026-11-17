@@ -4,6 +4,7 @@ import { RESTAURANT_INFO } from './data/menuData';
 import { getTagaytayOpenStatus } from './utils/hours';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
+import { SignatureOrbitSection } from './components/SignatureOrbitSection';
 import { MenuSection } from './components/MenuSection';
 import { DishDetailModal } from './components/DishDetailModal';
 import { OrderTrayDrawer } from './components/OrderTrayDrawer';
@@ -135,6 +136,8 @@ export default function App() {
           openStatus={openStatus}
           onOpenInstall={() => setIsInstallOpen(true)}
         />
+
+        <SignatureOrbitSection onSelectMenuDish={setSelectedDish} />
 
         <MenuSection
           onSelectDish={setSelectedDish}

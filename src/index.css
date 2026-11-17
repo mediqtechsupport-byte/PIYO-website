@@ -4,6 +4,12 @@
   --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 
+  /* shadcn & DishOrbitCarousel theme tokens mapped to PIYO's green & parchment palette */
+  --color-background: #f5efe2;
+  --color-foreground: #143d28;
+  --color-primary: #143d28;
+  --color-muted-foreground: #4b5e50;
+
   --color-forest-950: #0c2618;
   --color-forest-900: #143d28;
   --color-forest-800: #1b4e33;
@@ -54,3 +60,102 @@
 .pb-safe {
   padding-bottom: max(0.65rem, env(safe-area-inset-bottom));
 }
+
+/* PIYO Signature Dish Orbit Showcase responsive framing for desktop + mobile */
+.piyo-orbit {
+  --piyo-orbit-h: calc(100svh - 158px);
+}
+@media (min-width: 768px) {
+  .piyo-orbit {
+    --piyo-orbit-h: calc(100svh - 65px);
+  }
+}
+.piyo-orbit .dsh-root {
+  top: 85px;
+}
+@media (min-width: 768px) {
+  .piyo-orbit .dsh-root {
+    top: 65px;
+  }
+}
+.piyo-orbit .dsh-top {
+  display: none;
+}
+/* High-contrast warm parchment wash over backdrop so forest-green headlines & labels read crisply */
+.piyo-orbit .dsh-bd {
+  opacity: 0.22;
+  filter: blur(1.5px) saturate(0.85);
+}
+.piyo-orbit .dsh-dim {
+  display: none;
+}
+.piyo-orbit .dsh-wash {
+  background: radial-gradient(
+    circle at 38% 45%,
+    rgba(250, 246, 236, 0.72) 0%,
+    rgba(245, 239, 226, 0.88) 60%,
+    rgba(245, 239, 226, 0.96) 100%
+  );
+}
+.piyo-orbit .dsh-acts .dsh-btn {
+  border-radius: 9999px;
+  background: rgba(250, 246, 236, 0.85);
+  padding: 7px 14px;
+  border: 1px solid rgba(20, 61, 40, 0.16);
+  box-shadow: 0 4px 12px -6px rgba(12, 38, 24, 0.2);
+  transition: transform 0.2s, background-color 0.2s;
+}
+.piyo-orbit .dsh-acts .dsh-btn:hover {
+  background: #143d28;
+  color: #faf6ec;
+}
+.piyo-orbit .dsh-acts {
+  gap: 14px;
+}
+.piyo-orbit .dsh-card {
+  background: rgba(250, 246, 236, 0.88);
+  border: 1px solid rgba(20, 61, 40, 0.12);
+}
+.piyo-orbit .dsh-th .dsh-btn {
+  background: rgba(250, 246, 236, 0.55);
+}
+.piyo-orbit .dsh-th .dsh-btn[aria-current] {
+  background: rgba(250, 246, 236, 0.96);
+  border: 1px solid rgba(20, 61, 40, 0.18);
+}
+.piyo-orbit .dsh-orbit > img,
+.piyo-orbit .dsh-th img {
+  border-radius: 9999px;
+  object-fit: cover;
+  border: 3px solid rgba(216, 179, 106, 0.75);
+}
+.piyo-orbit .dsh-th img {
+  border-width: 2px;
+}
+@container (max-width: 639px) {
+  .piyo-orbit .dsh-canvas {
+    padding: 10px 14px 12px;
+  }
+  .piyo-orbit .dsh-plates {
+    width: min(44vw, 25svh);
+    height: min(44vw, 25svh);
+  }
+  .piyo-orbit .dsh-head {
+    height: 108px;
+    margin-top: 6px;
+  }
+  .piyo-orbit .dsh-card {
+    padding: 14px 16px;
+    margin-top: 8px;
+  }
+  .piyo-orbit .dsh-tabs {
+    margin-bottom: 12px;
+  }
+  .piyo-orbit .dsh-react {
+    margin-top: 12px;
+  }
+  .piyo-orbit .dsh-pager {
+    top: 88px;
+  }
+}
+
