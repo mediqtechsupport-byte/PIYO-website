@@ -63,19 +63,19 @@
 
 /* PIYO Signature Dish Orbit Showcase responsive framing for desktop + mobile */
 .piyo-orbit {
-  --piyo-orbit-h: calc(100svh - 158px);
+  --piyo-orbit-h: calc(100svh - 159px);
 }
 @media (min-width: 768px) {
   .piyo-orbit {
-    --piyo-orbit-h: calc(100svh - 65px);
+    --piyo-orbit-h: calc(100svh - 74px);
   }
 }
 .piyo-orbit .dsh-root {
-  top: 85px;
+  top: 86px;
 }
 @media (min-width: 768px) {
   .piyo-orbit .dsh-root {
-    top: 65px;
+    top: 74px;
   }
 }
 .piyo-orbit .dsh-top {

@@ -208,62 +208,62 @@ export function HeroSection({
 
       {/* Bottom Anchoring Atmospheric Info Strip */}
       <div className="relative border-t border-white/10 bg-[#05140C]/80 backdrop-blur-md">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-3 px-5 py-3.5 sm:px-8 lg:grid-cols-4 lg:py-4">
-          <div className="flex items-center gap-2.5">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-3.5 px-5 py-4 sm:px-8 lg:grid-cols-4">
+          <div className="flex items-start gap-2.5 sm:items-center">
             <MapPin
-              className="h-4 w-4 shrink-0 text-[#DFB96F]"
+              className="mt-0.5 h-4 w-4 shrink-0 text-[#DFB96F] sm:mt-0"
               aria-hidden="true"
             />
-            <div className="min-w-0 text-xs">
-              <p className="truncate font-semibold text-[#FAF6EC]">
+            <div className="min-w-0 text-xs leading-snug">
+              <p className="font-semibold text-[#FAF6EC]">
                 Km. 64 Tagaytay–Nasugbu Hwy
               </p>
-              <p className="truncate text-[11px] text-[#9EB2A6]">
+              <p className="mt-0.5 text-[11px] text-[#9EB2A6]">
                 Brgy. Bagong Tubig, Cavite
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-start gap-2.5 sm:items-center">
             <Clock
-              className="h-4 w-4 shrink-0 text-[#DFB96F]"
+              className="mt-0.5 h-4 w-4 shrink-0 text-[#DFB96F] sm:mt-0"
               aria-hidden="true"
             />
-            <div className="min-w-0 text-xs">
-              <p className="truncate font-semibold text-[#FAF6EC]">
+            <div className="min-w-0 text-xs leading-snug">
+              <p className="font-semibold text-[#FAF6EC]">
                 {openStatus.statusText}
               </p>
-              <p className="truncate text-[11px] text-[#9EB2A6]">
+              <p className="mt-0.5 text-[11px] text-[#9EB2A6]">
                 Mon–Thu 11AM–8PM · Fri–Sun 7AM–10PM
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-start gap-2.5 sm:items-center">
             <Soup
-              className="h-4 w-4 shrink-0 text-[#DFB96F]"
+              className="mt-0.5 h-4 w-4 shrink-0 text-[#DFB96F] sm:mt-0"
               aria-hidden="true"
             />
-            <div className="min-w-0 text-xs">
-              <p className="truncate font-semibold text-[#FAF6EC]">
+            <div className="min-w-0 text-xs leading-snug">
+              <p className="font-semibold text-[#FAF6EC]">
                 Free Soup Refills
               </p>
-              <p className="truncate text-[11px] text-[#9EB2A6]">
+              <p className="mt-0.5 text-[11px] text-[#9EB2A6]">
                 Authentic Ilonggo Batwan Cansi
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-start gap-2.5 sm:items-center">
             <Flame
-              className="h-4 w-4 shrink-0 text-[#DFB96F]"
+              className="mt-0.5 h-4 w-4 shrink-0 text-[#DFB96F] sm:mt-0"
               aria-hidden="true"
             />
-            <div className="min-w-0 text-xs">
-              <p className="truncate font-semibold text-[#FAF6EC]">
+            <div className="min-w-0 text-xs leading-snug">
+              <p className="font-semibold text-[#FAF6EC]">
                 Smoke-Free Dining Hall
               </p>
-              <p className="truncate text-[11px] text-[#9EB2A6]">
+              <p className="mt-0.5 text-[11px] text-[#9EB2A6]">
                 Family 6–8 Seater Tables Ready
               </p>
             </div>
