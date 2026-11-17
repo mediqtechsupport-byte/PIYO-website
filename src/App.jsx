@@ -126,8 +126,6 @@ export default function App() {
         trayCount={trayCount}
         onOpenTray={() => setIsTrayOpen(true)}
         openStatus={openStatus}
-        canInstall={Boolean(deferredPrompt)}
-        onOpenInstall={() => setIsInstallOpen(true)}
       />
 
       <main>

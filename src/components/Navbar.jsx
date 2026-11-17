@@ -5,7 +5,6 @@ import {
   ShoppingBag,
   MapPin,
   Phone,
-  Download,
   CalendarDays,
 } from 'lucide-react';
 import { RESTAURANT_INFO } from '../data/menuData';
@@ -24,8 +23,6 @@ export function Navbar({
   trayCount,
   onOpenTray,
   openStatus,
-  canInstall,
-  onOpenInstall,
 }) {
   return (
     <>
@@ -44,14 +41,9 @@ export function Navbar({
               className="h-10 w-10 shrink-0 rounded-full shadow-md ring-1 ring-[#D8B36A]/50 transition-transform group-hover:scale-105 sm:h-11 sm:w-11"
             />
             <div className="min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="whitespace-nowrap font-serif text-xl font-semibold tracking-wider text-[#FAF6EC] sm:text-2xl">
-                  PIYO
-                </span>
-                <span className="hidden whitespace-nowrap rounded-full border border-[#D8B36A]/40 bg-[#0C2618]/70 px-2 py-0.5 text-[10px] font-medium uppercase tracking-widest text-[#D8B36A] xl:inline-block">
-                  Est. 2025
-                </span>
-              </div>
+              <span className="block whitespace-nowrap font-serif text-xl font-semibold tracking-wider text-[#FAF6EC] sm:text-2xl">
+                PIYO
+              </span>
               <p className="whitespace-nowrap text-[11px] tracking-wide text-[#CDD9D0] sm:text-xs">
                 Grill &amp; Restaurant
               </p>
@@ -87,31 +79,6 @@ export function Navbar({
 
           {/* Action Cluster */}
           <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
-            {/* Live Open Indicator (shown cleanly on xl+ wide desktop where room is plentiful) */}
-            <div
-              className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/15 bg-[#0C2618]/65 px-3 py-1.5 text-xs xl:flex"
-              title={`Today in Tagaytay: ${openStatus.todayHours}`}
-            >
-              <span
-                className={`h-2 w-2 shrink-0 rounded-full ${
-                  openStatus.isOpen ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'
-                }`}
-              />
-              <span className="text-[#FAF6EC]/90">{openStatus.statusText}</span>
-            </div>
-
-            {/* Install App button (mobile & wide xl desktop) */}
-            {canInstall && (
-              <button
-                type="button"
-                onClick={onOpenInstall}
-                className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#D8B36A]/50 bg-[#1B4E33] px-3 py-1.5 text-xs font-semibold text-[#FAF6EC] transition hover:bg-[#255E40] md:hidden xl:inline-flex"
-              >
-                <Download className="h-3.5 w-3.5 shrink-0 text-[#D8B36A]" />
-                <span className="hidden sm:inline">App</span>
-              </button>
-            )}
-
             {/* Quick Call on Mobile */}
             <a
               href={`tel:${RESTAURANT_INFO.mobileTel}`}
