@@ -6,12 +6,11 @@ import {
   Star,
   Phone,
   Sparkles,
-  Download,
   ChevronRight,
 } from 'lucide-react';
 import { RESTAURANT_INFO } from '../data/menuData';
 
-export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInstall }) {
+export function HeroSection({ onExploreMenu, onBookTable, openStatus }) {
   return (
     <section
       id="home"
@@ -87,19 +86,8 @@ export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInst
               </button>
             </div>
 
-            <div className="mt-3.5 flex items-center">
-              <button
-                type="button"
-                onClick={onOpenInstall}
-                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full px-2 py-1.5 text-xs font-medium text-[#D8E3DB] underline-offset-4 transition hover:text-[#D8B36A] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B36A]"
-              >
-                <Download className="h-3.5 w-3.5 shrink-0 text-[#D8B36A]" aria-hidden="true" />
-                <span>Install as Mobile / Desktop App</span>
-              </button>
-            </div>
-
             {/* Key Facts Row */}
-            <div className="mt-5 grid grid-cols-1 gap-4 border-t border-white/15 pt-5 sm:grid-cols-2">
+            <div className="mt-7 grid grid-cols-1 gap-4 border-t border-white/15 pt-5 sm:grid-cols-2">
               <div className="flex items-start gap-2.5">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#D8B36A]" aria-hidden="true" />
                 <div className="text-xs leading-relaxed text-[#E2ECE5] sm:text-sm">

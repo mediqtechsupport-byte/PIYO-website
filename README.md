@@ -16,6 +16,11 @@ npm run dev
 
 Build and update the live GitHub Pages preview (`https://mediqtechsupport-byte.github.io/PIYO-website/`):
 ```bash
-npm run build
+cd C:\Users\Pat\.gemini\antigravity\scratch\piyo-grill-app
 npm run deploy
+```
+
+Auto-deploy on every local file save:
+```bash
+npm run watch:deploy
 ```

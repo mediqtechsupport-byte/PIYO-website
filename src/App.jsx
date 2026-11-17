@@ -10,7 +10,6 @@ import { DishDetailModal } from './components/DishDetailModal';
 import { OrderTrayDrawer } from './components/OrderTrayDrawer';
 import { HeritageAndReviews } from './components/HeritageAndReviews';
 import { VisitAndReserveSection } from './components/VisitAndReserveSection';
-import { InstallAppModal } from './components/InstallAppModal';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
@@ -19,8 +18,6 @@ export default function App() {
   const [isTrayOpen, setIsTrayOpen] = useState(false);
   const [toastText, setToastText] = useState('');
   const [openStatus, setOpenStatus] = useState(() => getTagaytayOpenStatus());
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [isInstallOpen, setIsInstallOpen] = useState(false);
 
   // Refresh open status every minute
   useEffect(() => {
@@ -28,16 +25,6 @@ export default function App() {
       setOpenStatus(getTagaytayOpenStatus());
     }, 60_000);
     return () => clearInterval(interval);
-  }, []);
-
-  // Capture browser PWA install prompt when available
-  useEffect(() => {
-    const handler = (e) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-    };
-    window.addEventListener('beforeinstallprompt', handler);
-    return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
 
   // Track active section while scrolling
@@ -134,7 +121,6 @@ export default function App() {
           onExploreMenu={() => scrollToSection('menu')}
           onBookTable={() => scrollToSection('visit')}
           openStatus={openStatus}
-          onOpenInstall={() => setIsInstallOpen(true)}
         />
 
         <SignatureOrbitSection onSelectMenuDish={setSelectedDish} />
@@ -222,14 +208,6 @@ export default function App() {
         onUpdateQty={updateTrayQty}
         onRemoveItem={removeTrayItem}
         onClear={() => setTrayItems([])}
-      />
-
-      {/* PWA Mobile Install Guide Modal */}
-      <InstallAppModal
-        isOpen={isInstallOpen}
-        onClose={() => setIsInstallOpen(false)}
-        deferredPrompt={deferredPrompt}
-        onPromptHandled={() => setDeferredPrompt(null)}
       />
 
       {/* Floating Add-to-Tray Toast */}

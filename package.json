@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "deploy": "npm run typecheck && npm run build && node scripts/deploy-pages.mjs"
+    "deploy": "npm run typecheck && npm run build && node scripts/deploy-pages.mjs",
+    "watch:deploy": "node scripts/watch-deploy.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
