@@ -122,6 +122,25 @@ export function DishDetailModal({ dish, onClose, onAddToTray }) {
             {dish.fullDesc}
           </p>
 
+          {/* What's Inside Ingredients */}
+          {dish.ingredients?.length > 0 && (
+            <div>
+              <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-[#0B2718]">
+                What&apos;s Inside
+              </h4>
+              <div className="flex flex-wrap gap-1.5">
+                {dish.ingredients.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-[#0B2718]/15 bg-white/80 px-2.5 py-1 text-xs font-medium text-[#16402A]"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Variant Selector */}
           {variants.length > 0 && (
             <div>
@@ -169,7 +188,7 @@ export function DishDetailModal({ dish, onClose, onAddToTray }) {
           {addons.length > 0 && (
             <div>
               <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-[#0B2718]">
-                Pair With Extras (Optional)
+                Optional Sides &amp; Extras
               </h4>
               <div className="space-y-2">
                 {addons.map((addon) => {

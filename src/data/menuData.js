@@ -32,13 +32,13 @@ export const RESTAURANT_INFO = {
 };
 
 export const MENU_CATEGORIES = [
-  { id: 'all', label: 'All Menu', icon: 'UtensilsCrossed' },
-  { id: 'soups', label: 'Negros Soups', icon: 'Soup' },
-  { id: 'grill', label: 'Sinugba & Specials', icon: 'Flame' },
-  { id: 'pasta-pizza', label: 'Silog, Pasta & Pizza', icon: 'Pizza' },
-  { id: 'appetizers', label: 'Appetizers', icon: 'Sparkles' },
-  { id: 'drinks', label: 'Coolers & Shakes', icon: 'CupSoda' },
-  { id: 'sides', label: 'Rice & Sides', icon: 'Bowl' },
+  { id: 'all', label: 'All Menu', icon: 'UtensilsCrossed', subtitle: 'Every dish from our kitchen & grill' },
+  { id: 'soups', label: 'Negros Soups', icon: 'Soup', subtitle: "Slow-simmered Ilonggo broths for Tagaytay's cool air." },
+  { id: 'grill', label: 'Sinugba & Specials', icon: 'Flame', subtitle: 'Charcoal-grilled the Bacolod way & house feast platters.' },
+  { id: 'pasta-pizza', label: 'Silog, Pasta & Pizza', icon: 'Pizza', subtitle: 'All-day silog plates, creamy pastas & hand-stretched 10" pizzas.' },
+  { id: 'appetizers', label: 'Appetizers', icon: 'Sparkles', subtitle: 'Crunchy starters & barkada pica-pica baskets.' },
+  { id: 'drinks', label: 'Coolers & Shakes', icon: 'CupSoda', subtitle: 'Fresh Philippine tropical fruit, blended tall and cold.' },
+  { id: 'sides', label: 'Rice & Sides', icon: 'Bowl', subtitle: 'Round out your table spread.' },
 ];
 
 export const QUICK_FILTERS = [
@@ -62,17 +62,19 @@ export const MENU_ITEMS = [
     serving: 'Sharing Bowl · Free Soup Refills',
     prepTime: '15–20 min',
     spiceLevel: 'Mild (Optional Chili)',
+    ingredients: ['Beef shank', 'Bone marrow', 'Batwan', 'Lemongrass', 'Langka'],
     shortDesc:
       'Signature Ilonggo beef shank soup naturally soured with batwan, rich bone marrow, and tender beef.',
     fullDesc:
       'A true taste of Negros in cool Tagaytay weather. Slow-simmered beef shank and marrow infused with authentic batwan fruit for that unmistakable savory-tangy broth, paired with jackfruit and lemongrass. Guests love our generous free soup refills!',
     variants: [
       { label: 'Classic Sharing Bowl', priceDelta: 0 },
-      { label: 'Extra Bone Marrow Add-on', priceDelta: 150 },
+      { label: 'Family Pot (4–5 pax)', priceDelta: 240 },
     ],
     addons: [
       { id: 'garlic-rice', label: 'Add Garlic Rice', price: 45 },
       { id: 'plain-rice', label: 'Add Steamed Rice', price: 35 },
+      { id: 'extra-marrow', label: 'Extra Bone Marrow', price: 150 },
     ],
   },
   {
@@ -80,12 +82,13 @@ export const MENU_ITEMS = [
     name: 'Tagaytay Classic Bulalo',
     category: 'soups',
     price: 666,
-    image: './images/dish-kansi.jpg',
+    image: './images/dish-bulalo.jpg',
     badge: 'Tagaytay Classic',
     tags: ['bestseller', 'sharing', 'warmer'],
     serving: 'Sharing Pot · Good for 2–3',
     prepTime: '15–20 min',
     spiceLevel: 'None',
+    ingredients: ['Beef shank', 'Bone marrow', 'Sweet corn', 'Cabbage', 'Pechay'],
     shortDesc:
       'Slow-simmered beef shank and marrow broth with sweet corn, cabbage, and fresh Tagaytay pechay.',
     fullDesc:
@@ -96,6 +99,8 @@ export const MENU_ITEMS = [
     ],
     addons: [
       { id: 'garlic-rice', label: 'Add Garlic Rice', price: 45 },
+      { id: 'plain-rice', label: 'Add Steamed Rice', price: 35 },
+      { id: 'extra-marrow', label: 'Extra Bone Marrow', price: 150 },
       { id: 'calamansi-patis', label: 'Extra Calamansi & Sili', price: 0 },
     ],
   },
@@ -104,30 +109,35 @@ export const MENU_ITEMS = [
     name: 'KBL (Kadyos, Baboy, Langka)',
     category: 'soups',
     price: 666,
-    image: './images/dish-kansi.jpg',
+    image: './images/dish-kbl.jpg',
     badge: 'Negros Specialty',
     tags: ['negros', 'sharing', 'warmer'],
     serving: 'Sharing Bowl · Good for 2–3',
     prepTime: '15 min',
     spiceLevel: 'Mild',
+    ingredients: ['Pork hock', 'Kadyos beans', 'Young jackfruit', 'Batwan', 'Lemongrass'],
     shortDesc:
       'Beloved Ilonggo heirloom stew of pigeon peas, tender pork hock, and young jackfruit soured with batwan.',
     fullDesc:
       'A comforting Negrense classic rarely found along the Tagaytay ridge. Earthy kadyos beans, slow-braised pork hock, and tender langka simmered with batwan and lemongrass for a rich, soul-warming broth.',
     variants: [{ label: 'Heritage Sharing Bowl', priceDelta: 0 }],
-    addons: [{ id: 'plain-rice', label: 'Add Steamed Rice', price: 35 }],
+    addons: [
+      { id: 'plain-rice', label: 'Add Steamed Rice', price: 35 },
+      { id: 'garlic-rice', label: 'Add Garlic Rice', price: 45 },
+    ],
   },
   {
     id: 'batchoy-overload',
     name: 'Batchoy Overload',
     category: 'soups',
     price: 286,
-    image: './images/dish-kansi.jpg',
+    image: './images/dish-batchoy.jpg',
     badge: 'Solo / Duo Warmer',
     tags: ['bestseller', 'negros', 'warmer'],
     serving: 'Loaded Solo Bowl',
     prepTime: '10–12 min',
     spiceLevel: 'None',
+    ingredients: ['Miki noodles', 'Pork slices', 'Chicharon', 'Toasted garlic', 'Soft egg'],
     shortDesc:
       'Hearty Iloilo-style miki noodle soup topped with pork slices, crispy chicharon, toasted garlic, and egg.',
     fullDesc:
@@ -143,12 +153,13 @@ export const MENU_ITEMS = [
     name: 'Ilonggo Laswa',
     category: 'soups',
     price: 286,
-    image: './images/dish-kansi.jpg',
+    image: './images/dish-laswa.jpg',
     badge: 'Light & Fresh',
     tags: ['negros', 'warmer'],
     serving: 'Sharing Bowl',
     prepTime: '10–12 min',
     spiceLevel: 'None',
+    ingredients: ['Squash', 'Okra', 'String beans', 'Malunggay', 'Fresh shrimp'],
     shortDesc:
       'Wholesome Ilonggo mixed vegetable soup with squash, okra, string beans, and malunggay.',
     fullDesc:
@@ -169,6 +180,7 @@ export const MENU_ITEMS = [
     serving: 'Served on Banana Leaf w/ Soup & Rice',
     prepTime: '15–18 min',
     spiceLevel: 'Mild Savory',
+    ingredients: ['Chicken quarter', 'Annatto oil', 'Tanglad', 'Calamansi', 'Garlic rice'],
     shortDesc:
       'Charcoal-grilled chicken quarter basted with smoky annatto oil, tanglad, calamansi, and ginger.',
     fullDesc:
@@ -188,12 +200,13 @@ export const MENU_ITEMS = [
     name: 'Crispy Pata',
     category: 'grill',
     price: 1379,
-    image: './images/dish-specials.jpg',
+    image: './images/dish-crispy-pata.jpg',
     badge: 'Feast Centerpiece',
     tags: ['bestseller', 'sharing'],
     serving: 'Whole Knuckle · Good for 4–5',
     prepTime: '25 min',
     spiceLevel: 'None',
+    ingredients: ['Whole pork knuckle', 'Bay leaves', 'Peppercorns', 'Spiced soy-vinegar'],
     shortDesc:
       'Golden-crackling deep-fried pork knuckle with melt-in-your-mouth tender meat and spiced soy-vinegar dip.',
     fullDesc:
@@ -209,12 +222,13 @@ export const MENU_ITEMS = [
     name: 'Boneless Lechon',
     category: 'grill',
     price: 1138,
-    image: './images/dish-specials.jpg',
+    image: './images/dish-boneless-lechon.jpg',
     badge: 'Weekend Hit',
     tags: ['sharing'],
     serving: 'Sharing Platter · Good for 3–4',
     prepTime: '20 min',
     spiceLevel: 'None',
+    ingredients: ['Pork belly roll', 'Lemongrass', 'Garlic', 'Scallions', 'Liver sauce'],
     shortDesc:
       'Aromatic rolled pork belly stuffed with lemongrass, garlic, and scallions, roasted to blistered crispness.',
     fullDesc:
@@ -227,12 +241,13 @@ export const MENU_ITEMS = [
     name: 'Sizzling Bulalo Steak',
     category: 'grill',
     price: 953,
-    image: './images/dish-specials.jpg',
+    image: './images/dish-sizzling-bulalo.jpg',
     badge: 'Chef Signature',
     tags: ['bestseller', 'sharing', 'warmer'],
     serving: 'Sizzling Cast-Iron · Good for 2–3',
     prepTime: '18 min',
     spiceLevel: 'Peppery Savory',
+    ingredients: ['Beef shank', 'Bone marrow', 'Mushroom gravy', 'Cracked pepper', 'Corn'],
     shortDesc:
       'Fork-tender braised beef shank seared on a cast-iron skillet with rich roasted mushroom gravy and marrow.',
     fullDesc:
@@ -248,12 +263,13 @@ export const MENU_ITEMS = [
     name: 'Piyo Hickory Back Ribs',
     category: 'grill',
     price: 976,
-    image: './images/dish-specials.jpg',
+    image: './images/dish-back-ribs.jpg',
     badge: 'Grill House Pick',
     tags: ['sharing'],
     serving: 'Full Rack Sharing · or Rice Meal',
     prepTime: '18 min',
     spiceLevel: 'Sweet & Smoky',
+    ingredients: ['Pork back ribs', 'Hickory BBQ glaze', 'Roasted garlic', 'Grilled corn'],
     shortDesc:
       'Fall-off-the-bone pork back ribs glazed in smoky house BBQ sauce with roasted garlic and corn.',
     fullDesc:
@@ -269,12 +285,13 @@ export const MENU_ITEMS = [
     name: 'Crispy Kare-Kare',
     category: 'grill',
     price: 976,
-    image: './images/dish-specials.jpg',
+    image: './images/dish-kare-kare.jpg',
     badge: 'Family Favorite',
     tags: ['sharing'],
     serving: 'Sharing Pot · Good for 3–4',
     prepTime: '18–20 min',
     spiceLevel: 'None',
+    ingredients: ['Crispy pork belly', 'Roasted peanut sauce', 'Sitaw', 'Eggplant', 'Bagoong'],
     shortDesc:
       'Crispy pork belly slices over velvety roasted peanut stew with sitaw, eggplant, and house-sautéed bagoong.',
     fullDesc:
@@ -287,12 +304,13 @@ export const MENU_ITEMS = [
     name: 'Sizzling Pork Sisig',
     category: 'grill',
     price: 436,
-    image: './images/dish-specials.jpg',
+    image: './images/dish-sisig.jpg',
     badge: 'Sizzling Classic',
     tags: ['bestseller'],
     serving: 'Cast-Iron Platter · Good for 2',
     prepTime: '12–15 min',
     spiceLevel: 'Medium (Chili on Side)',
+    ingredients: ['Chopped crispy pork', 'Red onions', 'Calamansi', 'Bird’s eye chili'],
     shortDesc:
       'Crispy chopped pork tossed with red onions, calamansi, chili, and rich savory seasoning on a hot plate.',
     fullDesc:
@@ -308,12 +326,13 @@ export const MENU_ITEMS = [
     name: 'Sinugba Grilled Liempo',
     category: 'grill',
     price: 401,
-    image: './images/dish-inasal.jpg',
+    image: './images/dish-liempo.jpg',
     badge: 'Charcoal Grilled',
     tags: ['bestseller'],
     serving: 'Rice Meal or Ala Carte',
     prepTime: '15 min',
     spiceLevel: 'Mild',
+    ingredients: ['Pork belly', 'Soy-calamansi marinade', 'Garlic', 'Banana leaf'],
     shortDesc:
       'Thick-cut pork belly marinated in citrus, soy, and garlic, flame-grilled for smoky caramelized edges.',
     fullDesc:
@@ -329,12 +348,13 @@ export const MENU_ITEMS = [
     name: 'Stuffed Grilled Bangus',
     category: 'grill',
     price: 410,
-    image: './images/dish-inasal.jpg',
+    image: './images/dish-bangus.jpg',
     badge: 'Fresh Catch',
     tags: ['sharing'],
     serving: 'Whole Butterfly or Stuffed',
     prepTime: '18 min',
     spiceLevel: 'None',
+    ingredients: ['Boneless milkfish', 'Tomatoes', 'Red onions', 'Ginger', 'Banana leaf'],
     shortDesc:
       'Boneless milkfish stuffed with diced tomatoes, onions, ginger, and calamansi wrapped in banana leaf.',
     fullDesc:
@@ -347,12 +367,13 @@ export const MENU_ITEMS = [
     name: "Piyo's Homestyle Fried Chicken",
     category: 'grill',
     price: 369,
-    image: './images/dish-inasal.jpg',
+    image: './images/dish-fried-chicken.jpg',
     badge: 'Kid & Family Hit',
     tags: ['bestseller'],
     serving: 'Half / Whole Options',
     prepTime: '15–18 min',
     spiceLevel: 'None',
+    ingredients: ['Herb-marinated chicken', 'Crispy batter', 'House brown gravy'],
     shortDesc:
       'Crispy golden seasoned fried chicken marinated with garlic and herbs, served with house gravy.',
     fullDesc:
@@ -376,6 +397,7 @@ export const MENU_ITEMS = [
     serving: 'With Garlic Rice, Egg & Brewed Coffee',
     prepTime: '10–12 min',
     spiceLevel: 'None',
+    ingredients: ['Sinangag garlic rice', 'Sunny egg', 'Tocino / Liempo', 'Brewed coffee'],
     shortDesc:
       'Garlic fried rice, sunny-side-up egg, choice of caramelized pork tocino or grilled liempo, and Tagaytay coffee.',
     fullDesc:
@@ -392,12 +414,13 @@ export const MENU_ITEMS = [
     name: 'Creamy Bacon & Mushroom Fettuccine',
     category: 'pasta-pizza',
     price: 365,
-    image: './images/dish-pasta-pizza.jpg',
+    image: './images/dish-pasta.jpg',
     badge: 'Facebook Feature',
     tags: ['bestseller'],
     serving: 'Served w/ Grilled Garlic Breadstick',
     prepTime: '12–15 min',
     spiceLevel: 'None',
+    ingredients: ['Fettuccine', 'Smoky bacon', 'Button mushrooms', 'Parmesan cream', 'Garlic bread'],
     shortDesc:
       'Al dente fettuccine tossed in velvety parmesan-herb cream with smoky bacon strips and button mushrooms.',
     fullDesc:
@@ -413,12 +436,13 @@ export const MENU_ITEMS = [
     name: 'Pork Adobo Artisan Pizza (10")',
     category: 'pasta-pizza',
     price: 677,
-    image: './images/dish-pasta-pizza.jpg',
+    image: './images/dish-adobo-pizza.jpg',
     badge: 'Filipino Fusion',
     tags: ['bestseller', 'sharing'],
     serving: '10 Inches · 8 Slices',
     prepTime: '15–18 min',
     spiceLevel: 'Savory',
+    ingredients: ['Pork adobo flakes', 'Hand-stretched dough', 'Mozzarella', 'Caramelized onion'],
     shortDesc:
       'Crispy hand-stretched crust topped with tender shredded pork adobo flakes, caramelized onion, and mozzarella.',
     fullDesc:
@@ -431,12 +455,13 @@ export const MENU_ITEMS = [
     name: 'Cuatro Quezo Pizza (10")',
     category: 'pasta-pizza',
     price: 677,
-    image: './images/dish-pasta-pizza.jpg',
+    image: './images/dish-cheese-pizza.jpg',
     badge: '4-Cheese Favorite',
     tags: ['sharing'],
     serving: '10 Inches · 8 Slices',
     prepTime: '15 min',
     spiceLevel: 'None',
+    ingredients: ['Mozzarella', 'Aged cheddar', 'Parmesan', 'Cream cheese', 'Herb crust'],
     shortDesc:
       'Four-cheese blend of mozzarella, cheddar, parmesan, and cream cheese baked golden with herbs.',
     fullDesc:
@@ -449,12 +474,13 @@ export const MENU_ITEMS = [
     name: 'Classic Hawaiian Pizza (10")',
     category: 'pasta-pizza',
     price: 677,
-    image: './images/dish-pasta-pizza.jpg',
+    image: './images/dish-hawaiian-pizza.jpg',
     badge: 'Family Classic',
     tags: ['sharing'],
     serving: '10 Inches · 8 Slices',
     prepTime: '15 min',
     spiceLevel: 'None',
+    ingredients: ['Sweet pineapple', 'Smoky ham', 'Mozzarella', 'Tomato sauce'],
     shortDesc:
       'Sweet pineapple chunks, smoky ham, rich tomato sauce, and stretchy mozzarella on crisp 10-inch dough.',
     fullDesc:
@@ -469,12 +495,13 @@ export const MENU_ITEMS = [
     name: 'Piyo Savory Wings',
     category: 'appetizers',
     price: 552,
-    image: './images/dish-specials.jpg',
+    image: './images/dish-wings.jpg',
     badge: 'Barkada Starter',
     tags: ['sharing'],
     serving: 'Sharing Basket',
     prepTime: '14 min',
     spiceLevel: 'Savory Garlic',
+    ingredients: ['Double-fried wings', 'Garlic-soy glaze', 'Honey', 'Toasted sesame'],
     shortDesc:
       'Crisp golden chicken wings glazed in Piyo’s signature garlic-soy and honey-pepper coat.',
     fullDesc:
@@ -487,12 +514,13 @@ export const MENU_ITEMS = [
     name: 'Cheesy Beef / Chicken Lumpia',
     category: 'appetizers',
     price: 309,
-    image: './images/dish-specials.jpg',
+    image: './images/dish-lumpia.jpg',
     badge: 'Crunchy Starter',
     tags: ['sharing'],
     serving: 'Sharing Plate',
     prepTime: '10 min',
     spiceLevel: 'None',
+    ingredients: ['Seasoned meat', 'Melted cheddar', 'Lumpia wrapper', 'Sweet chili dip'],
     shortDesc:
       'Crisp golden spring rolls packed with seasoned ground beef or chicken and melted cheddar.',
     fullDesc:
@@ -508,12 +536,13 @@ export const MENU_ITEMS = [
     name: 'Chicharon Bulaklak',
     category: 'appetizers',
     price: 247,
-    image: './images/dish-specials.jpg',
+    image: './images/dish-bulaklak.jpg',
     badge: 'Pulutan Favorite',
     tags: [],
     serving: 'Regular Plate w/ Spiced Vinegar',
     prepTime: '12 min',
     spiceLevel: 'None',
+    ingredients: ['Pork ruffle fat', 'Native cane vinegar', 'Chili', 'Garlic'],
     shortDesc:
       'Light, shattering crispy ruffled pork cracklings served with native spiced cane vinegar.',
     fullDesc:
@@ -526,12 +555,13 @@ export const MENU_ITEMS = [
     name: 'Crispy Eggplant Sticks',
     category: 'appetizers',
     price: 217,
-    image: './images/dish-specials.jpg',
+    image: './images/dish-eggplant.jpg',
     badge: 'Guest Surprise',
     tags: ['bestseller'],
     serving: 'Sharing Basket',
     prepTime: '10 min',
     spiceLevel: 'None',
+    ingredients: ['Fresh eggplant', 'Light herb breading', 'Creamy garlic dip'],
     shortDesc:
       'Lightly breaded golden eggplant fries — crisp outside, tender inside, with creamy garlic dip.',
     fullDesc:
@@ -546,12 +576,13 @@ export const MENU_ITEMS = [
     name: 'Mango Dragon Swirl',
     category: 'drinks',
     price: 197,
-    image: './images/dish-refreshers.jpg',
+    image: './images/shake-mango-dragon.jpg',
     badge: 'Signature Shake',
     tags: ['bestseller'],
     serving: 'Tall Chilled Glass',
     prepTime: '5 min',
     spiceLevel: 'Sweet & Tropical',
+    ingredients: ['Ripe yellow mango', 'Red dragonfruit', 'Fresh fruit puree'],
     shortDesc:
       'Vibrant layered shake of sweet Philippine mangoes swirled with fresh red dragonfruit.',
     fullDesc:
@@ -564,12 +595,13 @@ export const MENU_ITEMS = [
     name: 'Avocado Chill / Berry Burst / Mango Dream',
     category: 'drinks',
     price: 175,
-    image: './images/dish-refreshers.jpg',
+    image: './images/shake-avocado.jpg',
     badge: 'Fresh Fruit',
     tags: [],
     serving: 'Tall Chilled Glass',
     prepTime: '5 min',
     spiceLevel: 'Refreshing',
+    ingredients: ['Tagaytay avocado / berries', 'Chilled milk', 'Crushed ice'],
     shortDesc:
       'Creamy Tagaytay avocado shake, mixed berry cooler, sweet melon breeze, or pure mango dream.',
     fullDesc:
@@ -587,12 +619,13 @@ export const MENU_ITEMS = [
     name: 'Guyabano Breeze',
     category: 'drinks',
     price: 164,
-    image: './images/dish-refreshers.jpg',
+    image: './images/shake-guyabano.jpg',
     badge: 'Local Harvest',
     tags: [],
     serving: 'Tall Chilled Glass',
     prepTime: '5 min',
     spiceLevel: 'Crisp & Tangy',
+    ingredients: ['Fresh soursop (guyabano)', 'Light syrup', 'Crushed ice'],
     shortDesc:
       'Cool soursop tropical refresher — bright, gently tangy, and lightly sweetened.',
     fullDesc:
@@ -607,12 +640,13 @@ export const MENU_ITEMS = [
     name: 'Toasted Garlic Rice',
     category: 'sides',
     price: 45,
-    image: './images/dish-silog.jpg',
+    image: './images/dish-garlic-rice.jpg',
     badge: 'Essential Side',
     tags: [],
     serving: 'Single Cup / Sharing Platter',
     prepTime: '5 min',
     spiceLevel: 'None',
+    ingredients: ['Jasmine rice', 'Crispy toasted garlic', 'Spring onion'],
     shortDesc:
       'Fragrant steamed jasmine rice wok-tossed with golden crispy garlic chips.',
     fullDesc:
@@ -628,12 +662,13 @@ export const MENU_ITEMS = [
     name: 'Creamy Mashed Potato / House Atchara',
     category: 'sides',
     price: 85,
-    image: './images/dish-inasal.jpg',
+    image: './images/dish-mashed-atchara.jpg',
     badge: 'Side Dish',
     tags: [],
     serving: 'Side Bowl',
     prepTime: '5 min',
     spiceLevel: 'None',
+    ingredients: ['Butter whipped potato', 'Chives', 'Green papaya atchara'],
     shortDesc:
       'Velvety butter mashed potatoes or crisp pickled green papaya atchara relish.',
     fullDesc:

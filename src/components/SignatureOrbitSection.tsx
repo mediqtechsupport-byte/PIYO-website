@@ -105,7 +105,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
   {
     title: 'Sizzling',
     subtitle: 'Bulalo',
-    image: './images/dish-specials.jpg',
+    image: './images/dish-sizzling-bulalo.jpg',
     eyebrow: '#3 Cast-iron Tagaytay warmer',
     label: 'Sizzling Bulalo',
     rating: 4.8,
@@ -126,7 +126,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
   {
     title: 'Crispy',
     subtitle: 'Pata',
-    image: './images/dish-specials.jpg',
+    image: './images/dish-crispy-pata.jpg',
     eyebrow: '#4 Family sharing centerpiece',
     label: 'Crispy Pata',
     rating: 4.9,
@@ -147,7 +147,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
   {
     title: 'Pork Adobo',
     subtitle: 'Pizza',
-    image: './images/dish-pasta-pizza.jpg',
+    image: './images/dish-adobo-pizza.jpg',
     eyebrow: '#5 Filipino fusion favorite · 10-inch',
     label: 'Adobo Pizza',
     rating: 4.7,

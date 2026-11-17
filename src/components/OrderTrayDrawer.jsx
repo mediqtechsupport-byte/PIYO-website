@@ -223,13 +223,22 @@ export function OrderTrayDrawer({
                 />
               </div>
 
-              <button
-                type="button"
-                onClick={onClear}
-                className="text-xs font-semibold text-[#5B6D5F] hover:text-red-700"
-              >
-                Clear all items
-              </button>
+              <div className="flex items-center justify-between gap-3 pt-1">
+                <button
+                  type="button"
+                  onClick={onClear}
+                  className="inline-flex min-h-[38px] items-center rounded-full border border-[#0B2718]/20 px-4 text-xs font-semibold text-[#5B6D5F] transition hover:border-red-700/40 hover:text-red-700"
+                >
+                  Clear tray
+                </button>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="inline-flex min-h-[38px] items-center rounded-full bg-[#DFB96F] px-5 text-xs font-bold text-[#06180E] transition hover:bg-[#E7C88B]"
+                >
+                  Keep browsing
+                </button>
+              </div>
             </div>
           )}
         </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Facebook, Instagram, Globe, Heart } from 'lucide-react';
+import { Facebook, Instagram, Globe, Heart, ArrowRight } from 'lucide-react';
 import { RESTAURANT_INFO, MENU_ITEMS } from './data/menuData';
-import { getTagaytayOpenStatus } from './utils/hours';
+import { getTagaytayOpenStatus, formatPeso } from './utils/hours';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { SignatureOrbitSection } from './components/SignatureOrbitSection';
@@ -105,9 +105,17 @@ export default function App() {
   };
 
   const trayCount = trayItems.reduce((sum, item) => sum + item.quantity, 0);
+  const traySubtotal = trayItems.reduce(
+    (sum, item) => sum + item.unitPrice * item.quantity,
+    0
+  );
 
   return (
-    <div className="min-h-screen bg-[#F5EFE2] pb-20 md:pb-0">
+    <div
+      className={`min-h-screen bg-[#F5EFE2] ${
+        trayCount > 0 && !isTrayOpen ? 'pb-36 md:pb-20' : 'pb-20 md:pb-0'
+      }`}
+    >
       <Navbar
         activeSection={activeSection}
         onNavigate={scrollToSection}
@@ -134,6 +142,8 @@ export default function App() {
         <MenuSection
           onSelectDish={setSelectedDish}
           onQuickAdd={quickAddDish}
+          trayItems={trayItems}
+          onUpdateTrayQty={updateTrayQty}
         />
 
         <HeritageAndReviews />
@@ -216,9 +226,32 @@ export default function App() {
         onClear={() => setTrayItems([])}
       />
 
+      {/* Floating Bottom Tray Bar */}
+      {trayCount > 0 && !isTrayOpen && (
+        <div className="pointer-events-none fixed inset-x-0 bottom-[78px] z-[35] flex justify-center px-4 md:bottom-6">
+          <button
+            type="button"
+            onClick={() => setIsTrayOpen(true)}
+            aria-label={`View your tray (${trayCount} items, ${formatPeso(traySubtotal)})`}
+            className="pointer-events-auto flex w-full max-w-sm items-center justify-between gap-4 rounded-full border border-[#0B2718]/20 bg-[#DFB96F] px-3.5 py-2.5 text-sm font-bold text-[#06180E] shadow-[0_18px_36px_-8px_rgba(6,24,14,0.45)] transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] active:scale-[0.99]"
+          >
+            <span className="inline-flex items-center gap-2.5">
+              <span className="inline-flex h-7 min-w-7 items-center justify-center rounded-full bg-[#06180E] px-2 text-xs font-bold text-[#DFB96F]">
+                {trayCount}
+              </span>
+              <span>View your tray</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 font-serif text-lg font-bold">
+              {formatPeso(traySubtotal)}
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </span>
+          </button>
+        </div>
+      )}
+
       {/* Floating Add-to-Tray Toast */}
       {toastText && (
-        <div className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2 rounded-full bg-[#0B2718] px-4 py-2 text-xs font-semibold text-[#FAF6EC] shadow-lg ring-1 ring-[#D8B36A]/50 md:bottom-6">
+        <div className="fixed bottom-[138px] left-1/2 z-50 -translate-x-1/2 rounded-full bg-[#0B2718] px-4 py-2 text-xs font-semibold text-[#FAF6EC] shadow-lg ring-1 ring-[#D8B36A]/50 md:bottom-[84px]">
           {toastText}
         </div>
       )}
