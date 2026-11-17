@@ -116,6 +116,30 @@
   background: rgba(250, 246, 236, 0.88);
   border: 1px solid rgba(20, 61, 40, 0.12);
 }
+.piyo-orbit .dsh-rate {
+  height: 60px;
+  margin: 0 0 14px 0;
+}
+.piyo-orbit .dsh-badge {
+  width: 68px;
+  height: 60px;
+  border-radius: 14px;
+  border: 1px solid rgba(20, 61, 40, 0.14);
+}
+.piyo-orbit .dsh-badge svg {
+  left: 50%;
+  bottom: 8px;
+  transform: translateX(-50%);
+}
+.piyo-orbit .dsh-num {
+  left: 0;
+  top: 7px;
+  width: 68px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
 .piyo-orbit .dsh-th .dsh-btn {
   background: rgba(250, 246, 236, 0.55);
 }
