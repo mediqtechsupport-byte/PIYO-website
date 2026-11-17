@@ -190,7 +190,7 @@ export function MenuSection({
 
         {/* Sticky Category & Filter Bar */}
         <div className="sticky top-[91px] z-30 -mx-4 mt-6 border-y border-[#0B2718]/10 bg-[#F5EFE2]/95 px-4 py-3 backdrop-blur-md md:top-[73px] sm:-mx-6 sm:px-6">
-          <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+          <div className="flex gap-1.5 overflow-x-auto no-scrollbar pb-1 sm:gap-2">
             {MENU_CATEGORIES.map((cat) => {
               const Icon = CATEGORY_ICONS[cat.icon] || UtensilsCrossed;
               const isActive = activeCategory === cat.id;
@@ -199,7 +199,7 @@ export function MenuSection({
                   key={cat.id}
                   type="button"
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`inline-flex min-h-[38px] shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all sm:text-sm ${
+                  className={`inline-flex min-h-[36px] shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs font-semibold transition-all sm:px-3 sm:text-[13px] ${
                     isActive
                       ? 'bg-[#0B2718] text-[#FAF6EC] shadow-sm ring-1 ring-[#D8B36A]/40'
                       : 'border border-[#0B2718]/15 bg-[#FAF6EC] text-[#283B2E] hover:border-[#0B2718]/40 hover:bg-[#E5EDE7]'
