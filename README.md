@@ -14,8 +14,8 @@ npm install
 npm run dev
 ```
 
-Build for production:
+Build and update the live GitHub Pages preview (`https://mediqtechsupport-byte.github.io/PIYO-website/`):
 ```bash
 npm run build
-npm run preview
+npm run deploy
 ```
