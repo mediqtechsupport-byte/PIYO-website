@@ -1,203 +1,271 @@
 import React from 'react';
 import {
-  UtensilsCrossed,
+  ArrowUpRight,
+  Phone,
+  Star,
   MapPin,
   Clock,
-  Star,
-  Phone,
-  Sparkles,
-  ChevronRight,
+  Flame,
+  Soup,
 } from 'lucide-react';
 import { RESTAURANT_INFO } from '../data/menuData';
 
-export function HeroSection({ onExploreMenu, onBookTable, openStatus }) {
+export function HeroSection({
+  onExploreMenu,
+  onSelectDishById,
+  openStatus,
+}) {
   return (
     <section
       id="home"
-      className="relative overflow-hidden bg-[#06180E] text-[#FAF6EC]"
+      className="relative flex flex-col justify-between overflow-hidden bg-[#06180E] text-[#FAF6EC] lg:min-h-[calc(100svh-67px)]"
     >
-      {/* Facade Background Photo with Deep Heritage Forest Green Overlay */}
-      <div className="absolute inset-0">
+      {/* Warm Illuminated Restaurant Facade & Dining Room Backdrop */}
+      <div className="pointer-events-none absolute inset-0">
         <img
           src="./images/hero-facade.jpg"
-          alt="PIYO Grill & Restaurant warm Tagaytay facade"
-          className="h-full w-full object-cover object-center opacity-40 scale-105"
+          alt=""
+          aria-hidden="true"
+          className="h-full w-full scale-[1.03] object-cover object-left opacity-45"
           onError={(e) => {
             e.currentTarget.style.display = 'none';
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#06180E]/85 via-[#0B2718]/80 to-[#06180E]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(216,179,106,0.18),transparent_55%)]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#06180E]/92 via-[#082114]/76 to-[#06180E]/58" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#06180E]/80 via-transparent to-[#05140C]/95" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_44%,rgba(223,185,111,0.20),transparent_48%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_36%,rgba(223,185,111,0.10),transparent_42%)]" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 pb-10 pt-7 sm:px-6 sm:pb-16 sm:pt-12 lg:py-20">
-        <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
-          {/* Left Hero Column */}
-          <div className="lg:col-span-6 xl:col-span-7">
-            <div className="mb-4 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#D8B36A]/45 bg-[#0B2718]/90 px-3 py-1 text-xs font-semibold tracking-wide text-[#D8B36A]">
-                <Sparkles className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                Tagaytay City · Negros Heritage &amp; Sinugba
+      {/* Main Two-Column Hero Stage */}
+      <div className="relative mx-auto flex w-full max-w-7xl flex-1 items-center px-5 pb-10 pt-8 sm:px-8 sm:pb-12 sm:pt-12 lg:py-10">
+        <div className="grid w-full items-center gap-10 lg:grid-cols-12 lg:gap-8 xl:gap-12">
+          {/* Left Editorial Column */}
+          <div className="lg:col-span-6 xl:col-span-6">
+            {/* Editorial Eyebrow with Gold Dot & Hairline */}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-medium uppercase tracking-[0.2em] text-[#B7C7BD] sm:text-xs">
+              <span className="inline-flex items-center gap-2">
+                <span
+                  className="h-1.5 w-1.5 rounded-full bg-[#DFB96F]"
+                  aria-hidden="true"
+                />
+                Tagaytay City
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-[#FAF6EC]">
-                <Star className="h-3.5 w-3.5 shrink-0 fill-[#D8B36A] text-[#D8B36A]" aria-hidden="true" />
-                {RESTAURANT_INFO.rating.score} ★ Guest Favorite
-              </span>
+              <span
+                className="h-px w-8 shrink-0 bg-[#DFB96F]/45 sm:w-12"
+                aria-hidden="true"
+              />
+              <span>Negros Heritage &amp; Sinugba</span>
             </div>
 
-            <h1 className="font-serif text-4xl font-semibold leading-[1.06] tracking-tight text-[#FAF6EC] sm:text-5xl xl:text-6xl">
+            {/* Display Serif Headline */}
+            <h1 className="mt-5 font-serif text-[2.85rem] font-normal leading-[1.03] tracking-[-0.015em] text-[#FAF6EC] sm:text-6xl xl:text-[4.35rem]">
               Bringing smiles{' '}
-              <span className="block italic font-medium text-[#D8B36A]">
-                to every plate.
+              <span className="italic font-medium text-[#E0B96B]">to</span>
+              <span className="block italic font-medium text-[#E0B96B]">
+                every plate.
               </span>
             </h1>
 
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#E2ECE5] sm:text-base lg:text-lg">
-              {RESTAURANT_INFO.heroSubheadline} Warm up with authentic{' '}
-              <strong className="font-semibold text-[#FAF6EC]">
-                Bacolod Cansi
-              </strong>{' '}
-              (with free soup refills!), charcoal{' '}
-              <strong className="font-semibold text-[#FAF6EC]">
-                Chicken Inasal
-              </strong>
-              , sizzling plates, and fresh coolers along Km. 64 Tagaytay–Nasugbu Highway.
+            {/* Accent-Bordered Editorial Copy */}
+            <p className="mt-6 max-w-lg border-l-2 border-[#DFB96F]/55 pl-4 text-sm leading-relaxed text-[#D0DDD4] sm:text-[15px] sm:leading-7">
+              Bacolod cansi with free soup refills, charcoal chicken inasal,
+              sizzling plates and fresh coolers — served in the cool Tagaytay
+              breeze.
             </p>
 
-            {/* Primary Accessible CTAs */}
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            {/* Quick Signature Highlights */}
+            <div className="mt-5 flex flex-wrap gap-2">
+              {['Charcoal Sinugba', 'Free Soup Refills', 'Dine-In · Takeout'].map(
+                (tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-white/15 bg-[#0B2718]/75 px-3 py-1 text-[11px] font-medium tracking-wide text-[#D5E1D9] backdrop-blur-sm"
+                  >
+                    {tag}
+                  </span>
+                )
+              )}
+            </div>
+
+            {/* Primary CTA & Direct Frosted Phone Button */}
+            <div className="mt-7 flex flex-wrap items-center gap-3.5 sm:gap-4">
               <button
                 type="button"
                 onClick={onExploreMenu}
-                className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#D8B36A] px-6 py-3 text-sm font-bold text-[#06180E] shadow-lg shadow-black/25 transition hover:bg-[#E5C685] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FAF6EC] focus-visible:ring-offset-2 focus-visible:ring-offset-[#06180E] active:scale-[0.99] sm:w-auto"
+                className="inline-flex min-h-[48px] items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#DFB96F] px-7 py-3 text-sm font-semibold text-[#06180E] shadow-lg shadow-black/30 transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FAF6EC] focus-visible:ring-offset-2 focus-visible:ring-offset-[#06180E] active:scale-[0.99]"
               >
-                <UtensilsCrossed className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span>Explore Digital Menu</span>
-                <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span>See the menu</span>
+                <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden="true" />
               </button>
 
-              <button
-                type="button"
-                onClick={onBookTable}
-                className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#FAF6EC]/35 bg-[#113421]/90 px-6 py-3 text-sm font-semibold text-[#FAF6EC] backdrop-blur-sm transition hover:bg-[#16402A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B36A] focus-visible:ring-offset-2 focus-visible:ring-offset-[#06180E] sm:w-auto"
+              <a
+                href={`tel:${RESTAURANT_INFO.mobileTel}`}
+                className="inline-flex min-h-[48px] items-center gap-2.5 whitespace-nowrap rounded-full border border-white/25 bg-[#0D2B1B]/75 px-5 py-3 text-sm font-medium tracking-wide text-[#FAF6EC] backdrop-blur-sm transition hover:border-[#DFB96F]/65 hover:bg-[#133A25] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
               >
-                <Phone className="h-4 w-4 shrink-0 text-[#D8B36A]" aria-hidden="true" />
-                <span>Book a Table · {RESTAURANT_INFO.mobile}</span>
-              </button>
+                <Phone
+                  className="h-4 w-4 shrink-0 text-[#DFB96F]"
+                  aria-hidden="true"
+                />
+                <span>{RESTAURANT_INFO.mobile}</span>
+              </a>
             </div>
 
-            {/* Key Facts Row */}
-            <div className="mt-7 grid grid-cols-1 gap-4 border-t border-white/15 pt-5 sm:grid-cols-2">
-              <div className="flex items-start gap-2.5">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#D8B36A]" aria-hidden="true" />
-                <div className="text-xs leading-relaxed text-[#E2ECE5] sm:text-sm">
-                  <p className="font-semibold text-[#FAF6EC]">
-                    Km. 64 Tagaytay–Nasugbu Hwy
-                  </p>
-                  <p className="text-xs text-[#CDD9D0]">
-                    Brgy. Bagong Tubig, Tagaytay City, Cavite
-                  </p>
-                </div>
+            {/* Guest Favorite Rating Row */}
+            <div className="mt-8 flex flex-wrap items-center gap-3 sm:mt-10">
+              <div
+                className="flex items-center gap-1"
+                aria-label={`Rated ${RESTAURANT_INFO.rating.score} out of 5 stars`}
+              >
+                {[...Array(5)].map((_, idx) => (
+                  <Star
+                    key={idx}
+                    className="h-4 w-4 fill-[#DFB96F] text-[#DFB96F]"
+                    aria-hidden="true"
+                  />
+                ))}
               </div>
-
-              <div className="flex items-start gap-2.5">
-                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-[#D8B36A]" aria-hidden="true" />
-                <div className="text-xs leading-relaxed text-[#E2ECE5] sm:text-sm">
-                  <p className="font-semibold text-[#FAF6EC]">
-                    {openStatus.statusText}
-                  </p>
-                  <p className="text-xs text-[#CDD9D0]">
-                    Mon–Thu 11AM–8PM · Fri–Sun 7AM–10PM
-                  </p>
-                </div>
-              </div>
+              <p className="text-xs text-[#C0CEC5] sm:text-sm">
+                <strong className="font-semibold text-[#FAF6EC]">
+                  {RESTAURANT_INFO.rating.score}
+                </strong>{' '}
+                · Guest favorite along Tagaytay–Nasugbu Hwy
+              </p>
             </div>
           </div>
 
-          {/* Right Signature Visual Card */}
-          <div className="lg:col-span-6 xl:col-span-5">
-            <div className="relative mx-auto w-full max-w-lg overflow-hidden rounded-3xl border border-[#D8B36A]/35 bg-[#0B2718]/92 p-4 shadow-2xl backdrop-blur-md sm:p-5 lg:ml-auto">
-              {/* Circular Emblem Header */}
-              <div className="mb-3.5 flex flex-wrap items-center justify-between gap-2">
-                <div className="flex items-center gap-3">
-                  <img
-                    src="./logo.svg"
-                    alt="PIYO Emblem"
-                    className="h-11 w-11 shrink-0 rounded-full ring-2 ring-[#D8B36A]/50 sm:h-12 sm:w-12"
-                  />
-                  <div>
-                    <p className="font-serif text-lg font-semibold leading-tight text-[#FAF6EC] sm:text-xl">
-                      Tonight&apos;s Signature Pair
-                    </p>
-                    <p className="text-xs text-[#D8B36A]">
-                      Negros Comfort in Tagaytay
-                    </p>
-                  </div>
+          {/* Right Layered Arched Showcase & Interactive Cards */}
+          <div className="lg:col-span-6 xl:col-span-6">
+            <div className="relative mx-auto w-full max-w-[330px] pb-7 pt-2 sm:max-w-[395px] lg:ml-auto lg:mr-6 xl:max-w-[420px]">
+              {/* Decorative Gold Architectural Double-Arch Halo */}
+              <div
+                className="pointer-events-none absolute -bottom-0 left-3 right-0 top-0 translate-x-2 -translate-y-1.5 rounded-t-[9999px] border border-[#DFB96F]/30 sm:translate-x-3"
+                aria-hidden="true"
+              />
+
+              {/* Primary Tall Roman Arch Dish Frame */}
+              <button
+                type="button"
+                onClick={() => onSelectDishById('bacolod-chicken-inasal')}
+                aria-label="Inspect Chicken Inasal — Tonight's Pick"
+                className="group relative block aspect-[3/4] w-full overflow-hidden rounded-t-[9999px] rounded-b-sm bg-[#0B2718] shadow-[0_28px_60px_-15px_rgba(0,0,0,0.7)] ring-1 ring-[#DFB96F]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
+              >
+                <img
+                  src="./images/hero-inasal-arch.jpg"
+                  alt="Charcoal Chicken Inasal served on banana leaf overlooking misty Tagaytay hills"
+                  className="h-full w-full object-cover object-center transition duration-700 group-hover:scale-[1.03]"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#06180E]/45 via-transparent to-transparent" />
+              </button>
+
+              {/* Bottom-Left Overlapping Pick Card */}
+              <button
+                type="button"
+                onClick={() => onSelectDishById('bacolod-chicken-inasal')}
+                className="group absolute bottom-0 left-2 z-10 flex items-center gap-3 rounded-xl border border-[#DFB96F]/30 bg-[#0F291A]/95 px-4 py-3 text-left shadow-[0_18px_36px_-10px_rgba(0,0,0,0.65)] backdrop-blur-md transition hover:border-[#DFB96F]/75 hover:bg-[#143522] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:-left-10 sm:rounded-2xl sm:px-5 sm:py-3.5"
+              >
+                <div>
+                  <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-[#DFB96F] sm:text-[11px]">
+                    Tonight&apos;s Pick
+                  </span>
+                  <span className="mt-0.5 block whitespace-nowrap font-serif text-lg font-semibold leading-tight text-[#FAF6EC] transition-colors group-hover:text-[#DFB96F] sm:text-[1.35rem]">
+                    Chicken Inasal · ₱401
+                  </span>
+                  <span className="mt-0.5 block text-[11px] text-[#B7C7BD]">
+                    Banana Leaf · Annatto Grill
+                  </span>
                 </div>
-                <span className="shrink-0 whitespace-nowrap rounded-full bg-[#06180E] px-2.5 py-1 text-[11px] font-semibold text-[#D8B36A]">
-                  Dine-In · Takeout
-                </span>
-              </div>
+                <ArrowUpRight
+                  className="h-4 w-4 shrink-0 text-[#DFB96F] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  aria-hidden="true"
+                />
+              </button>
 
-              {/* Dual Dish Preview Grid */}
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={onExploreMenu}
-                  aria-label="View Bacolod Cansi in the digital menu"
-                  className="group overflow-hidden rounded-2xl border border-white/10 bg-[#06180E]/75 text-left transition hover:border-[#D8B36A]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B36A]"
-                >
-                  <div className="aspect-[4/3] overflow-hidden bg-[#113421]">
-                    <img
-                      src="./images/dish-kansi.jpg"
-                      alt="Bacolod Cansi"
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-2.5 sm:p-3">
-                    <p className="text-xs font-bold text-[#FAF6EC] sm:text-sm">
-                      Bacolod Cansi
-                    </p>
-                    <p className="mt-0.5 text-[11px] text-[#D8B36A] sm:text-xs">
-                      ₱666 · Free Soup Refill
-                    </p>
-                  </div>
-                </button>
+              {/* Bottom-Right Companion Soup Thumbnail Card */}
+              <button
+                type="button"
+                onClick={() => onSelectDishById('bacolod-cansi')}
+                className="group absolute bottom-14 right-2 z-10 hidden items-center gap-2.5 rounded-2xl border border-white/15 bg-[#0C2417]/95 p-2 pr-3.5 text-left shadow-xl backdrop-blur-md transition hover:border-[#DFB96F]/60 hover:bg-[#123321] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:-right-6 sm:flex"
+              >
+                <img
+                  src="./images/dish-kansi.jpg"
+                  alt="Bacolod Cansi"
+                  className="h-10 w-10 shrink-0 rounded-full border border-[#DFB96F]/60 object-cover"
+                />
+                <div>
+                  <span className="block text-[9px] font-bold uppercase tracking-[0.16em] text-[#DFB96F]">
+                    Free Refills
+                  </span>
+                  <span className="block whitespace-nowrap text-xs font-semibold text-[#FAF6EC] group-hover:text-[#DFB96F]">
+                    Bacolod Cansi · ₱666
+                  </span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                <button
-                  type="button"
-                  onClick={onExploreMenu}
-                  aria-label="View Bacolod Chicken Inasal in the digital menu"
-                  className="group overflow-hidden rounded-2xl border border-white/10 bg-[#06180E]/75 text-left transition hover:border-[#D8B36A]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B36A]"
-                >
-                  <div className="aspect-[4/3] overflow-hidden bg-[#113421]">
-                    <img
-                      src="./images/dish-inasal.jpg"
-                      alt="Bacolod Chicken Inasal"
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-2.5 sm:p-3">
-                    <p className="text-xs font-bold text-[#FAF6EC] sm:text-sm">
-                      Chicken Inasal
-                    </p>
-                    <p className="mt-0.5 text-[11px] text-[#D8B36A] sm:text-xs">
-                      ₱401 · Banana Leaf Grill
-                    </p>
-                  </div>
-                </button>
-              </div>
+      {/* Bottom Anchoring Atmospheric Info Strip */}
+      <div className="relative border-t border-white/10 bg-[#05140C]/80 backdrop-blur-md">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-3 px-5 py-3.5 sm:px-8 lg:grid-cols-4 lg:py-4">
+          <div className="flex items-center gap-2.5">
+            <MapPin
+              className="h-4 w-4 shrink-0 text-[#DFB96F]"
+              aria-hidden="true"
+            />
+            <div className="min-w-0 text-xs">
+              <p className="truncate font-semibold text-[#FAF6EC]">
+                Km. 64 Tagaytay–Nasugbu Hwy
+              </p>
+              <p className="truncate text-[11px] text-[#9EB2A6]">
+                Brgy. Bagong Tubig, Cavite
+              </p>
+            </div>
+          </div>
 
-              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-[#06180E]/80 px-3.5 py-2.5 text-xs text-[#E5EDE7]">
-                <span>Family 6–8 Seater Tables Available</span>
-                <button
-                  type="button"
-                  onClick={onBookTable}
-                  className="inline-flex min-h-[32px] shrink-0 items-center whitespace-nowrap font-bold text-[#D8B36A] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B36A] rounded-md px-1"
-                >
-                  Inquire →
-                </button>
-              </div>
+          <div className="flex items-center gap-2.5">
+            <Clock
+              className="h-4 w-4 shrink-0 text-[#DFB96F]"
+              aria-hidden="true"
+            />
+            <div className="min-w-0 text-xs">
+              <p className="truncate font-semibold text-[#FAF6EC]">
+                {openStatus.statusText}
+              </p>
+              <p className="truncate text-[11px] text-[#9EB2A6]">
+                Mon–Thu 11AM–8PM · Fri–Sun 7AM–10PM
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5">
+            <Soup
+              className="h-4 w-4 shrink-0 text-[#DFB96F]"
+              aria-hidden="true"
+            />
+            <div className="min-w-0 text-xs">
+              <p className="truncate font-semibold text-[#FAF6EC]">
+                Free Soup Refills
+              </p>
+              <p className="truncate text-[11px] text-[#9EB2A6]">
+                Authentic Ilonggo Batwan Cansi
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5">
+            <Flame
+              className="h-4 w-4 shrink-0 text-[#DFB96F]"
+              aria-hidden="true"
+            />
+            <div className="min-w-0 text-xs">
+              <p className="truncate font-semibold text-[#FAF6EC]">
+                Smoke-Free Dining Hall
+              </p>
+              <p className="truncate text-[11px] text-[#9EB2A6]">
+                Family 6–8 Seater Tables Ready
+              </p>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Facebook, Instagram, Globe, Heart } from 'lucide-react';
-import { RESTAURANT_INFO } from './data/menuData';
+import { RESTAURANT_INFO, MENU_ITEMS } from './data/menuData';
 import { getTagaytayOpenStatus } from './utils/hours';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
@@ -119,8 +119,14 @@ export default function App() {
       <main>
         <HeroSection
           onExploreMenu={() => scrollToSection('menu')}
-          onBookTable={() => scrollToSection('visit')}
           openStatus={openStatus}
+          onSelectDishById={(id) =>
+            setSelectedDish(
+              MENU_ITEMS.find((item) => item.id === id) ||
+                MENU_ITEMS[0] ||
+                null
+            )
+          }
         />
 
         <SignatureOrbitSection onSelectMenuDish={setSelectedDish} />
