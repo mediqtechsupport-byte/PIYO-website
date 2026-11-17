@@ -158,6 +158,15 @@ export function HeroSection({
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#06180E]/45 via-transparent to-transparent" />
               </button>
 
+              {/* Upper-Right PIYO Heritage Crest Emblem */}
+              <div className="pointer-events-none absolute -top-2 right-1 z-10 h-20 w-20 rounded-full border-2 border-[#C8A15A] bg-[#0B2718] p-[2px] shadow-[0_16px_34px_-8px_rgba(0,0,0,0.75)] sm:-right-4 sm:top-2 sm:h-24 sm:w-24">
+                <img
+                  src="./logo.svg"
+                  alt="PIYO Est. 2025 Grill & Restaurant Logo"
+                  className="h-full w-full rounded-full"
+                />
+              </div>
+
               {/* Bottom-Left Overlapping Pick Card */}
               <button
                 type="button"
@@ -179,27 +188,6 @@ export function HeroSection({
                   className="h-4 w-4 shrink-0 text-[#DFB96F] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   aria-hidden="true"
                 />
-              </button>
-
-              {/* Bottom-Right Companion Soup Thumbnail Card */}
-              <button
-                type="button"
-                onClick={() => onSelectDishById('bacolod-cansi')}
-                className="group absolute bottom-14 right-2 z-10 hidden items-center gap-2.5 rounded-2xl border border-white/15 bg-[#0C2417]/95 p-2 pr-3.5 text-left shadow-xl backdrop-blur-md transition hover:border-[#DFB96F]/60 hover:bg-[#123321] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:-right-6 sm:flex"
-              >
-                <img
-                  src="./images/dish-kansi.jpg"
-                  alt="Bacolod Cansi"
-                  className="h-10 w-10 shrink-0 rounded-full border border-[#DFB96F]/60 object-cover"
-                />
-                <div>
-                  <span className="block text-[9px] font-bold uppercase tracking-[0.16em] text-[#DFB96F]">
-                    Free Refills
-                  </span>
-                  <span className="block whitespace-nowrap text-xs font-semibold text-[#FAF6EC] group-hover:text-[#DFB96F]">
-                    Bacolod Cansi · ₱666
-                  </span>
-                </div>
               </button>
             </div>
           </div>

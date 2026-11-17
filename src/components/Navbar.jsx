@@ -37,7 +37,7 @@ export function Navbar({
             <img
               src="./logo.svg"
               alt="PIYO Est. 2025 Crest"
-              className="h-9 w-9 shrink-0 rounded-full ring-1 ring-[#DFB96F]/55 transition-transform duration-300 group-hover:scale-105"
+              className="h-10 w-10 shrink-0 rounded-full border border-[#C8A15A] bg-[#0B2718] p-[1.5px] transition-transform duration-300 group-hover:scale-105"
             />
             <div>
               <span className="block whitespace-nowrap font-serif text-[1.6rem] font-semibold leading-none tracking-tight text-[#FAF6EC] sm:text-[1.75rem]">
