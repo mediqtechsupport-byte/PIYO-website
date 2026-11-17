@@ -20,7 +20,7 @@ export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInst
       {/* Facade Background Photo with Deep Heritage Forest Green Overlay */}
       <div className="absolute inset-0">
         <img
-          src="/images/hero-facade.jpg"
+          src="./images/hero-facade.jpg"
           alt="PIYO Grill & Restaurant warm Tagaytay facade"
           className="h-full w-full object-cover object-center opacity-45 scale-105"
           onError={(e) => {
@@ -127,7 +127,7 @@ export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInst
               <div className="mb-3 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <img
-                    src="/logo.svg"
+                    src="./logo.svg"
                     alt="PIYO Emblem"
                     className="h-12 w-12 rounded-full ring-2 ring-[#D8B36A]/50"
                   />
@@ -154,7 +154,7 @@ export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInst
                 >
                   <div className="aspect-[4/3] overflow-hidden bg-[#1B4E33]">
                     <img
-                      src="/images/dish-kansi.jpg"
+                      src="./images/dish-kansi.jpg"
                       alt="Bacolod Cansi"
                       className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                     />
@@ -176,7 +176,7 @@ export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInst
                 >
                   <div className="aspect-[4/3] overflow-hidden bg-[#1B4E33]">
                     <img
-                      src="/images/dish-inasal.jpg"
+                      src="./images/dish-inasal.jpg"
                       alt="Bacolod Chicken Inasal"
                       className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                     />

@@ -61,7 +61,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
   {
     title: 'Bacolod',
     subtitle: 'Cansi',
-    image: '/images/dish-kansi.jpg',
+    image: './images/dish-kansi.jpg',
     eyebrow: '#1 Most loved in Tagaytay · Free soup refills',
     label: 'Bacolod Cansi',
     rating: 4.9,
@@ -83,7 +83,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
   {
     title: 'Chicken',
     subtitle: 'Inasal',
-    image: '/images/dish-inasal.jpg',
+    image: './images/dish-inasal.jpg',
     eyebrow: '#2 Charcoal sinugba signature',
     label: 'Chicken Inasal',
     rating: 4.8,
@@ -105,7 +105,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
   {
     title: 'Sizzling',
     subtitle: 'Bulalo',
-    image: '/images/dish-specials.jpg',
+    image: './images/dish-specials.jpg',
     eyebrow: '#3 Cast-iron Tagaytay warmer',
     label: 'Sizzling Bulalo',
     rating: 4.8,
@@ -126,7 +126,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
   {
     title: 'Crispy',
     subtitle: 'Pata',
-    image: '/images/dish-specials.jpg',
+    image: './images/dish-specials.jpg',
     eyebrow: '#4 Family sharing centerpiece',
     label: 'Crispy Pata',
     rating: 4.9,
@@ -147,7 +147,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
   {
     title: 'Pork Adobo',
     subtitle: 'Pizza',
-    image: '/images/dish-pasta-pizza.jpg',
+    image: './images/dish-pasta-pizza.jpg',
     eyebrow: '#5 Filipino fusion favorite · 10-inch',
     label: 'Adobo Pizza',
     rating: 4.7,
@@ -205,7 +205,7 @@ export function SignatureOrbitSection({
       <DishOrbitCarousel
         dishes={PIYO_ORBIT_DISHES}
         height="var(--piyo-orbit-h, calc(100svh - 65px))"
-        backdrop="/images/hero-facade.jpg"
+        backdrop="./images/hero-facade.jpg"
         loop={false}
         onOrder={handleOrder}
         onPlay={handlePlay}

@@ -30,7 +30,7 @@ export function InstallAppModal({ isOpen, onClose, deferredPrompt, onPromptHandl
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
             <img
-              src="/logo.svg"
+              src="./logo.svg"
               alt="PIYO Logo"
               className="h-12 w-12 rounded-full ring-2 ring-[#143D28]"
             />

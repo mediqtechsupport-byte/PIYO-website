@@ -1,9 +1,9 @@
 const CACHE_NAME = 'piyo-grill-v1';
 const CORE_ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.webmanifest',
-  '/logo.svg'
+  './',
+  './index.html',
+  './manifest.webmanifest',
+  './logo.svg'
 ];
 
 self.addEventListener('install', (event) => {

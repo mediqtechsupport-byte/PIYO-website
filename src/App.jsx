@@ -154,7 +154,7 @@ export default function App() {
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 text-center sm:flex-row sm:px-6 sm:text-left">
           <div className="flex items-center gap-3.5">
             <img
-              src="/logo.svg"
+              src="./logo.svg"
               alt="PIYO Grill & Restaurant"
               className="h-12 w-12 rounded-full ring-1 ring-[#D8B36A]/45"
             />

@@ -161,18 +161,18 @@
     padding: 8px 14px 10px;
   }
   .piyo-orbit .dsh-plates {
-    width: min(40vw, 22svh);
-    height: min(40vw, 22svh);
+    width: min(38vw, 20svh);
+    height: min(38vw, 20svh);
   }
   .piyo-orbit .dsh-head {
-    height: 118px;
+    height: 128px;
     margin-top: 6px;
   }
   .piyo-orbit .dsh-hd {
     transform: scale(0.74);
   }
   .piyo-orbit .dsh-acts {
-    margin-top: 6px;
+    margin-top: 8px;
   }
   .piyo-orbit .dsh-acts .dsh-btn {
     padding: 5px 12px;

@@ -64,7 +64,7 @@ export function HeritageAndReviews() {
               <div className="space-y-3">
                 <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#0C2618]">
                   <img
-                    src="/images/dish-silog.jpg"
+                    src="./images/dish-silog.jpg"
                     alt="A Taste of Home Filipino breakfast silog plate"
                     loading="lazy"
                     className="aspect-[4/3] w-full object-cover"
@@ -80,7 +80,7 @@ export function HeritageAndReviews() {
                 </div>
                 <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#0C2618]">
                   <img
-                    src="/images/dish-refreshers.jpg"
+                    src="./images/dish-refreshers.jpg"
                     alt="PIYO Tropical Fruit Coolers and Shakes"
                     loading="lazy"
                     className="aspect-[4/3] w-full object-cover"
@@ -91,7 +91,7 @@ export function HeritageAndReviews() {
               <div className="mt-5 space-y-3">
                 <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#0C2618]">
                   <img
-                    src="/images/dish-pasta-pizza.jpg"
+                    src="./images/dish-pasta-pizza.jpg"
                     alt="Creamy Fettuccine and Filipino Pork Adobo Pizza"
                     loading="lazy"
                     className="aspect-[4/3] w-full object-cover"
@@ -99,7 +99,7 @@ export function HeritageAndReviews() {
                 </div>
                 <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#0C2618]">
                   <img
-                    src="/images/dish-specials.jpg"
+                    src="./images/dish-specials.jpg"
                     alt="Crispy Pata and Sizzling Sisig platter"
                     loading="lazy"
                     className="aspect-[4/3] w-full object-cover"
@@ -176,7 +176,7 @@ export function HeritageAndReviews() {
                       </p>
                     </div>
                     <img
-                      src="/logo.svg"
+                      src="./logo.svg"
                       alt="PIYO Verified Seal"
                       className="h-9 w-9 rounded-full ring-1 ring-[#143D28]/25"
                     />

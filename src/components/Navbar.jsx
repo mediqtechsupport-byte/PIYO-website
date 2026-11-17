@@ -36,7 +36,7 @@ export function Navbar({
             className="flex shrink-0 items-center gap-2.5 text-left focus:outline-none group sm:gap-3"
           >
             <img
-              src="/logo.svg"
+              src="./logo.svg"
               alt="PIYO Grill & Restaurant Logo"
               className="h-10 w-10 shrink-0 rounded-full shadow-md ring-1 ring-[#D8B36A]/50 transition-transform group-hover:scale-105 sm:h-11 sm:w-11"
             />
