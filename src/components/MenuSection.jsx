@@ -72,7 +72,7 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
               Heritage Soups, Charcoal Grill &amp; House Classics
             </h2>
             <p className="mt-1.5 max-w-2xl text-sm text-[#425246]">
-              Tap any dish to inspect ingredients, serving sizes, and optional sides â€” or add straight to your Table / Takeout Tray.
+              Tap any dish to inspect ingredients, serving sizes, and optional sides — or add straight to your Table / Takeout Tray.
             </p>
           </div>
 

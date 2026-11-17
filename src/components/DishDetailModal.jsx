@@ -238,7 +238,7 @@ export function DishDetailModal({ dish, onClose, onAddToTray }) {
             className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#0B2718] px-5 py-3 text-sm font-bold text-[#FAF6EC] shadow-md transition hover:bg-[#113421] active:scale-[0.99]"
           >
             <ShoppingBag className="h-4 w-4 text-[#D8B36A]" />
-            <span>Add to Tray Â· {formatPeso(totalPrice)}</span>
+            <span>Add to Tray · {formatPeso(totalPrice)}</span>
           </button>
         </div>
       </div>

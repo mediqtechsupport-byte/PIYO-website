@@ -17,14 +17,14 @@ export function VisitAndReserveSection({ openStatus }) {
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [timeSlot, setTimeSlot] = useState('Lunch (12:00 PM)');
-  const [partySize, setPartySize] = useState('4â€“5 Guests');
+  const [partySize, setPartySize] = useState('4–5 Guests');
   const [occasion, setOccasion] = useState('Family Dine-In');
   const [notes, setNotes] = useState('');
   const [copied, setCopied] = useState(false);
 
   const buildBookingText = () => {
     const lines = [
-      'PIYO Grill & Restaurant â€” Table / Event Inquiry',
+      'PIYO Grill & Restaurant — Table / Event Inquiry',
       `Guest Name: ${name.trim() || 'Guest'}`,
       `Date: ${date || 'Upcoming visit'}`,
       `Time: ${timeSlot}`,
@@ -46,7 +46,7 @@ export function VisitAndReserveSection({ openStatus }) {
   };
 
   const mailtoHref = `mailto:${RESTAURANT_INFO.email}?subject=${encodeURIComponent(
-    `Table / Event Inquiry â€” ${name || 'Tagaytay Guest'}`
+    `Table / Event Inquiry — ${name || 'Tagaytay Guest'}`
   )}&body=${encodeURIComponent(buildBookingText())}`;
 
   const smsHref = `sms:${RESTAURANT_INFO.mobileTel}?body=${encodeURIComponent(
@@ -64,10 +64,10 @@ export function VisitAndReserveSection({ openStatus }) {
                 Visit Us in Tagaytay
               </span>
               <h2 className="mt-2 font-serif text-3xl font-semibold text-[#0B2718] sm:text-4xl">
-                Find PIYO Along Tagaytayâ€“Nasugbu Highway
+                Find PIYO Along Tagaytay–Nasugbu Highway
               </h2>
               <p className="mt-1.5 text-sm text-[#425246]">
-                Stop by for misty morning coffee &amp; silog (Friâ€“Sun from 7 AM) or cozy evening Kansi and grilled specialties.
+                Stop by for misty morning coffee &amp; silog (Fri–Sun from 7 AM) or cozy evening Kansi and grilled specialties.
               </p>
             </div>
 
@@ -202,7 +202,7 @@ export function VisitAndReserveSection({ openStatus }) {
                 </h3>
               </div>
               <p className="mt-1 text-sm text-[#4B5E50]">
-                Planning a family lunch (6â€“8 seaters available!), Tagaytay weekend breakfast, or private gathering? Prepare your reservation details below and send straight via SMS or email.
+                Planning a family lunch (6–8 seaters available!), Tagaytay weekend breakfast, or private gathering? Prepare your reservation details below and send straight via SMS or email.
               </p>
 
               <div className="mt-5 space-y-3.5">
@@ -241,12 +241,12 @@ export function VisitAndReserveSection({ openStatus }) {
                       onChange={(e) => setTimeSlot(e.target.value)}
                       className="w-full rounded-2xl border border-[#0B2718]/20 bg-white px-4 py-2.5 text-sm text-[#1D231E] focus:border-[#0B2718] focus:outline-none"
                     >
-                      <option>Friâ€“Sun Breakfast (7:30 AM)</option>
+                      <option>Fri–Sun Breakfast (7:30 AM)</option>
                       <option>Early Lunch (11:00 AM)</option>
                       <option>Lunch (12:00 PM)</option>
                       <option>Afternoon Merienda (3:00 PM)</option>
                       <option>Dinner (6:30 PM)</option>
-                      <option>Friâ€“Sun Late Dinner (8:30 PM)</option>
+                      <option>Fri–Sun Late Dinner (8:30 PM)</option>
                     </select>
                   </div>
                 </div>
@@ -261,10 +261,10 @@ export function VisitAndReserveSection({ openStatus }) {
                       onChange={(e) => setPartySize(e.target.value)}
                       className="w-full rounded-2xl border border-[#0B2718]/20 bg-white px-4 py-2.5 text-sm text-[#1D231E] focus:border-[#0B2718] focus:outline-none"
                     >
-                      <option>2â€“3 Guests</option>
-                      <option>4â€“5 Guests</option>
-                      <option>6â€“8 Guests (Family Table)</option>
-                      <option>9â€“15 Guests</option>
+                      <option>2–3 Guests</option>
+                      <option>4–5 Guests</option>
+                      <option>6–8 Guests (Family Table)</option>
+                      <option>9–15 Guests</option>
                       <option>16+ Private Event / Group</option>
                     </select>
                   </div>
@@ -325,7 +325,7 @@ export function VisitAndReserveSection({ openStatus }) {
                   {copied ? (
                     <>
                       <Check className="h-3.5 w-3.5 text-emerald-700" />
-                      <span>Reservation Details Copied â€” Paste in Facebook Messenger!</span>
+                      <span>Reservation Details Copied — Paste in Facebook Messenger!</span>
                     </>
                   ) : (
                     <>

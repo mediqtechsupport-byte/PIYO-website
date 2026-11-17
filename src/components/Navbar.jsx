@@ -128,7 +128,7 @@ export function Navbar({
             {openStatus.statusText}
           </span>
           <span className="shrink-0 font-medium text-[#D8B36A]">
-            Km. 64 Â· Tagaytay
+            Km. 64 · Tagaytay
           </span>
         </div>
       </header>

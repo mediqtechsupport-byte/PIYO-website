@@ -23,7 +23,7 @@ export function HeritageAndReviews() {
                 </span>
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-[#D8E3DB] sm:text-base">
-                Along Km. 64 of the Tagaytayâ€“Nasugbu Highway, PIYO Grill &amp; Restaurant brings together warm Negrense hospitality and classic Filipino grill cooking â€” from real <em>batwan</em>-soured Bacolod Cansi and smoky Chicken Inasal to family-style Crispy Pata and Tagaytay Bulalo.
+                Along Km. 64 of the Tagaytay–Nasugbu Highway, PIYO Grill &amp; Restaurant brings together warm Negrense hospitality and classic Filipino grill cooking — from real <em>batwan</em>-soured Bacolod Cansi and smoky Chicken Inasal to family-style Crispy Pata and Tagaytay Bulalo.
               </p>
 
               <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -50,7 +50,7 @@ export function HeritageAndReviews() {
                 <div className="rounded-2xl border border-white/10 bg-[#06180E]/65 p-4">
                   <Users className="h-5 w-5 text-[#D8B36A]" />
                   <h3 className="mt-2 text-sm font-bold text-[#FAF6EC]">
-                    6â€“8 Seater Family Tables
+                    6–8 Seater Family Tables
                   </h3>
                   <p className="mt-1 text-xs leading-relaxed text-[#CDD9D0]">
                     Spacious seating for parents, barkada road trips, weekend breakfasts, and private celebrations.
@@ -74,7 +74,7 @@ export function HeritageAndReviews() {
                       A Taste of Home
                     </p>
                     <p className="text-[11px] text-[#D8B36A]">
-                      Friâ€“Sun Early Open at 7:00 AM
+                      Fri–Sun Early Open at 7:00 AM
                     </p>
                   </div>
                 </div>
@@ -169,7 +169,7 @@ export function HeritageAndReviews() {
                   <div className="flex items-center justify-between gap-2">
                     <div>
                       <p className="font-serif text-lg font-bold text-[#0B2718]">
-                        â€” {item.author}
+                        — {item.author}
                       </p>
                       <p className="text-[11px] font-medium text-[#4A5E4E]">
                         {item.source}
@@ -182,7 +182,7 @@ export function HeritageAndReviews() {
                     />
                   </div>
                   <p className="mt-2 rounded-lg bg-[#0B2718]/8 px-2.5 py-1 text-[11px] font-semibold text-[#0B2718]">
-                    Food: {item.ratings.food} Â· Service: {item.ratings.service} Â· Atmosphere:{' '}
+                    Food: {item.ratings.food} · Service: {item.ratings.service} · Atmosphere:{' '}
                     {item.ratings.atmosphere}
                   </p>
                 </div>

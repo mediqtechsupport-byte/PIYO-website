@@ -32,7 +32,7 @@ export function OrderTrayDrawer({
 
   const buildSummaryText = () => {
     const lines = [
-      `PIYO Grill & Restaurant â€” ${orderType} Order`,
+      `PIYO Grill & Restaurant — ${orderType} Order`,
       guestName.trim() ? `Name / Table: ${guestName.trim()}` : null,
       '---',
       ...items.map((entry) => {
@@ -40,7 +40,7 @@ export function OrderTrayDrawer({
           entry.addons?.length > 0
             ? ` (+ ${entry.addons.map((a) => a.label).join(', ')})`
             : '';
-        return `${entry.quantity}x ${entry.dish.name} [${entry.variantLabel}]${addonsStr} â€” ${formatPeso(
+        return `${entry.quantity}x ${entry.dish.name} [${entry.variantLabel}]${addonsStr} — ${formatPeso(
           entry.unitPrice * entry.quantity
         )}`;
       }),
@@ -161,7 +161,7 @@ export function OrderTrayDrawer({
                           <p className="text-[11px] text-[#4B5E50]">
                             {entry.variantLabel}
                             {entry.addons?.length > 0 &&
-                              ` Â· + ${entry.addons.map((a) => a.label).join(', ')}`}
+                              ` · + ${entry.addons.map((a) => a.label).join(', ')}`}
                           </p>
                         </div>
                         <button
@@ -218,7 +218,7 @@ export function OrderTrayDrawer({
                   rows={2}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Requests (e.g. 6â€“8 seater table, extra chili, pickup time)"
+                  placeholder="Requests (e.g. 6–8 seater table, extra chili, pickup time)"
                   className="w-full rounded-xl border border-[#0B2718]/15 bg-[#FAF6EC] px-3 py-2 text-xs text-[#1D231E] placeholder-[#718275] focus:border-[#0B2718] focus:outline-none"
                 />
               </div>

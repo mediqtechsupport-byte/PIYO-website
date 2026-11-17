@@ -11,7 +11,7 @@ const SPOTLIGHT_META = [
     prepSteps: [
       'Beef shank & bone marrow gently simmered for hours until fork-tender.',
       'Soured naturally with Negros batwan fruit, lemongrass, and young jackfruit.',
-      'Served steaming hot for cool Tagaytay weather â€” ask for free soup refills!',
+      'Served steaming hot for cool Tagaytay weather — ask for free soup refills!',
     ],
     pairWith: 'Toasted Garlic Rice + Calamansi & Chili',
   },
@@ -27,7 +27,7 @@ const SPOTLIGHT_META = [
   },
   {
     menuId: 'sizzling-bulalo-steak',
-    storyTitle: 'Tagaytayâ€™s Marrow Classic on Cast Iron',
+    storyTitle: 'Tagaytay’s Marrow Classic on Cast Iron',
     prepSteps: [
       'Braised beef shank finished on a screaming-hot cast-iron platter.',
       'Topped with rich cracked-pepper mushroom gravy and caramelized onions.',
@@ -37,7 +37,7 @@ const SPOTLIGHT_META = [
   },
   {
     menuId: 'crispy-pata',
-    storyTitle: 'Built for 6â€“8 Seater Family Tables',
+    storyTitle: 'Built for 6–8 Seater Family Tables',
     prepSteps: [
       'Whole pork knuckle braised gently with bay leaves and whole peppercorns.',
       'Air-chilled and fried to crackling, shattering golden skin with juicy meat inside.',
@@ -51,7 +51,7 @@ const SPOTLIGHT_META = [
     prepSteps: [
       '10-inch hand-stretched dough topped with savory shredded garlic-soy pork adobo.',
       'Layered with molten mozzarella, sweet caramelized onions, and scallions.',
-      'Baked crisp into 8 slices â€” a crowd-pleaser for kids and barkada road trips.',
+      'Baked crisp into 8 slices — a crowd-pleaser for kids and barkada road trips.',
     ],
     pairWith: 'Guyabano Breeze or Berry Burst',
   },
@@ -62,11 +62,11 @@ const PIYO_ORBIT_DISHES: Dish[] = [
     title: 'Bacolod',
     subtitle: 'Cansi',
     image: './images/dish-kansi.jpg',
-    eyebrow: '#1 Most loved in Tagaytay Â· Free soup refills',
+    eyebrow: '#1 Most loved in Tagaytay · Free soup refills',
     label: 'Bacolod Cansi',
     rating: 4.9,
     chef: 'PIYO Kitchen',
-    kitchen: 'Tagaytayâ€“Nasugbu Hwy Â· Km. 64',
+    kitchen: 'Tagaytay–Nasugbu Hwy · Km. 64',
     description:
       'Slow-simmered beef shank and marrow soured naturally with batwan fruit, jackfruit, and lemongrass. Free soup refills!',
     likes: 342,
@@ -131,7 +131,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
     label: 'Crispy Pata',
     rating: 4.9,
     chef: 'Family Feast',
-    kitchen: '6â€“8 Seater Family Tables',
+    kitchen: '6–8 Seater Family Tables',
     description:
       'Golden-crackling braised pork knuckle fried until the skin shatters cleanly, served with spiced soy-vinegar dip.',
     likes: 254,
@@ -148,13 +148,13 @@ const PIYO_ORBIT_DISHES: Dish[] = [
     title: 'Pork Adobo',
     subtitle: 'Pizza',
     image: './images/dish-pasta-pizza.jpg',
-    eyebrow: '#5 Filipino fusion favorite Â· 10-inch',
+    eyebrow: '#5 Filipino fusion favorite · 10-inch',
     label: 'Adobo Pizza',
     rating: 4.7,
     chef: 'Artisan Oven',
-    kitchen: '8 Slices Â· Great for Sharing',
+    kitchen: '8 Slices · Great for Sharing',
     description:
-      'Where a Filipino classic meets crisp hand-stretched crust â€” tender garlic-soy pork adobo flakes and molten mozzarella.',
+      'Where a Filipino classic meets crisp hand-stretched crust — tender garlic-soy pork adobo flakes and molten mozzarella.',
     likes: 198,
     ingredients: [
       'Pork Adobo Flakes',
@@ -298,7 +298,7 @@ export function SignatureOrbitSection({
                   >
                     <UtensilsCrossed className="h-4 w-4 text-[#D8B36A]" />
                     <span>
-                      Customize &amp; Order Â· {formatPeso(activeMenuDish.price)}
+                      Customize &amp; Order · {formatPeso(activeMenuDish.price)}
                     </span>
                   </button>
                 )}

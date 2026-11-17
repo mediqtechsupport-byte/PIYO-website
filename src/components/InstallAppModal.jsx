@@ -79,7 +79,7 @@ export function InstallAppModal({ isOpen, onClose, deferredPrompt, onPromptHandl
               <p className="flex items-start gap-2">
                 <PlusSquare className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#16402A]" />
                 <span>
-                  <strong>Android (Chrome):</strong> Open the browser menu (â‹®) and tap{' '}
+                  <strong>Android (Chrome):</strong> Open the browser menu (⋮) and tap{' '}
                   <strong>Install app</strong> or <strong>Add to Home screen</strong>.
                 </span>
               </p>

@@ -89,7 +89,7 @@ export default function App() {
       return [...prev, { key, dish, variantLabel, addons, unitPrice, quantity }];
     });
 
-    showToast(`Added ${quantity}Ã— ${dish.name} to your tray`);
+    showToast(`Added ${quantity}× ${dish.name} to your tray`);
   };
 
   const quickAddDish = (dish) => {
@@ -163,7 +163,7 @@ export default function App() {
                 PIYO Grill &amp; Restaurant
               </p>
               <p className="text-xs text-[#CDD9D0]">
-                {RESTAURANT_INFO.tagline} Â· Tagaytay City, Cavite
+                {RESTAURANT_INFO.tagline} · Tagaytay City, Cavite
               </p>
             </div>
           </div>
@@ -201,7 +201,7 @@ export default function App() {
 
         <div className="mx-auto mt-6 max-w-6xl border-t border-white/10 px-4 pt-5 text-center text-[11px] text-[#9BB0A1] sm:px-6">
           <p className="inline-flex items-center gap-1">
-            PIYO Grill &amp; Restaurant Â· Est. 2025 Â· Crafted with{' '}
+            PIYO Grill &amp; Restaurant · Est. 2025 · Crafted with{' '}
             <Heart className="h-3 w-3 fill-[#D8B36A] text-[#D8B36A]" /> for mobile &amp; desktop diners
           </p>
         </div>
