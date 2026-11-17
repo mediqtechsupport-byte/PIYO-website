@@ -4,17 +4,17 @@
   --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 
-  /* shadcn & DishOrbitCarousel theme tokens mapped to PIYO's green & parchment palette */
+  /* shadcn & DishOrbitCarousel theme tokens mapped to PIYO's deeper forest-green & parchment palette */
   --color-background: #f5efe2;
-  --color-foreground: #143d28;
-  --color-primary: #143d28;
-  --color-muted-foreground: #4b5e50;
+  --color-foreground: #0b2718;
+  --color-primary: #0b2718;
+  --color-muted-foreground: #3f5244;
 
-  --color-forest-950: #0c2618;
-  --color-forest-900: #143d28;
-  --color-forest-800: #1b4e33;
-  --color-forest-700: #255e40;
-  --color-sage-600: #3e6650;
+  --color-forest-950: #06180e;
+  --color-forest-900: #0b2718;
+  --color-forest-800: #113421;
+  --color-forest-700: #16402a;
+  --color-sage-600: #2b4e3b;
   --color-sage-200: #cddbd1;
   --color-sage-100: #e5ede7;
 
@@ -106,7 +106,7 @@
   transition: transform 0.2s, background-color 0.2s;
 }
 .piyo-orbit .dsh-acts .dsh-btn:hover {
-  background: #143d28;
+  background: #0b2718;
   color: #faf6ec;
 }
 .piyo-orbit .dsh-acts {
@@ -114,7 +114,7 @@
 }
 .piyo-orbit .dsh-card {
   background: rgba(250, 246, 236, 0.88);
-  border: 1px solid rgba(20, 61, 40, 0.12);
+  border: 1px solid rgba(11, 39, 24, 0.14);
 }
 .piyo-orbit .dsh-rate {
   height: 60px;
@@ -124,12 +124,15 @@
   width: 68px;
   height: 60px;
   border-radius: 14px;
-  border: 1px solid rgba(20, 61, 40, 0.14);
+  border: 1px solid rgba(11, 39, 24, 0.25);
+  box-shadow: 0 8px 18px -10px rgba(6, 24, 14, 0.45);
 }
 .piyo-orbit .dsh-badge svg {
   left: 50%;
   bottom: 8px;
   transform: translateX(-50%);
+  fill: #d8b36a;
+  opacity: 1;
 }
 .piyo-orbit .dsh-num {
   left: 0;
@@ -139,6 +142,7 @@
   font-size: 26px;
   font-weight: 700;
   letter-spacing: -0.02em;
+  color: #faf6ec;
 }
 .piyo-orbit .dsh-th .dsh-btn {
   background: rgba(250, 246, 236, 0.55);

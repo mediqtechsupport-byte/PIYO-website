@@ -65,14 +65,14 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
         {/* Section Heading */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <span className="inline-block rounded-full bg-[#143D28]/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#143D28]">
+            <span className="inline-block rounded-full bg-[#0B2718]/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#0B2718]">
               Digital Menu
             </span>
-            <h2 className="mt-2 font-serif text-3xl font-semibold text-[#143D28] sm:text-4xl">
+            <h2 className="mt-2 font-serif text-3xl font-semibold text-[#0B2718] sm:text-4xl">
               Heritage Soups, Charcoal Grill &amp; House Classics
             </h2>
             <p className="mt-1.5 max-w-2xl text-sm text-[#425246]">
-              Tap any dish to inspect ingredients, serving sizes, and optional sides — or add straight to your Table / Takeout Tray.
+              Tap any dish to inspect ingredients, serving sizes, and optional sides â€” or add straight to your Table / Takeout Tray.
             </p>
           </div>
 
@@ -85,13 +85,13 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search Cansi, Inasal, Sisig..."
               aria-label="Search menu dishes"
-              className="w-full rounded-full border border-[#143D28]/20 bg-[#FAF6EC] py-2.5 pl-10 pr-9 text-sm text-[#1D231E] placeholder-[#6A7B6E] shadow-xs focus:border-[#143D28] focus:outline-none focus:ring-2 focus:ring-[#143D28]/15"
+              className="w-full rounded-full border border-[#0B2718]/20 bg-[#FAF6EC] py-2.5 pl-10 pr-9 text-sm text-[#1D231E] placeholder-[#6A7B6E] shadow-xs focus:border-[#0B2718] focus:outline-none focus:ring-2 focus:ring-[#0B2718]/15"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-0.5 text-[#5A6C5E] hover:bg-[#143D28]/10"
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-0.5 text-[#5A6C5E] hover:bg-[#0B2718]/10"
                 aria-label="Clear search"
               >
                 <X className="h-3.5 w-3.5" />
@@ -101,7 +101,7 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
         </div>
 
         {/* Sticky Category Bar (mobile & desktop friendly) */}
-        <div className="sticky top-[85px] z-30 -mx-4 mt-6 border-y border-[#143D28]/10 bg-[#F5EFE2]/95 px-4 py-3 backdrop-blur-md md:top-[65px] sm:-mx-6 sm:px-6">
+        <div className="sticky top-[85px] z-30 -mx-4 mt-6 border-y border-[#0B2718]/10 bg-[#F5EFE2]/95 px-4 py-3 backdrop-blur-md md:top-[65px] sm:-mx-6 sm:px-6">
           <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
             {MENU_CATEGORIES.map((cat) => {
               const Icon = CATEGORY_ICONS[cat.icon] || UtensilsCrossed;
@@ -113,21 +113,21 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
                   onClick={() => setActiveCategory(cat.id)}
                   className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-semibold transition-all sm:text-sm ${
                     isActive
-                      ? 'bg-[#143D28] text-[#FAF6EC] shadow-sm ring-1 ring-[#D8B36A]/40'
-                      : 'border border-[#143D28]/15 bg-[#FAF6EC] text-[#283B2E] hover:border-[#143D28]/40 hover:bg-[#E5EDE7]'
+                      ? 'bg-[#0B2718] text-[#FAF6EC] shadow-sm ring-1 ring-[#D8B36A]/40'
+                      : 'border border-[#0B2718]/15 bg-[#FAF6EC] text-[#283B2E] hover:border-[#0B2718]/40 hover:bg-[#E5EDE7]'
                   }`}
                 >
                   <Icon
                     className={`h-3.5 w-3.5 ${
-                      isActive ? 'text-[#D8B36A]' : 'text-[#255E40]'
+                      isActive ? 'text-[#D8B36A]' : 'text-[#16402A]'
                     }`}
                   />
                   <span>{cat.label}</span>
                   <span
                     className={`ml-0.5 rounded-full px-1.5 py-0.2 text-[10px] ${
                       isActive
-                        ? 'bg-[#0C2618] text-[#D8B36A]'
-                        : 'bg-[#143D28]/8 text-[#425246]'
+                        ? 'bg-[#06180E] text-[#D8B36A]'
+                        : 'bg-[#0B2718]/8 text-[#425246]'
                     }`}
                   >
                     {categoryCounts[cat.id] || 0}
@@ -148,7 +148,7 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
                   onClick={() => setActiveFilter(tag.id)}
                   className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-semibold transition ${
                     active
-                      ? 'bg-[#255E40] text-[#FAF6EC]'
+                      ? 'bg-[#16402A] text-[#FAF6EC]'
                       : 'bg-[#E8DEC8]/70 text-[#3B4C40] hover:bg-[#E8DEC8]'
                   }`}
                 >
@@ -161,8 +161,8 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
 
         {/* Menu Grid */}
         {filteredItems.length === 0 ? (
-          <div className="mt-8 rounded-3xl border border-[#143D28]/15 bg-[#FAF6EC] p-8 text-center">
-            <p className="font-serif text-2xl font-semibold text-[#143D28]">
+          <div className="mt-8 rounded-3xl border border-[#0B2718]/15 bg-[#FAF6EC] p-8 text-center">
+            <p className="font-serif text-2xl font-semibold text-[#0B2718]">
               No matching dishes found
             </p>
             <p className="mt-1 text-sm text-[#4B5E50]">
@@ -171,7 +171,7 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
             <button
               type="button"
               onClick={resetFilters}
-              className="mt-4 rounded-full bg-[#143D28] px-5 py-2 text-xs font-bold text-[#FAF6EC]"
+              className="mt-4 rounded-full bg-[#0B2718] px-5 py-2 text-xs font-bold text-[#FAF6EC]"
             >
               Show All {MENU_ITEMS.length} Dishes
             </button>
@@ -181,13 +181,13 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
             {filteredItems.map((dish) => (
               <article
                 key={dish.id}
-                className="group flex flex-row overflow-hidden rounded-2xl border border-[#143D28]/12 bg-[#FAF6EC] shadow-xs transition hover:-translate-y-0.5 hover:border-[#143D28]/35 hover:shadow-md sm:flex-col sm:rounded-3xl"
+                className="group flex flex-row overflow-hidden rounded-2xl border border-[#0B2718]/12 bg-[#FAF6EC] shadow-xs transition hover:-translate-y-0.5 hover:border-[#0B2718]/35 hover:shadow-md sm:flex-col sm:rounded-3xl"
               >
                 {/* Dish Thumbnail (Compact Left Square on Mobile, Top Card Image on Tablet/Desktop) */}
                 <button
                   type="button"
                   onClick={() => onSelectDish(dish)}
-                  className="relative w-28 shrink-0 overflow-hidden bg-[#143D28] text-left focus:outline-none sm:aspect-[16/10] sm:w-full"
+                  className="relative w-28 shrink-0 overflow-hidden bg-[#0B2718] text-left focus:outline-none sm:aspect-[16/10] sm:w-full"
                 >
                   <img
                     src={dish.image}
@@ -196,7 +196,7 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                   />
                   {dish.badge && (
-                    <span className="absolute left-2 top-2 rounded-full bg-[#143D28]/90 px-2 py-0.5 text-[10px] font-bold text-[#D8B36A] backdrop-blur-xs sm:left-3 sm:top-3 sm:px-2.5 sm:py-1 sm:text-[11px]">
+                    <span className="absolute left-2 top-2 rounded-full bg-[#0B2718]/90 px-2 py-0.5 text-[10px] font-bold text-[#D8B36A] backdrop-blur-xs sm:left-3 sm:top-3 sm:px-2.5 sm:py-1 sm:text-[11px]">
                       {dish.badge}
                     </span>
                   )}
@@ -211,11 +211,11 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
                         onClick={() => onSelectDish(dish)}
                         className="text-left focus:outline-none"
                       >
-                        <h3 className="font-serif text-lg font-semibold leading-snug text-[#143D28] group-hover:text-[#255E40] sm:text-xl">
+                        <h3 className="font-serif text-lg font-semibold leading-snug text-[#0B2718] group-hover:text-[#16402A] sm:text-xl">
                           {dish.name}
                         </h3>
                       </button>
-                      <span className="shrink-0 text-sm font-bold text-[#143D28] sm:text-base">
+                      <span className="shrink-0 text-sm font-bold text-[#0B2718] sm:text-base">
                         {formatPeso(dish.price)}
                       </span>
                     </div>
@@ -225,8 +225,8 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
                     </p>
                   </div>
 
-                  <div className="mt-3 flex items-center justify-between gap-2 border-t border-[#143D28]/10 pt-2.5">
-                    <span className="truncate text-[11px] font-medium text-[#255E40]">
+                  <div className="mt-3 flex items-center justify-between gap-2 border-t border-[#0B2718]/10 pt-2.5">
+                    <span className="truncate text-[11px] font-medium text-[#16402A]">
                       {dish.serving}
                     </span>
 
@@ -234,14 +234,14 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
                       <button
                         type="button"
                         onClick={() => onSelectDish(dish)}
-                        className="rounded-full border border-[#143D28]/20 px-2.5 py-1 text-[11px] font-semibold text-[#143D28] transition hover:bg-[#E5EDE7]"
+                        className="rounded-full border border-[#0B2718]/20 px-2.5 py-1 text-[11px] font-semibold text-[#0B2718] transition hover:bg-[#E5EDE7]"
                       >
                         Details
                       </button>
                       <button
                         type="button"
                         onClick={() => onQuickAdd(dish)}
-                        className="inline-flex items-center gap-1 rounded-full bg-[#143D28] px-2.5 py-1 text-[11px] font-bold text-[#FAF6EC] transition hover:bg-[#1B4E33] active:scale-95"
+                        className="inline-flex items-center gap-1 rounded-full bg-[#0B2718] px-2.5 py-1 text-[11px] font-bold text-[#FAF6EC] transition hover:bg-[#113421] active:scale-95"
                         aria-label={`Add ${dish.name} to tray`}
                       >
                         <Plus className="h-3.5 w-3.5 text-[#D8B36A]" />
@@ -256,8 +256,8 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
         )}
 
         {/* Transparent Menu Pricing Note */}
-        <div className="mt-8 flex items-start gap-2.5 rounded-2xl border border-[#143D28]/15 bg-[#E5EDE7]/70 p-4 text-xs leading-relaxed text-[#25402E]">
-          <Info className="mt-0.5 h-4 w-4 shrink-0 text-[#143D28]" />
+        <div className="mt-8 flex items-start gap-2.5 rounded-2xl border border-[#0B2718]/15 bg-[#E5EDE7]/70 p-4 text-xs leading-relaxed text-[#25402E]">
+          <Info className="mt-0.5 h-4 w-4 shrink-0 text-[#0B2718]" />
           <p>
             <strong>Menu &amp; Refill Note:</strong> Listed prices reflect publicly posted delivery/menu rates and may vary slightly for dine-in. Dining in with Bacolod Cansi? Ask our team for complimentary warm soup refills!
           </p>

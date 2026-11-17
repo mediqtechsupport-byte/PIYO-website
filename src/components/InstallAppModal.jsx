@@ -17,7 +17,7 @@ export function InstallAppModal({ isOpen, onClose, deferredPrompt, onPromptHandl
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-[#0C2618]/70 backdrop-blur-xs sm:items-center sm:p-4"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-[#06180E]/70 backdrop-blur-xs sm:items-center sm:p-4"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -32,10 +32,10 @@ export function InstallAppModal({ isOpen, onClose, deferredPrompt, onPromptHandl
             <img
               src="./logo.svg"
               alt="PIYO Logo"
-              className="h-12 w-12 rounded-full ring-2 ring-[#143D28]"
+              className="h-12 w-12 rounded-full ring-2 ring-[#0B2718]"
             />
             <div>
-              <h3 className="font-serif text-2xl font-semibold text-[#143D28]">
+              <h3 className="font-serif text-2xl font-semibold text-[#0B2718]">
                 PIYO Mobile Web App
               </h3>
               <p className="text-xs text-[#4B5E50]">
@@ -46,7 +46,7 @@ export function InstallAppModal({ isOpen, onClose, deferredPrompt, onPromptHandl
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full p-1 text-[#5A6C5E] hover:bg-[#143D28]/10"
+            className="rounded-full p-1 text-[#5A6C5E] hover:bg-[#0B2718]/10"
             aria-label="Close install guide"
           >
             <X className="h-5 w-5" />
@@ -58,28 +58,28 @@ export function InstallAppModal({ isOpen, onClose, deferredPrompt, onPromptHandl
             <button
               type="button"
               onClick={handleNativeInstall}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#143D28] px-5 py-3 text-sm font-bold text-[#FAF6EC] shadow-md transition hover:bg-[#1B4E33]"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0B2718] px-5 py-3 text-sm font-bold text-[#FAF6EC] shadow-md transition hover:bg-[#113421]"
             >
               <Download className="h-4 w-4 text-[#D8B36A]" />
               <span>Add PIYO Grill to Home Screen</span>
             </button>
           ) : (
-            <div className="space-y-2.5 rounded-2xl border border-[#143D28]/15 bg-white p-4 text-xs leading-relaxed">
-              <p className="flex items-center gap-2 font-bold text-[#143D28]">
+            <div className="space-y-2.5 rounded-2xl border border-[#0B2718]/15 bg-white p-4 text-xs leading-relaxed">
+              <p className="flex items-center gap-2 font-bold text-[#0B2718]">
                 <Smartphone className="h-4 w-4 text-[#C29645]" />
                 Install on iPhone / Android:
               </p>
               <p className="flex items-start gap-2">
-                <Share className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#255E40]" />
+                <Share className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#16402A]" />
                 <span>
                   <strong>iPhone (Safari):</strong> Tap the <strong>Share</strong> icon in the bottom toolbar, then select{' '}
                   <strong>Add to Home Screen</strong>.
                 </span>
               </p>
               <p className="flex items-start gap-2">
-                <PlusSquare className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#255E40]" />
+                <PlusSquare className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#16402A]" />
                 <span>
-                  <strong>Android (Chrome):</strong> Open the browser menu (⋮) and tap{' '}
+                  <strong>Android (Chrome):</strong> Open the browser menu (â‹®) and tap{' '}
                   <strong>Install app</strong> or <strong>Add to Home screen</strong>.
                 </span>
               </p>

@@ -2,7 +2,7 @@
   <defs>
     <path id="bottomArc" d="M 42,126 A 78,78 0 0,0 198,126" />
   </defs>
-  <circle cx="120" cy="120" r="116" fill="#143D28" stroke="#FAF6EC" stroke-width="4" />
+  <circle cx="120" cy="120" r="116" fill="#0B2718" stroke="#FAF6EC" stroke-width="4" />
   <circle cx="120" cy="120" r="106" fill="none" stroke="#C8A15A" stroke-width="1.75" opacity="0.9" />
   <text
     x="120"

@@ -89,7 +89,7 @@ export default function App() {
       return [...prev, { key, dish, variantLabel, addons, unitPrice, quantity }];
     });
 
-    showToast(`Added ${quantity}× ${dish.name} to your tray`);
+    showToast(`Added ${quantity}Ã— ${dish.name} to your tray`);
   };
 
   const quickAddDish = (dish) => {
@@ -150,7 +150,7 @@ export default function App() {
       </main>
 
       {/* Heritage Forest Green Footer */}
-      <footer className="border-t border-[#D8B36A]/25 bg-[#0C2618] py-10 text-[#FAF6EC]">
+      <footer className="border-t border-[#D8B36A]/25 bg-[#06180E] py-10 text-[#FAF6EC]">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 text-center sm:flex-row sm:px-6 sm:text-left">
           <div className="flex items-center gap-3.5">
             <img
@@ -163,7 +163,7 @@ export default function App() {
                 PIYO Grill &amp; Restaurant
               </p>
               <p className="text-xs text-[#CDD9D0]">
-                {RESTAURANT_INFO.tagline} · Tagaytay City, Cavite
+                {RESTAURANT_INFO.tagline} Â· Tagaytay City, Cavite
               </p>
             </div>
           </div>
@@ -201,7 +201,7 @@ export default function App() {
 
         <div className="mx-auto mt-6 max-w-6xl border-t border-white/10 px-4 pt-5 text-center text-[11px] text-[#9BB0A1] sm:px-6">
           <p className="inline-flex items-center gap-1">
-            PIYO Grill &amp; Restaurant · Est. 2025 · Crafted with{' '}
+            PIYO Grill &amp; Restaurant Â· Est. 2025 Â· Crafted with{' '}
             <Heart className="h-3 w-3 fill-[#D8B36A] text-[#D8B36A]" /> for mobile &amp; desktop diners
           </p>
         </div>
@@ -234,7 +234,7 @@ export default function App() {
 
       {/* Floating Add-to-Tray Toast */}
       {toastText && (
-        <div className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2 rounded-full bg-[#143D28] px-4 py-2 text-xs font-semibold text-[#FAF6EC] shadow-lg ring-1 ring-[#D8B36A]/50 md:bottom-6">
+        <div className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2 rounded-full bg-[#0B2718] px-4 py-2 text-xs font-semibold text-[#FAF6EC] shadow-lg ring-1 ring-[#D8B36A]/50 md:bottom-6">
           {toastText}
         </div>
       )}

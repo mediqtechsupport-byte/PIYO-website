@@ -27,7 +27,7 @@ export function Navbar({
   return (
     <>
       {/* Top Header (Desktop Full Nav + Mobile App Header) */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#143D28]/95 text-[#FAF6EC] backdrop-blur-md shadow-sm">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B2718]/95 text-[#FAF6EC] backdrop-blur-md shadow-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
           {/* Brand Crest */}
           <button
@@ -93,7 +93,7 @@ export function Navbar({
             <button
               type="button"
               onClick={() => onNavigate('visit')}
-              className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#D8B36A]/60 bg-[#D8B36A] px-3.5 py-1.5 text-xs font-bold text-[#0C2618] transition hover:bg-[#E5C685] md:inline-flex"
+              className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#D8B36A]/60 bg-[#D8B36A] px-3.5 py-1.5 text-xs font-bold text-[#06180E] transition hover:bg-[#E5C685] md:inline-flex"
             >
               <CalendarDays className="h-3.5 w-3.5 shrink-0" />
               <span>Reserve Table</span>
@@ -103,13 +103,13 @@ export function Navbar({
             <button
               type="button"
               onClick={onOpenTray}
-              className="relative inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-[#0C2618] px-3 py-1.5 text-xs font-semibold text-[#FAF6EC] ring-1 ring-white/15 transition hover:bg-[#1B4E33] sm:px-3.5 sm:text-sm"
+              className="relative inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-[#06180E] px-3 py-1.5 text-xs font-semibold text-[#FAF6EC] ring-1 ring-white/15 transition hover:bg-[#113421] sm:px-3.5 sm:text-sm"
               aria-label={`Open order tray with ${trayCount} items`}
             >
               <ShoppingBag className="h-4 w-4 shrink-0 text-[#D8B36A]" />
               <span className="hidden sm:inline">My Tray</span>
               {trayCount > 0 && (
-                <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#D8B36A] px-1.5 text-[11px] font-bold text-[#0C2618]">
+                <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#D8B36A] px-1.5 text-[11px] font-bold text-[#06180E]">
                   {trayCount}
                 </span>
               )}
@@ -118,7 +118,7 @@ export function Navbar({
         </div>
 
         {/* Sub-bar Open Status on Mobile */}
-        <div className="flex items-center justify-between border-t border-white/10 bg-[#0C2618]/80 px-4 py-1 text-[11px] text-[#CDD9D0] md:hidden">
+        <div className="flex items-center justify-between border-t border-white/10 bg-[#06180E]/80 px-4 py-1 text-[11px] text-[#CDD9D0] md:hidden">
           <span className="inline-flex items-center gap-1.5 truncate">
             <span
               className={`h-1.5 w-1.5 shrink-0 rounded-full ${
@@ -128,14 +128,14 @@ export function Navbar({
             {openStatus.statusText}
           </span>
           <span className="shrink-0 font-medium text-[#D8B36A]">
-            Km. 64 · Tagaytay
+            Km. 64 Â· Tagaytay
           </span>
         </div>
       </header>
 
       {/* Native-Style Mobile Bottom Navigation Bar */}
       <nav
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-[#143D28]/15 bg-[#FAF6EC]/95 backdrop-blur-lg shadow-[0_-4px_20px_rgba(12,38,24,0.1)] md:hidden pb-safe"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-[#0B2718]/15 bg-[#FAF6EC]/95 backdrop-blur-lg shadow-[0_-4px_20px_rgba(12,38,24,0.1)] md:hidden pb-safe"
         aria-label="Mobile bottom navigation"
       >
         <div className="mx-auto grid max-w-md grid-cols-4 px-2 pt-1.5">
@@ -161,13 +161,13 @@ export function Navbar({
                 }
                 className={`relative flex flex-col items-center justify-center gap-0.5 rounded-xl py-1.5 text-[11px] font-semibold transition-all ${
                   isActive
-                    ? 'text-[#143D28]'
-                    : 'text-[#4B584E] hover:text-[#143D28]'
+                    ? 'text-[#0B2718]'
+                    : 'text-[#4B584E] hover:text-[#0B2718]'
                 }`}
               >
                 <span
                   className={`relative flex h-7 w-11 items-center justify-center rounded-full transition-colors ${
-                    isActive ? 'bg-[#143D28] text-[#FAF6EC]' : 'bg-transparent'
+                    isActive ? 'bg-[#0B2718] text-[#FAF6EC]' : 'bg-transparent'
                   }`}
                 >
                   <Icon className="h-4 w-4" />

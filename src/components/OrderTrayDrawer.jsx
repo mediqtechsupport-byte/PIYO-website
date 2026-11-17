@@ -32,7 +32,7 @@ export function OrderTrayDrawer({
 
   const buildSummaryText = () => {
     const lines = [
-      `PIYO Grill & Restaurant — ${orderType} Order`,
+      `PIYO Grill & Restaurant â€” ${orderType} Order`,
       guestName.trim() ? `Name / Table: ${guestName.trim()}` : null,
       '---',
       ...items.map((entry) => {
@@ -40,7 +40,7 @@ export function OrderTrayDrawer({
           entry.addons?.length > 0
             ? ` (+ ${entry.addons.map((a) => a.label).join(', ')})`
             : '';
-        return `${entry.quantity}x ${entry.dish.name} [${entry.variantLabel}]${addonsStr} — ${formatPeso(
+        return `${entry.quantity}x ${entry.dish.name} [${entry.variantLabel}]${addonsStr} â€” ${formatPeso(
           entry.unitPrice * entry.quantity
         )}`;
       }),
@@ -68,7 +68,7 @@ export function OrderTrayDrawer({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex justify-end bg-[#0C2618]/65 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex justify-end bg-[#06180E]/65 backdrop-blur-xs"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -79,7 +79,7 @@ export function OrderTrayDrawer({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#143D28]/15 bg-[#143D28] px-5 py-4 text-[#FAF6EC]">
+        <div className="flex items-center justify-between border-b border-[#0B2718]/15 bg-[#0B2718] px-5 py-4 text-[#FAF6EC]">
           <div className="flex items-center gap-2.5">
             <ShoppingBag className="h-5 w-5 text-[#D8B36A]" />
             <div>
@@ -103,10 +103,10 @@ export function OrderTrayDrawer({
         <div className="flex-1 overflow-y-auto p-5">
           {items.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center text-center">
-              <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-[#E5EDE7] text-[#143D28]">
+              <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-[#E5EDE7] text-[#0B2718]">
                 <ShoppingBag className="h-6 w-6" />
               </div>
-              <p className="font-serif text-2xl font-semibold text-[#143D28]">
+              <p className="font-serif text-2xl font-semibold text-[#0B2718]">
                 Your tray is empty
               </p>
               <p className="mt-1 max-w-xs text-sm text-[#4B5E50]">
@@ -115,7 +115,7 @@ export function OrderTrayDrawer({
               <button
                 type="button"
                 onClick={onClose}
-                className="mt-5 rounded-full bg-[#143D28] px-5 py-2.5 text-xs font-bold text-[#FAF6EC]"
+                className="mt-5 rounded-full bg-[#0B2718] px-5 py-2.5 text-xs font-bold text-[#FAF6EC]"
               >
                 Browse Menu
               </button>
@@ -131,8 +131,8 @@ export function OrderTrayDrawer({
                     onClick={() => setOrderType(mode)}
                     className={`rounded-xl py-2 text-xs font-bold transition ${
                       orderType === mode
-                        ? 'bg-[#143D28] text-[#FAF6EC] shadow-xs'
-                        : 'text-[#394A3E] hover:text-[#143D28]'
+                        ? 'bg-[#0B2718] text-[#FAF6EC] shadow-xs'
+                        : 'text-[#394A3E] hover:text-[#0B2718]'
                     }`}
                   >
                     {mode}
@@ -145,7 +145,7 @@ export function OrderTrayDrawer({
                 {items.map((entry) => (
                   <div
                     key={entry.key}
-                    className="flex gap-3 rounded-2xl border border-[#143D28]/12 bg-white/80 p-3"
+                    className="flex gap-3 rounded-2xl border border-[#0B2718]/12 bg-white/80 p-3"
                   >
                     <img
                       src={entry.dish.image}
@@ -155,13 +155,13 @@ export function OrderTrayDrawer({
                     <div className="flex flex-1 flex-col justify-between">
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <h4 className="text-sm font-bold text-[#143D28]">
+                          <h4 className="text-sm font-bold text-[#0B2718]">
                             {entry.dish.name}
                           </h4>
                           <p className="text-[11px] text-[#4B5E50]">
                             {entry.variantLabel}
                             {entry.addons?.length > 0 &&
-                              ` · + ${entry.addons.map((a) => a.label).join(', ')}`}
+                              ` Â· + ${entry.addons.map((a) => a.label).join(', ')}`}
                           </p>
                         </div>
                         <button
@@ -175,28 +175,28 @@ export function OrderTrayDrawer({
                       </div>
 
                       <div className="mt-2 flex items-center justify-between">
-                        <div className="inline-flex items-center rounded-full border border-[#143D28]/20 bg-[#FAF6EC] px-1 py-0.5">
+                        <div className="inline-flex items-center rounded-full border border-[#0B2718]/20 bg-[#FAF6EC] px-1 py-0.5">
                           <button
                             type="button"
                             onClick={() => onUpdateQty(entry.key, entry.quantity - 1)}
-                            className="rounded-full p-1 text-[#143D28] hover:bg-[#E5EDE7]"
+                            className="rounded-full p-1 text-[#0B2718] hover:bg-[#E5EDE7]"
                             aria-label="Decrease quantity"
                           >
                             <Minus className="h-3 w-3" />
                           </button>
-                          <span className="w-6 text-center text-xs font-bold text-[#143D28]">
+                          <span className="w-6 text-center text-xs font-bold text-[#0B2718]">
                             {entry.quantity}
                           </span>
                           <button
                             type="button"
                             onClick={() => onUpdateQty(entry.key, entry.quantity + 1)}
-                            className="rounded-full p-1 text-[#143D28] hover:bg-[#E5EDE7]"
+                            className="rounded-full p-1 text-[#0B2718] hover:bg-[#E5EDE7]"
                             aria-label="Increase quantity"
                           >
                             <Plus className="h-3 w-3" />
                           </button>
                         </div>
-                        <span className="text-sm font-bold text-[#143D28]">
+                        <span className="text-sm font-bold text-[#0B2718]">
                           {formatPeso(entry.unitPrice * entry.quantity)}
                         </span>
                       </div>
@@ -206,20 +206,20 @@ export function OrderTrayDrawer({
               </div>
 
               {/* Guest / Table Note */}
-              <div className="space-y-2.5 rounded-2xl border border-[#143D28]/12 bg-white/75 p-3.5">
+              <div className="space-y-2.5 rounded-2xl border border-[#0B2718]/12 bg-white/75 p-3.5">
                 <input
                   type="text"
                   value={guestName}
                   onChange={(e) => setGuestName(e.target.value)}
                   placeholder="Your Name or Table # (optional)"
-                  className="w-full rounded-xl border border-[#143D28]/15 bg-[#FAF6EC] px-3 py-2 text-xs text-[#1D231E] placeholder-[#718275] focus:border-[#143D28] focus:outline-none"
+                  className="w-full rounded-xl border border-[#0B2718]/15 bg-[#FAF6EC] px-3 py-2 text-xs text-[#1D231E] placeholder-[#718275] focus:border-[#0B2718] focus:outline-none"
                 />
                 <textarea
                   rows={2}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Requests (e.g. 6–8 seater table, extra chili, pickup time)"
-                  className="w-full rounded-xl border border-[#143D28]/15 bg-[#FAF6EC] px-3 py-2 text-xs text-[#1D231E] placeholder-[#718275] focus:border-[#143D28] focus:outline-none"
+                  placeholder="Requests (e.g. 6â€“8 seater table, extra chili, pickup time)"
+                  className="w-full rounded-xl border border-[#0B2718]/15 bg-[#FAF6EC] px-3 py-2 text-xs text-[#1D231E] placeholder-[#718275] focus:border-[#0B2718] focus:outline-none"
                 />
               </div>
 
@@ -236,12 +236,12 @@ export function OrderTrayDrawer({
 
         {/* Footer Actions */}
         {items.length > 0 && (
-          <div className="space-y-3 border-t border-[#143D28]/15 bg-[#FAF6EC] px-5 py-4 pb-safe">
+          <div className="space-y-3 border-t border-[#0B2718]/15 bg-[#FAF6EC] px-5 py-4 pb-safe">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold uppercase tracking-wider text-[#4B5E50]">
                 Estimated Subtotal
               </span>
-              <span className="font-serif text-2xl font-bold text-[#143D28]">
+              <span className="font-serif text-2xl font-bold text-[#0B2718]">
                 {formatPeso(subtotal)}
               </span>
             </div>
@@ -250,7 +250,7 @@ export function OrderTrayDrawer({
               <button
                 type="button"
                 onClick={handleCopySummary}
-                className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#143D28]/25 bg-white px-4 py-2.5 text-xs font-bold text-[#143D28] transition hover:bg-[#E5EDE7]"
+                className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#0B2718]/25 bg-white px-4 py-2.5 text-xs font-bold text-[#0B2718] transition hover:bg-[#E5EDE7]"
               >
                 {copied ? (
                   <>
@@ -267,7 +267,7 @@ export function OrderTrayDrawer({
 
               <a
                 href={smsHref}
-                className="inline-flex items-center justify-center gap-1.5 rounded-full bg-[#143D28] px-4 py-2.5 text-xs font-bold text-[#FAF6EC] transition hover:bg-[#1B4E33]"
+                className="inline-flex items-center justify-center gap-1.5 rounded-full bg-[#0B2718] px-4 py-2.5 text-xs font-bold text-[#FAF6EC] transition hover:bg-[#113421]"
               >
                 <MessageSquare className="h-4 w-4 text-[#D8B36A]" />
                 <span>Send via SMS</span>
@@ -276,7 +276,7 @@ export function OrderTrayDrawer({
 
             <a
               href={`tel:${RESTAURANT_INFO.mobileTel}`}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#D8B36A] px-4 py-2.5 text-xs font-bold text-[#0C2618] transition hover:bg-[#E5C685]"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#D8B36A] px-4 py-2.5 text-xs font-bold text-[#06180E] transition hover:bg-[#E5C685]"
             >
               <Phone className="h-3.5 w-3.5" />
               <span>Call {RESTAURANT_INFO.mobile} to Confirm</span>
