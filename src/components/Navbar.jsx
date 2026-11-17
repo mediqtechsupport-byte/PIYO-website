@@ -13,9 +13,9 @@ import { RESTAURANT_INFO } from '../data/menuData';
 const NAV_LINKS = [
   { id: 'home', label: 'Home' },
   { id: 'menu', label: 'Menu' },
-  { id: 'heritage', label: 'Heritage' },
+  { id: 'heritage', label: 'Story' },
   { id: 'reviews', label: 'Reviews' },
-  { id: 'visit', label: 'Visit & Reserve' },
+  { id: 'visit', label: 'Visit' },
 ];
 
 export function Navbar({
@@ -31,35 +31,38 @@ export function Navbar({
     <>
       {/* Top Header (Desktop Full Nav + Mobile App Header) */}
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[#143D28]/95 text-[#FAF6EC] backdrop-blur-md shadow-sm">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2.5 sm:px-6">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
           {/* Brand Crest */}
           <button
             type="button"
             onClick={() => onNavigate('home')}
-            className="flex items-center gap-3 text-left focus:outline-none group"
+            className="flex shrink-0 items-center gap-2.5 text-left focus:outline-none group sm:gap-3"
           >
             <img
               src="/logo.svg"
               alt="PIYO Grill & Restaurant Logo"
-              className="h-10 w-10 rounded-full shadow-md ring-1 ring-[#D8B36A]/50 transition-transform group-hover:scale-105 sm:h-11 sm:w-11"
+              className="h-10 w-10 shrink-0 rounded-full shadow-md ring-1 ring-[#D8B36A]/50 transition-transform group-hover:scale-105 sm:h-11 sm:w-11"
             />
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className="font-serif text-xl font-semibold tracking-wider text-[#FAF6EC] sm:text-2xl">
+                <span className="whitespace-nowrap font-serif text-xl font-semibold tracking-wider text-[#FAF6EC] sm:text-2xl">
                   PIYO
                 </span>
-                <span className="hidden rounded-full border border-[#D8B36A]/40 bg-[#0C2618]/70 px-2 py-0.5 text-[10px] font-medium uppercase tracking-widest text-[#D8B36A] sm:inline-block">
+                <span className="hidden whitespace-nowrap rounded-full border border-[#D8B36A]/40 bg-[#0C2618]/70 px-2 py-0.5 text-[10px] font-medium uppercase tracking-widest text-[#D8B36A] xl:inline-block">
                   Est. 2025
                 </span>
               </div>
-              <p className="text-[11px] tracking-wide text-[#CDD9D0] sm:text-xs">
-                Grill &amp; Restaurant · Tagaytay
+              <p className="whitespace-nowrap text-[11px] tracking-wide text-[#CDD9D0] sm:text-xs">
+                Grill &amp; Restaurant
               </p>
             </div>
           </button>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden items-center gap-6 md:flex" aria-label="Main navigation">
+          <nav
+            className="hidden items-center gap-5 md:flex lg:gap-7"
+            aria-label="Main navigation"
+          >
             {NAV_LINKS.map((link) => {
               const isActive = activeSection === link.id;
               return (
@@ -67,7 +70,7 @@ export function Navbar({
                   key={link.id}
                   type="button"
                   onClick={() => onNavigate(link.id)}
-                  className={`relative py-1 text-sm font-medium transition-colors ${
+                  className={`relative shrink-0 whitespace-nowrap py-1 text-sm font-medium transition-colors ${
                     isActive
                       ? 'text-[#D8B36A]'
                       : 'text-[#FAF6EC]/85 hover:text-[#FAF6EC]'
@@ -83,28 +86,28 @@ export function Navbar({
           </nav>
 
           {/* Action Cluster */}
-          <div className="flex items-center gap-2 sm:gap-2.5">
-            {/* Live Open Indicator (hidden on super narrow screens, visible sm+) */}
+          <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
+            {/* Live Open Indicator (shown cleanly on xl+ wide desktop where room is plentiful) */}
             <div
-              className="hidden items-center gap-1.5 rounded-full border border-white/15 bg-[#0C2618]/65 px-3 py-1 text-xs lg:flex"
+              className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/15 bg-[#0C2618]/65 px-3 py-1.5 text-xs xl:flex"
               title={`Today in Tagaytay: ${openStatus.todayHours}`}
             >
               <span
-                className={`h-2 w-2 rounded-full ${
+                className={`h-2 w-2 shrink-0 rounded-full ${
                   openStatus.isOpen ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'
                 }`}
               />
               <span className="text-[#FAF6EC]/90">{openStatus.statusText}</span>
             </div>
 
-            {/* Install App button on Mobile/PWA capable */}
+            {/* Install App button (mobile & wide xl desktop) */}
             {canInstall && (
               <button
                 type="button"
                 onClick={onOpenInstall}
-                className="inline-flex items-center gap-1.5 rounded-full border border-[#D8B36A]/50 bg-[#1B4E33] px-3 py-1.5 text-xs font-semibold text-[#FAF6EC] transition hover:bg-[#255E40]"
+                className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#D8B36A]/50 bg-[#1B4E33] px-3 py-1.5 text-xs font-semibold text-[#FAF6EC] transition hover:bg-[#255E40] md:hidden xl:inline-flex"
               >
-                <Download className="h-3.5 w-3.5 text-[#D8B36A]" />
+                <Download className="h-3.5 w-3.5 shrink-0 text-[#D8B36A]" />
                 <span className="hidden sm:inline">App</span>
               </button>
             )}
@@ -112,10 +115,10 @@ export function Navbar({
             {/* Quick Call on Mobile */}
             <a
               href={`tel:${RESTAURANT_INFO.mobileTel}`}
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-medium text-[#FAF6EC] transition hover:bg-white/20 md:hidden"
+              className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-medium text-[#FAF6EC] transition hover:bg-white/20 md:hidden"
               aria-label="Call PIYO Grill"
             >
-              <Phone className="h-3.5 w-3.5 text-[#D8B36A]" />
+              <Phone className="h-3.5 w-3.5 shrink-0 text-[#D8B36A]" />
               <span>Call</span>
             </a>
 
@@ -123,9 +126,9 @@ export function Navbar({
             <button
               type="button"
               onClick={() => onNavigate('visit')}
-              className="hidden items-center gap-1.5 rounded-full border border-[#D8B36A]/60 bg-[#D8B36A] px-3.5 py-1.5 text-xs font-bold text-[#0C2618] transition hover:bg-[#E5C685] md:inline-flex"
+              className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#D8B36A]/60 bg-[#D8B36A] px-3.5 py-1.5 text-xs font-bold text-[#0C2618] transition hover:bg-[#E5C685] md:inline-flex"
             >
-              <CalendarDays className="h-3.5 w-3.5" />
+              <CalendarDays className="h-3.5 w-3.5 shrink-0" />
               <span>Reserve Table</span>
             </button>
 
@@ -133,10 +136,10 @@ export function Navbar({
             <button
               type="button"
               onClick={onOpenTray}
-              className="relative inline-flex items-center gap-1.5 rounded-full bg-[#0C2618] px-3 py-1.5 text-xs font-semibold text-[#FAF6EC] ring-1 ring-white/15 transition hover:bg-[#1B4E33] sm:px-3.5 sm:text-sm"
+              className="relative inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-[#0C2618] px-3 py-1.5 text-xs font-semibold text-[#FAF6EC] ring-1 ring-white/15 transition hover:bg-[#1B4E33] sm:px-3.5 sm:text-sm"
               aria-label={`Open order tray with ${trayCount} items`}
             >
-              <ShoppingBag className="h-4 w-4 text-[#D8B36A]" />
+              <ShoppingBag className="h-4 w-4 shrink-0 text-[#D8B36A]" />
               <span className="hidden sm:inline">My Tray</span>
               {trayCount > 0 && (
                 <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#D8B36A] px-1.5 text-[11px] font-bold text-[#0C2618]">

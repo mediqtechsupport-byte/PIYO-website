@@ -135,7 +135,7 @@ export function HeritageAndReviews() {
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-9 md:grid-cols-3 md:gap-6">
             {TESTIMONIALS.map((item) => (
               <article
                 key={item.id}

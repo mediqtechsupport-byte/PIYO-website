@@ -192,12 +192,12 @@ export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInst
                 </button>
               </div>
 
-              <div className="mt-3 flex items-center justify-between rounded-2xl bg-[#0C2618]/75 px-3.5 py-2.5 text-xs text-[#E5EDE7]">
-                <span>Family 6–8 Seater Tables Available</span>
+              <div className="mt-3 flex items-center justify-between gap-2 rounded-2xl bg-[#0C2618]/75 px-3.5 py-2.5 text-xs text-[#E5EDE7]">
+                <span className="min-w-0 truncate">Family 6–8 Seater Tables Available</span>
                 <button
                   type="button"
                   onClick={onBookTable}
-                  className="font-bold text-[#D8B36A] hover:underline"
+                  className="shrink-0 whitespace-nowrap font-bold text-[#D8B36A] hover:underline"
                 >
                   Inquire →
                 </button>

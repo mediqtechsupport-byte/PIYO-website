@@ -101,7 +101,7 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
         </div>
 
         {/* Sticky Category Bar (mobile & desktop friendly) */}
-        <div className="sticky top-[83px] z-30 -mx-4 mt-6 border-y border-[#143D28]/10 bg-[#F5EFE2]/95 px-4 py-3 backdrop-blur-md md:top-[65px] sm:-mx-6 sm:px-6">
+        <div className="sticky top-[85px] z-30 -mx-4 mt-6 border-y border-[#143D28]/10 bg-[#F5EFE2]/95 px-4 py-3 backdrop-blur-md md:top-[65px] sm:-mx-6 sm:px-6">
           <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
             {MENU_CATEGORIES.map((cat) => {
               const Icon = CATEGORY_ICONS[cat.icon] || UtensilsCrossed;
@@ -203,7 +203,7 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
                 </button>
 
                 {/* Card Body */}
-                <div className="flex flex-1 flex-col justify-between p-3.5 sm:p-5">
+                <div className="flex min-w-0 flex-1 flex-col justify-between p-3.5 sm:p-5">
                   <div>
                     <div className="flex items-start justify-between gap-2">
                       <button
