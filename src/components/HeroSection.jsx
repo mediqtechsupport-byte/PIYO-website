@@ -158,15 +158,6 @@ export function HeroSection({
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#06180E]/45 via-transparent to-transparent" />
               </button>
 
-              {/* Upper-Right PIYO Heritage Crest Emblem */}
-              <div className="pointer-events-none absolute -top-2 right-1 z-10 h-20 w-20 rounded-full border-2 border-[#C8A15A] bg-[#0B2718] p-[2px] shadow-[0_16px_34px_-8px_rgba(0,0,0,0.75)] sm:-right-4 sm:top-2 sm:h-24 sm:w-24">
-                <img
-                  src="./logo.svg"
-                  alt="PIYO Est. 2025 Grill & Restaurant Logo"
-                  className="h-full w-full rounded-full"
-                />
-              </div>
-
               {/* Bottom-Left Overlapping Pick Card */}
               <button
                 type="button"
