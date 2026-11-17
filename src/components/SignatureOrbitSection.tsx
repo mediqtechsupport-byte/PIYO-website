@@ -78,7 +78,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
       'Lemongrass',
       'Free Soup Refills',
     ],
-    accent: '#2D6A4F',
+    accent: '#9DC3AB',
   },
   {
     title: 'Chicken',
@@ -100,7 +100,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
       'Garlic Rice',
       'Banana Leaf',
     ],
-    accent: '#C89B4F',
+    accent: '#E8CA8C',
   },
   {
     title: 'Sizzling',
@@ -121,7 +121,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
       'Cracked Pepper',
       'Caramelized Onion',
     ],
-    accent: '#3E6650',
+    accent: '#A8C9B5',
   },
   {
     title: 'Crispy',
@@ -142,7 +142,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
       'Soy-Vinegar Dip',
       'Atchara',
     ],
-    accent: '#52796F',
+    accent: '#B5CEBE',
   },
   {
     title: 'Pork Adobo',
@@ -163,7 +163,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
       'Caramelized Onion',
       'Chili Garlic Oil',
     ],
-    accent: '#B07D3C',
+    accent: '#DFBE88',
   },
 ];
 

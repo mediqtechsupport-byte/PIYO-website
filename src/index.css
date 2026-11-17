@@ -134,28 +134,41 @@
 }
 @container (max-width: 639px) {
   .piyo-orbit .dsh-canvas {
-    padding: 10px 14px 12px;
+    padding: 8px 14px 10px;
   }
   .piyo-orbit .dsh-plates {
-    width: min(44vw, 25svh);
-    height: min(44vw, 25svh);
+    width: min(40vw, 22svh);
+    height: min(40vw, 22svh);
   }
   .piyo-orbit .dsh-head {
-    height: 108px;
+    height: 118px;
     margin-top: 6px;
   }
+  .piyo-orbit .dsh-hd {
+    transform: scale(0.74);
+  }
+  .piyo-orbit .dsh-acts {
+    margin-top: 6px;
+  }
+  .piyo-orbit .dsh-acts .dsh-btn {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
   .piyo-orbit .dsh-card {
-    padding: 14px 16px;
+    padding: 12px 15px;
     margin-top: 8px;
   }
   .piyo-orbit .dsh-tabs {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
+  }
+  .piyo-orbit .dsh-rate {
+    margin-bottom: 10px;
   }
   .piyo-orbit .dsh-react {
-    margin-top: 12px;
+    margin-top: 10px;
   }
   .piyo-orbit .dsh-pager {
-    top: 88px;
+    top: 76px;
   }
 }
 
