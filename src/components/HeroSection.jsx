@@ -22,7 +22,7 @@ export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInst
         <img
           src="./images/hero-facade.jpg"
           alt="PIYO Grill & Restaurant warm Tagaytay facade"
-          className="h-full w-full object-cover object-center opacity-45 scale-105"
+          className="h-full w-full object-cover object-center opacity-40 scale-105"
           onError={(e) => {
             e.currentTarget.style.display = 'none';
           }}
@@ -31,29 +31,29 @@ export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInst
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(216,179,106,0.18),transparent_55%)]" />
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-4 pb-12 pt-8 sm:px-6 sm:pb-16 sm:pt-14 lg:py-20">
+      <div className="relative mx-auto max-w-7xl px-4 pb-10 pt-7 sm:px-6 sm:pb-16 sm:pt-12 lg:py-20">
         <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
           {/* Left Hero Column */}
-          <div className="lg:col-span-7">
-            <div className="mb-4 flex flex-wrap items-center gap-2.5">
+          <div className="lg:col-span-6 xl:col-span-7">
+            <div className="mb-4 flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-[#D8B36A]/45 bg-[#0B2718]/90 px-3 py-1 text-xs font-semibold tracking-wide text-[#D8B36A]">
-                <Sparkles className="h-3.5 w-3.5" />
+                <Sparkles className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                 Tagaytay City · Negros Heritage &amp; Sinugba
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-[#FAF6EC]/90">
-                <Star className="h-3.5 w-3.5 fill-[#D8B36A] text-[#D8B36A]" />
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-[#FAF6EC]">
+                <Star className="h-3.5 w-3.5 shrink-0 fill-[#D8B36A] text-[#D8B36A]" aria-hidden="true" />
                 {RESTAURANT_INFO.rating.score} ★ Guest Favorite
               </span>
             </div>
 
-            <h1 className="font-serif text-4xl font-semibold leading-[1.08] tracking-tight text-[#FAF6EC] sm:text-5xl lg:text-6xl">
+            <h1 className="font-serif text-4xl font-semibold leading-[1.06] tracking-tight text-[#FAF6EC] sm:text-5xl xl:text-6xl">
               Bringing smiles{' '}
-              <span className="italic font-medium text-[#D8B36A]">
+              <span className="block italic font-medium text-[#D8B36A]">
                 to every plate.
               </span>
             </h1>
 
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#D8E3DB] sm:text-base lg:text-lg">
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#E2ECE5] sm:text-base lg:text-lg">
               {RESTAURANT_INFO.heroSubheadline} Warm up with authentic{' '}
               <strong className="font-semibold text-[#FAF6EC]">
                 Bacolod Cansi
@@ -65,74 +65,80 @@ export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInst
               , sizzling plates, and fresh coolers along Km. 64 Tagaytay–Nasugbu Highway.
             </p>
 
-            {/* Primary CTAs */}
+            {/* Primary Accessible CTAs */}
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <button
                 type="button"
                 onClick={onExploreMenu}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D8B36A] px-6 py-3.5 text-sm font-bold text-[#06180E] shadow-lg shadow-black/25 transition hover:bg-[#E5C685] active:scale-[0.99]"
+                className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#D8B36A] px-6 py-3 text-sm font-bold text-[#06180E] shadow-lg shadow-black/25 transition hover:bg-[#E5C685] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FAF6EC] focus-visible:ring-offset-2 focus-visible:ring-offset-[#06180E] active:scale-[0.99] sm:w-auto"
               >
-                <UtensilsCrossed className="h-4 w-4" />
+                <UtensilsCrossed className="h-4 w-4 shrink-0" aria-hidden="true" />
                 <span>Explore Digital Menu</span>
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
               </button>
 
               <button
                 type="button"
                 onClick={onBookTable}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#FAF6EC]/30 bg-[#113421]/85 px-6 py-3.5 text-sm font-semibold text-[#FAF6EC] backdrop-blur-sm transition hover:bg-[#16402A]"
+                className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#FAF6EC]/35 bg-[#113421]/90 px-6 py-3 text-sm font-semibold text-[#FAF6EC] backdrop-blur-sm transition hover:bg-[#16402A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B36A] focus-visible:ring-offset-2 focus-visible:ring-offset-[#06180E] sm:w-auto"
               >
-                <Phone className="h-4 w-4 text-[#D8B36A]" />
+                <Phone className="h-4 w-4 shrink-0 text-[#D8B36A]" aria-hidden="true" />
                 <span>Book a Table · {RESTAURANT_INFO.mobile}</span>
               </button>
+            </div>
 
+            <div className="mt-3.5 flex items-center">
               <button
                 type="button"
                 onClick={onOpenInstall}
-                className="inline-flex items-center justify-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-4 py-3 text-xs font-medium text-[#E5EDE7] transition hover:bg-white/15 sm:py-3.5"
+                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full px-2 py-1.5 text-xs font-medium text-[#D8E3DB] underline-offset-4 transition hover:text-[#D8B36A] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B36A]"
               >
-                <Download className="h-3.5 w-3.5 text-[#D8B36A]" />
-                <span>Install Mobile App</span>
+                <Download className="h-3.5 w-3.5 shrink-0 text-[#D8B36A]" aria-hidden="true" />
+                <span>Install as Mobile / Desktop App</span>
               </button>
             </div>
 
             {/* Key Facts Row */}
-            <div className="mt-7 grid grid-cols-1 gap-3 border-t border-white/15 pt-6 sm:grid-cols-2">
+            <div className="mt-5 grid grid-cols-1 gap-4 border-t border-white/15 pt-5 sm:grid-cols-2">
               <div className="flex items-start gap-2.5">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#D8B36A]" />
-                <div className="text-xs leading-relaxed text-[#D8E3DB]">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#D8B36A]" aria-hidden="true" />
+                <div className="text-xs leading-relaxed text-[#E2ECE5] sm:text-sm">
                   <p className="font-semibold text-[#FAF6EC]">
                     Km. 64 Tagaytay–Nasugbu Hwy
                   </p>
-                  <p>Brgy. Bagong Tubig, Tagaytay City, Cavite</p>
+                  <p className="text-xs text-[#CDD9D0]">
+                    Brgy. Bagong Tubig, Tagaytay City, Cavite
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-2.5">
-                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-[#D8B36A]" />
-                <div className="text-xs leading-relaxed text-[#D8E3DB]">
+                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-[#D8B36A]" aria-hidden="true" />
+                <div className="text-xs leading-relaxed text-[#E2ECE5] sm:text-sm">
                   <p className="font-semibold text-[#FAF6EC]">
                     {openStatus.statusText}
                   </p>
-                  <p>Mon–Thu 11AM–8PM · Fri–Sun 7AM–10PM</p>
+                  <p className="text-xs text-[#CDD9D0]">
+                    Mon–Thu 11AM–8PM · Fri–Sun 7AM–10PM
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Right Signature Visual Card */}
-          <div className="lg:col-span-5">
-            <div className="relative mx-auto max-w-md overflow-hidden rounded-3xl border border-[#D8B36A]/35 bg-[#0B2718]/90 p-4 shadow-2xl backdrop-blur-md sm:p-5">
+          <div className="lg:col-span-6 xl:col-span-5">
+            <div className="relative mx-auto w-full max-w-lg overflow-hidden rounded-3xl border border-[#D8B36A]/35 bg-[#0B2718]/92 p-4 shadow-2xl backdrop-blur-md sm:p-5 lg:ml-auto">
               {/* Circular Emblem Header */}
-              <div className="mb-3 flex items-center justify-between">
+              <div className="mb-3.5 flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-3">
                   <img
                     src="./logo.svg"
                     alt="PIYO Emblem"
-                    className="h-12 w-12 rounded-full ring-2 ring-[#D8B36A]/50"
+                    className="h-11 w-11 shrink-0 rounded-full ring-2 ring-[#D8B36A]/50 sm:h-12 sm:w-12"
                   />
                   <div>
-                    <p className="font-serif text-lg font-semibold text-[#FAF6EC]">
+                    <p className="font-serif text-lg font-semibold leading-tight text-[#FAF6EC] sm:text-xl">
                       Tonight&apos;s Signature Pair
                     </p>
                     <p className="text-xs text-[#D8B36A]">
@@ -140,7 +146,7 @@ export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInst
                     </p>
                   </div>
                 </div>
-                <span className="rounded-full bg-[#06180E] px-2.5 py-1 text-[11px] font-semibold text-[#D8B36A]">
+                <span className="shrink-0 whitespace-nowrap rounded-full bg-[#06180E] px-2.5 py-1 text-[11px] font-semibold text-[#D8B36A]">
                   Dine-In · Takeout
                 </span>
               </div>
@@ -150,7 +156,8 @@ export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInst
                 <button
                   type="button"
                   onClick={onExploreMenu}
-                  className="group overflow-hidden rounded-2xl border border-white/10 bg-[#06180E]/70 text-left transition hover:border-[#D8B36A]/50"
+                  aria-label="View Bacolod Cansi in the digital menu"
+                  className="group overflow-hidden rounded-2xl border border-white/10 bg-[#06180E]/75 text-left transition hover:border-[#D8B36A]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B36A]"
                 >
                   <div className="aspect-[4/3] overflow-hidden bg-[#113421]">
                     <img
@@ -159,11 +166,11 @@ export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInst
                       className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                     />
                   </div>
-                  <div className="p-2.5">
-                    <p className="text-xs font-bold text-[#FAF6EC]">
+                  <div className="p-2.5 sm:p-3">
+                    <p className="text-xs font-bold text-[#FAF6EC] sm:text-sm">
                       Bacolod Cansi
                     </p>
-                    <p className="mt-0.5 text-[11px] text-[#D8B36A]">
+                    <p className="mt-0.5 text-[11px] text-[#D8B36A] sm:text-xs">
                       ₱666 · Free Soup Refill
                     </p>
                   </div>
@@ -172,7 +179,8 @@ export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInst
                 <button
                   type="button"
                   onClick={onExploreMenu}
-                  className="group overflow-hidden rounded-2xl border border-white/10 bg-[#06180E]/70 text-left transition hover:border-[#D8B36A]/50"
+                  aria-label="View Bacolod Chicken Inasal in the digital menu"
+                  className="group overflow-hidden rounded-2xl border border-white/10 bg-[#06180E]/75 text-left transition hover:border-[#D8B36A]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B36A]"
                 >
                   <div className="aspect-[4/3] overflow-hidden bg-[#113421]">
                     <img
@@ -181,23 +189,23 @@ export function HeroSection({ onExploreMenu, onBookTable, openStatus, onOpenInst
                       className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                     />
                   </div>
-                  <div className="p-2.5">
-                    <p className="text-xs font-bold text-[#FAF6EC]">
+                  <div className="p-2.5 sm:p-3">
+                    <p className="text-xs font-bold text-[#FAF6EC] sm:text-sm">
                       Chicken Inasal
                     </p>
-                    <p className="mt-0.5 text-[11px] text-[#D8B36A]">
+                    <p className="mt-0.5 text-[11px] text-[#D8B36A] sm:text-xs">
                       ₱401 · Banana Leaf Grill
                     </p>
                   </div>
                 </button>
               </div>
 
-              <div className="mt-3 flex items-center justify-between gap-2 rounded-2xl bg-[#06180E]/75 px-3.5 py-2.5 text-xs text-[#E5EDE7]">
-                <span className="min-w-0 truncate">Family 6–8 Seater Tables Available</span>
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-[#06180E]/80 px-3.5 py-2.5 text-xs text-[#E5EDE7]">
+                <span>Family 6–8 Seater Tables Available</span>
                 <button
                   type="button"
                   onClick={onBookTable}
-                  className="shrink-0 whitespace-nowrap font-bold text-[#D8B36A] hover:underline"
+                  className="inline-flex min-h-[32px] shrink-0 items-center whitespace-nowrap font-bold text-[#D8B36A] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B36A] rounded-md px-1"
                 >
                   Inquire →
                 </button>

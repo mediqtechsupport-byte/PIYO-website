@@ -156,10 +156,12 @@ export function Navbar({
               <button
                 key={item.id}
                 type="button"
+                aria-current={isActive ? 'page' : undefined}
+                aria-label={item.id === 'tray' ? `My Tray (${trayCount} items)` : item.label}
                 onClick={() =>
                   item.id === 'tray' ? onOpenTray() : onNavigate(item.id)
                 }
-                className={`relative flex flex-col items-center justify-center gap-0.5 rounded-xl py-1.5 text-[11px] font-semibold transition-all ${
+                className={`relative flex min-h-[48px] flex-col items-center justify-center gap-0.5 rounded-xl py-1 text-[11px] font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] ${
                   isActive
                     ? 'text-[#0B2718]'
                     : 'text-[#4B584E] hover:text-[#0B2718]'

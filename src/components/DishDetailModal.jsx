@@ -77,7 +77,7 @@ export function DishDetailModal({ dish, onClose, onAddToTray }) {
           <button
             type="button"
             onClick={onClose}
-            className="absolute right-3.5 top-3.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#06180E]/75 text-[#FAF6EC] backdrop-blur-md transition hover:bg-[#0B2718]"
+            className="absolute right-3.5 top-3.5 flex h-11 w-11 items-center justify-center rounded-full bg-[#06180E]/80 text-[#FAF6EC] backdrop-blur-md transition hover:bg-[#0B2718] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B36A]"
             aria-label="Close dish details"
           >
             <X className="h-5 w-5" />

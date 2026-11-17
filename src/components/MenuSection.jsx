@@ -61,7 +61,7 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
 
   return (
     <section id="menu" className="bg-[#F5EFE2] py-10 sm:py-16">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* Section Heading */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -234,17 +234,17 @@ export function MenuSection({ onSelectDish, onQuickAdd }) {
                       <button
                         type="button"
                         onClick={() => onSelectDish(dish)}
-                        className="rounded-full border border-[#0B2718]/20 px-2.5 py-1 text-[11px] font-semibold text-[#0B2718] transition hover:bg-[#E5EDE7]"
+                        className="inline-flex min-h-[36px] items-center rounded-full border border-[#0B2718]/25 px-3 py-1.5 text-xs font-semibold text-[#0B2718] transition hover:bg-[#E5EDE7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] sm:min-h-[32px]"
                       >
                         Details
                       </button>
                       <button
                         type="button"
                         onClick={() => onQuickAdd(dish)}
-                        className="inline-flex items-center gap-1 rounded-full bg-[#0B2718] px-2.5 py-1 text-[11px] font-bold text-[#FAF6EC] transition hover:bg-[#113421] active:scale-95"
+                        className="inline-flex min-h-[36px] items-center gap-1 rounded-full bg-[#0B2718] px-3 py-1.5 text-xs font-bold text-[#FAF6EC] transition hover:bg-[#113421] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B36A] active:scale-95 sm:min-h-[32px]"
                         aria-label={`Add ${dish.name} to tray`}
                       >
-                        <Plus className="h-3.5 w-3.5 text-[#D8B36A]" />
+                        <Plus className="h-3.5 w-3.5 text-[#D8B36A]" aria-hidden="true" />
                         <span>Add</span>
                       </button>
                     </div>

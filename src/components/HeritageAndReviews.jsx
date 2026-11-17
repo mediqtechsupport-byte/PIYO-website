@@ -10,7 +10,7 @@ export function HeritageAndReviews() {
         id="heritage"
         className="border-y border-[#0B2718]/15 bg-[#0B2718] py-12 text-[#FAF6EC] sm:py-16"
       >
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="grid items-center gap-8 lg:grid-cols-12">
             <div className="lg:col-span-6">
               <span className="inline-block rounded-full border border-[#D8B36A]/45 bg-[#06180E]/60 px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#D8B36A]">
@@ -125,7 +125,7 @@ export function HeritageAndReviews() {
         className="relative overflow-hidden bg-[#0F2F1D] py-12 text-[#FAF6EC] sm:py-16"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(216,179,106,0.14),transparent_50%)]" />
-        <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
           <div className="text-center">
             <p className="font-serif text-3xl italic font-medium text-[#FAF6EC] sm:text-4xl">
               Customer testimonial

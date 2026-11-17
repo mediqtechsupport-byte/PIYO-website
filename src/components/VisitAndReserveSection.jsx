@@ -55,7 +55,7 @@ export function VisitAndReserveSection({ openStatus }) {
 
   return (
     <section id="visit" className="bg-[#F5EFE2] py-12 sm:py-16">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid gap-8 lg:grid-cols-12">
           {/* Left: Location, Hours, Direct Contacts */}
           <div className="space-y-5 lg:col-span-6">
@@ -207,39 +207,42 @@ export function VisitAndReserveSection({ openStatus }) {
 
               <div className="mt-5 space-y-3.5">
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0B2718]">
+                  <label htmlFor="reserve-name" className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0B2718]">
                     Your Name
                   </label>
                   <input
+                    id="reserve-name"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Maria Santos"
-                    className="w-full rounded-2xl border border-[#0B2718]/20 bg-white px-4 py-2.5 text-sm text-[#1D231E] placeholder-[#7B8B7F] focus:border-[#0B2718] focus:outline-none"
+                    className="min-h-[44px] w-full rounded-2xl border border-[#0B2718]/20 bg-white px-4 py-2.5 text-sm text-[#1D231E] placeholder-[#7B8B7F] focus:border-[#0B2718] focus:outline-none focus:ring-2 focus:ring-[#0B2718]/20"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0B2718]">
+                    <label htmlFor="reserve-date" className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0B2718]">
                       Preferred Date
                     </label>
                     <input
+                      id="reserve-date"
                       type="date"
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
-                      className="w-full rounded-2xl border border-[#0B2718]/20 bg-white px-4 py-2.5 text-sm text-[#1D231E] focus:border-[#0B2718] focus:outline-none"
+                      className="min-h-[44px] w-full rounded-2xl border border-[#0B2718]/20 bg-white px-4 py-2.5 text-sm text-[#1D231E] focus:border-[#0B2718] focus:outline-none focus:ring-2 focus:ring-[#0B2718]/20"
                     />
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0B2718]">
+                    <label htmlFor="reserve-time" className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0B2718]">
                       Preferred Time
                     </label>
                     <select
+                      id="reserve-time"
                       value={timeSlot}
                       onChange={(e) => setTimeSlot(e.target.value)}
-                      className="w-full rounded-2xl border border-[#0B2718]/20 bg-white px-4 py-2.5 text-sm text-[#1D231E] focus:border-[#0B2718] focus:outline-none"
+                      className="min-h-[44px] w-full rounded-2xl border border-[#0B2718]/20 bg-white px-4 py-2.5 text-sm text-[#1D231E] focus:border-[#0B2718] focus:outline-none focus:ring-2 focus:ring-[#0B2718]/20"
                     >
                       <option>Fri–Sun Breakfast (7:30 AM)</option>
                       <option>Early Lunch (11:00 AM)</option>
@@ -253,13 +256,14 @@ export function VisitAndReserveSection({ openStatus }) {
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0B2718]">
+                    <label htmlFor="reserve-party" className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0B2718]">
                       Party Size
                     </label>
                     <select
+                      id="reserve-party"
                       value={partySize}
                       onChange={(e) => setPartySize(e.target.value)}
-                      className="w-full rounded-2xl border border-[#0B2718]/20 bg-white px-4 py-2.5 text-sm text-[#1D231E] focus:border-[#0B2718] focus:outline-none"
+                      className="min-h-[44px] w-full rounded-2xl border border-[#0B2718]/20 bg-white px-4 py-2.5 text-sm text-[#1D231E] focus:border-[#0B2718] focus:outline-none focus:ring-2 focus:ring-[#0B2718]/20"
                     >
                       <option>2–3 Guests</option>
                       <option>4–5 Guests</option>
@@ -270,13 +274,14 @@ export function VisitAndReserveSection({ openStatus }) {
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0B2718]">
+                    <label htmlFor="reserve-occasion" className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0B2718]">
                       Occasion
                     </label>
                     <select
+                      id="reserve-occasion"
                       value={occasion}
                       onChange={(e) => setOccasion(e.target.value)}
-                      className="w-full rounded-2xl border border-[#0B2718]/20 bg-white px-4 py-2.5 text-sm text-[#1D231E] focus:border-[#0B2718] focus:outline-none"
+                      className="min-h-[44px] w-full rounded-2xl border border-[#0B2718]/20 bg-white px-4 py-2.5 text-sm text-[#1D231E] focus:border-[#0B2718] focus:outline-none focus:ring-2 focus:ring-[#0B2718]/20"
                     >
                       <option>Family Dine-In</option>
                       <option>Birthday / Celebration</option>
@@ -287,15 +292,16 @@ export function VisitAndReserveSection({ openStatus }) {
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0B2718]">
+                  <label htmlFor="reserve-notes" className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0B2718]">
                     Notes or Dish Pre-Order
                   </label>
                   <textarea
+                    id="reserve-notes"
                     rows={3}
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="e.g. Reserve 1 Bacolod Cansi & Crispy Pata, high chair needed..."
-                    className="w-full rounded-2xl border border-[#0B2718]/20 bg-white px-4 py-2.5 text-sm text-[#1D231E] placeholder-[#7B8B7F] focus:border-[#0B2718] focus:outline-none"
+                    className="w-full rounded-2xl border border-[#0B2718]/20 bg-white px-4 py-2.5 text-sm text-[#1D231E] placeholder-[#7B8B7F] focus:border-[#0B2718] focus:outline-none focus:ring-2 focus:ring-[#0B2718]/20"
                   />
                 </div>
 
