@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+
+  --color-forest-950: #0c2618;
+  --color-forest-900: #143d28;
+  --color-forest-800: #1b4e33;
+  --color-forest-700: #255e40;
+  --color-sage-600: #3e6650;
+  --color-sage-200: #cddbd1;
+  --color-sage-100: #e5ede7;
+
+  --color-parchment-50: #faf6ec;
+  --color-parchment-100: #f5efe2;
+  --color-parchment-200: #e8dec8;
+
+  --color-gold-300: #e5c685;
+  --color-gold-400: #d8b36a;
+  --color-gold-500: #c29645;
+  --color-gold-600: #9d752e;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: #f5efe2;
+    color: #1d231e;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Subtle organic torn-paper card aesthetic honoring PIYO's Facebook testimonial frames */
+.parchment-note {
+  background-color: #f7f1e3;
+  background-image: radial-gradient(rgba(20, 61, 40, 0.04) 1px, transparent 0);
+  background-size: 16px 16px;
+}
+
+/* Mobile bottom nav safe area spacer */
+.pb-safe {
+  padding-bottom: max(0.65rem, env(safe-area-inset-bottom));
+}
