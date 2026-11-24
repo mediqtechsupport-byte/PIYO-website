@@ -628,7 +628,7 @@ export function MenuSection({
                     </div>
 
                     {/* BUILD YOUR MEAL — 3 Square Dashed 3D Add-on Tiles */}
-                    <div className="mt-3.5">
+                    <div className="mt-3.5 max-w-[390px]">
                       <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#9EB2A6]">
                         Build Your Meal
                       </p>
@@ -685,18 +685,18 @@ export function MenuSection({
                       </div>
                     </div>
 
-                    {/* Stepper + Split "₱Price | Add to order" Gold Pill CTA */}
-                    <div className="mt-5 flex flex-wrap items-center gap-3">
-                      <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-[#06180E]/80 px-2 py-1.5">
+                    {/* Stepper + Compact Split "₱Price | Add to order" Gold Pill CTA */}
+                    <div className="mt-6 flex max-w-[390px] flex-wrap items-center gap-2.5">
+                      <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#06180E]/80 px-1.5 py-1">
                         <button
                           type="button"
                           onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                           aria-label="Decrease quantity"
                           className="flex h-7 w-7 items-center justify-center rounded-full bg-[#133A25] text-[#FAF6EC] transition hover:bg-[#DFB96F] hover:text-[#06180E]"
                         >
-                          <Minus className="h-3.5 w-3.5" aria-hidden="true" />
+                          <Minus className="h-3 w-3" aria-hidden="true" />
                         </button>
-                        <span className="min-w-[20px] text-center text-sm font-bold text-[#FAF6EC]">
+                        <span className="min-w-[18px] text-center text-xs font-bold text-[#FAF6EC]">
                           {quantity}
                         </span>
                         <button
@@ -705,20 +705,20 @@ export function MenuSection({
                           aria-label="Increase quantity"
                           className="flex h-7 w-7 items-center justify-center rounded-full bg-[#133A25] text-[#FAF6EC] transition hover:bg-[#DFB96F] hover:text-[#06180E]"
                         >
-                          <Plus className="h-3.5 w-3.5" aria-hidden="true" />
+                          <Plus className="h-3 w-3" aria-hidden="true" />
                         </button>
                       </div>
 
                       <button
                         type="button"
                         onClick={handleAddFeaturedToOrder}
-                        className="flex min-h-[44px] flex-1 items-center justify-center gap-4 rounded-full bg-[#DFB96F] px-6 py-2.5 text-sm font-bold text-[#06180E] shadow-lg transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] active:scale-[0.99]"
+                        className="inline-flex min-h-[40px] flex-1 items-center justify-center gap-3.5 rounded-full bg-[#DFB96F] px-5 py-2 text-xs font-bold text-[#06180E] shadow-lg transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] active:scale-[0.99] sm:max-w-[260px] sm:text-[13px]"
                       >
                         <span className="tabular-nums">
                           {formatPeso(builderLineTotal)}
                         </span>
                         <span
-                          className="h-4 w-px bg-[#06180E]/25"
+                          className="h-3.5 w-px bg-[#06180E]/25"
                           aria-hidden="true"
                         />
                         <span>Add to order</span>
