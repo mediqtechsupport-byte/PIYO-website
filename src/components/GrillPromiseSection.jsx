@@ -438,17 +438,17 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
           </div>
 
           {/* Right Interactive Scatter-to-Bowl Animated Exploded Bacolod Cansi */}
-          <div className="relative z-20 lg:col-span-6">
+          <div className="relative z-20 lg:col-span-6 lg:translate-x-10 xl:translate-x-20">
             <div
               onPointerMove={handleStageMove}
               onPointerLeave={handleStageLeave}
-              className="group relative flex h-[470px] items-center justify-center py-2 sm:h-[560px] lg:h-[620px] xl:h-[670px]"
+              className="group relative flex h-[470px] w-full items-center justify-center py-2 sm:h-[560px] lg:h-[620px] xl:h-[670px]"
             >
               <button
                 type="button"
                 onClick={onInspectDish}
                 aria-label="Inspect Bacolod Cansi — ₱666"
-                className="relative flex h-full cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718]"
+                className="relative mx-auto flex h-full w-auto cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718]"
                 style={{
                   aspectRatio: `${CANSI_STAGE_ASPECT}`,
                   maxWidth: '100%',
