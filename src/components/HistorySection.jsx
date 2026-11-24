@@ -1,28 +1,22 @@
 import React from 'react';
-import { Flame, Landmark, MapPin, Users, ArrowDownRight } from 'lucide-react';
+import { ArrowRight, MapPin } from 'lucide-react';
 import { RESTAURANT_INFO } from '../data/menuData';
 
-const HISTORY_MILESTONES = [
+const CHAPTERS = [
   {
-    icon: Flame,
-    tag: 'Culinary Roots',
-    title: 'Negrense & Ilonggo Hearth Recipes',
-    description:
-      'Genuine batwan fruit, calamansi, tanglad & annatto oil paired with fresh, never-frozen meats prepared daily.',
+    num: '01',
+    label: 'Negros Roots',
+    text: 'Genuine batwan fruit, calamansi, tanglad, and fresh never-frozen cuts prepared every morning — recipes carried from Western Visayas family kitchens without shortcuts.',
   },
   {
-    icon: Landmark,
-    tag: 'Est. 2025 · Km. 64',
-    title: 'Opened in Brgy. Bagong Tubig, Tagaytay',
-    description:
-      'Stone-and-timber dining hall separated from our outdoor charcoal pit so guests dine smoky-flavor rich yet smoke-free.',
+    num: '02',
+    label: 'Km. 64 Tagaytay Sanctuary',
+    text: 'Opened in 2025 in Brgy. Bagong Tubig with stacked stone pillars, warm cove lighting, and a dedicated outdoor charcoal grill keeping the indoor dining room smoke-free.',
   },
   {
-    icon: Users,
-    tag: 'More Than a Meal',
-    title: 'Bringing Smiles to Every Plate',
-    description:
-      '6–8 seater family tables, Fri–Sun 7:00 AM silog mornings, and complimentary steaming Bacolod Cansi soup refills.',
+    num: '03',
+    label: 'Built to Linger',
+    text: 'Spacious 6–8 seater tables for Tagaytay road trips, early Friday–Sunday 7:00 AM silog mornings, and steaming complimentary Bacolod Cansi refills.',
   },
 ];
 
@@ -30,146 +24,131 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
   return (
     <section
       id="history"
-      className="relative flex flex-col justify-center overflow-hidden border-y border-[#DFB96F]/20 bg-[#06180E] py-10 text-[#FAF6EC] sm:py-12 lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:py-4"
+      className="relative flex flex-col justify-center overflow-hidden border-y border-[#DFB96F]/15 bg-[#06180E] text-[#FAF6EC] lg:min-h-[calc(100svh-var(--nav-h,69px))]"
     >
-      {/* Full-Bleed Architectural Background of PIYO's Real Tagaytay Place */}
-      <div className="pointer-events-none absolute inset-0">
+      {/* Mobile / Tablet Edge-to-Edge Architectural Photo Header (No Card Box) */}
+      <div className="relative h-64 w-full sm:h-80 lg:hidden">
         <img
           src="./images/piyo-place-real.jpg"
-          alt=""
-          aria-hidden="true"
-          className="h-full w-full scale-105 object-cover object-center opacity-50 blur-[1.5px]"
-          onError={(e) => {
-            e.currentTarget.style.display = 'none';
-          }}
+          alt="PIYO Grill & Restaurant nighttime exterior along Km. 64 Tagaytay–Nasugbu Highway"
+          loading="lazy"
+          className="h-full w-full object-cover object-[42%_42%]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#06180E]/92 via-[#071D12]/76 to-[#06180E]/54" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#06180E]/72 via-transparent to-[#06180E]/82" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_38%,rgba(223,185,111,0.14),transparent_52%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06180E]/30 via-transparent to-[#06180E]" />
+        <p className="absolute bottom-3 left-5 text-[10px] font-medium uppercase tracking-[0.22em] text-[#DFB96F]/90">
+          Km. 64 Tagaytay–Nasugbu Hwy · {RESTAURANT_INFO.established}
+        </p>
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
-        <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
-          {/* Left Editorial History Column */}
-          <div className="lg:col-span-6">
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-medium uppercase tracking-[0.2em] text-[#DFB96F] sm:text-xs">
-              <span className="inline-flex items-center gap-2">
-                <span
-                  className="h-1.5 w-1.5 rounded-full bg-[#DFB96F]"
-                  aria-hidden="true"
-                />
-                Our History &amp; Place
-              </span>
-              <span
-                className="h-px w-8 shrink-0 bg-[#DFB96F]/45 sm:w-10"
-                aria-hidden="true"
-              />
-              <span className="text-[#C8D6CD]">{RESTAURANT_INFO.established}</span>
-            </div>
+      {/* Desktop Seamless Full-Bleed Architectural Photo Layer (Sharp, Unboxed, Melting into Pine Right Canvas) */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-[60%] lg:block">
+        <img
+          src="./images/piyo-place-real.jpg"
+          alt="PIYO Grill & Restaurant nighttime exterior along Km. 64 Tagaytay–Nasugbu Highway"
+          loading="lazy"
+          className="h-full w-full object-cover object-[42%_44%]"
+        />
+        {/* Seamless organic fade into deep forest green right edge + subtle top/bottom architectural framing */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(90deg, rgba(6,24,14,0.18) 0%, rgba(6,24,14,0.06) 46%, rgba(6,24,14,0.72) 78%, #06180E 98%)',
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(180deg, rgba(6,24,14,0.48) 0%, transparent 22%, transparent 72%, rgba(6,24,14,0.88) 100%)',
+          }}
+        />
 
-            <h2 className="mt-2.5 font-serif text-[2rem] font-semibold leading-[1.08] tracking-tight text-[#FAF6EC] sm:text-4xl xl:text-[2.75rem]">
-              From Negros Hearth to{' '}
-              <span className="italic font-medium text-[#E0B96B]">
-                Tagaytay&rsquo;s Cool Ridge.
-              </span>
-            </h2>
-
-            <p className="mt-2.5 max-w-xl border-l-2 border-[#DFB96F]/55 pl-3.5 text-xs leading-relaxed text-[#D7E3DB] sm:text-sm sm:leading-6">
-              Founded in 2025 along Km. 64 of the Tagaytay–Nasugbu Highway in
-              Brgy. Bagong Tubig, PIYO pairs Western Visayas heirloom dishes
-              with live charcoal cooking in a breezy mountain dining hall.
+        {/* Quiet Editorial Architectural Caption (No Card / No Pill Border) */}
+        <div className="absolute bottom-7 left-8 right-12 flex items-end justify-between border-t border-[#FAF6EC]/15 pt-3.5 xl:left-12">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#DFB96F]">
+              The House · {RESTAURANT_INFO.established}
             </p>
+            <p className="mt-1 font-serif text-base text-[#FAF6EC]/90">
+              Km. 64 Tagaytay–Nasugbu Highway, Brgy. Bagong Tubig
+            </p>
+          </div>
+          <span className="hidden text-[10px] uppercase tracking-[0.2em] text-[#FAF6EC]/55 xl:inline">
+            14.08° N · Tagaytay Ridge
+          </span>
+        </div>
+      </div>
 
-            {/* 3 Grounded Heritage Milestones */}
-            <div className="mt-3.5 space-y-2">
-              {HISTORY_MILESTONES.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={item.title}
-                    className="flex items-start gap-3 rounded-2xl border border-white/10 bg-[#06180E]/68 px-3.5 py-2 backdrop-blur-md"
-                  >
-                    <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#DFB96F]/30 bg-[#0F2F1D] text-[#DFB96F]">
-                      <Icon className="h-4 w-4 stroke-[1.75]" aria-hidden="true" />
-                    </div>
-                    <div className="min-w-0">
-                      <span className="block text-[10px] font-bold uppercase tracking-[0.16em] text-[#DFB96F]">
-                        {item.tag}
-                      </span>
-                      <h3 className="font-serif text-[15px] font-semibold leading-snug text-[#FAF6EC] sm:text-base">
-                        {item.title}
-                      </h3>
-                      <p className="mt-0.5 text-xs leading-snug text-[#C9D7CE]">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="mt-4 flex flex-wrap items-center gap-3">
-              <button
-                type="button"
-                onClick={onExploreCraft}
-                className="inline-flex min-h-[42px] items-center gap-2 rounded-full bg-[#DFB96F] px-5 py-2 text-xs font-bold text-[#06180E] shadow-lg transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:text-sm"
-              >
-                <span>See Our #1 House Cansi</span>
-                <ArrowDownRight className="h-4 w-4" aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                onClick={onVisitPlace}
-                className="inline-flex min-h-[42px] items-center gap-2 rounded-full border border-white/25 bg-[#06180E]/60 px-5 py-2 text-xs font-semibold text-[#FAF6EC] backdrop-blur-sm transition hover:border-[#DFB96F]/70 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:text-sm"
-              >
-                <MapPin className="h-3.5 w-3.5 text-[#DFB96F]" aria-hidden="true" />
-                <span>Km. 64 · Tagaytay Directions</span>
-              </button>
-            </div>
+      {/* Editorial Narrative Column (Pure Typography + Hairlines — Zero AI Cards) */}
+      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-5 pb-12 pt-4 sm:px-8 lg:grid lg:grid-cols-12 lg:items-center lg:px-10 lg:py-5 xl:px-14 xl:py-8">
+        <div className="lg:col-span-6 lg:col-start-7 lg:pl-8 xl:pl-14">
+          {/* Quiet Tracked Eyebrow */}
+          <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.24em] text-[#DFB96F]">
+            <span>Our Story</span>
+            <span className="h-px w-10 bg-[#DFB96F]/45" aria-hidden="true" />
+            <span className="text-[#A8B9AE]">{RESTAURANT_INFO.established}</span>
           </div>
 
-          {/* Right Column: Exterior Architectural Showcase of Their Real Place */}
-          <div className="lg:col-span-6">
-            <div className="mx-auto max-w-xl rounded-[26px] border border-[#DFB96F]/35 bg-[#06180E]/78 p-3 shadow-[0_28px_60px_-15px_rgba(0,0,0,0.72)] backdrop-blur-md lg:ml-auto">
-              <div className="relative overflow-hidden rounded-[18px]">
-                <img
-                  src="./images/piyo-place-real.jpg"
-                  alt="PIYO Grill & Restaurant stone pillars and glowing green gable facade along Km. 64 Tagaytay"
-                  loading="lazy"
-                  className="aspect-[16/10] w-full object-cover object-[center_42%]"
-                />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#06180E]/85 via-transparent to-transparent" />
-                <div className="absolute bottom-2.5 left-3.5 right-3.5 flex flex-wrap items-end justify-between gap-2">
-                  <div>
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[#DFB96F]/45 bg-[#06180E]/85 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#DFB96F]">
-                      {RESTAURANT_INFO.established} · Km. 64 Highway
-                    </span>
-                    <p className="mt-1 font-serif text-base font-semibold leading-tight text-[#FAF6EC] sm:text-lg">
-                      PIYO Grill &amp; Restaurant · Tagaytay City
-                    </p>
-                  </div>
-                </div>
-              </div>
+          {/* Authoritative Editorial Serif Headline */}
+          <h2 className="mt-3 font-serif text-[2.2rem] font-normal leading-[1.06] tracking-[-0.015em] text-[#FAF6EC] sm:text-4xl lg:text-[2.65rem] xl:mt-4 xl:text-[3.25rem]">
+            From Negros Hearth{' '}
+            <span className="block italic font-medium text-[#E0B96B]">
+              to Tagaytay&rsquo;s Ridge.
+            </span>
+          </h2>
 
-              <div className="mt-2.5 grid grid-cols-1 gap-2 px-1 pb-0.5 sm:grid-cols-2">
-                <div className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#DFB96F]">
-                    Where You&rsquo;ll Find Us
-                  </p>
-                  <p className="mt-0.5 text-xs font-medium leading-snug text-[#FAF6EC]">
-                    {RESTAURANT_INFO.shortAddress}
+          <p className="mt-3 max-w-lg text-xs leading-relaxed text-[#C9D6CE] sm:text-sm sm:leading-6 xl:mt-4 xl:text-[15px] xl:leading-7">
+            PIYO Grill &amp; Restaurant began with a simple promise along the
+            cool highway mist of Bagong Tubig: serve honest, slow-simmered
+            Negrense food and live charcoal sinugba in a calm room where every
+            plate brings smiles.
+          </p>
+
+          {/* Hairline-Ruled Numbered Editorial Chapters (Zero Rounded Boxes) */}
+          <ol className="mt-4 divide-y divide-[#FAF6EC]/12 border-y border-[#FAF6EC]/12 xl:mt-6">
+            {CHAPTERS.map((chapter) => (
+              <li
+                key={chapter.num}
+                className="grid grid-cols-[2.2rem_1fr] items-baseline gap-x-3 py-2.5 xl:py-3.5"
+              >
+                <span className="font-serif text-sm italic text-[#DFB96F]">
+                  {chapter.num}
+                </span>
+                <div>
+                  <h3 className="font-serif text-base font-medium tracking-wide text-[#FAF6EC] xl:text-lg">
+                    {chapter.label}
+                  </h3>
+                  <p className="mt-0.5 text-xs leading-relaxed text-[#B6C5BB] xl:mt-1 xl:text-[13px]">
+                    {chapter.text}
                   </p>
                 </div>
-                <div className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#DFB96F]">
-                    Built for Groups &amp; Travelers
-                  </p>
-                  <p className="mt-0.5 text-xs font-medium leading-snug text-[#FAF6EC]">
-                    Indoor Smoke-Free Hall · 6–8 Pax Family Tables
-                  </p>
-                </div>
-              </div>
-            </div>
+              </li>
+            ))}
+          </ol>
+
+          {/* Understated Editorial Actions */}
+          <div className="mt-4 flex flex-wrap items-center gap-6 xl:mt-6">
+            <button
+              type="button"
+              onClick={onExploreCraft}
+              className="group inline-flex min-h-[42px] items-center gap-2.5 rounded-full bg-[#DFB96F] px-6 py-2 text-xs font-bold tracking-wide text-[#06180E] transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:text-sm"
+            >
+              <span>See #1 House Cansi</span>
+              <ArrowRight
+                className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </button>
+
+            <button
+              type="button"
+              onClick={onVisitPlace}
+              className="group inline-flex min-h-[42px] items-center gap-2 border-b border-[#DFB96F]/45 pb-0.5 text-xs font-medium tracking-wide text-[#E2ECE5] transition hover:border-[#DFB96F] hover:text-[#DFB96F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:text-sm"
+            >
+              <MapPin className="h-3.5 w-3.5 text-[#DFB96F]" aria-hidden="true" />
+              <span>Directions · Km. 64</span>
+            </button>
           </div>
         </div>
       </div>
