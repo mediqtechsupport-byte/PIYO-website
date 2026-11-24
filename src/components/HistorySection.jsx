@@ -32,7 +32,15 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           src="./images/piyo-place-mobile.jpg"
           alt=""
           loading="lazy"
-          className="h-full w-full scale-[1.03] object-cover object-[48%_46%] opacity-42 brightness-[0.82] contrast-[1.06] saturate-[0.9]"
+          className="h-full w-full translate-x-[10.2%] scale-[1.24] object-cover object-[50%_46%] opacity-42 brightness-[0.82] contrast-[1.06] saturate-[0.9]"
+        />
+        {/* Seamless left & right atmospheric fade into #06180E */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(90deg, #06180E 0%, rgba(6,24,14,0.35) 14%, rgba(6,24,14,0) 30%, rgba(6,24,14,0) 70%, rgba(6,24,14,0.35) 86%, #06180E 100%)',
+          }}
         />
         {/* Deep cinematic radial vignette keeping centered typography crisp while letting warm stone glow through */}
         <div
