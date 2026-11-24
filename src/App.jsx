@@ -4,6 +4,7 @@ import { RESTAURANT_INFO, MENU_ITEMS } from './data/menuData';
 import { getTagaytayOpenStatus, formatPeso } from './utils/hours';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
+import { GrillPromiseSection } from './components/GrillPromiseSection';
 import { SignatureOrbitSection } from './components/SignatureOrbitSection';
 import { MenuSection } from './components/MenuSection';
 import { DishDetailModal } from './components/DishDetailModal';
@@ -133,6 +134,15 @@ export default function App() {
               MENU_ITEMS.find((item) => item.id === id) ||
                 MENU_ITEMS[0] ||
                 null
+            )
+          }
+        />
+
+        <GrillPromiseSection
+          onExploreGrill={() => scrollToSection('menu')}
+          onInspectFishDish={() =>
+            setSelectedDish(
+              MENU_ITEMS.find((item) => item.id === 'grilled-bangus') || null
             )
           }
         />
