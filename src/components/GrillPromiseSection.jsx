@@ -254,7 +254,9 @@ const HIGHLIGHTS = [
 
 export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
   const sectionRef = useRef(null);
+  const timersRef = useRef({ hold: null, settle: null });
   const [tilt, setTilt] = useState({ x: 0, y: 0, hovered: false });
+  const [replayKey, setReplayKey] = useState(0);
   const [phase, setPhase] = useState(() => {
     if (
       typeof window !== 'undefined' &&
@@ -265,6 +267,29 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
     }
     return 'scattered';
   });
+
+  const clearTimers = () => {
+    if (timersRef.current.hold) {
+      window.clearTimeout(timersRef.current.hold);
+      timersRef.current.hold = null;
+    }
+    if (timersRef.current.settle) {
+      window.clearTimeout(timersRef.current.settle);
+      timersRef.current.settle = null;
+    }
+  };
+
+  const triggerBuildSequence = (holdMs = 700) => {
+    clearTimers();
+    setPhase('scattered');
+    setReplayKey((k) => k + 1);
+    timersRef.current.hold = window.setTimeout(() => {
+      setPhase('building');
+      timersRef.current.settle = window.setTimeout(() => {
+        setPhase('assembled');
+      }, 3050);
+    }, holdMs);
+  };
 
   useEffect(() => {
     if (
@@ -279,37 +304,14 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
     const node = sectionRef.current;
     if (!node) return undefined;
 
-    let holdTimer = null;
-    let settleTimer = null;
-
-    const clearTimers = () => {
-      if (holdTimer) {
-        window.clearTimeout(holdTimer);
-        holdTimer = null;
-      }
-      if (settleTimer) {
-        window.clearTimeout(settleTimer);
-        settleTimer = null;
-      }
-    };
-
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
         if (!entry) return;
 
         if (entry.isIntersecting && entry.intersectionRatio >= 0.18) {
-          clearTimers();
-          // Hold briefly in the scattered state so visitors clearly see scattered ingredients + waiting bowl,
-          // then smoothly glide every ingredient inward to build the Bacolod Cansi bowl.
-          holdTimer = window.setTimeout(() => {
-            setPhase('building');
-            settleTimer = window.setTimeout(() => {
-              setPhase('assembled');
-            }, 3050);
-          }, 700);
+          triggerBuildSequence(700);
         } else if (!entry.isIntersecting) {
-          // Reset cleanly when scrolling away so re-visiting #craft replays the scatter-to-bowl build
           clearTimers();
           setPhase('scattered');
         }
@@ -323,6 +325,10 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
       observer.disconnect();
     };
   }, []);
+
+  const handleReplayClick = () => {
+    triggerBuildSequence(760);
+  };
 
   const handleStageMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -446,8 +452,9 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
             >
               <button
                 type="button"
-                onClick={onInspectDish}
-                aria-label="Inspect Bacolod Cansi — ₱666"
+                onClick={handleReplayClick}
+                title="Click to replay Bacolod Cansi animation"
+                aria-label="Replay Bacolod Cansi ingredient assembly animation"
                 className="relative mx-auto flex h-full w-auto cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718]"
                 style={{
                   aspectRatio: `${CANSI_STAGE_ASPECT}`,
@@ -540,6 +547,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                       >
                         {isBowl ? (
                           <div
+                            key={`bowl-${replayKey}`}
                             className={`h-full w-full ${phase !== 'scattered' ? 'cansi-bowl-impact' : ''}`}
                           >
                             <div
