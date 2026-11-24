@@ -258,3 +258,133 @@
   }
 }
 
+/* Mid-air Exploded Bacolod Cansi 3D Levitation, Zero-Gravity Orbit, Steam & Broth Droplet Physics */
+@keyframes cansi-hero-levitate {
+  0%,
+  100% {
+    transform: translate3d(0, 0px, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0) scale(1.018);
+  }
+}
+
+@keyframes cansi-orbit-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0px, 0) rotate(-6deg);
+  }
+  50% {
+    transform: translate3d(-7px, -14px, 0) rotate(6deg);
+  }
+}
+
+@keyframes cansi-orbit-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0px, 0) rotate(8deg);
+  }
+  50% {
+    transform: translate3d(8px, -16px, 0) rotate(-5deg);
+  }
+}
+
+@keyframes cansi-orbit-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0px, 0) rotate(-10deg);
+  }
+  50% {
+    transform: translate3d(6px, 12px, 0) rotate(5deg);
+  }
+}
+
+@keyframes cansi-steam-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scaleX(0.92);
+  }
+  28% {
+    opacity: 0.42;
+  }
+  70% {
+    opacity: 0.22;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(10px, -68px, 0) scaleX(1.24);
+  }
+}
+
+@keyframes cansi-droplet-float {
+  0%,
+  100% {
+    opacity: 0.28;
+    transform: translate3d(0, 0px, 0) scale(0.85);
+  }
+  50% {
+    opacity: 0.92;
+    transform: translate3d(4px, -16px, 0) scale(1.18);
+  }
+}
+
+@keyframes cansi-halo-breathe {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+.cansi-hero-levitate {
+  animation: cansi-hero-levitate 5.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+.cansi-orbit-a {
+  animation: cansi-orbit-a 6.1s ease-in-out infinite;
+  will-change: transform;
+}
+
+.cansi-orbit-b {
+  animation: cansi-orbit-b 7.2s ease-in-out infinite;
+  will-change: transform;
+}
+
+.cansi-orbit-c {
+  animation: cansi-orbit-c 5.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.cansi-steam {
+  animation: cansi-steam-rise 4.8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.cansi-droplet {
+  animation: cansi-droplet-float 3.8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.cansi-halo {
+  animation: cansi-halo-breathe 4.6s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cansi-hero-levitate,
+  .cansi-orbit-a,
+  .cansi-orbit-b,
+  .cansi-orbit-c,
+  .cansi-steam,
+  .cansi-droplet,
+  .cansi-halo {
+    animation: none;
+  }
+}
+
+

@@ -40,41 +40,43 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
         </p>
       </div>
 
-      {/* Desktop Full-Bleed Continuous 100% Architectural Canvas (Text Left, Dead-Level Front Elevation Right) */}
+      {/* Desktop Full-Bleed Continuous 100% Architectural Canvas (Text Left, Seamlessly Blended Facade Right) */}
       <div className="pointer-events-none absolute inset-0 hidden lg:block">
         <img
           src="./images/piyo-place-real.jpg"
           alt="PIYO Grill & Restaurant straight-on architectural facade along Km. 64 Tagaytay–Nasugbu Highway"
           loading="lazy"
-          className="h-full w-full object-cover object-[center_52%]"
+          className="h-full w-full object-cover object-[42%_52%]"
         />
-        {/* Whisper-soft unifying wash keeping the left narrative razor-sharp while letting the right facade glow cleanly */}
+        {/* Silky multi-stop left & right atmospheric dissolve into #06180E so facade emerges organically */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(90deg, rgba(6,24,14,0.88) 0%, rgba(6,24,14,0.70) 30%, rgba(6,24,14,0.28) 46%, rgba(6,24,14,0.0) 58%, rgba(6,24,14,0.04) 100%)',
+              'linear-gradient(90deg, rgba(6,24,14,1) 0%, rgba(6,24,14,0.98) 32%, rgba(6,24,14,0.82) 43%, rgba(6,24,14,0.40) 52%, rgba(6,24,14,0.08) 61%, rgba(6,24,14,0.0) 70%, rgba(6,24,14,0.18) 88%, rgba(6,24,14,0.86) 100%)',
           }}
         />
+        {/* Warm golden evening hearth glow bridging narrative and illuminated stone pillars */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse 44% 50% at 48% 52%, rgba(223,185,111,0.05) 0%, transparent 72%)',
+              'radial-gradient(ellipse 46% 52% at 62% 52%, rgba(223,185,111,0.08) 0%, transparent 72%)',
           }}
         />
+        {/* Deep top & bottom feather melting roof sky and pale driveway seamlessly into #06180E */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(180deg, rgba(6,24,14,0.28) 0%, transparent 16%, transparent 80%, rgba(6,24,14,0.92) 100%)',
+              'linear-gradient(180deg, rgba(6,24,14,0.92) 0%, rgba(6,24,14,0.38) 14%, rgba(6,24,14,0.0) 28%, rgba(6,24,14,0.0) 66%, rgba(6,24,14,0.68) 83%, rgba(6,24,14,0.98) 95%, rgba(6,24,14,1) 100%)',
           }}
         />
       </div>
 
-      {/* Center Editorial Content Grid — Narrative Left, Connected Directly with Straight-On Facade Right */}
+      {/* Center Editorial Content Grid — Uniform max-w-7xl Rail Left, Blended Facade Right */}
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center px-5 pb-10 pt-4 sm:px-8 lg:grid lg:grid-cols-12 lg:py-4 2xl:py-6">
-        <div className="lg:col-span-6 lg:pr-6 xl:pr-10 2xl:pr-12">
+        <div className="w-full max-w-[480px] lg:col-span-6">
           {/* Quiet Tracked Eyebrow */}
           <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.24em] text-[#DFB96F]">
             <span>Our Story</span>
@@ -90,33 +92,40 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
             </span>
           </h2>
 
-          <p className="mt-2.5 max-w-xl text-xs leading-relaxed text-[#D0DDD5] sm:text-sm sm:leading-6 2xl:mt-3.5 2xl:text-[15px] 2xl:leading-7">
+          <p className="mt-2.5 text-xs leading-relaxed text-[#D0DDD5] sm:text-sm sm:leading-6 2xl:mt-3.5 2xl:text-[15px] 2xl:leading-7">
             PIYO Grill &amp; Restaurant began with a simple promise along the
             cool highway mist of Bagong Tubig: serve honest, slow-simmered
             Negrense food and live charcoal sinugba in a calm room where every
             plate brings smiles.
           </p>
 
-          {/* Hairline-Ruled Numbered Editorial Chapters */}
-          <ol className="mt-3.5 max-w-xl divide-y divide-[#FAF6EC]/12 border-y border-[#FAF6EC]/12 2xl:mt-5">
+          {/* Soft Right-Fading Hairline Numbered Editorial Chapters */}
+          <ol className="mt-4 2xl:mt-5">
             {CHAPTERS.map((chapter) => (
-              <li
-                key={chapter.num}
-                className="grid grid-cols-[2.2rem_1fr] items-baseline gap-x-3 py-2.5 2xl:py-3.5"
-              >
-                <span className="font-serif text-sm italic text-[#DFB96F]">
-                  {chapter.num}
-                </span>
-                <div>
-                  <h3 className="font-serif text-base font-medium tracking-wide text-[#FAF6EC] 2xl:text-lg">
-                    {chapter.label}
-                  </h3>
-                  <p className="mt-0.5 text-xs leading-relaxed text-[#BCCBC1] 2xl:mt-1 2xl:text-[13px]">
-                    {chapter.text}
-                  </p>
+              <li key={chapter.num} className="relative">
+                <span
+                  aria-hidden="true"
+                  className="block h-px w-full bg-gradient-to-r from-[#DFB96F]/30 via-[#FAF6EC]/12 to-transparent"
+                />
+                <div className="grid grid-cols-[2.2rem_1fr] items-baseline gap-x-3 py-2.5 2xl:py-3.5">
+                  <span className="font-serif text-sm italic text-[#DFB96F]">
+                    {chapter.num}
+                  </span>
+                  <div>
+                    <h3 className="font-serif text-base font-medium tracking-wide text-[#FAF6EC] 2xl:text-lg">
+                      {chapter.label}
+                    </h3>
+                    <p className="mt-0.5 text-xs leading-relaxed text-[#BCCBC1] 2xl:mt-1 2xl:text-[13px]">
+                      {chapter.text}
+                    </p>
+                  </div>
                 </div>
               </li>
             ))}
+            <span
+              aria-hidden="true"
+              className="block h-px w-full bg-gradient-to-r from-[#DFB96F]/30 via-[#FAF6EC]/12 to-transparent"
+            />
           </ol>
 
           {/* Understated Editorial Actions */}

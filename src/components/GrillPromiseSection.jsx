@@ -1,5 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Flame, Soup, UtensilsCrossed, ArrowUpRight } from 'lucide-react';
+
+const BROTH_DROPLETS = [
+  { left: '20%', top: '24%', size: 6, delay: '0s', duration: '3.4s' },
+  { left: '28%', top: '68%', size: 5, delay: '0.8s', duration: '4.1s' },
+  { left: '34%', top: '16%', size: 4, delay: '1.4s', duration: '3.7s' },
+  { left: '72%', top: '22%', size: 6, delay: '0.4s', duration: '3.9s' },
+  { left: '78%', top: '54%', size: 5, delay: '1.1s', duration: '4.3s' },
+  { left: '66%', top: '74%', size: 4, delay: '1.8s', duration: '3.5s' },
+  { left: '24%', top: '46%', size: 4, delay: '2.1s', duration: '4.0s' },
+  { left: '76%', top: '34%', size: 5, delay: '0.6s', duration: '3.6s' },
+];
 
 const HIGHLIGHTS = [
   {
@@ -26,6 +37,19 @@ const HIGHLIGHTS = [
 ];
 
 export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
+  const [tilt, setTilt] = useState({ x: 0, y: 0, hovered: false });
+
+  const handleStageMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    setTilt({ x: nx, y: ny, hovered: true });
+  };
+
+  const handleStageLeave = () => {
+    setTilt({ x: 0, y: 0, hovered: false });
+  };
+
   return (
     <section
       id="craft"
@@ -216,65 +240,193 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
             </div>
           </div>
 
-          {/* Right Stretched Clean Forest-Green Tapestry & Centered Bacolod Cansi Oval Platter */}
+          {/* Right Stretched Deep Forest-Green Tapestry & Interactive 3D Animated Mid-Air Exploded Bacolod Cansi */}
           <div className="relative lg:col-span-6">
-            <div className="relative -mx-5 flex h-[330px] items-center justify-center py-4 sm:-mx-8 sm:h-[420px] sm:py-6 lg:mx-0 lg:mr-[calc(-1*max(2rem,50vw-40rem+2rem))] lg:h-[460px] xl:h-[500px]">
-              {/* Stretched Deep Forest Green Shape bounded cleanly to viewport right edge */}
+            <div
+              onPointerMove={handleStageMove}
+              onPointerLeave={handleStageLeave}
+              className="group relative -mx-5 flex h-[360px] items-center justify-center py-4 sm:-mx-8 sm:h-[440px] sm:py-6 lg:mx-0 lg:mr-[calc(-1*max(2rem,50vw-40rem+2rem))] lg:h-[490px] xl:h-[530px]"
+            >
+              {/* Stretched Deep Emerald Tapestry matched directly to exploded Cansi corner tone (#092516) */}
               <svg
                 viewBox="0 0 800 460"
                 preserveAspectRatio="none"
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 h-full w-full drop-shadow-[0_18px_36px_rgba(11,39,24,0.22)]"
+                className="pointer-events-none absolute inset-0 h-full w-full drop-shadow-[0_22px_42px_rgba(6,24,14,0.28)]"
               >
-                <defs>
-                  <clipPath id="piyo-cansi-banner-clip">
-                    <path d="M 18 14 Q 380 62 800 10 L 800 450 Q 380 398 18 446 Q 58 230 18 14 Z" />
-                  </clipPath>
-                </defs>
                 <path
                   d="M 18 14 Q 380 62 800 10 L 800 450 Q 380 398 18 446 Q 58 230 18 14 Z"
-                  fill="#113421"
+                  fill="#092516"
                 />
               </svg>
 
-              {/* Unstretched Delicate Culinary Line-Art Pattern inside clipped silhouette */}
+              {/* Subtle Culinary Line-Art Pattern inside clipped silhouette */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 opacity-90"
+                className="pointer-events-none absolute inset-0 opacity-65"
                 style={{
-                  clipPath: 'polygon(2% 3%, 48% 12%, 100% 2%, 100% 98%, 48% 88%, 2% 97%, 6% 50%)',
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='130' viewBox='0 0 130 130'%3E%3Ccircle cx='34' cy='34' r='14' fill='none' stroke='rgba(250,246,236,0.13)' stroke-width='1.3'/%3E%3Cpath d='M34 20v28M20 34h28M24 24l20 20M44 24L24 44' stroke='rgba(223,185,111,0.16)' stroke-width='1.1'/%3E%3Cpath d='M86 38c8-10 22-12 30-8-6 10-16 18-30 14z' fill='none' stroke='rgba(223,185,111,0.16)' stroke-width='1.3'/%3E%3Cpath d='M22 98c10-10 28-10 38 0-8 10-26 10-38 0z' fill='none' stroke='rgba(250,246,236,0.12)' stroke-width='1.3'/%3E%3Cellipse cx='41' cy='98' rx='7' ry='5' fill='none' stroke='rgba(223,185,111,0.15)' stroke-width='1.1'/%3E%3Cpath d='M82 110l28-32M90 112l26-30' stroke='rgba(250,246,236,0.12)' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")`,
+                  clipPath:
+                    'polygon(2% 3%, 48% 12%, 100% 2%, 100% 98%, 48% 88%, 2% 97%, 6% 50%)',
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='130' viewBox='0 0 130 130'%3E%3Ccircle cx='34' cy='34' r='14' fill='none' stroke='rgba(250,246,236,0.12)' stroke-width='1.2'/%3E%3Cpath d='M34 20v28M20 34h28M24 24l20 20M44 24L24 44' stroke='rgba(223,185,111,0.14)' stroke-width='1'/%3E%3Cpath d='M86 38c8-10 22-12 30-8-6 10-16 18-30 14z' fill='none' stroke='rgba(223,185,111,0.14)' stroke-width='1.2'/%3E%3Cpath d='M22 98c10-10 28-10 38 0-8 10-26 10-38 0z' fill='none' stroke='rgba(250,246,236,0.1)' stroke-width='1.2'/%3E%3C/svg%3E")`,
                   backgroundSize: '130px 130px',
                 }}
               />
 
-              {/* Interactive Tilted Cream-White Oval Platter centered neatly inside the visible green banner */}
-              <div className="pointer-events-none relative z-10 flex w-full items-center justify-center px-6 sm:px-10">
-                <div className="relative flex w-[78%] max-w-[330px] items-center justify-center sm:w-[70%] sm:max-w-[420px] lg:w-[76%] lg:max-w-[450px]">
-                  <button
-                    type="button"
-                    onClick={onInspectDish}
-                    aria-label="Inspect Bacolod Cansi — ₱666"
-                    className="pointer-events-auto group relative flex aspect-[1.32/1] w-full -rotate-2 items-center justify-center overflow-hidden rounded-[50%] border-[8px] border-[#FAF6EC] bg-[#FAF6EC] shadow-[0_28px_56px_-14px_rgba(6,24,14,0.58)] transition duration-500 hover:rotate-0 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0B2718] sm:border-[12px]"
-                  >
-                    <img
-                      src="./images/dish-cansi-oval-platter.jpg"
-                      alt="PIYO Bacolod Cansi beef shank and bone marrow soup with batwan, jackfruit, and lemongrass on an oval platter"
-                      className="h-full w-full scale-[1.22] rotate-[1deg] object-cover object-center transition duration-700 group-hover:scale-[1.26]"
-                    />
-                  </button>
+              {/* Breathing Golden-Amber Hearth Halo Behind the Floating Exploded Cansi */}
+              <div
+                aria-hidden="true"
+                className="cansi-halo pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full sm:h-[380px] sm:w-[380px]"
+                style={{
+                  background:
+                    'radial-gradient(circle, rgba(232,158,52,0.34) 0%, rgba(216,136,36,0.14) 44%, rgba(9,37,22,0) 74%)',
+                }}
+              />
 
-                  {/* Clean Floating Dish Tag */}
-                  <button
-                    type="button"
-                    onClick={onInspectDish}
-                    className="pointer-events-auto absolute -bottom-3 right-2 z-10 inline-flex items-center gap-2 rounded-full border border-[#0B2718]/15 bg-[#FAF6EC]/95 px-4 py-2 text-xs font-bold text-[#0B2718] shadow-lg backdrop-blur-sm transition hover:bg-white sm:bottom-0 sm:right-4"
+              {/* Interactive 3D Parallax Exploded Bacolod Cansi Showcase */}
+              <div className="relative z-10 flex h-full w-full items-center justify-center px-4 sm:px-8">
+                <button
+                  type="button"
+                  onClick={onInspectDish}
+                  aria-label="Inspect Bacolod Cansi — ₱666"
+                  className="relative flex h-[340px] w-full max-w-[440px] cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:h-[420px] sm:max-w-[540px] lg:h-[465px] lg:max-w-[590px]"
+                  style={{
+                    perspective: '960px',
+                  }}
+                >
+                  {/* 3D Tilting Container */}
+                  <div
+                    className="relative flex h-full w-full items-center justify-center transition-transform duration-300 ease-out"
+                    style={{
+                      transform: `rotateY(${(tilt.x * 7).toFixed(2)}deg) rotateX(${(-tilt.y * 5.5).toFixed(2)}deg) scale(${tilt.hovered ? 1.03 : 1})`,
+                      transformStyle: 'preserve-3d',
+                    }}
                   >
-                    <span className="h-2 w-2 rounded-full bg-[#C29645]" aria-hidden="true" />
-                    <span>Bacolod Cansi · ₱666</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 text-[#C29645]" aria-hidden="true" />
-                  </button>
-                </div>
+                    {/* Rising Translucent Cansi Broth Steam Ribbons */}
+                    <svg
+                      viewBox="0 0 260 220"
+                      fill="none"
+                      aria-hidden="true"
+                      className="pointer-events-none absolute -top-2 left-1/2 z-20 h-44 w-56 -translate-x-1/2 opacity-80 sm:h-52 sm:w-64"
+                    >
+                      <path
+                        d="M95 190 C78 148, 114 114, 92 66 C80 42, 96 22, 106 8"
+                        stroke="url(#piyo-steam-grad)"
+                        strokeWidth="8"
+                        strokeLinecap="round"
+                        className="cansi-steam"
+                        style={{ animationDelay: '0s', filter: 'blur(5px)' }}
+                      />
+                      <path
+                        d="M134 195 C152 152, 116 112, 140 62 C150 38, 134 18, 126 6"
+                        stroke="url(#piyo-steam-grad)"
+                        strokeWidth="9"
+                        strokeLinecap="round"
+                        className="cansi-steam"
+                        style={{ animationDelay: '1.5s', filter: 'blur(6px)' }}
+                      />
+                      <path
+                        d="M170 184 C154 146, 182 110, 162 70 C154 52, 166 30, 174 16"
+                        stroke="url(#piyo-steam-grad)"
+                        strokeWidth="7"
+                        strokeLinecap="round"
+                        className="cansi-steam"
+                        style={{ animationDelay: '3.0s', filter: 'blur(5px)' }}
+                      />
+                      <defs>
+                        <linearGradient id="piyo-steam-grad" x1="0" y1="1" x2="0" y2="0">
+                          <stop offset="0%" stopColor="#FAF6EC" stopOpacity="0" />
+                          <stop offset="40%" stopColor="#F5E4BE" stopOpacity="0.48" />
+                          <stop offset="100%" stopColor="#FAF6EC" stopOpacity="0" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+
+                    {/* Levitating Hyper-Realistic Mid-Air Exploded Bacolod Cansi Centerpiece */}
+                    <div className="cansi-hero-levitate relative z-10 flex h-full w-full items-center justify-center">
+                      <img
+                        src="./images/cansi-exploded-hero.jpg"
+                        alt="Hyper-realistic mid-air exploded Bacolod Cansi showing stoneware bowl, splashing golden batwan broth, beef shank bone marrow, langka jackfruit, lemongrass, calamansi, chilies, and toasted garlic"
+                        className="h-full w-full object-contain [mask-image:radial-gradient(ellipse_49%_49%_at_50%_50%,black_66%,transparent_99%)]"
+                      />
+                    </div>
+
+                    {/* Floating 3D Parallax Satellite Ingredients Caught in Dynamic Gust */}
+                    <img
+                      src="./images/cansi-float-calamansi.png"
+                      alt=""
+                      aria-hidden="true"
+                      className="cansi-orbit-a pointer-events-none absolute left-[10%] top-[14%] z-20 h-11 w-11 object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.55)] transition-transform duration-500 sm:left-[12%] sm:h-14 sm:w-14"
+                      style={{
+                        marginLeft: `${(tilt.x * -14).toFixed(1)}px`,
+                        marginTop: `${(tilt.y * -10).toFixed(1)}px`,
+                      }}
+                    />
+                    <img
+                      src="./images/cansi-float-chili.png"
+                      alt=""
+                      aria-hidden="true"
+                      className="cansi-orbit-b pointer-events-none absolute right-[10%] top-[18%] z-20 h-11 w-12 object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.55)] transition-transform duration-500 sm:right-[11%] sm:h-14 sm:w-16"
+                      style={{
+                        marginRight: `${(tilt.x * 14).toFixed(1)}px`,
+                        marginTop: `${(tilt.y * -12).toFixed(1)}px`,
+                      }}
+                    />
+                    <img
+                      src="./images/cansi-float-garlic.png"
+                      alt=""
+                      aria-hidden="true"
+                      className="cansi-orbit-c pointer-events-none absolute bottom-[22%] left-[11%] z-20 h-9 w-9 object-contain drop-shadow-[0_10px_14px_rgba(0,0,0,0.55)] transition-transform duration-500 sm:left-[13%] sm:h-11 sm:w-11"
+                      style={{
+                        marginLeft: `${(tilt.x * -16).toFixed(1)}px`,
+                        marginBottom: `${(tilt.y * 10).toFixed(1)}px`,
+                      }}
+                    />
+                    <img
+                      src="./images/cansi-float-lemongrass.png"
+                      alt=""
+                      aria-hidden="true"
+                      className="cansi-orbit-a pointer-events-none absolute bottom-[24%] right-[9%] z-20 h-14 w-14 rotate-12 object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.55)] transition-transform duration-500 sm:right-[10%] sm:h-16 sm:w-16"
+                      style={{
+                        marginRight: `${(tilt.x * 16).toFixed(1)}px`,
+                        marginBottom: `${(tilt.y * 12).toFixed(1)}px`,
+                      }}
+                    />
+
+                    {/* Mid-Air Shimmering Golden Broth Droplets */}
+                    {BROTH_DROPLETS.map((drop, idx) => (
+                      <span
+                        key={idx}
+                        aria-hidden="true"
+                        className="cansi-droplet pointer-events-none absolute z-20 rounded-full bg-gradient-to-br from-[#FFE49E] via-[#E5A33A] to-[#B56918] shadow-[0_0_10px_rgba(232,163,58,0.8)]"
+                        style={{
+                          left: drop.left,
+                          top: drop.top,
+                          width: `${drop.size}px`,
+                          height: `${drop.size}px`,
+                          animationDelay: drop.delay,
+                          animationDuration: drop.duration,
+                        }}
+                      />
+                    ))}
+                  </div>
+                </button>
+
+                {/* Clean Floating Dish Tag */}
+                <button
+                  type="button"
+                  onClick={onInspectDish}
+                  className="pointer-events-auto absolute bottom-3 right-6 z-30 inline-flex items-center gap-2 rounded-full border border-[#0B2718]/15 bg-[#FAF6EC]/95 px-4 py-2 text-xs font-bold text-[#0B2718] shadow-lg backdrop-blur-sm transition hover:bg-white sm:bottom-5 sm:right-10"
+                >
+                  <span
+                    className="h-2 w-2 rounded-full bg-[#C29645]"
+                    aria-hidden="true"
+                  />
+                  <span>Bacolod Cansi · ₱666</span>
+                  <ArrowUpRight
+                    className="h-3.5 w-3.5 text-[#C29645]"
+                    aria-hidden="true"
+                  />
+                </button>
               </div>
             </div>
           </div>
