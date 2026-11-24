@@ -478,16 +478,12 @@ export function RestaurantMenuBoard({
           />
         </div>
 
-        {/* Full-Bleed Bottom Warm Beige Filipino Heritage Footer Strip */}
-        <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] py-3 text-xs text-[#2F4537]">
-          <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-2 px-5 sm:px-8">
-            <span>
-              {RESTAURANT_INFO.shortAddress} · Libreng Sabaw Refill sa Bacolod Cansi
-            </span>
-            <span className="font-bold text-[#0B2718]">
-              Featuring {conveyorItems.length} House Best Sellers · Select any category above to browse all {MENU_ITEMS.length} dishes
-            </span>
-          </div>
+        {/* Full-Bleed Bottom Warm Beige Filipino Heritage Banner Strip */}
+        <div
+          aria-hidden="true"
+          className="relative z-10 h-9 w-full shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC]"
+        >
+          <BanigWeaveStrip />
         </div>
       </div>
 
@@ -600,16 +596,12 @@ export function RestaurantMenuBoard({
               {renderDishCards(visibleItems)}
             </div>
 
-            {/* Pinned Bottom Warm Beige Footer Strip */}
-            <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] py-3 text-xs text-[#2F4537]">
-              <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-2 px-5 sm:px-8">
-                <span>
-                  {RESTAURANT_INFO.shortAddress} · Click <strong>Best Sellers</strong> to browse the rest of the page
-                </span>
-                <span className="font-bold text-[#0B2718]">
-                  Showing {visibleItems.length} of {MENU_ITEMS.length} dishes ({activeCategoryMeta.label})
-                </span>
-              </div>
+            {/* Pinned Bottom Warm Beige Heritage Banner Strip */}
+            <div
+              aria-hidden="true"
+              className="relative z-10 h-9 w-full shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC]"
+            >
+              <BanigWeaveStrip />
             </div>
           </div>,
           document.body
