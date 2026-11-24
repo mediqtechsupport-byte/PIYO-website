@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Search,
   X,
@@ -141,7 +142,20 @@ export function MenuSection({
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [showFilterRow, setShowFilterRow] = useState(false);
-  const [menuView, setMenuView] = useState('board'); // 'board' = Filipino Menu landing view, 'customize' = Dish Customizer workbench
+  const [menuView, setMenuView] = useState('board'); // 'board' = Filipino Menu landing view, 'customize' = locked full-screen Dish Customizer
+
+  // Lock background page scrolling & navigation while customizing an order
+  useEffect(() => {
+    if (menuView !== 'customize') return;
+    const prevBodyOverflow = document.body.style.overflow;
+    const prevHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prevBodyOverflow;
+      document.documentElement.style.overflow = prevHtmlOverflow;
+    };
+  }, [menuView]);
 
   const [featuredDishId, setFeaturedDishId] = useState('bacolod-cansi');
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
@@ -284,21 +298,6 @@ export function MenuSection({
     }
   };
 
-  const scrollMenuToTop = () => {
-    const menuEl = document.getElementById('menu');
-    if (menuEl) {
-      const header = document.querySelector('header');
-      const offset = header
-        ? Math.floor(header.getBoundingClientRect().height)
-        : 69;
-      const top = Math.max(
-        0,
-        Math.round(menuEl.getBoundingClientRect().top + window.scrollY - offset)
-      );
-      window.scrollTo({ top, behavior: 'smooth' });
-    }
-  };
-
   const handleCustomizeDish = (dish) => {
     if (dish) {
       setFeaturedDishId(dish.id);
@@ -307,12 +306,10 @@ export function MenuSection({
       setSearchQuery('');
     }
     setMenuView('customize');
-    scrollMenuToTop();
   };
 
   const handleBackToMenuBoard = () => {
     setMenuView('board');
-    scrollMenuToTop();
   };
 
   const activeCategoryMeta =
@@ -321,30 +318,33 @@ export function MenuSection({
   return (
     <section
       id="menu"
-      className={`relative flex flex-col overflow-x-clip border-t border-[#DFB96F]/15 bg-[#06180E] text-[#FAF6EC] ${
-        menuView === 'board'
-          ? 'min-h-[calc(100svh-var(--nav-h,69px))] p-0'
-          : 'justify-center py-6 sm:py-8 lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:py-6'
-      }`}
+      className="relative flex min-h-[calc(100svh-var(--nav-h,69px))] flex-col overflow-x-clip border-t border-[#DFB96F]/15 bg-[#06180E] p-0 text-[#FAF6EC]"
     >
-      {menuView === 'board' ? (
-        <RestaurantMenuBoard
-          trayItems={trayItems}
-          onQuickAdd={onQuickAdd}
-          onUpdateTrayQty={onUpdateTrayQty}
-          onCustomizeDish={handleCustomizeDish}
-          onOpenTray={onOpenTray}
-        />
-      ) : (
-        <>
-          {/* Subtle Dark Forest Ambient Glow */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(22,64,42,0.55),transparent_50%),radial-gradient(circle_at_85%_82%,rgba(223,185,111,0.08),transparent_48%)]"
-          />
+      <RestaurantMenuBoard
+        trayItems={trayItems}
+        onQuickAdd={onQuickAdd}
+        onUpdateTrayQty={onUpdateTrayQty}
+        onCustomizeDish={handleCustomizeDish}
+        onOpenTray={onOpenTray}
+      />
 
-          {/* Full-Page Edge-to-Edge Container */}
-          <div className="relative z-10 mx-auto w-full max-w-[1680px] px-4 sm:px-6 lg:px-8">
+      {menuView === 'customize' &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[45] flex flex-col overflow-y-auto bg-[#06180E] py-5 text-[#FAF6EC] sm:py-6"
+            onWheel={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Customize your PIYO order"
+          >
+            {/* Subtle Dark Forest Ambient Glow */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(22,64,42,0.55),transparent_50%),radial-gradient(circle_at_85%_82%,rgba(223,185,111,0.08),transparent_48%)]"
+            />
+
+            {/* Full-Screen Dedicated Customizer Container */}
+            <div className="relative z-10 mx-auto my-auto w-full max-w-[1680px] px-4 sm:px-6 lg:px-8">
         {/* Top Full-Width Category & Cart Navigation Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-[22px] border border-[#DFB96F]/20 bg-[#0B2718]/95 px-4 py-2.5 shadow-[0_14px_36px_-18px_rgba(0,0,0,0.65)] backdrop-blur-md sm:px-5">
           {/* Left Brand Mark */}
@@ -399,7 +399,7 @@ export function MenuSection({
             <button
               type="button"
               onClick={handleBackToMenuBoard}
-              className="hidden min-h-[36px] items-center gap-1.5 rounded-full border border-[#F5EFE2]/45 bg-[#F5EFE2] px-3.5 py-1.5 text-xs font-bold text-[#0B2718] shadow-sm transition hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5EFE2] sm:inline-flex"
+              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-[#F5EFE2]/45 bg-[#F5EFE2] px-3.5 py-1.5 text-xs font-bold text-[#0B2718] shadow-sm transition hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5EFE2]"
             >
               <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
               <span>Filipino Menu</span>
@@ -476,14 +476,6 @@ export function MenuSection({
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={handleBackToMenuBoard}
-                    className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-[#DFD0B2] bg-[#F5EFE2] px-4 py-1.5 text-xs font-bold text-[#0B2718] shadow-sm transition hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5EFE2]"
-                  >
-                    <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-                    <span>Back to Menu</span>
-                  </button>
                   <button
                     type="button"
                     onClick={() => setShowFilterRow((prev) => !prev)}
@@ -1027,9 +1019,10 @@ export function MenuSection({
             </div>
           </aside>
         </div>
-          </div>
-        </>
-      )}
+            </div>
+          </div>,
+          document.body
+        )}
     </section>
   );
 }
