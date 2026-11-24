@@ -932,14 +932,12 @@ export function SushiConveyorMenu({
           </div>
           <div className="min-w-0">
             {stage}
-            {controls}
           </div>
         </div>
       ) : (
         <div className="flex w-full flex-col items-center px-4 pb-8 pt-6">
           {header}
           <div className="mt-2 w-full min-w-0">{stage}</div>
-          {controls}
           {captionNode}
           {action && <div className="mt-3 flex justify-center">{action}</div>}
         </div>

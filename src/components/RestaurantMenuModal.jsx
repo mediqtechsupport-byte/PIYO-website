@@ -358,46 +358,30 @@ export function RestaurantMenuBoard({
       {/* Inline Whole-Page Menu Landing ("Best Sellers" Highlight Conveyor — allows scrolling freely to other sections) */}
       <div className="flex min-h-[calc(100svh-var(--nav-h,69px))] w-full flex-col bg-[#0A2215] text-[#0B2718]">
         {/* Full-Bleed Warm Sunlit Beige Editorial Title Banner with Tropical Palm Frond Shadows */}
-        <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#F1E8D5] px-4 pb-3 pt-4 sm:px-8 lg:px-12 lg:pb-3.5 lg:pt-5">
-          <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-40 w-56 text-[#0B2718] sm:h-48 sm:w-72" />
-          <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-36 w-52 -scale-x-100 text-[#0B2718] opacity-75 sm:h-44 sm:w-64" />
+        <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#F1E8D5] px-4 pb-2.5 pt-2.5 sm:px-8 lg:px-12 lg:pb-3 lg:pt-3">
+          <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-36 w-52 text-[#0B2718] sm:h-40 sm:w-60" />
+          <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-32 w-48 -scale-x-100 text-[#0B2718] opacity-75 sm:h-36 sm:w-52" />
 
-          <div className="relative z-10 mx-auto w-full max-w-[1520px]">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#0B2718]/20 bg-[#FAF6EC]/85 px-3.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#0B2718]">
-                <span
-                  aria-hidden="true"
-                  className="h-1.5 w-1.5 rotate-45 bg-[#8A673D]"
-                />
-                {RESTAURANT_INFO.established} · Tagaytay City
-              </span>
-
-              <span className="hidden items-center gap-1.5 rounded-full border border-[#0B2718]/18 bg-[#FAF6EC]/80 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#284233] sm:inline-flex">
-                {MENU_ITEMS.length} Authentic Dishes &amp; Drinks
-              </span>
+          <div className="relative z-10 mx-auto w-full max-w-[1520px] text-center">
+            <p className="font-script text-[38px] leading-[1.02] text-[#7E5A30] sm:text-[48px]">
+              Hapag ng PIYO
+            </p>
+            <div className="mt-0.5 flex items-center justify-center gap-3">
+              <span
+                aria-hidden="true"
+                className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#0B2718]/45 sm:w-16"
+              />
+              <h2 className="font-serif text-lg font-bold uppercase tracking-[0.28em] text-[#0B2718] sm:text-2xl">
+                Filipino Menu
+              </h2>
+              <span
+                aria-hidden="true"
+                className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#0B2718]/45 sm:w-16"
+              />
             </div>
-
-            <div className="mt-1 text-center">
-              <p className="font-script text-[42px] leading-[1.05] text-[#7E5A30] sm:text-[52px]">
-                Hapag ng PIYO
-              </p>
-              <div className="mt-0.5 flex items-center justify-center gap-3">
-                <span
-                  aria-hidden="true"
-                  className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#0B2718]/45 sm:w-16"
-                />
-                <h2 className="font-serif text-lg font-bold uppercase tracking-[0.28em] text-[#0B2718] sm:text-2xl">
-                  Filipino Menu
-                </h2>
-                <span
-                  aria-hidden="true"
-                  className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#0B2718]/45 sm:w-16"
-                />
-              </div>
-              <p className="mx-auto mt-1.5 max-w-xl text-xs leading-relaxed text-[#384D40] sm:text-[13px]">
-                Hindi lamang pagkain — kundi hapag para sa kwento, lutong Negros, at init ng pamilya.
-              </p>
-            </div>
+            <p className="mx-auto mt-1 max-w-xl text-xs leading-relaxed text-[#384D40] sm:text-[13px]">
+              Hindi lamang pagkain — kundi hapag para sa kwento, lutong Negros, at init ng pamilya.
+            </p>
           </div>
         </div>
 
