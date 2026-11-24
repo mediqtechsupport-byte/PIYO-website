@@ -178,44 +178,79 @@ export function HeroSection({
           </div>
 
           {/* Right Overhead Circular Matte-Stoneware Dish Showcase */}
-          <div className="relative flex items-center justify-center lg:col-span-6 lg:justify-end">
+          <div className="relative flex items-center justify-center lg:col-span-6 lg:justify-center xl:justify-start xl:pl-4">
             <div
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
-              className="relative flex aspect-square w-[320px] items-center justify-center sm:w-[440px] lg:w-[520px] xl:w-[590px]"
+              className="relative flex aspect-square w-[310px] items-center justify-center sm:w-[420px] lg:w-[500px] xl:w-[545px]"
             >
-              {/* Subtle Floating Culinary Botanical Accents Around Plate Rim (Echoing Verdeo) */}
+              {/* Fresh Green Batwan Accent Top-Left on Dark Pine Canvas */}
               <img
                 src="./images/cansi-layers/batwan-upper.png"
                 alt=""
                 aria-hidden="true"
-                className="pointer-events-none absolute -left-3 top-[10%] z-10 h-11 w-11 -rotate-12 object-contain drop-shadow-[0_10px_14px_rgba(0,0,0,0.45)] sm:h-14 sm:w-14"
+                className="pointer-events-none absolute -left-4 top-[11%] z-10 h-10 w-10 -rotate-12 object-contain drop-shadow-[0_10px_14px_rgba(0,0,0,0.45)] sm:h-12 sm:w-12"
               />
+
+              {/* Authentic PIYO Toyo-Calamansi-Sili Sawsawan Dipping Bowl Resting on Upper-Right Warm Beige */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-5 top-[4%] z-20 h-22 w-22 sm:-right-12 sm:top-[6%] sm:h-28 sm:w-28 lg:-right-14 xl:-right-24 xl:h-32 xl:w-32"
+              >
+                <div className="absolute inset-2 translate-x-1.5 translate-y-2.5 rounded-full bg-black/35 blur-md" />
+                <img
+                  src="./images/hero-side-sawsawan.png"
+                  alt=""
+                  className="relative h-full w-full select-none rounded-full object-contain drop-shadow-[0_12px_18px_rgba(6,24,14,0.34)]"
+                  draggable={false}
+                />
+              </div>
+
+              {/* Authentic PIYO House Pickled Papaya Atchara Bowl Resting on Lower-Right Warm Beige */}
+              <button
+                type="button"
+                onClick={() => onSelectDishById('atchara')}
+                aria-label="Inspect PIYO House Atchara — ₱33"
+                className="group absolute -bottom-2 -right-4 z-20 h-24 w-24 cursor-pointer rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#06180E] sm:-bottom-4 sm:-right-10 sm:h-30 sm:w-30 lg:-right-14 xl:-bottom-3 xl:-right-22 xl:h-34 xl:w-34"
+              >
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-2 translate-x-1.5 translate-y-2.5 rounded-full bg-black/32 blur-md"
+                />
+                <img
+                  src="./images/hero-side-atchara.png"
+                  alt="PIYO House Pickled Papaya Atchara in matte black stoneware ramekin"
+                  className="relative h-full w-full select-none rounded-full object-contain drop-shadow-[0_12px_18px_rgba(6,24,14,0.34)] transition-transform duration-300 group-hover:scale-105"
+                  draggable={false}
+                />
+              </button>
+
+              {/* Fresh Halved Calamansi & Chili Accent Bridging Main Plate and Side Bowls */}
               <img
                 src="./images/cansi-layers/calamansi-top.png"
                 alt=""
                 aria-hidden="true"
-                className="pointer-events-none absolute -right-1 top-[14%] z-10 h-12 w-12 rotate-12 object-contain drop-shadow-[0_12px_18px_rgba(6,24,14,0.32)] sm:-right-4 sm:h-16 sm:w-16"
+                className="pointer-events-none absolute -right-1 top-[44%] z-20 h-10 w-10 rotate-12 object-contain drop-shadow-[0_8px_12px_rgba(6,24,14,0.28)] sm:-right-7 sm:h-12 sm:w-12 xl:-right-11"
               />
               <img
-                src="./images/cansi-layers/scallions.png"
+                src="./images/cansi-layers/sili-red.png"
                 alt=""
                 aria-hidden="true"
-                className="pointer-events-none absolute bottom-[8%] right-0 z-10 h-14 w-14 rotate-12 object-contain drop-shadow-[0_10px_16px_rgba(6,24,14,0.28)] sm:-right-3 sm:h-18 sm:w-18"
+                className="pointer-events-none absolute bottom-[26%] -right-2 z-20 hidden h-14 w-14 rotate-[28deg] object-contain drop-shadow-[0_8px_12px_rgba(6,24,14,0.26)] sm:block sm:-right-8 xl:-right-12"
               />
 
-              {/* Realistic Soft Overhead Contact Shadow Under the Circular Plate */}
+              {/* Realistic Soft Overhead Contact Shadow Under the Main Circular Plate */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-[6%] translate-x-3 translate-y-6 rounded-full bg-black/45 blur-2xl"
+                className="pointer-events-none absolute inset-[4%] translate-x-3 translate-y-5 rounded-full bg-black/42 blur-2xl"
               />
 
-              {/* Cross-Fading Circular Overhead Stoneware Plates */}
+              {/* Cross-Fading Circular Overhead Matte-Stoneware PIYO Menu Plates */}
               <button
                 type="button"
                 onClick={() => onSelectDishById(activePlate.id)}
                 aria-label={`Inspect ${activePlate.name} — ${activePlate.price}`}
-                className="group relative h-full w-full cursor-pointer rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
+                className="group relative z-10 h-full w-full cursor-pointer rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
               >
                 {HERO_PLATES.map((plate, idx) => {
                   const isActive = idx === activeIdx;
@@ -225,7 +260,7 @@ export function HeroSection({
                       src={plate.image}
                       alt={plate.alt}
                       draggable={false}
-                      className={`absolute inset-0 h-full w-full select-none rounded-full object-contain drop-shadow-[0_26px_38px_rgba(0,0,0,0.52)] transition-all duration-700 ease-out ${
+                      className={`absolute inset-0 h-full w-full select-none rounded-full object-contain drop-shadow-[0_24px_34px_rgba(0,0,0,0.48)] transition-all duration-700 ease-out ${
                         isActive
                           ? 'scale-100 rotate-0 opacity-100 group-hover:scale-[1.025]'
                           : 'pointer-events-none scale-95 -rotate-6 opacity-0'
