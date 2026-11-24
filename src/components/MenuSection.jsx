@@ -16,10 +16,11 @@ import {
   Check,
   Tag,
   Info,
-  ChevronRight,
+  BookOpen,
 } from 'lucide-react';
 import { MENU_CATEGORIES, MENU_ITEMS, QUICK_FILTERS } from '../data/menuData';
 import { formatPeso } from '../utils/hours';
+import { RestaurantMenuModal } from './RestaurantMenuModal';
 
 const CATEGORY_ICONS = {
   UtensilsCrossed,
@@ -136,7 +137,7 @@ export function MenuSection({
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [showFilterRow, setShowFilterRow] = useState(false);
-  const [showFullGrid, setShowFullGrid] = useState(false);
+  const [isMenuBookOpen, setIsMenuBookOpen] = useState(false);
 
   const [featuredDishId, setFeaturedDishId] = useState('bacolod-cansi');
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
@@ -430,17 +431,11 @@ export function MenuSection({
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => setShowFullGrid((prev) => !prev)}
-                    className="inline-flex min-h-[34px] items-center gap-1 rounded-full border border-[#DFB96F]/25 bg-[#06180E]/75 px-3 py-1 text-[11px] font-semibold text-[#FAF6EC] transition hover:border-[#DFB96F]/60 hover:text-[#DFB96F]"
+                    onClick={() => setIsMenuBookOpen(true)}
+                    className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-[#DFB96F]/55 bg-[#143D27] px-3.5 py-1.5 text-xs font-bold text-[#DFB96F] shadow-sm transition hover:bg-[#DFB96F] hover:text-[#06180E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
                   >
-                    <span>
-                      {showFullGrid ? 'Hide Full List' : `All ${MENU_ITEMS.length} Dishes`}
-                    </span>
-                    <ChevronRight
-                      className={`h-3.5 w-3.5 transition-transform ${
-                        showFullGrid ? 'rotate-90' : ''
-                      }`}
-                    />
+                    <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
+                    <span>Restaurant Menu</span>
                   </button>
                   <button
                     type="button"
@@ -986,82 +981,16 @@ export function MenuSection({
           </aside>
         </div>
 
-        {/* Optional Expandable Full Menu Catalog Grid (Browse All 29 Dishes Visually) */}
-        {showFullGrid && (
-          <div className="mt-5 rounded-[26px] border border-[#DFB96F]/20 bg-[#0B2718]/95 p-5 shadow-lg sm:p-6">
-            <div className="mb-4 flex items-center justify-between">
-              <div>
-                <h3 className="font-serif text-2xl font-semibold text-[#FAF6EC]">
-                  Full PIYO Catalog ({filteredItems.length} dishes)
-                </h3>
-                <p className="text-xs text-[#A3B6A9]">
-                  Click any dish to customize it in the workbench above, or tap + to add immediately.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowFullGrid(false)}
-                className="rounded-full border border-[#DFB96F]/30 px-3 py-1 text-xs font-semibold text-[#DFB96F] hover:bg-[#143D27]"
-              >
-                Collapse
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filteredItems.map((dish) => {
-                const isSelected = featuredDish?.id === dish.id;
-                return (
-                  <div
-                    key={dish.id}
-                    className={`flex items-center gap-3 rounded-2xl border p-3 transition ${
-                      isSelected
-                        ? 'border-[#DFB96F] bg-[#143D27]'
-                        : 'border-dashed border-[#DFB96F]/25 bg-[#06180E]/65 hover:border-[#DFB96F]/55'
-                    }`}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => handleSelectFromGrid(dish)}
-                      className="h-15 w-15 shrink-0 overflow-hidden rounded-full border-2 border-[#DFB96F]/40 shadow-xs"
-                    >
-                      <img
-                        src={dish.image}
-                        alt={dish.name}
-                        loading="lazy"
-                        className="h-full w-full object-cover"
-                      />
-                    </button>
-                    <div className="min-w-0 flex-1">
-                      <button
-                        type="button"
-                        onClick={() => handleSelectFromGrid(dish)}
-                        className="block truncate text-left text-sm font-bold text-[#FAF6EC] hover:text-[#DFB96F]"
-                      >
-                        {dish.name}
-                      </button>
-                      <p className="line-clamp-1 text-[11px] text-[#9BB0A1]">
-                        {dish.shortDesc}
-                      </p>
-                      <div className="mt-1.5 flex items-center justify-between">
-                        <span className="text-xs font-extrabold text-[#DFB96F]">
-                          {formatPeso(dish.price)}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => onQuickAdd && onQuickAdd(dish)}
-                          className="inline-flex items-center gap-1 rounded-full bg-[#DFB96F] px-2.5 py-1 text-[11px] font-bold text-[#06180E] hover:bg-[#E7C88B]"
-                        >
-                          <Plus className="h-3 w-3" />
-                          <span>Add</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+        {/* Printed-Style Rectangular Restaurant Menu Sheet Modal */}
+        <RestaurantMenuModal
+          isOpen={isMenuBookOpen}
+          onClose={() => setIsMenuBookOpen(false)}
+          trayItems={trayItems}
+          onQuickAdd={onQuickAdd}
+          onUpdateTrayQty={onUpdateTrayQty}
+          onCustomizeDish={handleSelectFromGrid}
+          onOpenTray={onOpenTray}
+        />
       </div>
     </section>
   );
