@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { Plus, Minus, ShoppingBag, SlidersHorizontal } from 'lucide-react';
 import { MENU_CATEGORIES, MENU_ITEMS, RESTAURANT_INFO } from '../data/menuData';
 import { formatPeso } from '../utils/hours';
@@ -85,6 +85,26 @@ export function RestaurantMenuBoard({
   onOpenTray,
 }) {
   const [selectedCat, setSelectedCat] = useState('all');
+  const stickyBarRef = useRef(null);
+  const gridTopRef = useRef(null);
+
+  const handleSelectCategory = (catId) => {
+    setSelectedCat(catId);
+    // If the user is scrolled deep down the long dish grid, bring Row 1 of the chosen category into view
+    if (gridTopRef.current) {
+      const stickyBottom = stickyBarRef.current
+        ? stickyBarRef.current.getBoundingClientRect().bottom
+        : 136;
+      const gridRect = gridTopRef.current.getBoundingClientRect();
+      if (gridRect.top < stickyBottom - 8) {
+        const targetY = Math.max(
+          0,
+          Math.round(window.scrollY + gridRect.top - stickyBottom)
+        );
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      }
+    }
+  };
 
   const trayStatsByDishId = useMemo(() => {
     const map = {};
@@ -112,14 +132,14 @@ export function RestaurantMenuBoard({
 
   return (
     <div className="flex min-h-[calc(100svh-var(--nav-h,69px))] w-full flex-col bg-[#0A2215] text-[#0B2718]">
-      {/* Full-Bleed Warm Sunlit Beige Editorial Header with Tropical Palm Frond Shadows */}
-      <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#ECE2CC] px-4 pb-5 pt-5 sm:px-8 lg:px-12 lg:pb-6 lg:pt-6">
+      {/* Full-Bleed Warm Sunlit Beige Editorial Title Banner with Tropical Palm Frond Shadows */}
+      <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#F1E8D5] px-4 pb-3 pt-4 sm:px-8 lg:px-12 lg:pb-3.5 lg:pt-5">
         {/* Corner Tropical Palm Frond Silhouettes */}
         <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-40 w-56 text-[#0B2718] sm:h-48 sm:w-72" />
         <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-36 w-52 -scale-x-100 text-[#0B2718] opacity-75 sm:h-44 sm:w-64" />
 
         <div className="relative z-10 mx-auto w-full max-w-[1520px]">
-          {/* Top-Left / Top-Right Utility Controls */}
+          {/* Top-Left / Top-Right Heritage Pills */}
           <div className="flex flex-wrap items-center justify-between gap-2">
             <span className="inline-flex items-center gap-2 rounded-full border border-[#0B2718]/20 bg-[#FAF6EC]/85 px-3.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#0B2718]">
               <span
@@ -129,23 +149,14 @@ export function RestaurantMenuBoard({
               {RESTAURANT_INFO.established} · Tagaytay City
             </span>
 
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={onOpenTray}
-                className="inline-flex min-h-[36px] items-center gap-2 rounded-full bg-[#0B2718] px-4 py-1.5 text-xs font-bold text-[#F5EFE2] shadow-sm transition hover:bg-[#143D28]"
-              >
-                <ShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
-                <span>
-                  {trayCount > 0 ? `${trayCount} · ${formatPeso(trayTotal)}` : 'Cart'}
-                </span>
-              </button>
-            </div>
+            <span className="hidden items-center gap-1.5 rounded-full border border-[#0B2718]/18 bg-[#FAF6EC]/80 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#284233] sm:inline-flex">
+              {MENU_ITEMS.length} Authentic Dishes &amp; Drinks
+            </span>
           </div>
 
           {/* Centered Filipino Heritage Script Title & Poetic Manifesto */}
           <div className="mt-1 text-center">
-            <p className="font-script text-[42px] leading-[1.05] text-[#7E5A30] sm:text-[54px]">
+            <p className="font-script text-[42px] leading-[1.05] text-[#7E5A30] sm:text-[52px]">
               Hapag ng PIYO
             </p>
             <div className="mt-0.5 flex items-center justify-center gap-3">
@@ -165,49 +176,77 @@ export function RestaurantMenuBoard({
               Hindi lamang pagkain — kundi hapag para sa kwento, lutong Negros, at init ng pamilya.
             </p>
           </div>
-
-          {/* Category Filter Pills (Dark Forest Green & Warm Parchment) */}
-          <div
-            className="mt-4 flex items-center justify-start gap-2 overflow-x-auto no-scrollbar pb-0.5 sm:justify-center"
-            role="tablist"
-            aria-label="Filipino menu categories"
-          >
-            {MENU_CATEGORIES.map((cat) => {
-              const active = selectedCat === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => setSelectedCat(cat.id)}
-                  className={`min-h-[34px] shrink-0 rounded-full px-4 py-1.5 text-xs font-bold tracking-wide transition ${
-                    active
-                      ? 'bg-[#0B2718] text-[#F5EFE2] shadow-sm'
-                      : 'border border-[#0B2718]/20 bg-[#FAF6EC]/85 text-[#1B3A29] hover:border-[#0B2718]/50 hover:bg-[#E6DAC2]'
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              );
-            })}
-          </div>
         </div>
       </div>
 
-      {/* Full-Bleed Woven Filipino Banig Border Strip */}
+      {/* Sticky Category Navigation + Cart Bar + Woven Banig Strip (Follows User While Scrolling Menu) */}
       <div
-        aria-hidden="true"
-        className="h-[12px] w-full shrink-0 border-y border-[#0B2718]/25 bg-[#E6D9BE]"
-        style={{
-          backgroundImage: BANIG_STRIP_BG,
-          backgroundRepeat: 'repeat-x',
-          backgroundPosition: 'center',
-        }}
-      />
+        ref={stickyBarRef}
+        className="sticky top-[var(--nav-h,64px)] z-30 w-full shrink-0 shadow-[0_12px_28px_-14px_rgba(4,16,9,0.68)]"
+      >
+        <div className="bg-[#EFE6D2]/96 px-4 py-2.5 backdrop-blur-md sm:px-8 lg:px-12">
+          <div className="mx-auto flex w-full max-w-[1520px] items-center justify-between gap-3">
+            {/* Compact Brand Mark on Desktop */}
+            <span className="hidden shrink-0 font-script text-[26px] leading-none text-[#7E5A30] xl:inline-block">
+              Hapag ng PIYO
+            </span>
+
+            {/* Category Filter Pills (Dark Forest Green & Warm Parchment) */}
+            <div
+              className="flex min-w-0 flex-1 items-center justify-start gap-1.5 overflow-x-auto no-scrollbar py-0.5 sm:justify-center"
+              role="tablist"
+              aria-label="Filipino menu categories"
+            >
+              {MENU_CATEGORIES.map((cat) => {
+                const active = selectedCat === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={active}
+                    onClick={() => handleSelectCategory(cat.id)}
+                    className={`min-h-[34px] shrink-0 rounded-full px-3.5 py-1 text-xs font-bold tracking-wide transition ${
+                      active
+                        ? 'bg-[#0B2718] text-[#F5EFE2] shadow-sm'
+                        : 'border border-[#0B2718]/20 bg-[#FAF6EC]/90 text-[#1B3A29] hover:border-[#0B2718]/50 hover:bg-[#E6DAC2]'
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Persistent Live Cart Pill */}
+            <button
+              type="button"
+              onClick={onOpenTray}
+              className="inline-flex min-h-[34px] shrink-0 items-center gap-2 rounded-full bg-[#0B2718] px-4 py-1.5 text-xs font-bold text-[#F5EFE2] shadow-sm transition hover:bg-[#143D28]"
+            >
+              <ShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
+              <span>
+                {trayCount > 0 ? `${trayCount} · ${formatPeso(trayTotal)}` : 'Cart'}
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {/* Full-Bleed Woven Filipino Banig Border Strip Traveling With Sticky Nav */}
+        <div
+          aria-hidden="true"
+          className="h-[11px] w-full border-y border-[#0B2718]/25 bg-[#E6D9BE]"
+          style={{
+            backgroundImage: BANIG_STRIP_BG,
+            backgroundRepeat: 'repeat-x',
+            backgroundPosition: 'center',
+          }}
+        />
+      </div>
 
       {/* Full-Bleed Deep Forest Green Solihiya-Woven Whole-Page Menu Grid */}
       <div
+        ref={gridTopRef}
         className="relative z-10 flex-1 bg-[#0A2215] px-4 py-6 sm:px-8 lg:px-12 lg:py-7"
         style={{
           backgroundImage: SOLIHIYA_BG,
