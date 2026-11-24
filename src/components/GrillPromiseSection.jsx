@@ -47,7 +47,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
         src="./images/cansi-ingredients-corner.jpg"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 left-0 hidden h-36 w-48 object-cover object-left-bottom opacity-90 mix-blend-multiply md:block lg:h-44 lg:w-56"
+        className="pointer-events-none absolute -bottom-2 -left-2 hidden h-32 w-40 object-cover object-left-bottom brightness-[1.08] contrast-[1.08] mix-blend-multiply [mask-image:radial-gradient(ellipse_at_bottom_left,black_45%,transparent_84%)] md:block xl:h-40 xl:w-52"
         onError={(e) => {
           e.currentTarget.style.display = 'none';
         }}
@@ -56,7 +56,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
         src="./images/cansi-ingredients-corner.jpg"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 right-0 hidden h-36 w-48 -scale-x-100 object-cover object-left-bottom opacity-85 mix-blend-multiply md:block lg:h-44 lg:w-56"
+        className="pointer-events-none absolute -bottom-2 -right-2 hidden h-36 w-48 -scale-x-100 object-cover object-left-bottom brightness-[1.08] contrast-[1.08] mix-blend-multiply [mask-image:radial-gradient(ellipse_at_bottom_left,black_45%,transparent_84%)] md:block xl:h-44 xl:w-56"
         onError={(e) => {
           e.currentTarget.style.display = 'none';
         }}
@@ -65,7 +65,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
           {/* Left Editorial Column */}
-          <div className="relative z-10 lg:col-span-6">
+          <div className="relative z-10 pb-4 lg:col-span-6 lg:pb-6">
             <h2 className="font-serif text-[2.15rem] font-semibold leading-[1.12] tracking-tight text-[#0B2718] sm:text-5xl xl:text-[3.25rem]">
               PIYO&apos;s{' '}
               <span className="relative inline-block whitespace-nowrap">
@@ -144,100 +144,51 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
             </div>
           </div>
 
-          {/* Right Stretched Forest-Green Cansi Ingredients Tapestry & Oval Platter */}
+          {/* Right Stretched Forest-Green 3D Cansi Ingredients Tapestry & Centered Oval Platter */}
           <div className="relative lg:col-span-6">
-            <div className="relative -mx-5 flex items-center justify-center py-5 sm:-mx-8 sm:py-6 lg:mx-0 lg:mr-[calc(50%-50vw)] lg:justify-start lg:pl-6 xl:pl-10">
-              {/* Stretched Deep Forest Green Tapestry extending flush to the right viewport edge */}
+            <div className="relative -mx-5 flex items-center justify-center py-4 sm:-mx-8 sm:py-6 lg:mx-0 lg:mr-[calc(50%-50vw)]">
+              {/* Stretched Deep Forest Green Tapestry filled with 3D Bacolod Cansi Ingredients */}
               <svg
-                viewBox="0 0 960 440"
-                preserveAspectRatio="xMinYMid slice"
+                viewBox="0 0 960 480"
+                preserveAspectRatio="xMidYMid slice"
                 aria-hidden="true"
-                className="pointer-events-none h-[300px] w-full drop-shadow-[0_18px_36px_rgba(11,39,24,0.22)] sm:h-[390px] lg:h-[430px] xl:h-[460px]"
+                className="pointer-events-none h-[330px] w-full drop-shadow-[0_18px_36px_rgba(11,39,24,0.24)] sm:h-[420px] lg:h-[470px] xl:h-[510px]"
               >
                 <defs>
-                  {/* Bacolod Cansi Ingredient Sketches: Marrow Bone, Calamansi, Siling Haba Chili, Lemongrass & Langka */}
-                  <pattern
-                    id="piyo-cansi-ingredients"
-                    width="150"
-                    height="150"
-                    patternUnits="userSpaceOnUse"
-                  >
-                    {/* Beef Bone Marrow cross-section */}
-                    <path
-                      d="M24 38 C20 22, 42 16, 54 28 C64 38, 56 54, 40 54 C28 54, 26 46, 24 38 Z"
-                      fill="none"
-                      stroke="rgba(223,185,111,0.24)"
-                      strokeWidth="1.4"
-                    />
-                    <ellipse
-                      cx="40"
-                      cy="37"
-                      rx="8"
-                      ry="6.5"
-                      fill="none"
-                      stroke="rgba(250,246,236,0.18)"
-                      strokeWidth="1.2"
-                    />
-
-                    {/* Halved Calamansi Citrus Wheel */}
-                    <circle
-                      cx="114"
-                      cy="38"
-                      r="16"
-                      fill="none"
-                      stroke="rgba(250,246,236,0.2)"
-                      strokeWidth="1.35"
-                    />
-                    <path
-                      d="M114 22 L114 54 M98 38 L130 38 M102.7 26.7 L125.3 49.3 M125.3 26.7 L102.7 49.3"
-                      stroke="rgba(223,185,111,0.22)"
-                      strokeWidth="1.15"
-                    />
-
-                    {/* Siling Haba Green Finger Chili Pod */}
-                    <path
-                      d="M22 114 C34 102, 54 96, 66 98 C56 108, 42 120, 22 114 Z M66 98 C72 95, 76 91, 79 87"
-                      fill="none"
-                      stroke="rgba(223,185,111,0.24)"
-                      strokeWidth="1.4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-
-                    {/* Lemongrass (Tanglad) Bundle + Langka Wedge */}
-                    <path
-                      d="M94 128 L128 88 M102 132 L134 94 M110 134 L138 102"
-                      stroke="rgba(250,246,236,0.18)"
-                      strokeWidth="1.3"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M66 126 C72 112, 86 112, 90 126 Z"
-                      fill="none"
-                      stroke="rgba(223,185,111,0.2)"
-                      strokeWidth="1.3"
-                      strokeLinejoin="round"
-                    />
-                  </pattern>
+                  <clipPath id="piyo-cansi-banner-clip">
+                    <path d="M 22 14 Q 460 66 960 10 L 960 470 Q 460 414 22 466 Q 68 240 22 14 Z" />
+                  </clipPath>
+                  <radialGradient id="piyo-banner-vignette" cx="45%" cy="50%" r="60%">
+                    <stop offset="0%" stopColor="#091D12" stopOpacity="0.45" />
+                    <stop offset="100%" stopColor="#113421" stopOpacity="0.15" />
+                  </radialGradient>
                 </defs>
-                <path
-                  d="M 18 14 Q 440 72 960 10 L 960 430 Q 440 368 18 426 Q 68 220 18 14 Z"
-                  fill="#113421"
-                />
-                <path
-                  d="M 18 14 Q 440 72 960 10 L 960 430 Q 440 368 18 426 Q 68 220 18 14 Z"
-                  fill="url(#piyo-cansi-ingredients)"
-                />
+                <g clipPath="url(#piyo-cansi-banner-clip)">
+                  <rect width="960" height="480" fill="#113421" />
+                  <image
+                    href="./images/cansi-3d-banner-bg.jpg"
+                    x="0"
+                    y="0"
+                    width="960"
+                    height="480"
+                    preserveAspectRatio="xMidYMid slice"
+                  />
+                  <rect
+                    width="960"
+                    height="480"
+                    fill="url(#piyo-banner-vignette)"
+                  />
+                </g>
               </svg>
 
-              {/* Interactive Tilted Cream-White Oval Platter centered cleanly over left-mid of stretched green canvas */}
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center lg:justify-start lg:pl-14 xl:pl-20">
-                <div className="relative flex w-[84%] max-w-[460px] items-center justify-center sm:w-[76%] sm:max-w-[500px] lg:w-[88%] lg:max-w-[520px]">
+              {/* Interactive Tilted Cream-White Oval Platter centered neatly inside the green banner */}
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-6 lg:px-10">
+                <div className="relative flex w-[76%] max-w-[340px] items-center justify-center sm:w-[70%] sm:max-w-[430px] lg:w-[78%] lg:max-w-[460px]">
                   <button
                     type="button"
                     onClick={onInspectDish}
                     aria-label="Inspect Bacolod Cansi — ₱666"
-                    className="pointer-events-auto group relative flex aspect-[1.32/1] w-full -rotate-2 items-center justify-center overflow-hidden rounded-[50%] border-[8px] border-[#FAF6EC] bg-[#FAF6EC] shadow-[0_28px_56px_-14px_rgba(6,24,14,0.52)] transition duration-500 hover:rotate-0 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0B2718] sm:border-[12px]"
+                    className="pointer-events-auto group relative flex aspect-[1.32/1] w-full -rotate-2 items-center justify-center overflow-hidden rounded-[50%] border-[8px] border-[#FAF6EC] bg-[#FAF6EC] shadow-[0_28px_56px_-14px_rgba(6,24,14,0.58)] transition duration-500 hover:rotate-0 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0B2718] sm:border-[12px]"
                   >
                     <img
                       src="./images/dish-cansi-oval-platter.jpg"
@@ -250,7 +201,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                   <button
                     type="button"
                     onClick={onInspectDish}
-                    className="pointer-events-auto absolute -bottom-3 right-2 z-10 inline-flex items-center gap-2 rounded-full border border-[#0B2718]/15 bg-[#FAF6EC]/95 px-4 py-2 text-xs font-bold text-[#0B2718] shadow-lg backdrop-blur-sm transition hover:bg-white sm:bottom-1 sm:right-4"
+                    className="pointer-events-auto absolute -bottom-3 right-2 z-10 inline-flex items-center gap-2 rounded-full border border-[#0B2718]/15 bg-[#FAF6EC]/95 px-4 py-2 text-xs font-bold text-[#0B2718] shadow-lg backdrop-blur-sm transition hover:bg-white sm:bottom-0 sm:right-4"
                   >
                     <span className="h-2 w-2 rounded-full bg-[#C29645]" aria-hidden="true" />
                     <span>Bacolod Cansi · ₱666</span>
