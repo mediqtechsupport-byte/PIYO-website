@@ -32,7 +32,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           src="./images/piyo-place-real.jpg"
           alt="PIYO Grill & Restaurant nighttime exterior along Km. 64 Tagaytay–Nasugbu Highway"
           loading="lazy"
-          className="h-full w-full object-cover object-[42%_42%]"
+          className="h-full w-full object-cover object-[36%_44%]"
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06180E]/30 via-transparent to-[#06180E]" />
         <p className="absolute bottom-3 left-5 text-[10px] font-medium uppercase tracking-[0.22em] text-[#DFB96F]/90">
@@ -41,26 +41,26 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
       </div>
 
       {/* Desktop Seamless Full-Bleed Architectural Photo Layer (Sharp, Unboxed, Melting into Pine Right Canvas) */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-[60%] lg:block">
+      <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-[74%] lg:block">
         <img
           src="./images/piyo-place-real.jpg"
           alt="PIYO Grill & Restaurant nighttime exterior along Km. 64 Tagaytay–Nasugbu Highway"
           loading="lazy"
-          className="h-full w-full object-cover object-[42%_44%]"
+          className="h-full w-full object-cover object-left"
         />
         {/* Seamless organic fade into deep forest green right edge + subtle top/bottom architectural framing */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(90deg, rgba(6,24,14,0.18) 0%, rgba(6,24,14,0.06) 46%, rgba(6,24,14,0.72) 78%, #06180E 98%)',
+              'linear-gradient(90deg, rgba(6,24,14,0.10) 0%, rgba(6,24,14,0.03) 50%, rgba(6,24,14,0.74) 76%, #06180E 96%)',
           }}
         />
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(180deg, rgba(6,24,14,0.48) 0%, transparent 22%, transparent 72%, rgba(6,24,14,0.88) 100%)',
+              'linear-gradient(180deg, rgba(6,24,14,0.40) 0%, transparent 20%, transparent 74%, rgba(6,24,14,0.90) 100%)',
           }}
         />
 
