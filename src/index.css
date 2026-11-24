@@ -41,6 +41,13 @@
   }
 }
 
+/* Desktop scroll padding so section landings align cleanly below the 74px header without fighting GSAP ScrollTrigger */
+@media (min-width: 1024px) {
+  html {
+    scroll-padding-top: 74px;
+  }
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

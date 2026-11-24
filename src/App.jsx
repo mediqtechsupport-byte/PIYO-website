@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Facebook, Instagram, Globe, Heart, ArrowRight } from 'lucide-react';
 import { RESTAURANT_INFO, MENU_ITEMS } from './data/menuData';
 import { getTagaytayOpenStatus, formatPeso } from './utils/hours';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
+import { HistorySection } from './components/HistorySection';
 import { GrillPromiseSection } from './components/GrillPromiseSection';
 import { SignatureOrbitSection } from './components/SignatureOrbitSection';
 import { MenuSection } from './components/MenuSection';
@@ -19,6 +20,7 @@ export default function App() {
   const [isTrayOpen, setIsTrayOpen] = useState(false);
   const [toastText, setToastText] = useState('');
   const [openStatus, setOpenStatus] = useState(() => getTagaytayOpenStatus());
+  const snapLockUntilRef = useRef(0);
 
   // Refresh open status every minute
   useEffect(() => {
@@ -28,9 +30,120 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
+  // Full-page desktop wheel snap across landing chapters (#home <-> #history <-> #craft <-> #spotlight)
+  // while handing off completely to #spotlight's GSAP dish orbit animation and #menu's native scroll
+  useEffect(() => {
+    const CHAPTER_IDS = ['home', 'history', 'craft', 'spotlight'];
+    const STICKY_OFFSET = 74;
+
+    const handleWheel = (e) => {
+      if (window.innerWidth < 1024 || selectedDish || isTrayOpen) return;
+      if (Math.abs(e.deltaY) < 16 || e.ctrlKey) return;
+
+      const spotlightEl = document.getElementById('spotlight');
+      const menuEl = document.getElementById('menu');
+      const goingDown = e.deltaY > 0;
+
+      // Once below #spotlight (inside #menu or lower), let native scroll run freely
+      if (menuEl) {
+        const menuTop = menuEl.getBoundingClientRect().top;
+        if (goingDown && menuTop <= STICKY_OFFSET + 16) return;
+        if (!goingDown && menuTop < STICKY_OFFSET - 12) return;
+      }
+
+      // Inside #spotlight (GSAP ScrollTrigger Dish Orbit Carousel):
+      // Let native scroll drive the orbiting plates between Dish #1 and Dish #4!
+      if (spotlightEl) {
+        const sRect = spotlightEl.getBoundingClientRect();
+        const inSpotlightZone = sRect.top <= STICKY_OFFSET + 12 && sRect.bottom > STICKY_OFFSET + 40;
+
+        if (inSpotlightZone) {
+          // Only step back UP to #craft if we're right at the top of #spotlight scrolling up
+          if (!goingDown && sRect.top >= STICKY_OFFSET - 14) {
+            const craftEl = document.getElementById('craft');
+            if (craftEl) {
+              const now = Date.now();
+              if (now < snapLockUntilRef.current) {
+                e.preventDefault();
+                return;
+              }
+              const targetY = Math.max(
+                0,
+                Math.round(craftEl.getBoundingClientRect().top + window.scrollY - STICKY_OFFSET)
+              );
+              e.preventDefault();
+              snapLockUntilRef.current = now + 420;
+              window.scrollTo({ top: targetY, behavior: 'smooth' });
+            }
+            return;
+          }
+
+          // Only step smoothly into #menu once we've reached the end (Dish #4) of #spotlight
+          if (goingDown && sRect.bottom <= window.innerHeight + 16 && menuEl) {
+            const now = Date.now();
+            if (now < snapLockUntilRef.current) {
+              e.preventDefault();
+              return;
+            }
+            const targetY = Math.max(
+              0,
+              Math.round(menuEl.getBoundingClientRect().top + window.scrollY - STICKY_OFFSET)
+            );
+            e.preventDefault();
+            snapLockUntilRef.current = now + 420;
+            window.scrollTo({ top: targetY, behavior: 'smooth' });
+            return;
+          }
+
+          // Otherwise inside #spotlight's 4-dish orbit track -> DO NOT intercept wheel!
+          return;
+        }
+      }
+
+      const now = Date.now();
+      if (now < snapLockUntilRef.current) {
+        e.preventDefault();
+        return;
+      }
+
+      const elements = CHAPTER_IDS.map((id) => document.getElementById(id)).filter(Boolean);
+      if (elements.length < 2) return;
+
+      let currentIdx = 0;
+      for (let i = 0; i < elements.length; i += 1) {
+        const rect = elements[i].getBoundingClientRect();
+        if (rect.top <= STICKY_OFFSET + 90) {
+          currentIdx = i;
+        }
+      }
+
+      const targetIdx = goingDown
+        ? Math.min(currentIdx + 1, elements.length - 1)
+        : Math.max(currentIdx - 1, 0);
+
+      if (targetIdx === currentIdx) return;
+
+      const targetEl = elements[targetIdx];
+      const targetY = Math.max(
+        0,
+        Math.round(targetEl.getBoundingClientRect().top + window.scrollY - STICKY_OFFSET)
+      );
+
+      if (!goingDown && currentIdx === 0 && window.scrollY <= 4) return;
+      if (Math.abs(window.scrollY - targetY) < 8) return;
+
+      e.preventDefault();
+      snapLockUntilRef.current = now + 420;
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, [selectedDish, isTrayOpen]);
+
   // Track active section while scrolling
   useEffect(() => {
-    const ids = ['home', 'menu', 'heritage', 'reviews', 'visit'];
+    const ids = ['home', 'history', 'craft', 'menu', 'heritage', 'reviews', 'visit'];
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -138,6 +251,11 @@ export default function App() {
           }
         />
 
+        <HistorySection
+          onExploreCraft={() => scrollToSection('craft')}
+          onVisitPlace={() => scrollToSection('visit')}
+        />
+
         <GrillPromiseSection
           onExploreGrill={() => scrollToSection('menu')}
           onInspectDish={() =>
@@ -152,6 +270,8 @@ export default function App() {
         <MenuSection
           onSelectDish={setSelectedDish}
           onQuickAdd={quickAddDish}
+          onAddToTray={addToTray}
+          onOpenTray={() => setIsTrayOpen(true)}
           trayItems={trayItems}
           onUpdateTrayQty={updateTrayQty}
         />
@@ -236,14 +356,14 @@ export default function App() {
         onClear={() => setTrayItems([])}
       />
 
-      {/* Floating Bottom Tray Bar */}
+      {/* Floating Side Tray Pill (Bottom-Right on Desktop so center content stays unobstructed) */}
       {trayCount > 0 && !isTrayOpen && (
-        <div className="pointer-events-none fixed inset-x-0 bottom-[78px] z-[35] flex justify-center px-4 md:bottom-6">
+        <div className="pointer-events-none fixed inset-x-0 bottom-[78px] z-[35] flex justify-center px-4 md:inset-x-auto md:bottom-6 md:right-6 md:justify-end md:px-0">
           <button
             type="button"
             onClick={() => setIsTrayOpen(true)}
             aria-label={`View your tray (${trayCount} items, ${formatPeso(traySubtotal)})`}
-            className="pointer-events-auto flex w-full max-w-sm items-center justify-between gap-4 rounded-full border border-[#0B2718]/20 bg-[#DFB96F] px-3.5 py-2.5 text-sm font-bold text-[#06180E] shadow-[0_18px_36px_-8px_rgba(6,24,14,0.45)] transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] active:scale-[0.99]"
+            className="pointer-events-auto flex w-full max-w-sm items-center justify-between gap-4 rounded-full border border-[#0B2718]/20 bg-[#DFB96F] px-3.5 py-2.5 text-sm font-bold text-[#06180E] shadow-[0_18px_36px_-8px_rgba(6,24,14,0.45)] transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] active:scale-[0.99] md:w-auto md:min-w-[248px]"
           >
             <span className="inline-flex items-center gap-2.5">
               <span className="inline-flex h-7 min-w-7 items-center justify-center rounded-full bg-[#06180E] px-2 text-xs font-bold text-[#DFB96F]">

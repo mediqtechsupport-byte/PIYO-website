@@ -29,43 +29,115 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
   return (
     <section
       id="craft"
-      className="relative overflow-hidden border-b border-[#0B2718]/12 bg-[#F5EFE2] py-14 text-[#0B2718] sm:py-20 lg:flex lg:min-h-[calc(100svh-74px)] lg:items-center lg:py-16"
+      className="relative overflow-hidden border-b border-[#0B2718]/12 bg-[#F5EFE2] py-14 text-[#0B2718] sm:py-16 lg:flex lg:min-h-[calc(100svh-74px)] lg:items-center lg:py-10 xl:py-12"
     >
       {/* Top-Left Open Flame Accent blended cleanly into warm beige */}
       <img
         src="./images/flame-corner.jpg"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -left-2 -top-2 h-28 w-36 object-cover object-left-top opacity-90 mix-blend-multiply sm:h-40 sm:w-52 lg:h-56 lg:w-72"
+        className="pointer-events-none absolute -left-2 -top-2 h-28 w-36 object-cover object-left-top opacity-90 mix-blend-multiply sm:h-40 sm:w-52 lg:h-52 lg:w-68"
         onError={(e) => {
           e.currentTarget.style.display = 'none';
         }}
       />
 
-      {/* Subtle Bottom-Left & Bottom-Right Fresh Cansi Ingredients Accent */}
+      {/* Individual 3D Cansi & Grill Ingredients scattered separately across open warm beige background */}
       <img
-        src="./images/cansi-ingredients-corner.jpg"
+        src="./images/ing-calamansi-3d.jpg"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-2 -left-2 hidden h-32 w-40 object-cover object-left-bottom brightness-[1.08] contrast-[1.08] mix-blend-multiply [mask-image:radial-gradient(ellipse_at_bottom_left,black_45%,transparent_84%)] md:block xl:h-40 xl:w-52"
+        className="pointer-events-none absolute left-[45%] top-2 z-0 hidden h-24 w-24 -rotate-12 object-contain brightness-[1.06] contrast-[1.06] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_62%,transparent_98%)] md:block xl:left-[45%] xl:top-3 xl:h-28 xl:w-28"
         onError={(e) => {
           e.currentTarget.style.display = 'none';
         }}
       />
       <img
-        src="./images/cansi-ingredients-corner.jpg"
+        src="./images/ing-beef-3d.jpg"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-2 -right-2 hidden h-36 w-48 -scale-x-100 object-cover object-left-bottom brightness-[1.08] contrast-[1.08] mix-blend-multiply [mask-image:radial-gradient(ellipse_at_bottom_left,black_45%,transparent_84%)] md:block xl:h-44 xl:w-56"
+        className="pointer-events-none absolute right-[23%] top-1 z-0 hidden h-28 w-28 -rotate-[8deg] object-contain brightness-[1.04] contrast-[1.04] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_76%,transparent_99%)] md:block xl:right-[22%] xl:top-2 xl:h-32 xl:w-32"
+        onError={(e) => {
+          e.currentTarget.style.display = 'none';
+        }}
+      />
+      <img
+        src="./images/ing-chili-3d.jpg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute right-[5%] top-2 z-0 h-20 w-20 rotate-[14deg] object-contain brightness-[1.06] contrast-[1.06] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_62%,transparent_98%)] sm:h-24 sm:w-24 xl:right-[6%] xl:top-3 xl:h-28 xl:w-28"
+        onError={(e) => {
+          e.currentTarget.style.display = 'none';
+        }}
+      />
+      <img
+        src="./images/ing-garlic-3d.jpg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-2 left-[2%] z-0 hidden h-20 w-20 -rotate-12 object-contain brightness-[1.06] contrast-[1.06] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_62%,transparent_98%)] sm:block xl:bottom-4 xl:left-[4%] xl:h-24 xl:w-24"
+        onError={(e) => {
+          e.currentTarget.style.display = 'none';
+        }}
+      />
+      <img
+        src="./images/ing-lemongrass-3d.jpg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-2 left-[40%] z-0 hidden h-24 w-24 rotate-[18deg] object-contain brightness-[1.06] contrast-[1.06] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_62%,transparent_98%)] md:block xl:bottom-4 xl:left-[41%] xl:h-28 xl:w-28"
+        onError={(e) => {
+          e.currentTarget.style.display = 'none';
+        }}
+      />
+      <img
+        src="./images/ing-marrow-3d.jpg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-2 right-[9%] z-0 h-24 w-24 rotate-[8deg] object-contain brightness-[1.06] contrast-[1.06] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_62%,transparent_98%)] sm:h-28 sm:w-28 xl:bottom-4 xl:right-[11%] xl:h-32 xl:w-32"
+        onError={(e) => {
+          e.currentTarget.style.display = 'none';
+        }}
+      />
+      <img
+        src="./images/ing-salt-3d.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-2 right-[26%] z-0 hidden h-20 w-24 rotate-[-6deg] object-contain drop-shadow-[0_6px_12px_rgba(11,39,24,0.12)] md:block xl:bottom-4 xl:right-[27%] xl:h-24 xl:w-28 2xl:right-[28%]"
+        onError={(e) => {
+          e.currentTarget.style.display = 'none';
+        }}
+      />
+      <img
+        src="./images/ing-pepper-3d.jpg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute right-[35%] top-1 z-0 hidden h-20 w-20 rotate-[12deg] object-contain brightness-[1.05] contrast-[1.06] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_76%,transparent_99%)] lg:block xl:right-[36%] xl:top-2 xl:h-24 xl:w-24"
+        onError={(e) => {
+          e.currentTarget.style.display = 'none';
+        }}
+      />
+      <img
+        src="./images/ing-salt-3d.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute left-[3%] top-[44%] z-0 hidden h-20 w-24 rotate-[10deg] object-contain opacity-95 drop-shadow-[0_6px_12px_rgba(11,39,24,0.12)] 2xl:block"
+        onError={(e) => {
+          e.currentTarget.style.display = 'none';
+        }}
+      />
+      <img
+        src="./images/ing-pepper-3d.jpg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute left-[4.5%] top-[62%] z-0 hidden h-20 w-20 -rotate-[14deg] object-contain brightness-[1.05] contrast-[1.06] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_76%,transparent_99%)] 2xl:block"
         onError={(e) => {
           e.currentTarget.style.display = 'none';
         }}
       />
 
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-10">
           {/* Left Editorial Column */}
-          <div className="relative z-10 pb-4 lg:col-span-6 lg:pb-6">
+          <div className="relative z-10 pb-2 lg:col-span-6 lg:pb-2">
             <h2 className="font-serif text-[2.15rem] font-semibold leading-[1.12] tracking-tight text-[#0B2718] sm:text-5xl xl:text-[3.25rem]">
               PIYO&apos;s{' '}
               <span className="relative inline-block whitespace-nowrap">
@@ -102,7 +174,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
             </p>
 
             {/* 3 Tinted Line-Icon Highlights */}
-            <div className="mt-8 space-y-5">
+            <div className="mt-6 space-y-4">
               {HIGHLIGHTS.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -125,7 +197,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
               })}
             </div>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-7 flex flex-wrap items-center gap-3">
               <button
                 type="button"
                 onClick={onExploreGrill}
@@ -144,46 +216,41 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
             </div>
           </div>
 
-          {/* Right Stretched Forest-Green 3D Cansi Ingredients Tapestry & Centered Oval Platter */}
+          {/* Right Stretched Clean Forest-Green Tapestry & Centered Bacolod Cansi Oval Platter */}
           <div className="relative lg:col-span-6">
-            <div className="relative -mx-5 flex items-center justify-center py-4 sm:-mx-8 sm:py-6 lg:mx-0 lg:mr-[calc(50%-50vw)]">
-              {/* Stretched Deep Forest Green Tapestry filled with 3D Bacolod Cansi Ingredients */}
+            <div className="relative -mx-5 flex h-[330px] items-center justify-center py-4 sm:-mx-8 sm:h-[420px] sm:py-6 lg:mx-0 lg:mr-[calc(-1*max(2rem,50vw-40rem+2rem))] lg:h-[460px] xl:h-[500px]">
+              {/* Stretched Deep Forest Green Shape bounded cleanly to viewport right edge */}
               <svg
-                viewBox="0 0 960 480"
-                preserveAspectRatio="xMidYMid slice"
+                viewBox="0 0 800 460"
+                preserveAspectRatio="none"
                 aria-hidden="true"
-                className="pointer-events-none h-[330px] w-full drop-shadow-[0_18px_36px_rgba(11,39,24,0.24)] sm:h-[420px] lg:h-[470px] xl:h-[510px]"
+                className="pointer-events-none absolute inset-0 h-full w-full drop-shadow-[0_18px_36px_rgba(11,39,24,0.22)]"
               >
                 <defs>
                   <clipPath id="piyo-cansi-banner-clip">
-                    <path d="M 22 14 Q 460 66 960 10 L 960 470 Q 460 414 22 466 Q 68 240 22 14 Z" />
+                    <path d="M 18 14 Q 380 62 800 10 L 800 450 Q 380 398 18 446 Q 58 230 18 14 Z" />
                   </clipPath>
-                  <radialGradient id="piyo-banner-vignette" cx="45%" cy="50%" r="60%">
-                    <stop offset="0%" stopColor="#091D12" stopOpacity="0.45" />
-                    <stop offset="100%" stopColor="#113421" stopOpacity="0.15" />
-                  </radialGradient>
                 </defs>
-                <g clipPath="url(#piyo-cansi-banner-clip)">
-                  <rect width="960" height="480" fill="#113421" />
-                  <image
-                    href="./images/cansi-3d-banner-bg.jpg"
-                    x="0"
-                    y="0"
-                    width="960"
-                    height="480"
-                    preserveAspectRatio="xMidYMid slice"
-                  />
-                  <rect
-                    width="960"
-                    height="480"
-                    fill="url(#piyo-banner-vignette)"
-                  />
-                </g>
+                <path
+                  d="M 18 14 Q 380 62 800 10 L 800 450 Q 380 398 18 446 Q 58 230 18 14 Z"
+                  fill="#113421"
+                />
               </svg>
 
-              {/* Interactive Tilted Cream-White Oval Platter centered neatly inside the green banner */}
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-6 lg:px-10">
-                <div className="relative flex w-[76%] max-w-[340px] items-center justify-center sm:w-[70%] sm:max-w-[430px] lg:w-[78%] lg:max-w-[460px]">
+              {/* Unstretched Delicate Culinary Line-Art Pattern inside clipped silhouette */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 opacity-90"
+                style={{
+                  clipPath: 'polygon(2% 3%, 48% 12%, 100% 2%, 100% 98%, 48% 88%, 2% 97%, 6% 50%)',
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='130' viewBox='0 0 130 130'%3E%3Ccircle cx='34' cy='34' r='14' fill='none' stroke='rgba(250,246,236,0.13)' stroke-width='1.3'/%3E%3Cpath d='M34 20v28M20 34h28M24 24l20 20M44 24L24 44' stroke='rgba(223,185,111,0.16)' stroke-width='1.1'/%3E%3Cpath d='M86 38c8-10 22-12 30-8-6 10-16 18-30 14z' fill='none' stroke='rgba(223,185,111,0.16)' stroke-width='1.3'/%3E%3Cpath d='M22 98c10-10 28-10 38 0-8 10-26 10-38 0z' fill='none' stroke='rgba(250,246,236,0.12)' stroke-width='1.3'/%3E%3Cellipse cx='41' cy='98' rx='7' ry='5' fill='none' stroke='rgba(223,185,111,0.15)' stroke-width='1.1'/%3E%3Cpath d='M82 110l28-32M90 112l26-30' stroke='rgba(250,246,236,0.12)' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")`,
+                  backgroundSize: '130px 130px',
+                }}
+              />
+
+              {/* Interactive Tilted Cream-White Oval Platter centered neatly inside the visible green banner */}
+              <div className="pointer-events-none relative z-10 flex w-full items-center justify-center px-6 sm:px-10">
+                <div className="relative flex w-[78%] max-w-[330px] items-center justify-center sm:w-[70%] sm:max-w-[420px] lg:w-[76%] lg:max-w-[450px]">
                   <button
                     type="button"
                     onClick={onInspectDish}

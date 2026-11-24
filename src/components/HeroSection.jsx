@@ -18,7 +18,7 @@ export function HeroSection({
   return (
     <section
       id="home"
-      className="relative flex flex-col justify-between overflow-hidden bg-[#06180E] text-[#FAF6EC] lg:min-h-[calc(100svh-67px)]"
+      className="relative flex flex-col justify-between overflow-hidden bg-[#06180E] text-[#FAF6EC] lg:min-h-[calc(100svh-74px)]"
     >
       {/* Warm Illuminated Restaurant Facade & Dining Room Backdrop */}
       <div className="pointer-events-none absolute inset-0">
@@ -38,7 +38,7 @@ export function HeroSection({
       </div>
 
       {/* Main Two-Column Hero Stage */}
-      <div className="relative mx-auto flex w-full max-w-7xl flex-1 items-center px-5 pb-10 pt-8 sm:px-8 sm:pb-12 sm:pt-12 lg:py-10">
+      <div className="relative mx-auto flex w-full max-w-7xl flex-1 items-center px-5 pb-8 pt-6 sm:px-8 sm:pb-10 sm:pt-10 lg:py-5">
         <div className="grid w-full items-center gap-10 lg:grid-cols-12 lg:gap-8 xl:gap-12">
           {/* Left Editorial Column */}
           <div className="lg:col-span-6 xl:col-span-6">

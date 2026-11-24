@@ -370,9 +370,15 @@ export function DishOrbitCarousel({
     if (!track || steps < 1) return
     const trigger = ScrollTrigger.create({
       trigger: track,
-      start: "top top",
+      start: () => {
+        const stickyTop = rootRef.current
+          ? parseFloat(getComputedStyle(rootRef.current).top) || 0
+          : 0
+        return `top ${stickyTop}px`
+      },
       end: "bottom bottom",
-      snap: { snapTo: 1 / steps, duration: { min: 0.3, max: 0.8 }, delay: 0.08, ease: "power2.inOut" },
+      invalidateOnRefresh: true,
+      snap: { snapTo: 1 / steps, duration: { min: 0.25, max: 0.65 }, delay: 0.06, ease: "power2.inOut" },
       onUpdate: (self) => {
         // Looping: the last stretch shows the first dish, so jump back to the top unseen.
         if (loop && self.progress >= 1 && self.direction > 0) {

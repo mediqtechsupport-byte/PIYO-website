@@ -9,6 +9,7 @@ import {
 import { RESTAURANT_INFO } from '../data/menuData';
 
 const NAV_LINKS = [
+  { id: 'history', label: 'History' },
   { id: 'menu', label: 'Menu' },
   { id: 'heritage', label: 'Story' },
   { id: 'reviews', label: 'Reviews' },
