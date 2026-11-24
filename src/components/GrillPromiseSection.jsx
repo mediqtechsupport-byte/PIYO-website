@@ -30,7 +30,7 @@ const LAYER_CHOREOGRAPHY = {
     idleDelay: '0.2s',
   },
   'beef-left': {
-    sx: '-295px',
+    sx: '-230px',
     sy: '205px',
     srot: '-32deg',
     sscale: 0.9,
@@ -58,8 +58,8 @@ const LAYER_CHOREOGRAPHY = {
     idleDelay: '0.8s',
   },
   shank: {
-    sx: '-285px',
-    sy: '-210px',
+    sx: '-245px',
+    sy: '-190px',
     srot: '-26deg',
     sscale: 0.84,
     delay: '360ms',
@@ -86,8 +86,8 @@ const LAYER_CHOREOGRAPHY = {
     idleDelay: '0.7s',
   },
   lemongrass: {
-    sx: '-610px',
-    sy: '-175px',
+    sx: '-555px',
+    sy: '-235px',
     srot: '-38deg',
     sscale: 0.9,
     delay: '640ms',
@@ -100,8 +100,8 @@ const LAYER_CHOREOGRAPHY = {
     idleDelay: '0.4s',
   },
   'calamansi-top': {
-    sx: '-435px',
-    sy: '-125px',
+    sx: '-425px',
+    sy: '-165px',
     srot: '-65deg',
     sscale: 0.92,
     delay: '780ms',
@@ -114,8 +114,8 @@ const LAYER_CHOREOGRAPHY = {
     idleDelay: '0.9s',
   },
   'batwan-upper': {
-    sx: '-845px',
-    sy: '75px',
+    sx: '-985px',
+    sy: '110px',
     srot: '42deg',
     sscale: 0.94,
     delay: '860ms',
@@ -128,8 +128,8 @@ const LAYER_CHOREOGRAPHY = {
     idleDelay: '0.3s',
   },
   'batwan-mid': {
-    sx: '-795px',
-    sy: '225px',
+    sx: '-920px',
+    sy: '265px',
     srot: '-44deg',
     sscale: 0.94,
     delay: '940ms',
@@ -142,8 +142,8 @@ const LAYER_CHOREOGRAPHY = {
     idleDelay: '1.1s',
   },
   'calamansi-low': {
-    sx: '-490px',
-    sy: '265px',
+    sx: '-315px',
+    sy: '320px',
     srot: '55deg',
     sscale: 0.92,
     delay: '1020ms',
@@ -364,7 +364,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-10">
           {/* Left Editorial Column */}
-          <div className="relative z-10 pb-2 lg:col-span-6 lg:pb-2">
+          <div className="relative z-20 pb-2 lg:col-span-6 lg:pb-2">
             <h2 className="font-serif text-[2.15rem] font-semibold leading-[1.12] tracking-tight text-[#0B2718] sm:text-5xl xl:text-[3.25rem]">
               PIYO&apos;s{' '}
               <span className="relative inline-block whitespace-nowrap">
@@ -444,7 +444,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
           </div>
 
           {/* Right Interactive Scatter-to-Bowl Animated Exploded Bacolod Cansi */}
-          <div className="relative z-20 lg:col-span-6 lg:translate-x-10 xl:translate-x-20">
+          <div className="relative z-10 lg:col-span-6 lg:translate-x-10 xl:translate-x-20">
             <div
               onPointerMove={handleStageMove}
               onPointerLeave={handleStageLeave}
