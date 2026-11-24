@@ -113,12 +113,12 @@ export function RestaurantMenuBoard({
   return (
     <div className="flex min-h-[calc(100svh-var(--nav-h,69px))] w-full flex-col bg-[#0A2215] text-[#0B2718]">
       {/* Full-Bleed Warm Sunlit Beige Editorial Header with Tropical Palm Frond Shadows */}
-      <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#ECE2CC] px-4 pb-5 pt-5 sm:px-8 lg:px-12 lg:pb-6 lg:pt-6">
+      <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#ECE2CC] px-3 pb-4 pt-4 sm:px-5 lg:px-6 lg:pb-5 lg:pt-5">
         {/* Corner Tropical Palm Frond Silhouettes */}
-        <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-40 w-56 text-[#0B2718] sm:h-48 sm:w-72" />
-        <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-36 w-52 -scale-x-100 text-[#0B2718] opacity-75 sm:h-44 sm:w-64" />
+        <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-36 w-52 text-[#0B2718] sm:h-44 sm:w-64" />
+        <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-32 w-48 -scale-x-100 text-[#0B2718] opacity-75 sm:h-40 sm:w-60" />
 
-        <div className="relative z-10 mx-auto w-full max-w-[1520px]">
+        <div className="relative z-10 mx-auto w-full max-w-[1880px]">
           {/* Top-Left / Top-Right Utility Controls */}
           <div className="flex flex-wrap items-center justify-between gap-2">
             <span className="inline-flex items-center gap-2 rounded-full border border-[#0B2718]/20 bg-[#FAF6EC]/85 px-3.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#0B2718]">
@@ -208,13 +208,13 @@ export function RestaurantMenuBoard({
 
       {/* Full-Bleed Deep Forest Green Solihiya-Woven Whole-Page Menu Grid */}
       <div
-        className="relative z-10 flex-1 bg-[#0A2215] px-4 py-10 sm:px-8 lg:px-12 lg:py-12"
+        className="relative z-10 flex-1 bg-[#0A2215] px-3 py-6 sm:px-5 lg:px-6 lg:py-7"
         style={{
           backgroundImage: SOLIHIYA_BG,
           backgroundSize: '64px 64px',
         }}
       >
-        <div className="mx-auto grid w-full max-w-[1520px] grid-cols-1 gap-x-7 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mx-auto grid w-full max-w-[1880px] grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gap-x-5 xl:gap-y-6 2xl:grid-cols-5">
           {visibleItems.map((dish) => {
             const stats = trayStatsByDishId[dish.id] || {
               totalQty: 0,
@@ -230,17 +230,17 @@ export function RestaurantMenuBoard({
             return (
               <article
                 key={dish.id}
-                className="group relative flex flex-col items-center pt-[68px]"
+                className="group relative flex flex-col items-center pt-[58px]"
               >
                 {/* Overlapping Ceramic-Rimmed Dish Medallion + Curved Heritage Arc Caption */}
                 <button
                   type="button"
                   onClick={() => onCustomizeDish && onCustomizeDish(dish)}
                   aria-label={`Customize ${dish.name}`}
-                  className="relative z-20 -mb-[74px] flex h-[148px] w-[148px] items-center justify-center transition-transform duration-300 group-hover:-translate-y-1"
+                  className="relative z-20 -mb-[68px] flex h-[136px] w-[136px] items-center justify-center transition-transform duration-300 group-hover:-translate-y-1"
                 >
                   {/* Ceramic Stoneware Warm Beige Plate Rim */}
-                  <span className="block h-[132px] w-[132px] overflow-hidden rounded-full bg-[#F5EFE2] p-[5px] shadow-[0_14px_28px_-8px_rgba(4,16,9,0.75)] ring-2 ring-[#DFD0B2]">
+                  <span className="block h-[124px] w-[124px] overflow-hidden rounded-full bg-[#F5EFE2] p-[4.5px] shadow-[0_14px_28px_-8px_rgba(4,16,9,0.75)] ring-2 ring-[#DFD0B2]">
                     <span className="block h-full w-full overflow-hidden rounded-full ring-1 ring-[#0B2718]/25">
                       <img
                         src={dish.image}
@@ -253,22 +253,22 @@ export function RestaurantMenuBoard({
 
                   {/* Curved Dish Caption Hugging the Bottom Rim of the Ceramic Plate */}
                   <svg
-                    viewBox="0 0 192 192"
-                    className="pointer-events-none absolute -inset-4 h-[180px] w-[180px]"
+                    viewBox="0 0 184 184"
+                    className="pointer-events-none absolute -inset-4 h-[168px] w-[168px]"
                     aria-hidden="true"
                   >
                     <defs>
                       <path
                         id={arcPathId}
-                        d="M 10,96 A 86,86 0 0,0 182,96"
+                        d="M 10,92 A 82,82 0 0,0 174,92"
                         fill="none"
                       />
                     </defs>
                     <text
                       fill="#173D28"
-                      fontSize="8.6"
+                      fontSize="8.4"
                       fontWeight="700"
-                      letterSpacing="2.1"
+                      letterSpacing="2"
                     >
                       <textPath
                         href={`#${arcPathId}`}
@@ -282,7 +282,7 @@ export function RestaurantMenuBoard({
                 </button>
 
                 {/* Tall Vertical Rectangular Warm Beige Heritage Menu Card */}
-                <div className="relative z-10 flex w-full flex-1 flex-col justify-between rounded-[18px] border border-[#DFD0B2] bg-[#F5EFE2] px-4 pb-4 pt-[96px] text-center shadow-[0_18px_38px_-16px_rgba(0,0,0,0.72)] transition-colors group-hover:border-[#FAF6EC] group-hover:bg-[#F8F3E8]">
+                <div className="relative z-10 flex w-full flex-1 flex-col justify-between rounded-[16px] border border-[#DFD0B2] bg-[#F5EFE2] px-3.5 pb-3.5 pt-[84px] text-center shadow-[0_16px_34px_-16px_rgba(0,0,0,0.72)] transition-colors group-hover:border-[#FAF6EC] group-hover:bg-[#F8F3E8]">
                   {/* Inner Fine Dark-Green Heritage Frame */}
                   <div
                     aria-hidden="true"
@@ -384,8 +384,8 @@ export function RestaurantMenuBoard({
       </div>
 
       {/* Full-Bleed Bottom Warm Beige Filipino Heritage Footer Strip */}
-      <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] px-4 py-3.5 text-xs text-[#2F4537] sm:px-8 lg:px-12">
-        <div className="mx-auto flex w-full max-w-[1520px] flex-wrap items-center justify-between gap-2">
+      <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] px-3 py-3 text-xs text-[#2F4537] sm:px-5 lg:px-6">
+        <div className="mx-auto flex w-full max-w-[1880px] flex-wrap items-center justify-between gap-2">
           <span>
             {RESTAURANT_INFO.shortAddress} · Libreng Sabaw Refill sa Bacolod Cansi
           </span>
