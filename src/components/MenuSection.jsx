@@ -143,10 +143,13 @@ export function MenuSection({
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [showFilterRow, setShowFilterRow] = useState(false);
   const [menuView, setMenuView] = useState('board'); // 'board' = Filipino Menu landing view, 'customize' = locked full-screen Dish Customizer
+  const [boardCategory, setBoardCategory] = useState('all');
 
-  // Lock background page scrolling & navigation while customizing an order
+  const isScrollLocked = menuView === 'customize' || boardCategory !== 'all';
+
+  // Lock background page scrolling & navigation while customizing an order OR browsing a specific menu category
   useEffect(() => {
-    if (menuView !== 'customize') return;
+    if (!isScrollLocked) return;
     const prevBodyOverflow = document.body.style.overflow;
     const prevHtmlOverflow = document.documentElement.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -155,7 +158,7 @@ export function MenuSection({
       document.body.style.overflow = prevBodyOverflow;
       document.documentElement.style.overflow = prevHtmlOverflow;
     };
-  }, [menuView]);
+  }, [isScrollLocked]);
 
   const [featuredDishId, setFeaturedDishId] = useState('bacolod-cansi');
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
@@ -321,6 +324,8 @@ export function MenuSection({
       className="relative flex min-h-[calc(100svh-var(--nav-h,69px))] flex-col overflow-x-clip border-t border-[#DFB96F]/15 bg-[#06180E] p-0 text-[#FAF6EC]"
     >
       <RestaurantMenuBoard
+        selectedCat={boardCategory}
+        onSelectCat={setBoardCategory}
         trayItems={trayItems}
         onQuickAdd={onQuickAdd}
         onUpdateTrayQty={onUpdateTrayQty}

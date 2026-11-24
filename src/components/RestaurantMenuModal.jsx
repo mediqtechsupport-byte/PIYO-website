@@ -1,5 +1,6 @@
-import React, { useMemo, useRef, useState } from 'react';
-import { Plus, Minus, ShoppingBag, SlidersHorizontal } from 'lucide-react';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { ArrowLeft, Plus, Minus, ShoppingBag, SlidersHorizontal } from 'lucide-react';
 import { MENU_CATEGORIES, MENU_ITEMS, RESTAURANT_INFO } from '../data/menuData';
 import { formatPeso } from '../utils/hours';
 
@@ -78,20 +79,30 @@ function PalmFrondSvg({ className }) {
 }
 
 export function RestaurantMenuBoard({
+  selectedCat = 'all',
+  onSelectCat,
   trayItems = [],
   onQuickAdd,
   onUpdateTrayQty,
   onCustomizeDish,
   onOpenTray,
 }) {
-  const [selectedCat, setSelectedCat] = useState('all');
   const stickyBarRef = useRef(null);
   const gridTopRef = useRef(null);
+  const lockedScrollRef = useRef(null);
+
+  const isLockedCategory = selectedCat !== 'all';
+
+  // Reset locked-category scroll container to top whenever switching between specific categories
+  useEffect(() => {
+    if (isLockedCategory && lockedScrollRef.current) {
+      lockedScrollRef.current.scrollTop = 0;
+    }
+  }, [selectedCat, isLockedCategory]);
 
   const handleSelectCategory = (catId) => {
-    setSelectedCat(catId);
-    // If the user is scrolled deep down the long dish grid, bring Row 1 of the chosen category into view
-    if (gridTopRef.current) {
+    if (onSelectCat) onSelectCat(catId);
+    if (catId === 'all' && gridTopRef.current) {
       const stickyBottom = stickyBarRef.current
         ? stickyBarRef.current.getBoundingClientRect().bottom
         : 136;
@@ -124,315 +135,443 @@ export function RestaurantMenuBoard({
     return MENU_ITEMS.filter((item) => item.category === selectedCat);
   }, [selectedCat]);
 
+  const activeCategoryMeta =
+    MENU_CATEGORIES.find((c) => c.id === selectedCat) || MENU_CATEGORIES[0];
+
   const trayCount = trayItems.reduce((sum, entry) => sum + entry.quantity, 0);
   const trayTotal = trayItems.reduce(
     (sum, entry) => sum + entry.unitPrice * entry.quantity,
     0
   );
 
-  return (
-    <div className="flex min-h-[calc(100svh-var(--nav-h,69px))] w-full flex-col bg-[#0A2215] text-[#0B2718]">
-      {/* Full-Bleed Warm Sunlit Beige Editorial Title Banner with Tropical Palm Frond Shadows */}
-      <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#F1E8D5] px-4 pb-3 pt-4 sm:px-8 lg:px-12 lg:pb-3.5 lg:pt-5">
-        {/* Corner Tropical Palm Frond Silhouettes */}
-        <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-40 w-56 text-[#0B2718] sm:h-48 sm:w-72" />
-        <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-36 w-52 -scale-x-100 text-[#0B2718] opacity-75 sm:h-44 sm:w-64" />
+  const renderDishCards = (items) => (
+    <div className="mx-auto grid w-full max-w-[1520px] grid-cols-1 gap-x-7 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-y-7">
+      {items.map((dish) => {
+        const stats = trayStatsByDishId[dish.id] || {
+          totalQty: 0,
+          latestEntry: null,
+        };
+        const arcText = (
+          dish.badge ||
+          CATEGORY_ARC_FALLBACK[dish.category] ||
+          'LUTONG BAHAY'
+        ).toUpperCase();
+        const arcPathId = `piyo-arc-${isLockedCategory ? 'locked-' : ''}${dish.id}`;
 
-        <div className="relative z-10 mx-auto w-full max-w-[1520px]">
-          {/* Top-Left / Top-Right Heritage Pills */}
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#0B2718]/20 bg-[#FAF6EC]/85 px-3.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#0B2718]">
-              <span
-                aria-hidden="true"
-                className="h-1.5 w-1.5 rotate-45 bg-[#8A673D]"
-              />
-              {RESTAURANT_INFO.established} · Tagaytay City
-            </span>
-
-            <span className="hidden items-center gap-1.5 rounded-full border border-[#0B2718]/18 bg-[#FAF6EC]/80 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#284233] sm:inline-flex">
-              {MENU_ITEMS.length} Authentic Dishes &amp; Drinks
-            </span>
-          </div>
-
-          {/* Centered Filipino Heritage Script Title & Poetic Manifesto */}
-          <div className="mt-1 text-center">
-            <p className="font-script text-[42px] leading-[1.05] text-[#7E5A30] sm:text-[52px]">
-              Hapag ng PIYO
-            </p>
-            <div className="mt-0.5 flex items-center justify-center gap-3">
-              <span
-                aria-hidden="true"
-                className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#0B2718]/45 sm:w-16"
-              />
-              <h2 className="font-serif text-lg font-bold uppercase tracking-[0.28em] text-[#0B2718] sm:text-2xl">
-                Filipino Menu
-              </h2>
-              <span
-                aria-hidden="true"
-                className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#0B2718]/45 sm:w-16"
-              />
-            </div>
-            <p className="mx-auto mt-1.5 max-w-xl text-xs leading-relaxed text-[#384D40] sm:text-[13px]">
-              Hindi lamang pagkain — kundi hapag para sa kwento, lutong Negros, at init ng pamilya.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Sticky Category Navigation + Cart Bar + Woven Banig Strip (Follows User While Scrolling Menu) */}
-      <div
-        ref={stickyBarRef}
-        className="sticky top-[var(--nav-h,64px)] z-30 w-full shrink-0 shadow-[0_12px_28px_-14px_rgba(4,16,9,0.68)]"
-      >
-        <div className="bg-[#EFE6D2]/96 px-4 py-2.5 backdrop-blur-md sm:px-8 lg:px-12">
-          <div className="mx-auto flex w-full max-w-[1520px] items-center justify-between gap-3">
-            {/* Compact Brand Mark on Desktop */}
-            <span className="hidden shrink-0 font-script text-[26px] leading-none text-[#7E5A30] xl:inline-block">
-              Hapag ng PIYO
-            </span>
-
-            {/* Category Filter Pills (Dark Forest Green & Warm Parchment) */}
-            <div
-              className="flex min-w-0 flex-1 items-center justify-start gap-1.5 overflow-x-auto no-scrollbar py-0.5 sm:justify-center"
-              role="tablist"
-              aria-label="Filipino menu categories"
-            >
-              {MENU_CATEGORIES.map((cat) => {
-                const active = selectedCat === cat.id;
-                return (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={active}
-                    onClick={() => handleSelectCategory(cat.id)}
-                    className={`min-h-[34px] shrink-0 rounded-full px-3.5 py-1 text-xs font-bold tracking-wide transition ${
-                      active
-                        ? 'bg-[#0B2718] text-[#F5EFE2] shadow-sm'
-                        : 'border border-[#0B2718]/20 bg-[#FAF6EC]/90 text-[#1B3A29] hover:border-[#0B2718]/50 hover:bg-[#E6DAC2]'
-                    }`}
-                  >
-                    {cat.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Persistent Live Cart Pill */}
+        return (
+          <article
+            key={dish.id}
+            className="group relative flex flex-col items-center pt-0"
+          >
+            {/* Overlapping Ceramic-Rimmed Dish Medallion + Curved Heritage Arc Caption */}
             <button
               type="button"
-              onClick={onOpenTray}
-              className="inline-flex min-h-[34px] shrink-0 items-center gap-2 rounded-full bg-[#0B2718] px-4 py-1.5 text-xs font-bold text-[#F5EFE2] shadow-sm transition hover:bg-[#143D28]"
+              onClick={() => onCustomizeDish && onCustomizeDish(dish)}
+              aria-label={`Customize ${dish.name}`}
+              className="relative z-20 -mb-[74px] flex h-[148px] w-[148px] items-center justify-center transition-transform duration-300 group-hover:-translate-y-1"
             >
-              <ShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>
-                {trayCount > 0 ? `${trayCount} · ${formatPeso(trayTotal)}` : 'Cart'}
+              {/* Ceramic Stoneware Warm Beige Plate Rim */}
+              <span className="block h-[132px] w-[132px] overflow-hidden rounded-full bg-[#F5EFE2] p-[5px] shadow-[0_14px_28px_-8px_rgba(4,16,9,0.75)] ring-2 ring-[#DFD0B2]">
+                <span className="block h-full w-full overflow-hidden rounded-full ring-1 ring-[#0B2718]/25">
+                  <img
+                    src={dish.image}
+                    alt={dish.name}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </span>
               </span>
+
+              {/* Curved Dish Caption Hugging the Bottom Rim of the Ceramic Plate */}
+              <svg
+                viewBox="0 0 192 192"
+                className="pointer-events-none absolute -inset-4 h-[180px] w-[180px]"
+                aria-hidden="true"
+              >
+                <defs>
+                  <path
+                    id={arcPathId}
+                    d="M 10,96 A 86,86 0 0,0 182,96"
+                    fill="none"
+                  />
+                </defs>
+                <text
+                  fill="#173D28"
+                  fontSize="8.6"
+                  fontWeight="700"
+                  letterSpacing="2.1"
+                >
+                  <textPath
+                    href={`#${arcPathId}`}
+                    startOffset="50%"
+                    textAnchor="middle"
+                  >
+                    · {arcText} ·
+                  </textPath>
+                </text>
+              </svg>
             </button>
+
+            {/* Tall Vertical Rectangular Warm Beige Heritage Menu Card */}
+            <div className="relative z-10 flex w-full flex-1 flex-col justify-between rounded-[18px] border border-[#DFD0B2] bg-[#F5EFE2] px-4 pb-4 pt-[96px] text-center shadow-[0_18px_38px_-16px_rgba(0,0,0,0.72)] transition-colors group-hover:border-[#FAF6EC] group-hover:bg-[#F8F3E8]">
+              {/* Inner Fine Dark-Green Heritage Frame */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-2 rounded-[12px] border border-[#0B2718]/16"
+              />
+              {/* Tiny Woven Corner Diamonds */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute bottom-3 left-3 h-1.5 w-1.5 rotate-45 bg-[#0B2718]/25"
+              />
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute bottom-3 right-3 h-1.5 w-1.5 rotate-45 bg-[#0B2718]/25"
+              />
+
+              <div className="relative z-10">
+                <h3 className="font-serif text-[20px] font-bold leading-snug tracking-tight text-[#0B2718]">
+                  {dish.name}
+                </h3>
+                <p className="mt-1.5 line-clamp-3 text-[11.5px] leading-relaxed text-[#3E5346]">
+                  {dish.shortDesc}
+                </p>
+              </div>
+
+              <div className="relative z-10 mt-3.5">
+                <div className="flex items-baseline justify-center gap-2">
+                  <p className="font-sans text-lg font-extrabold tracking-tight text-[#0B2718]">
+                    {formatPeso(dish.price)}
+                  </p>
+                  {dish.serving && (
+                    <span className="text-[10.5px] font-medium text-[#755C3B]">
+                      · {dish.serving}
+                    </span>
+                  )}
+                </div>
+
+                {/* Inline Customize + Add Controls (Dark Green on Warm Beige) */}
+                <div className="mt-3 flex items-center justify-center gap-2 border-t border-[#0B2718]/14 pt-3">
+                  <button
+                    type="button"
+                    onClick={() => onCustomizeDish && onCustomizeDish(dish)}
+                    className="inline-flex min-h-[32px] items-center gap-1 rounded-full border border-[#0B2718]/28 bg-[#EAE0CA] px-3 py-1 text-[11px] font-semibold text-[#0B2718] transition hover:border-[#0B2718] hover:bg-[#DFD2B6]"
+                  >
+                    <SlidersHorizontal
+                      className="h-3 w-3"
+                      aria-hidden="true"
+                    />
+                    <span>Customize</span>
+                  </button>
+
+                  {stats.totalQty > 0 && stats.latestEntry ? (
+                    <div className="inline-flex min-h-[32px] items-center gap-1.5 rounded-full bg-[#0B2718] px-2 py-0.5 text-xs font-extrabold text-[#F5EFE2]">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          onUpdateTrayQty &&
+                          onUpdateTrayQty(
+                            stats.latestEntry.key,
+                            stats.latestEntry.quantity - 1
+                          )
+                        }
+                        aria-label={`Remove one ${dish.name}`}
+                        className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-[#F5EFE2]/15"
+                      >
+                        <Minus className="h-3 w-3" aria-hidden="true" />
+                      </button>
+                      <span className="min-w-[14px] text-center">
+                        {stats.totalQty}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => onQuickAdd && onQuickAdd(dish)}
+                        aria-label={`Add one more ${dish.name}`}
+                        className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-[#F5EFE2]/15"
+                      >
+                        <Plus className="h-3 w-3" aria-hidden="true" />
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => onQuickAdd && onQuickAdd(dish)}
+                      className="inline-flex min-h-[32px] items-center gap-1 rounded-full bg-[#0B2718] px-3.5 py-1 text-[11px] font-bold text-[#F5EFE2] transition hover:bg-[#16402A] active:scale-95"
+                    >
+                      <Plus
+                        className="h-3.5 w-3.5 stroke-[2.5]"
+                        aria-hidden="true"
+                      />
+                      <span>Add</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  );
+
+  return (
+    <>
+      {/* Inline Whole-Page Menu View ("All Menu" — allows scrolling freely to other site sections) */}
+      <div className="flex min-h-[calc(100svh-var(--nav-h,69px))] w-full flex-col bg-[#0A2215] text-[#0B2718]">
+        {/* Full-Bleed Warm Sunlit Beige Editorial Title Banner with Tropical Palm Frond Shadows */}
+        <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#F1E8D5] px-4 pb-3 pt-4 sm:px-8 lg:px-12 lg:pb-3.5 lg:pt-5">
+          {/* Corner Tropical Palm Frond Silhouettes */}
+          <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-40 w-56 text-[#0B2718] sm:h-48 sm:w-72" />
+          <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-36 w-52 -scale-x-100 text-[#0B2718] opacity-75 sm:h-44 sm:w-64" />
+
+          <div className="relative z-10 mx-auto w-full max-w-[1520px]">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#0B2718]/20 bg-[#FAF6EC]/85 px-3.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#0B2718]">
+                <span
+                  aria-hidden="true"
+                  className="h-1.5 w-1.5 rotate-45 bg-[#8A673D]"
+                />
+                {RESTAURANT_INFO.established} · Tagaytay City
+              </span>
+
+              <span className="hidden items-center gap-1.5 rounded-full border border-[#0B2718]/18 bg-[#FAF6EC]/80 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#284233] sm:inline-flex">
+                {MENU_ITEMS.length} Authentic Dishes &amp; Drinks
+              </span>
+            </div>
+
+            <div className="mt-1 text-center">
+              <p className="font-script text-[42px] leading-[1.05] text-[#7E5A30] sm:text-[52px]">
+                Hapag ng PIYO
+              </p>
+              <div className="mt-0.5 flex items-center justify-center gap-3">
+                <span
+                  aria-hidden="true"
+                  className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#0B2718]/45 sm:w-16"
+                />
+                <h2 className="font-serif text-lg font-bold uppercase tracking-[0.28em] text-[#0B2718] sm:text-2xl">
+                  Filipino Menu
+                </h2>
+                <span
+                  aria-hidden="true"
+                  className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#0B2718]/45 sm:w-16"
+                />
+              </div>
+              <p className="mx-auto mt-1.5 max-w-xl text-xs leading-relaxed text-[#384D40] sm:text-[13px]">
+                Hindi lamang pagkain — kundi hapag para sa kwento, lutong Negros, at init ng pamilya.
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Full-Bleed Woven Filipino Banig Border Strip Traveling With Sticky Nav */}
+        {/* Sticky Category Navigation + Cart Bar + Woven Banig Strip (Follows User While Scrolling All Menu) */}
         <div
-          aria-hidden="true"
-          className="h-[11px] w-full border-y border-[#0B2718]/25 bg-[#E6D9BE]"
+          ref={stickyBarRef}
+          className="sticky top-[var(--nav-h,64px)] z-30 w-full shrink-0 shadow-[0_12px_28px_-14px_rgba(4,16,9,0.68)]"
+        >
+          <div className="bg-[#EFE6D2]/96 px-4 py-2.5 backdrop-blur-md sm:px-8 lg:px-12">
+            <div className="mx-auto flex w-full max-w-[1520px] items-center justify-between gap-3">
+              <span className="hidden shrink-0 font-serif text-sm font-bold uppercase tracking-[0.2em] text-[#0B2718] xl:inline-block">
+                PIYO <span className="text-[#8A673D]">·</span> Menu
+              </span>
+
+              <div
+                className="flex min-w-0 flex-1 items-center justify-start gap-1.5 overflow-x-auto no-scrollbar py-0.5 sm:justify-center"
+                role="tablist"
+                aria-label="Filipino menu categories"
+              >
+                {MENU_CATEGORIES.map((cat) => {
+                  const active = selectedCat === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={active}
+                      onClick={() => handleSelectCategory(cat.id)}
+                      className={`min-h-[34px] shrink-0 rounded-full px-3.5 py-1 text-xs font-bold tracking-wide transition ${
+                        active
+                          ? 'bg-[#0B2718] text-[#F5EFE2] shadow-sm'
+                          : 'border border-[#0B2718]/20 bg-[#FAF6EC]/90 text-[#1B3A29] hover:border-[#0B2718]/50 hover:bg-[#E6DAC2]'
+                      }`}
+                    >
+                      {cat.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button
+                type="button"
+                onClick={onOpenTray}
+                className="inline-flex min-h-[34px] shrink-0 items-center gap-2 rounded-full bg-[#0B2718] px-4 py-1.5 text-xs font-bold text-[#F5EFE2] shadow-sm transition hover:bg-[#143D28]"
+              >
+                <ShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
+                <span>
+                  {trayCount > 0 ? `${trayCount} · ${formatPeso(trayTotal)}` : 'Cart'}
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div
+            aria-hidden="true"
+            className="h-[11px] w-full border-y border-[#0B2718]/25 bg-[#E6D9BE]"
+            style={{
+              backgroundImage: BANIG_STRIP_BG,
+              backgroundRepeat: 'repeat-x',
+              backgroundPosition: 'center',
+            }}
+          />
+        </div>
+
+        {/* Full-Bleed Deep Forest Green Solihiya-Woven All-Menu Grid */}
+        <div
+          ref={gridTopRef}
+          className="relative z-10 flex-1 bg-[#0A2215] px-4 py-6 sm:px-8 lg:px-12 lg:py-7"
           style={{
-            backgroundImage: BANIG_STRIP_BG,
-            backgroundRepeat: 'repeat-x',
-            backgroundPosition: 'center',
+            backgroundImage: SOLIHIYA_BG,
+            backgroundSize: '64px 64px',
           }}
-        />
+        >
+          {renderDishCards(MENU_ITEMS)}
+        </div>
+
+        {/* Full-Bleed Bottom Warm Beige Filipino Heritage Footer Strip */}
+        <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] px-4 py-3.5 text-xs text-[#2F4537] sm:px-8 lg:px-12">
+          <div className="mx-auto flex w-full max-w-[1520px] flex-wrap items-center justify-between gap-2">
+            <span>
+              {RESTAURANT_INFO.shortAddress} · Libreng Sabaw Refill sa Bacolod Cansi
+            </span>
+            <span className="font-bold text-[#0B2718]">
+              Showing {MENU_ITEMS.length} of {MENU_ITEMS.length} dishes
+            </span>
+          </div>
+        </div>
       </div>
 
-      {/* Full-Bleed Deep Forest Green Solihiya-Woven Whole-Page Menu Grid */}
-      <div
-        ref={gridTopRef}
-        className="relative z-10 flex-1 bg-[#0A2215] px-4 py-6 sm:px-8 lg:px-12 lg:py-7"
-        style={{
-          backgroundImage: SOLIHIYA_BG,
-          backgroundSize: '64px 64px',
-        }}
-      >
-        <div className="mx-auto grid w-full max-w-[1520px] grid-cols-1 gap-x-7 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-y-7">
-          {visibleItems.map((dish) => {
-            const stats = trayStatsByDishId[dish.id] || {
-              totalQty: 0,
-              latestEntry: null,
-            };
-            const arcText = (
-              dish.badge ||
-              CATEGORY_ARC_FALLBACK[dish.category] ||
-              'LUTONG BAHAY'
-            ).toUpperCase();
-            const arcPathId = `piyo-arc-${dish.id}`;
+      {/* Dedicated Locked Full-Screen Category Portal (when browsing a specific category — locked until clicking All Menu) */}
+      {isLockedCategory &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[44] flex flex-col overflow-hidden bg-[#0A2215] text-[#0B2718]"
+            onWheel={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`PIYO Filipino Menu — ${activeCategoryMeta.label}`}
+          >
+            {/* Pinned Warm Sunlit Beige Header + Category Navigation Bar */}
+            <div className="relative z-20 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#ECE2CC] px-4 pb-3.5 pt-4 sm:px-8 lg:px-12">
+              <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-36 w-52 text-[#0B2718] sm:h-44 sm:w-64" />
+              <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-32 w-48 -scale-x-100 text-[#0B2718] opacity-75 sm:h-40 sm:w-60" />
 
-            return (
-              <article
-                key={dish.id}
-                className="group relative flex flex-col items-center pt-0"
-              >
-                {/* Overlapping Ceramic-Rimmed Dish Medallion + Curved Heritage Arc Caption */}
-                <button
-                  type="button"
-                  onClick={() => onCustomizeDish && onCustomizeDish(dish)}
-                  aria-label={`Customize ${dish.name}`}
-                  className="relative z-20 -mb-[74px] flex h-[148px] w-[148px] items-center justify-center transition-transform duration-300 group-hover:-translate-y-1"
-                >
-                  {/* Ceramic Stoneware Warm Beige Plate Rim */}
-                  <span className="block h-[132px] w-[132px] overflow-hidden rounded-full bg-[#F5EFE2] p-[5px] shadow-[0_14px_28px_-8px_rgba(4,16,9,0.75)] ring-2 ring-[#DFD0B2]">
-                    <span className="block h-full w-full overflow-hidden rounded-full ring-1 ring-[#0B2718]/25">
-                      <img
-                        src={dish.image}
-                        alt={dish.name}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </span>
-                  </span>
-
-                  {/* Curved Dish Caption Hugging the Bottom Rim of the Ceramic Plate */}
-                  <svg
-                    viewBox="0 0 192 192"
-                    className="pointer-events-none absolute -inset-4 h-[180px] w-[180px]"
-                    aria-hidden="true"
+              <div className="relative z-10 mx-auto w-full max-w-[1520px]">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleSelectCategory('all')}
+                    className="inline-flex min-h-[34px] items-center gap-1.5 rounded-full border border-[#0B2718]/25 bg-[#FAF6EC]/95 px-3.5 py-1 text-xs font-bold text-[#0B2718] shadow-xs transition hover:border-[#0B2718] hover:bg-[#0B2718] hover:text-[#F5EFE2]"
                   >
-                    <defs>
-                      <path
-                        id={arcPathId}
-                        d="M 10,96 A 86,86 0 0,0 182,96"
-                        fill="none"
-                      />
-                    </defs>
-                    <text
-                      fill="#173D28"
-                      fontSize="8.6"
-                      fontWeight="700"
-                      letterSpacing="2.1"
-                    >
-                      <textPath
-                        href={`#${arcPathId}`}
-                        startOffset="50%"
-                        textAnchor="middle"
-                      >
-                        · {arcText} ·
-                      </textPath>
-                    </text>
-                  </svg>
-                </button>
+                    <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+                    <span>All Menu</span>
+                  </button>
 
-                {/* Tall Vertical Rectangular Warm Beige Heritage Menu Card */}
-                <div className="relative z-10 flex w-full flex-1 flex-col justify-between rounded-[18px] border border-[#DFD0B2] bg-[#F5EFE2] px-4 pb-4 pt-[96px] text-center shadow-[0_18px_38px_-16px_rgba(0,0,0,0.72)] transition-colors group-hover:border-[#FAF6EC] group-hover:bg-[#F8F3E8]">
-                  {/* Inner Fine Dark-Green Heritage Frame */}
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-2 rounded-[12px] border border-[#0B2718]/16"
-                  />
-                  {/* Tiny Woven Corner Diamonds */}
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute bottom-3 left-3 h-1.5 w-1.5 rotate-45 bg-[#0B2718]/25"
-                  />
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute bottom-3 right-3 h-1.5 w-1.5 rotate-45 bg-[#0B2718]/25"
-                  />
+                  <button
+                    type="button"
+                    onClick={onOpenTray}
+                    className="inline-flex min-h-[34px] shrink-0 items-center gap-2 rounded-full bg-[#0B2718] px-4 py-1.5 text-xs font-bold text-[#F5EFE2] shadow-sm transition hover:bg-[#143D28]"
+                  >
+                    <ShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
+                    <span>
+                      {trayCount > 0 ? `${trayCount} · ${formatPeso(trayTotal)}` : 'Cart'}
+                    </span>
+                  </button>
+                </div>
 
-                  <div className="relative z-10">
-                    <h3 className="font-serif text-[20px] font-bold leading-snug tracking-tight text-[#0B2718]">
-                      {dish.name}
-                    </h3>
-                    <p className="mt-1.5 line-clamp-3 text-[11.5px] leading-relaxed text-[#3E5346]">
-                      {dish.shortDesc}
-                    </p>
-                  </div>
-
-                  <div className="relative z-10 mt-3.5">
-                    <div className="flex items-baseline justify-center gap-2">
-                      <p className="font-sans text-lg font-extrabold tracking-tight text-[#0B2718]">
-                        {formatPeso(dish.price)}
-                      </p>
-                      {dish.serving && (
-                        <span className="text-[10.5px] font-medium text-[#755C3B]">
-                          · {dish.serving}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Inline Customize + Add Controls (Dark Green on Warm Beige) */}
-                    <div className="mt-3 flex items-center justify-center gap-2 border-t border-[#0B2718]/14 pt-3">
-                      <button
-                        type="button"
-                        onClick={() => onCustomizeDish && onCustomizeDish(dish)}
-                        className="inline-flex min-h-[32px] items-center gap-1 rounded-full border border-[#0B2718]/28 bg-[#EAE0CA] px-3 py-1 text-[11px] font-semibold text-[#0B2718] transition hover:border-[#0B2718] hover:bg-[#DFD2B6]"
-                      >
-                        <SlidersHorizontal
-                          className="h-3 w-3"
-                          aria-hidden="true"
-                        />
-                        <span>Customize</span>
-                      </button>
-
-                      {stats.totalQty > 0 && stats.latestEntry ? (
-                        <div className="inline-flex min-h-[32px] items-center gap-1.5 rounded-full bg-[#0B2718] px-2 py-0.5 text-xs font-extrabold text-[#F5EFE2]">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              onUpdateTrayQty &&
-                              onUpdateTrayQty(
-                                stats.latestEntry.key,
-                                stats.latestEntry.quantity - 1
-                              )
-                            }
-                            aria-label={`Remove one ${dish.name}`}
-                            className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-[#F5EFE2]/15"
-                          >
-                            <Minus className="h-3 w-3" aria-hidden="true" />
-                          </button>
-                          <span className="min-w-[14px] text-center">
-                            {stats.totalQty}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => onQuickAdd && onQuickAdd(dish)}
-                            aria-label={`Add one more ${dish.name}`}
-                            className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-[#F5EFE2]/15"
-                          >
-                            <Plus className="h-3 w-3" aria-hidden="true" />
-                          </button>
-                        </div>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => onQuickAdd && onQuickAdd(dish)}
-                          className="inline-flex min-h-[32px] items-center gap-1 rounded-full bg-[#0B2718] px-3.5 py-1 text-[11px] font-bold text-[#F5EFE2] transition hover:bg-[#16402A] active:scale-95"
-                        >
-                          <Plus
-                            className="h-3.5 w-3.5 stroke-[2.5]"
-                            aria-hidden="true"
-                          />
-                          <span>Add</span>
-                        </button>
-                      )}
-                    </div>
+                <div className="mt-0.5 text-center">
+                  <p className="font-script text-[36px] leading-[1.05] text-[#7E5A30] sm:text-[46px]">
+                    Hapag ng PIYO
+                  </p>
+                  <div className="mt-0.5 flex items-center justify-center gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="h-[1px] w-10 bg-gradient-to-r from-transparent to-[#0B2718]/45 sm:w-14"
+                    />
+                    <h2 className="font-serif text-base font-bold uppercase tracking-[0.26em] text-[#0B2718] sm:text-xl">
+                      {activeCategoryMeta.label}
+                    </h2>
+                    <span
+                      aria-hidden="true"
+                      className="h-[1px] w-10 bg-gradient-to-l from-transparent to-[#0B2718]/45 sm:w-14"
+                    />
                   </div>
                 </div>
-              </article>
-            );
-          })}
-        </div>
-      </div>
 
-      {/* Full-Bleed Bottom Warm Beige Filipino Heritage Footer Strip */}
-      <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] px-4 py-3.5 text-xs text-[#2F4537] sm:px-8 lg:px-12">
-        <div className="mx-auto flex w-full max-w-[1520px] flex-wrap items-center justify-between gap-2">
-          <span>
-            {RESTAURANT_INFO.shortAddress} · Libreng Sabaw Refill sa Bacolod Cansi
-          </span>
-          <span className="font-bold text-[#0B2718]">
-            Showing {visibleItems.length} of {MENU_ITEMS.length} dishes
-          </span>
-        </div>
-      </div>
-    </div>
+                {/* Category Switcher Tabs (Click All Menu to unlock page scroll) */}
+                <div
+                  className="mt-3 flex items-center justify-start gap-1.5 overflow-x-auto no-scrollbar py-0.5 sm:justify-center"
+                  role="tablist"
+                  aria-label="Filipino menu categories"
+                >
+                  {MENU_CATEGORIES.map((cat) => {
+                    const active = selectedCat === cat.id;
+                    return (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={active}
+                        onClick={() => handleSelectCategory(cat.id)}
+                        className={`min-h-[34px] shrink-0 rounded-full px-3.5 py-1 text-xs font-bold tracking-wide transition ${
+                          active
+                            ? 'bg-[#0B2718] text-[#F5EFE2] shadow-sm'
+                            : 'border border-[#0B2718]/20 bg-[#FAF6EC]/90 text-[#1B3A29] hover:border-[#0B2718]/50 hover:bg-[#E6DAC2]'
+                        }`}
+                      >
+                        {cat.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Pinned Woven Banig Strip */}
+            <div
+              aria-hidden="true"
+              className="h-[11px] w-full shrink-0 border-y border-[#0B2718]/25 bg-[#E6D9BE]"
+              style={{
+                backgroundImage: BANIG_STRIP_BG,
+                backgroundRepeat: 'repeat-x',
+                backgroundPosition: 'center',
+              }}
+            />
+
+            {/* Independently Scrollable Solihiya Grid (Cannot scroll away to other website pages) */}
+            <div
+              ref={lockedScrollRef}
+              className="relative z-10 flex-1 overflow-y-auto bg-[#0A2215] px-4 py-6 sm:px-8 lg:px-12 lg:py-7"
+              style={{
+                backgroundImage: SOLIHIYA_BG,
+                backgroundSize: '64px 64px',
+              }}
+            >
+              {renderDishCards(visibleItems)}
+            </div>
+
+            {/* Pinned Bottom Warm Beige Footer Strip */}
+            <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] px-4 py-3 text-xs text-[#2F4537] sm:px-8 lg:px-12">
+              <div className="mx-auto flex w-full max-w-[1520px] flex-wrap items-center justify-between gap-2">
+                <span>
+                  {RESTAURANT_INFO.shortAddress} · Click <strong>All Menu</strong> to browse the rest of the page
+                </span>
+                <span className="font-bold text-[#0B2718]">
+                  Showing {visibleItems.length} of {MENU_ITEMS.length} dishes ({activeCategoryMeta.label})
+                </span>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
+    </>
   );
 }
