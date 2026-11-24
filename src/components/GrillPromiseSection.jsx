@@ -29,26 +29,27 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
   return (
     <section
       id="craft"
-      className="relative overflow-hidden border-b border-[#0B2718]/12 bg-[#F5EFE2] py-14 text-[#0B2718] sm:py-20 lg:py-24"
+      className="relative overflow-hidden border-b border-[#0B2718]/12 bg-[#F5EFE2] py-14 text-[#0B2718] sm:py-20 lg:flex lg:min-h-[calc(100svh-74px)] lg:items-center lg:py-16"
     >
       {/* Top-Left Open Flame Accent blended cleanly into warm beige */}
       <img
         src="./images/flame-corner.jpg"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -left-2 -top-2 h-28 w-36 object-cover object-left-top opacity-90 mix-blend-multiply sm:h-40 sm:w-52 lg:h-52 lg:w-64"
+        className="pointer-events-none absolute -left-2 -top-2 h-28 w-36 object-cover object-left-top opacity-90 mix-blend-multiply sm:h-40 sm:w-52 lg:h-56 lg:w-72"
         onError={(e) => {
           e.currentTarget.style.display = 'none';
         }}
       />
 
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+      <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
           {/* Left Editorial Column */}
           <div className="lg:col-span-6">
-            <h2 className="font-serif text-[2.25rem] font-semibold leading-[1.1] tracking-tight text-[#0B2718] sm:text-5xl xl:text-[3.15rem]">
-              <span className="relative inline-block">
-                <span className="relative z-10">PIYO&apos;s #1 House Favorite</span>
+            <h2 className="font-serif text-[2.15rem] font-semibold leading-[1.12] tracking-tight text-[#0B2718] sm:text-5xl xl:text-[3.25rem]">
+              PIYO&apos;s{' '}
+              <span className="relative inline-block whitespace-nowrap">
+                <span className="relative z-10">#1 House Favorite</span>
                 <svg
                   viewBox="0 0 320 20"
                   fill="none"
