@@ -240,43 +240,20 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
             </div>
           </div>
 
-          {/* Right Stretched Deep Forest-Green Tapestry & Interactive 3D Animated Mid-Air Exploded Bacolod Cansi */}
+          {/* Right Interactive 3D Animated Mid-Air Exploded Bacolod Cansi Floating Cleanly on Warm Beige */}
           <div className="relative lg:col-span-6">
             <div
               onPointerMove={handleStageMove}
               onPointerLeave={handleStageLeave}
-              className="group relative -mx-5 flex h-[360px] items-center justify-center py-4 sm:-mx-8 sm:h-[440px] sm:py-6 lg:mx-0 lg:mr-[calc(-1*max(2rem,50vw-40rem+2rem))] lg:h-[490px] xl:h-[530px]"
+              className="group relative flex h-[360px] items-center justify-center py-2 sm:h-[440px] lg:h-[490px] xl:h-[530px]"
             >
-              {/* Stretched Deep Emerald Tapestry matched directly to exploded Cansi corner tone (#092516) */}
-              <svg
-                viewBox="0 0 800 460"
-                preserveAspectRatio="none"
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 h-full w-full drop-shadow-[0_22px_42px_rgba(6,24,14,0.28)]"
-              >
-                <path
-                  d="M 18 14 Q 380 62 800 10 L 800 450 Q 380 398 18 446 Q 58 230 18 14 Z"
-                  fill="#092516"
-                />
-              </svg>
-
-              {/* Breathing Golden-Amber Hearth Halo Behind the Floating Exploded Cansi */}
-              <div
-                aria-hidden="true"
-                className="cansi-halo pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full sm:h-[380px] sm:w-[380px]"
-                style={{
-                  background:
-                    'radial-gradient(circle, rgba(232,158,52,0.34) 0%, rgba(216,136,36,0.14) 44%, rgba(9,37,22,0) 74%)',
-                }}
-              />
-
               {/* Interactive 3D Parallax Exploded Bacolod Cansi Showcase */}
-              <div className="relative z-10 flex h-full w-full items-center justify-center px-4 sm:px-8">
+              <div className="relative z-10 flex h-full w-full items-center justify-center">
                 <button
                   type="button"
                   onClick={onInspectDish}
                   aria-label="Inspect Bacolod Cansi — ₱666"
-                  className="relative flex h-[340px] w-full max-w-[440px] cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:h-[420px] sm:max-w-[540px] lg:h-[465px] lg:max-w-[590px]"
+                  className="relative flex h-[350px] w-full max-w-[460px] cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] sm:h-[430px] sm:max-w-[560px] lg:h-[480px] lg:max-w-[600px]"
                   style={{
                     perspective: '960px',
                   }}
@@ -294,7 +271,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                       viewBox="0 0 260 220"
                       fill="none"
                       aria-hidden="true"
-                      className="pointer-events-none absolute -top-2 left-1/2 z-20 h-44 w-56 -translate-x-1/2 opacity-80 sm:h-52 sm:w-64"
+                      className="pointer-events-none absolute -top-2 left-1/2 z-20 h-44 w-56 -translate-x-1/2 opacity-75 sm:h-52 sm:w-64"
                     >
                       <path
                         d="M95 190 C78 148, 114 114, 92 66 C80 42, 96 22, 106 8"
@@ -322,9 +299,9 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                       />
                       <defs>
                         <linearGradient id="piyo-steam-grad" x1="0" y1="1" x2="0" y2="0">
-                          <stop offset="0%" stopColor="#FAF6EC" stopOpacity="0" />
-                          <stop offset="40%" stopColor="#F5E4BE" stopOpacity="0.48" />
-                          <stop offset="100%" stopColor="#FAF6EC" stopOpacity="0" />
+                          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
+                          <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.62" />
+                          <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
                         </linearGradient>
                       </defs>
                     </svg>
@@ -334,7 +311,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                       <img
                         src="./images/cansi-exploded-hero.jpg"
                         alt="Hyper-realistic mid-air exploded Bacolod Cansi showing stoneware bowl, splashing golden batwan broth, beef shank bone marrow, langka jackfruit, lemongrass, calamansi, chilies, and toasted garlic"
-                        className="h-full w-full object-contain [mask-image:radial-gradient(ellipse_49%_49%_at_50%_50%,black_66%,transparent_99%)]"
+                        className="h-full w-full object-contain [mask-image:radial-gradient(ellipse_49%_49%_at_50%_50%,black_68%,transparent_99%)]"
                       />
                     </div>
 
@@ -343,7 +320,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                       <span
                         key={idx}
                         aria-hidden="true"
-                        className="cansi-droplet pointer-events-none absolute z-20 rounded-full bg-gradient-to-br from-[#FFE49E] via-[#E5A33A] to-[#B56918] shadow-[0_0_10px_rgba(232,163,58,0.8)]"
+                        className="cansi-droplet pointer-events-none absolute z-20 rounded-full bg-gradient-to-br from-[#F8D078] via-[#D9932C] to-[#9E5610] shadow-[0_2px_8px_rgba(180,105,22,0.45)]"
                         style={{
                           left: drop.left,
                           top: drop.top,
@@ -361,7 +338,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                 <button
                   type="button"
                   onClick={onInspectDish}
-                  className="pointer-events-auto absolute bottom-3 right-6 z-30 inline-flex items-center gap-2 rounded-full border border-[#0B2718]/15 bg-[#FAF6EC]/95 px-4 py-2 text-xs font-bold text-[#0B2718] shadow-lg backdrop-blur-sm transition hover:bg-white sm:bottom-5 sm:right-10"
+                  className="pointer-events-auto absolute bottom-2 right-2 z-30 inline-flex items-center gap-2 rounded-full border border-[#0B2718]/18 bg-[#FAF6EC]/95 px-4 py-2 text-xs font-bold text-[#0B2718] shadow-lg backdrop-blur-sm transition hover:bg-white sm:bottom-4 sm:right-4"
                 >
                   <span
                     className="h-2 w-2 rounded-full bg-[#C29645]"
