@@ -214,7 +214,7 @@ export function RestaurantMenuBoard({
           backgroundSize: '64px 64px',
         }}
       >
-        <div className="mx-auto grid w-full max-w-[1880px] grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gap-x-5 xl:gap-y-6 2xl:grid-cols-5">
+        <div className="mx-auto grid w-full max-w-[1880px] grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gap-x-5 xl:gap-y-6">
           {visibleItems.map((dish) => {
             const stats = trayStatsByDishId[dish.id] || {
               totalQty: 0,

@@ -346,20 +346,20 @@ export function MenuSection({
             {/* Full-Screen Dedicated Customizer Container */}
             <div className="relative z-10 mx-auto my-auto w-full max-w-[1680px] px-4 sm:px-6 lg:px-8">
         {/* Top Full-Width Category & Cart Navigation Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-[22px] border border-[#DFB96F]/20 bg-[#0B2718]/95 px-4 py-2.5 shadow-[0_14px_36px_-18px_rgba(0,0,0,0.65)] backdrop-blur-md sm:px-5">
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-[22px] border border-[#DFB96F]/20 bg-[#0B2718]/95 px-4 py-2 shadow-[0_14px_36px_-18px_rgba(0,0,0,0.65)] backdrop-blur-md sm:px-5 lg:flex-nowrap">
           {/* Left Brand Mark */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex shrink-0 items-center gap-2">
             <span className="font-serif text-xl font-bold tracking-tight text-[#FAF6EC] sm:text-2xl">
               PIYO<span className="text-[#DFB96F]">.</span>
             </span>
-            <span className="hidden rounded-full border border-[#DFB96F]/25 bg-[#06180E]/75 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#DFB96F] xl:inline-block">
+            <span className="hidden rounded-full border border-[#DFB96F]/25 bg-[#06180E]/75 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#DFB96F] 2xl:inline-block">
               {MENU_ITEMS.length} Dishes
             </span>
           </div>
 
           {/* Center Icon Category Tabs */}
           <div
-            className="order-3 flex w-full items-center gap-1 overflow-x-auto no-scrollbar pb-0.5 pt-1 lg:order-2 lg:w-auto lg:py-0"
+            className="order-3 flex w-full min-w-0 items-center gap-0.5 overflow-x-auto no-scrollbar pb-0.5 pt-1 lg:order-2 lg:w-auto lg:py-0"
             role="tablist"
             aria-label="Menu categories"
           >
@@ -376,14 +376,14 @@ export function MenuSection({
                     setActiveCategory(tab.id);
                     setActiveFilter('all');
                   }}
-                  className={`inline-flex min-h-[36px] shrink-0 items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all sm:text-[13px] ${
+                  className={`inline-flex min-h-[34px] shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold transition-all xl:px-3 ${
                     isActive
                       ? 'bg-[#16402A] text-[#DFB96F] shadow-sm ring-1 ring-[#DFB96F]/45'
                       : 'text-[#C6D5CB] hover:bg-white/[0.06] hover:text-[#FAF6EC]'
                   }`}
                 >
                   <Icon
-                    className={`h-4 w-4 shrink-0 ${
+                    className={`h-3.5 w-3.5 shrink-0 ${
                       isActive ? 'text-[#DFB96F]' : 'text-[#9BB0A1]'
                     }`}
                     aria-hidden="true"
@@ -395,7 +395,7 @@ export function MenuSection({
           </div>
 
           {/* Right Back-to-Menu + Search + Cart Pill */}
-          <div className="order-2 flex items-center gap-2 lg:order-3">
+          <div className="order-2 flex shrink-0 items-center gap-2 lg:order-3">
             <button
               type="button"
               onClick={handleBackToMenuBoard}
