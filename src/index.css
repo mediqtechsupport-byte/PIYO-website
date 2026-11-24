@@ -3,6 +3,7 @@
 @theme {
   --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-script: "Allura", "Cormorant Garamond", Georgia, serif;
 
   /* shadcn & DishOrbitCarousel theme tokens mapped to PIYO's deeper forest-green & parchment palette */
   --color-background: #f5efe2;

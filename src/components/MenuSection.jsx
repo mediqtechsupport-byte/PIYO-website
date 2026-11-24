@@ -356,8 +356,17 @@ export function MenuSection({
             })}
           </div>
 
-          {/* Right Search + Cart Pill */}
+          {/* Right Menu Board + Search + Cart Pill */}
           <div className="order-2 flex items-center gap-2 lg:order-3">
+            <button
+              type="button"
+              onClick={() => setIsMenuBookOpen(true)}
+              className="hidden min-h-[36px] items-center gap-1.5 rounded-full border border-[#F5EFE2]/45 bg-[#F5EFE2] px-3.5 py-1.5 text-xs font-bold text-[#0B2718] shadow-sm transition hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5EFE2] sm:inline-flex"
+            >
+              <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
+              <span>Menu Board</span>
+            </button>
+
             {showSearchInput ? (
               <div className="relative flex items-center">
                 <Search
@@ -432,7 +441,7 @@ export function MenuSection({
                   <button
                     type="button"
                     onClick={() => setIsMenuBookOpen(true)}
-                    className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-[#DFB96F]/55 bg-[#143D27] px-3.5 py-1.5 text-xs font-bold text-[#DFB96F] shadow-sm transition hover:bg-[#DFB96F] hover:text-[#06180E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
+                    className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-[#DFD0B2] bg-[#F5EFE2] px-4 py-1.5 text-xs font-bold text-[#0B2718] shadow-sm transition hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5EFE2]"
                   >
                     <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
                     <span>Restaurant Menu</span>
