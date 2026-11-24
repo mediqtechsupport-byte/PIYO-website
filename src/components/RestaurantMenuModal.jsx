@@ -389,10 +389,6 @@ export function RestaurantMenuBoard({
         <div className="sticky top-[var(--nav-h,64px)] z-30 w-full shrink-0 shadow-[0_12px_28px_-14px_rgba(4,16,9,0.68)]">
           <div className="bg-[#EFE6D2]/96 py-2.5 backdrop-blur-md">
             <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-5 sm:px-8">
-              <span className="hidden shrink-0 font-serif text-sm font-bold uppercase tracking-[0.2em] text-[#0B2718] xl:inline-block">
-                PIYO <span className="text-[#8A673D]">·</span> Menu
-              </span>
-
               <div
                 className="flex min-w-0 flex-1 items-center justify-start gap-1.5 overflow-x-auto no-scrollbar py-0.5 sm:justify-center"
                 role="tablist"
