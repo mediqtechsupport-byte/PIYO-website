@@ -143,9 +143,9 @@ export function MenuSection({
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [showFilterRow, setShowFilterRow] = useState(false);
   const [menuView, setMenuView] = useState('board'); // 'board' = Filipino Menu landing view, 'customize' = locked full-screen Dish Customizer
-  const [boardCategory, setBoardCategory] = useState('all');
+  const [boardCategory, setBoardCategory] = useState('bestsellers');
 
-  const isScrollLocked = menuView === 'customize' || boardCategory !== 'all';
+  const isScrollLocked = menuView === 'customize' || boardCategory !== 'bestsellers';
 
   // Lock background page scrolling & navigation while customizing an order OR browsing a specific menu category
   useEffect(() => {

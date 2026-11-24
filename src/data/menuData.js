@@ -32,7 +32,7 @@ export const RESTAURANT_INFO = {
 };
 
 export const MENU_CATEGORIES = [
-  { id: 'all', label: 'All Menu', icon: 'UtensilsCrossed', subtitle: 'Every authentic dish & drink from PIYO Grill & Restaurant' },
+  { id: 'bestsellers', label: 'Best Sellers', icon: 'Sparkles', subtitle: 'PIYO house favorites gliding on our signature tasting belt.' },
   { id: 'soups', label: 'Soups', icon: 'Soup', subtitle: "Slow-simmered Ilonggo & Tagaytay broths for cool ridge weather." },
   { id: 'grill', label: 'Sinugba & Specials', icon: 'Flame', subtitle: 'Charcoal-grilled Bacolod sinugba, rice meals & house feast platters.' },
   { id: 'pasta-pizza', label: 'Pasta & Pizza', icon: 'Pizza', subtitle: 'Rich house pastas & 10-inch (8-slice) artisan pizzas.' },

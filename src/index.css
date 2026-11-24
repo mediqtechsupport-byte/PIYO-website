@@ -5,11 +5,21 @@
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-script: "Allura", "Cormorant Garamond", Georgia, serif;
 
-  /* shadcn & DishOrbitCarousel theme tokens mapped to PIYO's deeper forest-green & parchment palette */
+  /* shadcn, DishOrbitCarousel & SushiConveyorMenu theme tokens mapped to PIYO's dark forest-green & warm beige palette */
   --color-background: #f5efe2;
   --color-foreground: #0b2718;
   --color-primary: #0b2718;
   --color-muted-foreground: #3f5244;
+  --color-card: #f5efe2;
+  --color-card-foreground: #0b2718;
+  --color-border: #d9cbb0;
+  --color-muted: #ebe1cc;
+  --color-ring: #dfb96f;
+  --color-chart-1: #7da684;
+  --color-chart-2: #d8b36a;
+  --color-chart-3: #c9864c;
+  --color-chart-4: #ebe1cc;
+  --color-chart-5: #b85d38;
 
   --color-forest-950: #06180e;
   --color-forest-900: #0b2718;

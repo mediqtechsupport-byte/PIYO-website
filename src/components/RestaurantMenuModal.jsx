@@ -1,8 +1,16 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { ArrowLeft, Plus, Minus, ShoppingBag, SlidersHorizontal } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Plus,
+  Minus,
+  ShoppingBag,
+  SlidersHorizontal,
+} from 'lucide-react';
 import { MENU_CATEGORIES, MENU_ITEMS, RESTAURANT_INFO } from '../data/menuData';
 import { formatPeso } from '../utils/hours';
+import { SushiConveyorMenu } from './ui/sushi-conveyor-menu';
 
 // Authentic Filipino Solihiya (octagonal rattan cane weave) pattern in warm beige on deep forest green
 const SOLIHIYA_BG = `url("data:image/svg+xml,${encodeURIComponent(
@@ -22,6 +30,25 @@ const CATEGORY_ARC_FALLBACK = {
   drinks: 'TROPICAL COOLER',
   coffee: 'FRESHLY BREWED',
   sides: 'HAPAG PAIRING',
+};
+
+const BESTSELLER_CONVEYOR_IDS = [
+  { id: 'bacolod-cansi', tier: 4 },
+  { id: 'tagaytay-bulalo', tier: 4 },
+  { id: 'bacolod-chicken-inasal', tier: 2 },
+  { id: 'crispy-pata', tier: 5 },
+  { id: 'sizzling-bulalo-steak', tier: 5 },
+  { id: 'sizzling-pork-sisig', tier: 3 },
+  { id: 'pork-adobo-pizza', tier: 4 },
+  { id: 'mango-dragon-swirl', tier: 1 },
+];
+
+const BESTSELLER_LEGEND = {
+  1: '₱197',
+  2: '₱366',
+  3: '₱436',
+  4: '₱666+',
+  5: '₱953+',
 };
 
 function PalmFrondSvg({ className }) {
@@ -79,7 +106,7 @@ function PalmFrondSvg({ className }) {
 }
 
 export function RestaurantMenuBoard({
-  selectedCat = 'all',
+  selectedCat = 'bestsellers',
   onSelectCat,
   trayItems = [],
   onQuickAdd,
@@ -87,11 +114,9 @@ export function RestaurantMenuBoard({
   onCustomizeDish,
   onOpenTray,
 }) {
-  const stickyBarRef = useRef(null);
-  const gridTopRef = useRef(null);
   const lockedScrollRef = useRef(null);
 
-  const isLockedCategory = selectedCat !== 'all';
+  const isLockedCategory = selectedCat !== 'bestsellers';
 
   // Reset locked-category scroll container to top whenever switching between specific categories
   useEffect(() => {
@@ -102,19 +127,6 @@ export function RestaurantMenuBoard({
 
   const handleSelectCategory = (catId) => {
     if (onSelectCat) onSelectCat(catId);
-    if (catId === 'all' && gridTopRef.current) {
-      const stickyBottom = stickyBarRef.current
-        ? stickyBarRef.current.getBoundingClientRect().bottom
-        : 136;
-      const gridRect = gridTopRef.current.getBoundingClientRect();
-      if (gridRect.top < stickyBottom - 8) {
-        const targetY = Math.max(
-          0,
-          Math.round(window.scrollY + gridRect.top - stickyBottom)
-        );
-        window.scrollTo({ top: targetY, behavior: 'smooth' });
-      }
-    }
   };
 
   const trayStatsByDishId = useMemo(() => {
@@ -130,8 +142,30 @@ export function RestaurantMenuBoard({
     return map;
   }, [trayItems]);
 
+  const conveyorItems = useMemo(
+    () =>
+      BESTSELLER_CONVEYOR_IDS.map(({ id, tier }) => {
+        const dish = MENU_ITEMS.find((item) => item.id === id);
+        if (!dish) return null;
+        return {
+          id: dish.id,
+          name: dish.name,
+          description: dish.shortDesc,
+          price: formatPeso(dish.price),
+          tier,
+          image: dish.image,
+          details: [
+            dish.badge,
+            dish.serving,
+            dish.prepTime ? `Prep ${dish.prepTime}` : null,
+          ].filter(Boolean),
+        };
+      }).filter(Boolean),
+    []
+  );
+
   const visibleItems = useMemo(() => {
-    if (selectedCat === 'all') return MENU_ITEMS;
+    if (selectedCat === 'bestsellers') return MENU_ITEMS;
     return MENU_ITEMS.filter((item) => item.category === selectedCat);
   }, [selectedCat]);
 
@@ -143,6 +177,16 @@ export function RestaurantMenuBoard({
     (sum, entry) => sum + entry.unitPrice * entry.quantity,
     0
   );
+
+  const handleConveyorAdd = (conveyorItem) => {
+    const realDish = MENU_ITEMS.find((item) => item.id === conveyorItem.id);
+    if (realDish && onQuickAdd) onQuickAdd(realDish);
+  };
+
+  const handleConveyorCustomize = (conveyorItem) => {
+    const realDish = MENU_ITEMS.find((item) => item.id === conveyorItem.id);
+    if (realDish && onCustomizeDish) onCustomizeDish(realDish);
+  };
 
   const renderDishCards = (items) => (
     <div className="mx-auto grid w-full max-w-[1520px] grid-cols-1 gap-x-7 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-y-7">
@@ -156,7 +200,7 @@ export function RestaurantMenuBoard({
           CATEGORY_ARC_FALLBACK[dish.category] ||
           'LUTONG BAHAY'
         ).toUpperCase();
-        const arcPathId = `piyo-arc-${isLockedCategory ? 'locked-' : ''}${dish.id}`;
+        const arcPathId = `piyo-arc-locked-${dish.id}`;
 
         return (
           <article
@@ -170,7 +214,6 @@ export function RestaurantMenuBoard({
               aria-label={`Customize ${dish.name}`}
               className="relative z-20 -mb-[74px] flex h-[148px] w-[148px] items-center justify-center transition-transform duration-300 group-hover:-translate-y-1"
             >
-              {/* Ceramic Stoneware Warm Beige Plate Rim */}
               <span className="block h-[132px] w-[132px] overflow-hidden rounded-full bg-[#F5EFE2] p-[5px] shadow-[0_14px_28px_-8px_rgba(4,16,9,0.75)] ring-2 ring-[#DFD0B2]">
                 <span className="block h-full w-full overflow-hidden rounded-full ring-1 ring-[#0B2718]/25">
                   <img
@@ -182,7 +225,6 @@ export function RestaurantMenuBoard({
                 </span>
               </span>
 
-              {/* Curved Dish Caption Hugging the Bottom Rim of the Ceramic Plate */}
               <svg
                 viewBox="0 0 192 192"
                 className="pointer-events-none absolute -inset-4 h-[180px] w-[180px]"
@@ -214,12 +256,10 @@ export function RestaurantMenuBoard({
 
             {/* Tall Vertical Rectangular Warm Beige Heritage Menu Card */}
             <div className="relative z-10 flex w-full flex-1 flex-col justify-between rounded-[18px] border border-[#DFD0B2] bg-[#F5EFE2] px-4 pb-4 pt-[96px] text-center shadow-[0_18px_38px_-16px_rgba(0,0,0,0.72)] transition-colors group-hover:border-[#FAF6EC] group-hover:bg-[#F8F3E8]">
-              {/* Inner Fine Dark-Green Heritage Frame */}
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-2 rounded-[12px] border border-[#0B2718]/16"
               />
-              {/* Tiny Woven Corner Diamonds */}
               <span
                 aria-hidden="true"
                 className="pointer-events-none absolute bottom-3 left-3 h-1.5 w-1.5 rotate-45 bg-[#0B2718]/25"
@@ -250,7 +290,6 @@ export function RestaurantMenuBoard({
                   )}
                 </div>
 
-                {/* Inline Customize + Add Controls (Dark Green on Warm Beige) */}
                 <div className="mt-3 flex items-center justify-center gap-2 border-t border-[#0B2718]/14 pt-3">
                   <button
                     type="button"
@@ -316,11 +355,10 @@ export function RestaurantMenuBoard({
 
   return (
     <>
-      {/* Inline Whole-Page Menu View ("All Menu" — allows scrolling freely to other site sections) */}
+      {/* Inline Whole-Page Menu Landing ("Best Sellers" Highlight Conveyor — allows scrolling freely to other sections) */}
       <div className="flex min-h-[calc(100svh-var(--nav-h,69px))] w-full flex-col bg-[#0A2215] text-[#0B2718]">
         {/* Full-Bleed Warm Sunlit Beige Editorial Title Banner with Tropical Palm Frond Shadows */}
         <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#F1E8D5] px-4 pb-3 pt-4 sm:px-8 lg:px-12 lg:pb-3.5 lg:pt-5">
-          {/* Corner Tropical Palm Frond Silhouettes */}
           <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-40 w-56 text-[#0B2718] sm:h-48 sm:w-72" />
           <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-36 w-52 -scale-x-100 text-[#0B2718] opacity-75 sm:h-44 sm:w-64" />
 
@@ -363,11 +401,8 @@ export function RestaurantMenuBoard({
           </div>
         </div>
 
-        {/* Sticky Category Navigation + Cart Bar + Woven Banig Strip (Follows User While Scrolling All Menu) */}
-        <div
-          ref={stickyBarRef}
-          className="sticky top-[var(--nav-h,64px)] z-30 w-full shrink-0 shadow-[0_12px_28px_-14px_rgba(4,16,9,0.68)]"
-        >
+        {/* Sticky Category Navigation + Cart Bar + Woven Banig Strip */}
+        <div className="sticky top-[var(--nav-h,64px)] z-30 w-full shrink-0 shadow-[0_12px_28px_-14px_rgba(4,16,9,0.68)]">
           <div className="bg-[#EFE6D2]/96 px-4 py-2.5 backdrop-blur-md sm:px-8 lg:px-12">
             <div className="mx-auto flex w-full max-w-[1520px] items-center justify-between gap-3">
               <span className="hidden shrink-0 font-serif text-sm font-bold uppercase tracking-[0.2em] text-[#0B2718] xl:inline-block">
@@ -424,32 +459,59 @@ export function RestaurantMenuBoard({
           />
         </div>
 
-        {/* Full-Bleed Deep Forest Green Solihiya-Woven All-Menu Grid */}
+        {/* Full-Bleed Deep Forest Green Solihiya-Woven Best Sellers Conveyor Highlight */}
         <div
-          ref={gridTopRef}
-          className="relative z-10 flex-1 bg-[#0A2215] px-4 py-6 sm:px-8 lg:px-12 lg:py-7"
+          className="relative z-10 flex flex-1 items-center bg-[#0A2215]"
           style={{
             backgroundImage: SOLIHIYA_BG,
             backgroundSize: '64px 64px',
           }}
         >
-          {renderDishCards(MENU_ITEMS)}
+          <SushiConveyorMenu
+            items={conveyorItems}
+            legend={BESTSELLER_LEGEND}
+            eyebrow="House Highlights · Best Sellers"
+            heading="PIYO favorites gliding straight from hearth to table."
+            caption="Hover to pause & lift any plate, flick to spin the belt, or click a dish to order or customize."
+            autoplay
+            speed={24}
+            onAdd={handleConveyorAdd}
+            onCustomize={handleConveyorCustomize}
+            labels={{
+              add: 'Add to order',
+              customize: 'Customize',
+              close: 'Close',
+              previous: 'Previous bestseller',
+              next: 'Next bestseller',
+              pause: 'Pause conveyor belt',
+            }}
+            action={
+              <button
+                type="button"
+                onClick={() => handleSelectCategory('soups')}
+                className="inline-flex items-center gap-2 rounded-full border border-[#DFD0B2]/60 bg-[#F5EFE2] px-5 py-2.5 text-sm font-bold text-[#0B2718] shadow-md transition hover:-translate-y-px hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
+              >
+                <span>Browse Soups &amp; Full Categories</span>
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </button>
+            }
+          />
         </div>
 
         {/* Full-Bleed Bottom Warm Beige Filipino Heritage Footer Strip */}
-        <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] px-4 py-3.5 text-xs text-[#2F4537] sm:px-8 lg:px-12">
+        <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] px-4 py-3 text-xs text-[#2F4537] sm:px-8 lg:px-12">
           <div className="mx-auto flex w-full max-w-[1520px] flex-wrap items-center justify-between gap-2">
             <span>
               {RESTAURANT_INFO.shortAddress} · Libreng Sabaw Refill sa Bacolod Cansi
             </span>
             <span className="font-bold text-[#0B2718]">
-              Showing {MENU_ITEMS.length} of {MENU_ITEMS.length} dishes
+              Featuring {conveyorItems.length} House Best Sellers · Select any category above to browse all {MENU_ITEMS.length} dishes
             </span>
           </div>
         </div>
       </div>
 
-      {/* Dedicated Locked Full-Screen Category Portal (when browsing a specific category — locked until clicking All Menu) */}
+      {/* Dedicated Locked Full-Screen Category Portal (locked until clicking Best Sellers) */}
       {isLockedCategory &&
         createPortal(
           <div
@@ -468,11 +530,11 @@ export function RestaurantMenuBoard({
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <button
                     type="button"
-                    onClick={() => handleSelectCategory('all')}
+                    onClick={() => handleSelectCategory('bestsellers')}
                     className="inline-flex min-h-[34px] items-center gap-1.5 rounded-full border border-[#0B2718]/25 bg-[#FAF6EC]/95 px-3.5 py-1 text-xs font-bold text-[#0B2718] shadow-xs transition hover:border-[#0B2718] hover:bg-[#0B2718] hover:text-[#F5EFE2]"
                   >
                     <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-                    <span>All Menu</span>
+                    <span>Best Sellers</span>
                   </button>
 
                   <button
@@ -506,7 +568,7 @@ export function RestaurantMenuBoard({
                   </div>
                 </div>
 
-                {/* Category Switcher Tabs (Click All Menu to unlock page scroll) */}
+                {/* Category Switcher Tabs (Click Best Sellers to unlock page scroll) */}
                 <div
                   className="mt-3 flex items-center justify-start gap-1.5 overflow-x-auto no-scrollbar py-0.5 sm:justify-center"
                   role="tablist"
@@ -546,7 +608,7 @@ export function RestaurantMenuBoard({
               }}
             />
 
-            {/* Independently Scrollable Solihiya Grid (Cannot scroll away to other website pages) */}
+            {/* Independently Scrollable Solihiya Grid */}
             <div
               ref={lockedScrollRef}
               className="relative z-10 flex-1 overflow-y-auto bg-[#0A2215] px-4 py-6 sm:px-8 lg:px-12 lg:py-7"
@@ -562,7 +624,7 @@ export function RestaurantMenuBoard({
             <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] px-4 py-3 text-xs text-[#2F4537] sm:px-8 lg:px-12">
               <div className="mx-auto flex w-full max-w-[1520px] flex-wrap items-center justify-between gap-2">
                 <span>
-                  {RESTAURANT_INFO.shortAddress} · Click <strong>All Menu</strong> to browse the rest of the page
+                  {RESTAURANT_INFO.shortAddress} · Click <strong>Best Sellers</strong> to browse the rest of the page
                 </span>
                 <span className="font-bold text-[#0B2718]">
                   Showing {visibleItems.length} of {MENU_ITEMS.length} dishes ({activeCategoryMeta.label})
