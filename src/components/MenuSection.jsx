@@ -349,7 +349,7 @@ export function MenuSection({
             />
 
             {/* Full-Screen Dedicated Customizer Container */}
-            <div className="relative z-10 mx-auto my-auto w-full max-w-[1680px] px-4 sm:px-6 lg:px-8">
+            <div className="relative z-10 mx-auto my-auto w-full max-w-7xl px-5 sm:px-8">
         {/* Top Full-Width Category & Cart Navigation Bar */}
         <div className="flex flex-wrap items-center justify-between gap-2 rounded-[22px] border border-[#DFB96F]/20 bg-[#0B2718]/95 px-4 py-2 shadow-[0_14px_36px_-18px_rgba(0,0,0,0.65)] backdrop-blur-md sm:px-5 lg:flex-nowrap">
           {/* Left Brand Mark */}

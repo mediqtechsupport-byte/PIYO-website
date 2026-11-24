@@ -924,7 +924,7 @@ export function SushiConveyorMenu({
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10" style={{ background: "radial-gradient(64% 52% at 58% 54%, rgba(245,239,226,0.08), transparent 72%)" }} />
       {wide ? (
-        <div className="mx-auto grid w-full max-w-[1520px] grid-cols-[minmax(0,25rem)_minmax(0,1fr)] items-center gap-10 px-8 py-8 lg:px-12 lg:py-10">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,24rem)_minmax(0,1fr)] items-center gap-10 px-5 py-8 sm:px-8 lg:py-10">
           <div className="flex flex-col items-start gap-5">
             {header}
             {captionNode}

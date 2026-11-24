@@ -189,7 +189,7 @@ export function RestaurantMenuBoard({
   };
 
   const renderDishCards = (items) => (
-    <div className="mx-auto grid w-full max-w-[1520px] grid-cols-1 gap-x-7 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-y-7">
+    <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-y-7">
       {items.map((dish) => {
         const stats = trayStatsByDishId[dish.id] || {
           totalQty: 0,
@@ -358,11 +358,11 @@ export function RestaurantMenuBoard({
       {/* Inline Whole-Page Menu Landing ("Best Sellers" Highlight Conveyor — allows scrolling freely to other sections) */}
       <div className="flex min-h-[calc(100svh-var(--nav-h,69px))] w-full flex-col bg-[#0A2215] text-[#0B2718]">
         {/* Full-Bleed Warm Sunlit Beige Editorial Title Banner with Tropical Palm Frond Shadows */}
-        <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#F1E8D5] px-4 pb-2.5 pt-2.5 sm:px-8 lg:px-12 lg:pb-3 lg:pt-3">
+        <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#F1E8D5] px-5 pb-2.5 pt-2.5 sm:px-8 lg:pb-3 lg:pt-3">
           <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-36 w-52 text-[#0B2718] sm:h-40 sm:w-60" />
           <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-32 w-48 -scale-x-100 text-[#0B2718] opacity-75 sm:h-36 sm:w-52" />
 
-          <div className="relative z-10 mx-auto w-full max-w-[1520px] text-center">
+          <div className="relative z-10 mx-auto w-full max-w-7xl text-center">
             <p className="font-script text-[38px] leading-[1.02] text-[#7E5A30] sm:text-[48px]">
               Hapag ng PIYO
             </p>
@@ -387,8 +387,8 @@ export function RestaurantMenuBoard({
 
         {/* Sticky Category Navigation + Cart Bar + Woven Banig Strip */}
         <div className="sticky top-[var(--nav-h,64px)] z-30 w-full shrink-0 shadow-[0_12px_28px_-14px_rgba(4,16,9,0.68)]">
-          <div className="bg-[#EFE6D2]/96 px-4 py-2.5 backdrop-blur-md sm:px-8 lg:px-12">
-            <div className="mx-auto flex w-full max-w-[1520px] items-center justify-between gap-3">
+          <div className="bg-[#EFE6D2]/96 px-5 py-2.5 backdrop-blur-md sm:px-8">
+            <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3">
               <span className="hidden shrink-0 font-serif text-sm font-bold uppercase tracking-[0.2em] text-[#0B2718] xl:inline-block">
                 PIYO <span className="text-[#8A673D]">·</span> Menu
               </span>
@@ -483,8 +483,8 @@ export function RestaurantMenuBoard({
         </div>
 
         {/* Full-Bleed Bottom Warm Beige Filipino Heritage Footer Strip */}
-        <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] px-4 py-3 text-xs text-[#2F4537] sm:px-8 lg:px-12">
-          <div className="mx-auto flex w-full max-w-[1520px] flex-wrap items-center justify-between gap-2">
+        <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] px-5 py-3 text-xs text-[#2F4537] sm:px-8">
+          <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-2">
             <span>
               {RESTAURANT_INFO.shortAddress} · Libreng Sabaw Refill sa Bacolod Cansi
             </span>
@@ -506,11 +506,11 @@ export function RestaurantMenuBoard({
             aria-label={`PIYO Filipino Menu — ${activeCategoryMeta.label}`}
           >
             {/* Pinned Warm Sunlit Beige Header + Category Navigation Bar */}
-            <div className="relative z-20 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#ECE2CC] px-4 pb-3.5 pt-4 sm:px-8 lg:px-12">
+            <div className="relative z-20 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#ECE2CC] px-5 pb-3.5 pt-4 sm:px-8">
               <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-36 w-52 text-[#0B2718] sm:h-44 sm:w-64" />
               <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-32 w-48 -scale-x-100 text-[#0B2718] opacity-75 sm:h-40 sm:w-60" />
 
-              <div className="relative z-10 mx-auto w-full max-w-[1520px]">
+              <div className="relative z-10 mx-auto w-full max-w-7xl">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <button
                     type="button"
@@ -595,7 +595,7 @@ export function RestaurantMenuBoard({
             {/* Independently Scrollable Solihiya Grid */}
             <div
               ref={lockedScrollRef}
-              className="relative z-10 flex-1 overflow-y-auto bg-[#0A2215] px-4 py-6 sm:px-8 lg:px-12 lg:py-7"
+              className="relative z-10 flex-1 overflow-y-auto bg-[#0A2215] px-5 py-6 sm:px-8 lg:py-7"
               style={{
                 backgroundImage: SOLIHIYA_BG,
                 backgroundSize: '64px 64px',
@@ -605,8 +605,8 @@ export function RestaurantMenuBoard({
             </div>
 
             {/* Pinned Bottom Warm Beige Footer Strip */}
-            <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] px-4 py-3 text-xs text-[#2F4537] sm:px-8 lg:px-12">
-              <div className="mx-auto flex w-full max-w-[1520px] flex-wrap items-center justify-between gap-2">
+            <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] px-5 py-3 text-xs text-[#2F4537] sm:px-8">
+              <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-2">
                 <span>
                   {RESTAURANT_INFO.shortAddress} · Click <strong>Best Sellers</strong> to browse the rest of the page
                 </span>

@@ -73,7 +73,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
       </div>
 
       {/* Center Editorial Content Grid — Narrative Left, Connected Directly with Straight-On Facade Right */}
-      <div className="relative z-10 mx-auto flex w-full max-w-[1520px] flex-1 items-center px-5 pb-10 pt-4 sm:px-8 lg:grid lg:grid-cols-12 lg:px-10 lg:py-4 2xl:px-14 2xl:py-6">
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center px-5 pb-10 pt-4 sm:px-8 lg:grid lg:grid-cols-12 lg:py-4 2xl:py-6">
         <div className="lg:col-span-6 lg:pr-6 xl:pr-10 2xl:pr-12">
           {/* Quiet Tracked Eyebrow */}
           <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.24em] text-[#DFB96F]">
@@ -147,7 +147,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
 
       {/* Unified Full-Width Architectural Horizon Bar Connecting Photo Left to Narrative Right */}
       <div className="relative z-10 hidden w-full lg:block">
-        <div className="mx-auto flex max-w-[1520px] items-center justify-between border-t border-[#FAF6EC]/12 px-10 py-3.5 text-[11px] 2xl:px-14 2xl:py-4">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between border-t border-[#FAF6EC]/12 px-5 py-3.5 text-[11px] sm:px-8 2xl:py-4">
           <div className="flex items-center gap-4">
             <span className="font-semibold uppercase tracking-[0.22em] text-[#DFB96F]">
               The House · {RESTAURANT_INFO.established}

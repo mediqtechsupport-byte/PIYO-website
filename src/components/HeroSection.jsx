@@ -43,7 +43,7 @@ export function HeroSection({
           {/* Left Editorial Column — Unified Flush Left/Right Editorial Measure */}
           <div className="w-full max-w-[496px] lg:col-span-6 xl:col-span-6">
             {/* Editorial Eyebrow with Gold Dot & Full-Width Hairline */}
-            <div className="flex w-full items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#B7C7BD] sm:text-xs">
+            <div className="flex w-full items-center gap-2.5 text-[10.5px] font-medium uppercase tracking-[0.14em] text-[#B7C7BD] sm:gap-3 sm:text-xs sm:tracking-[0.2em]">
               <span className="inline-flex shrink-0 items-center gap-2">
                 <span
                   className="h-1.5 w-1.5 rounded-full bg-[#DFB96F]"

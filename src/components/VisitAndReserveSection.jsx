@@ -55,7 +55,7 @@ export function VisitAndReserveSection({ openStatus }) {
 
   return (
     <section id="visit" className="bg-[#F5EFE2] py-12 sm:py-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid gap-8 lg:grid-cols-12">
           {/* Left: Location, Hours, Direct Contacts */}
           <div className="space-y-5 lg:col-span-6">

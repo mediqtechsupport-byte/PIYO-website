@@ -293,7 +293,7 @@ export default function App() {
 
       {/* Heritage Forest Green Footer */}
       <footer className="border-t border-[#D8B36A]/25 bg-[#06180E] py-10 text-[#FAF6EC]">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:flex-row sm:px-6 sm:text-left">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-5 text-center sm:flex-row sm:px-8 sm:text-left">
           <div className="flex items-center gap-3.5">
             <img
               src="./logo.svg"
@@ -341,7 +341,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="mx-auto mt-6 max-w-7xl border-t border-white/10 px-4 pt-5 text-center text-[11px] text-[#9BB0A1] sm:px-6">
+        <div className="mx-auto mt-6 max-w-7xl border-t border-white/10 px-5 pt-5 text-center text-[11px] text-[#9BB0A1] sm:px-8">
           <p className="inline-flex items-center gap-1">
             PIYO Grill &amp; Restaurant · Est. 2025 · Crafted with{' '}
             <Heart className="h-3 w-3 fill-[#D8B36A] text-[#D8B36A]" /> for mobile &amp; desktop diners
