@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Plus, Minus, ShoppingBag, SlidersHorizontal, Sparkles } from 'lucide-react';
 import { MENU_CATEGORIES, MENU_ITEMS, RESTAURANT_INFO } from '../data/menuData';
 import { formatPeso } from '../utils/hours';
@@ -59,9 +60,9 @@ export function RestaurantMenuModal({
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#030C07]/82 p-3 backdrop-blur-md sm:p-5"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-[#030C07]/82 p-3 backdrop-blur-md sm:p-5"
       onClick={onClose}
       onWheel={(e) => e.stopPropagation()}
       role="dialog"
@@ -298,6 +299,7 @@ export function RestaurantMenuModal({
           </span>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
