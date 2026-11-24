@@ -140,9 +140,9 @@ export default function App() {
 
         <GrillPromiseSection
           onExploreGrill={() => scrollToSection('menu')}
-          onInspectFishDish={() =>
+          onInspectDish={() =>
             setSelectedDish(
-              MENU_ITEMS.find((item) => item.id === 'grilled-bangus') || null
+              MENU_ITEMS.find((item) => item.id === 'bacolod-cansi') || null
             )
           }
         />

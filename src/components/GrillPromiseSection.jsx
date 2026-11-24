@@ -1,42 +1,42 @@
 import React from 'react';
-import { Fish, Flame, UtensilsCrossed, ArrowUpRight } from 'lucide-react';
+import { Flame, Soup, UtensilsCrossed, ArrowUpRight } from 'lucide-react';
 
 const HIGHLIGHTS = [
   {
-    icon: Fish,
-    title: 'Daily Fresh Bangus & Heritage Ingredients',
-    description:
-      'Whole boneless milkfish, crisp Tagaytay pechay, sweet corn, and real Negrense batwan prepared fresh each morning.',
-    tileClass: 'bg-[#ECEBFD] text-[#28336B]',
-  },
-  {
     icon: Flame,
-    title: 'Your Tagaytay Charcoal Sinugba Specialist',
+    title: 'Daily Fresh Prep & Negros Heritage',
     description:
-      'Live charcoal grates set outside our indoor dining hall give every inasal, liempo, and stuffed bangus authentic smoky char.',
-    tileClass: 'bg-[#FDF0DC] text-[#8F4D12]',
+      'Chicken inasal marinated in calamansi, tanglad & annatto oil, paired with crisp Tagaytay produce and real Negrense batwan every morning.',
+    tileClass: 'bg-[#E5EDE7] text-[#0B2718]',
   },
   {
     icon: UtensilsCrossed,
-    title: 'Served Hot for Dine-In & Family Feasts',
+    title: 'Outdoor Charcoal Grill, Smoke-Free Hall',
     description:
-      'Built for Tagaytay road trips with 6–8 seater family tables, takeout platters, and free Bacolod Cansi soup refills.',
-    tileClass: 'bg-[#E3F5EB] text-[#115836]',
+      'Our dedicated live charcoal station chars every inasal, liempo, and bangus outside so our indoor dining room stays fresh and cozy.',
+    tileClass: 'bg-[#EDE3CE] text-[#7D5817]',
+  },
+  {
+    icon: Soup,
+    title: 'Free Cansi Refills for Dine-In & Groups',
+    description:
+      'Spacious 6–8 seater family tables, takeout bilao spreads, and steaming complimentary broth refills on every Bacolod Cansi.',
+    tileClass: 'bg-[#DDE8E0] text-[#113421]',
   },
 ];
 
-export function GrillPromiseSection({ onInspectFishDish, onExploreGrill }) {
+export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
   return (
     <section
       id="craft"
-      className="relative overflow-hidden border-b border-[#0B2718]/10 bg-white py-14 text-[#0B2718] sm:py-20 lg:py-24"
+      className="relative overflow-hidden border-b border-[#0B2718]/12 bg-[#F5EFE2] py-14 text-[#0B2718] sm:py-20 lg:py-24"
     >
-      {/* Top-Left Open Flame Accent */}
+      {/* Top-Left Open Flame Accent blended cleanly into warm beige */}
       <img
         src="./images/flame-corner.jpg"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -left-2 -top-2 h-28 w-36 object-cover object-left-top opacity-95 mix-blend-multiply sm:h-40 sm:w-52 lg:h-52 lg:w-64"
+        className="pointer-events-none absolute -left-2 -top-2 h-28 w-36 object-cover object-left-top opacity-90 mix-blend-multiply sm:h-40 sm:w-52 lg:h-52 lg:w-64"
         onError={(e) => {
           e.currentTarget.style.display = 'none';
         }}
@@ -48,7 +48,7 @@ export function GrillPromiseSection({ onInspectFishDish, onExploreGrill }) {
           <div className="lg:col-span-6">
             <h2 className="font-serif text-[2.25rem] font-semibold leading-[1.1] tracking-tight text-[#0B2718] sm:text-5xl xl:text-[3.15rem]">
               <span className="relative inline-block">
-                <span className="relative z-10">Fresh off the Grill</span>
+                <span className="relative z-10">PIYO&apos;s #1 House Favorite</span>
                 <svg
                   viewBox="0 0 320 20"
                   fill="none"
@@ -58,26 +58,26 @@ export function GrillPromiseSection({ onInspectFishDish, onExploreGrill }) {
                 >
                   <path
                     d="M4 11.5C82 4 218 4 316 10.5"
-                    stroke="#E85234"
+                    stroke="#C29645"
                     strokeWidth="6.5"
                     strokeLinecap="round"
                   />
                   <path
                     d="M14 15.5C96 10 220 9.5 304 13"
-                    stroke="#DFB96F"
-                    strokeWidth="2.5"
+                    stroke="#0B2718"
+                    strokeWidth="2.2"
                     strokeLinecap="round"
-                    opacity="0.75"
+                    opacity="0.35"
                   />
                 </svg>
               </span>{' '}
-              &amp; Straight to Your Table
+              — Authentic Bacolod Cansi
             </h2>
 
-            <p className="mt-5 max-w-xl text-sm leading-relaxed text-[#48564B] sm:text-[15px] sm:leading-7">
-              Born from a love for Negros heritage recipes and live open flames. We
-              prepare stuffed boneless bangus, charcoal chicken inasal, and
-              slow-simmered batwan soups daily — kissed cleanly by smoke.
+            <p className="mt-5 max-w-xl text-sm leading-relaxed text-[#425246] sm:text-[15px] sm:leading-7">
+              Loved by Tagaytay families and repeat visitors for our real
+              batwan-soured beef shank &amp; bone marrow broth — served piping
+              hot on banana leaf alongside outdoor charcoal-grilled favorites.
             </p>
 
             {/* 3 Tinted Line-Icon Highlights */}
@@ -87,7 +87,7 @@ export function GrillPromiseSection({ onInspectFishDish, onExploreGrill }) {
                 return (
                   <div key={item.title} className="flex items-start gap-4">
                     <div
-                      className={`flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl shadow-xs ring-1 ring-black/5 sm:h-14 sm:w-14 ${item.tileClass}`}
+                      className={`flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl shadow-xs ring-1 ring-[#0B2718]/10 sm:h-14 sm:w-14 ${item.tileClass}`}
                     >
                       <Icon className="h-6 w-6 stroke-[1.75]" aria-hidden="true" />
                     </div>
@@ -95,7 +95,7 @@ export function GrillPromiseSection({ onInspectFishDish, onExploreGrill }) {
                       <h3 className="font-serif text-lg font-semibold leading-snug text-[#0B2718] sm:text-xl">
                         {item.title}
                       </h3>
-                      <p className="mt-0.5 text-xs leading-relaxed text-[#526155] sm:text-sm">
+                      <p className="mt-0.5 text-xs leading-relaxed text-[#47574B] sm:text-sm">
                         {item.description}
                       </p>
                     </div>
@@ -115,22 +115,22 @@ export function GrillPromiseSection({ onInspectFishDish, onExploreGrill }) {
               </button>
               <button
                 type="button"
-                onClick={onInspectFishDish}
-                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-[#0B2718]/20 bg-white px-5 py-2.5 text-xs font-semibold text-[#0B2718] transition hover:border-[#0B2718]/45 hover:bg-[#F5EFE2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] sm:text-sm"
+                onClick={onInspectDish}
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-[#0B2718]/25 bg-[#FAF6EC] px-5 py-2.5 text-xs font-semibold text-[#0B2718] transition hover:border-[#0B2718]/45 hover:bg-[#E5EDE7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] sm:text-sm"
               >
-                <span>Inspect Stuffed Bangus · ₱410</span>
+                <span>Inspect Bacolod Cansi · ₱666</span>
               </button>
             </div>
           </div>
 
-          {/* Right Patterned Banner & Floating Oval Platter */}
+          {/* Right Forest-Green Botanical Banner & Floating PIYO Oval Platter */}
           <div className="relative mx-auto w-full max-w-[520px] lg:col-span-6 lg:max-w-none">
             <div className="relative mx-auto flex items-center justify-center py-4 sm:py-6">
-              {/* Pillowy Curved Botanical Patterned Ember Banner */}
+              {/* Pillowy Curved PIYO Forest-Green & Gold Culinary Sketch Banner */}
               <svg
                 viewBox="0 0 540 420"
                 aria-hidden="true"
-                className="w-full max-w-[540px] drop-shadow-[0_18px_36px_rgba(232,82,52,0.18)]"
+                className="w-full max-w-[540px] drop-shadow-[0_18px_36px_rgba(11,39,24,0.24)]"
               >
                 <defs>
                   <pattern
@@ -142,7 +142,7 @@ export function GrillPromiseSection({ onInspectFishDish, onExploreGrill }) {
                     <path
                       d="M16 32 C28 18, 52 18, 66 32 C52 46, 28 46, 16 32 Z M66 32 L78 24 L76 40 Z"
                       fill="none"
-                      stroke="rgba(255,255,255,0.22)"
+                      stroke="rgba(223,185,111,0.26)"
                       strokeWidth="1.4"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -152,18 +152,18 @@ export function GrillPromiseSection({ onInspectFishDish, onExploreGrill }) {
                       cy="82"
                       r="14"
                       fill="none"
-                      stroke="rgba(255,255,255,0.2)"
+                      stroke="rgba(250,246,236,0.18)"
                       strokeWidth="1.4"
                     />
                     <path
                       d="M32 68 L32 96 M18 82 L46 82 M22 72 L42 92 M42 72 L22 92"
-                      stroke="rgba(255,255,255,0.18)"
+                      stroke="rgba(250,246,236,0.16)"
                       strokeWidth="1.2"
                     />
                     <path
                       d="M84 62 C92 50, 102 52, 98 66 C94 78, 80 78, 84 62 Z M84 62 C80 74, 72 86, 68 96"
                       fill="none"
-                      stroke="rgba(255,255,255,0.2)"
+                      stroke="rgba(223,185,111,0.22)"
                       strokeWidth="1.4"
                       strokeLinecap="round"
                     />
@@ -171,7 +171,7 @@ export function GrillPromiseSection({ onInspectFishDish, onExploreGrill }) {
                 </defs>
                 <path
                   d="M 16 18 Q 270 68 524 18 Q 486 210 524 402 Q 270 352 16 402 Q 54 210 16 18 Z"
-                  fill="#EA4E33"
+                  fill="#113421"
                 />
                 <path
                   d="M 16 18 Q 270 68 524 18 Q 486 210 524 402 Q 270 352 16 402 Q 54 210 16 18 Z"
@@ -179,29 +179,29 @@ export function GrillPromiseSection({ onInspectFishDish, onExploreGrill }) {
                 />
               </svg>
 
-              {/* Interactive Tilted White Oval Porcelain Platter */}
+              {/* Interactive Tilted Cream-White Oval Platter */}
               <button
                 type="button"
-                onClick={onInspectFishDish}
-                aria-label="Inspect Stuffed Grilled Bangus — ₱410"
-                className="group absolute inset-0 m-auto flex aspect-[1.32/1] w-[86%] -rotate-3 items-center justify-center overflow-hidden rounded-[50%] border-[8px] border-white bg-white shadow-[0_28px_56px_-14px_rgba(11,39,24,0.38)] transition duration-500 hover:rotate-0 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0B2718] sm:w-[88%] sm:border-[12px]"
+                onClick={onInspectDish}
+                aria-label="Inspect Bacolod Cansi — ₱666"
+                className="group absolute inset-0 m-auto flex aspect-[1.32/1] w-[86%] -rotate-3 items-center justify-center overflow-hidden rounded-[50%] border-[8px] border-[#FAF6EC] bg-[#FAF6EC] shadow-[0_28px_56px_-14px_rgba(6,24,14,0.48)] transition duration-500 hover:rotate-0 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0B2718] sm:w-[88%] sm:border-[12px]"
               >
                 <img
-                  src="./images/dish-bangus-oval-platter.jpg"
-                  alt="Whole charcoal-grilled Filipino Stuffed Bangus served on an oval white porcelain plate with citrus and herbs"
-                  className="h-full w-full scale-[1.28] rotate-[10deg] object-cover object-center transition duration-700 group-hover:scale-[1.32]"
+                  src="./images/dish-cansi-oval-platter.jpg"
+                  alt="PIYO Bacolod Cansi beef shank and bone marrow soup with batwan, jackfruit, and lemongrass on an oval platter"
+                  className="h-full w-full scale-[1.22] rotate-[1deg] object-cover object-center transition duration-700 group-hover:scale-[1.26]"
                 />
               </button>
 
               {/* Clean Floating Dish Tag */}
               <button
                 type="button"
-                onClick={onInspectFishDish}
-                className="absolute bottom-2 right-2 z-10 inline-flex items-center gap-2 rounded-full border border-[#0B2718]/15 bg-white/95 px-4 py-2 text-xs font-bold text-[#0B2718] shadow-lg backdrop-blur-sm transition hover:bg-[#FAF6EC] sm:bottom-3 sm:right-4"
+                onClick={onInspectDish}
+                className="absolute bottom-2 right-2 z-10 inline-flex items-center gap-2 rounded-full border border-[#0B2718]/15 bg-[#FAF6EC]/95 px-4 py-2 text-xs font-bold text-[#0B2718] shadow-lg backdrop-blur-sm transition hover:bg-white sm:bottom-3 sm:right-4"
               >
-                <span className="h-2 w-2 rounded-full bg-[#E85234]" aria-hidden="true" />
-                <span>Stuffed Grilled Bangus · ₱410</span>
-                <ArrowUpRight className="h-3.5 w-3.5 text-[#E85234]" aria-hidden="true" />
+                <span className="h-2 w-2 rounded-full bg-[#C29645]" aria-hidden="true" />
+                <span>Bacolod Cansi · ₱666</span>
+                <ArrowUpRight className="h-3.5 w-3.5 text-[#C29645]" aria-hidden="true" />
               </button>
             </div>
           </div>
