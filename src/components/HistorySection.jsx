@@ -178,24 +178,6 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           </div>
         </div>
       </div>
-
-      {/* Unified Full-Width Architectural Horizon Bar */}
-      <div className="relative z-10 hidden w-full lg:block">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between border-t border-[#FAF6EC]/12 px-5 py-3.5 text-[11px] sm:px-8 2xl:py-4">
-          <div className="flex items-center gap-4">
-            <span className="font-semibold uppercase tracking-[0.22em] text-[#DFB96F]">
-              The House · {RESTAURANT_INFO.established}
-            </span>
-            <span className="h-px w-8 bg-[#FAF6EC]/20" aria-hidden="true" />
-            <span className="font-serif text-sm text-[#FAF6EC]/85">
-              Km. 64 Tagaytay–Nasugbu Highway, Brgy. Bagong Tubig
-            </span>
-          </div>
-          <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#FAF6EC]/55">
-            14.08° N · Tagaytay Ridge · Smoke-Free Dining Hall
-          </span>
-        </div>
-      </div>
     </section>
   );
 }
