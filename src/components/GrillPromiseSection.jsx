@@ -326,7 +326,8 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
     };
   }, []);
 
-  const handleReplayClick = () => {
+  const handleReplayClick = (e) => {
+    e.currentTarget.blur();
     triggerBuildSequence(760);
   };
 
@@ -453,15 +454,25 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
               <button
                 type="button"
                 onClick={handleReplayClick}
-                title="Click to replay Bacolod Cansi animation"
+                title="Touch me to replay animation"
                 aria-label="Replay Bacolod Cansi ingredient assembly animation"
-                className="relative mx-auto flex h-full w-auto cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718]"
+                className="relative mx-auto flex h-full w-auto cursor-pointer items-center justify-center rounded-3xl outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718]/35"
                 style={{
                   aspectRatio: `${CANSI_STAGE_ASPECT}`,
                   maxWidth: '100%',
                   perspective: '1000px',
                 }}
               >
+                {/* Subtle "Touch me" interactive hint centered below the bowl */}
+                <span
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute -bottom-3 left-1/2 z-30 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap text-[11px] font-medium tracking-[0.18em] uppercase text-[#0B2718]/55 transition-all duration-500 group-hover:text-[#0B2718]/85 ${
+                    phase === 'assembled' ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
+                  }`}
+                >
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#C29645]" />
+                  <span>Touch me</span>
+                </span>
                 {/* 3D Tilting Master Stage */}
                 <div
                   className="relative h-full w-full transition-transform duration-300 ease-out"
