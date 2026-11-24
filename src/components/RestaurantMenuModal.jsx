@@ -481,9 +481,17 @@ export function RestaurantMenuBoard({
         {/* Full-Bleed Bottom Warm Beige Filipino Heritage Banner Strip */}
         <div
           aria-hidden="true"
-          className="relative z-10 h-9 w-full shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC]"
+          className="relative z-10 w-full shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC]"
         >
-          <BanigWeaveStrip />
+          <div
+            className="h-[11px] w-full border-b border-[#0B2718]/20 bg-[#E6D9BE]"
+            style={{
+              backgroundImage: BANIG_STRIP_BG,
+              backgroundRepeat: 'repeat-x',
+              backgroundPosition: 'center',
+            }}
+          />
+          <div className="h-6 w-full bg-[#ECE2CC]" />
         </div>
       </div>
 
@@ -599,9 +607,17 @@ export function RestaurantMenuBoard({
             {/* Pinned Bottom Warm Beige Heritage Banner Strip */}
             <div
               aria-hidden="true"
-              className="relative z-10 h-9 w-full shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC]"
+              className="relative z-10 w-full shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC]"
             >
-              <BanigWeaveStrip />
+              <div
+                className="h-[11px] w-full border-b border-[#0B2718]/20 bg-[#E6D9BE]"
+                style={{
+                  backgroundImage: BANIG_STRIP_BG,
+                  backgroundRepeat: 'repeat-x',
+                  backgroundPosition: 'center',
+                }}
+              />
+              <div className="h-6 w-full bg-[#ECE2CC]" />
             </div>
           </div>,
           document.body
