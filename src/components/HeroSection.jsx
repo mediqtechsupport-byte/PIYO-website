@@ -221,26 +221,10 @@ export function HeroSection({
               onMouseLeave={() => setIsPaused(false)}
               className="relative flex aspect-square w-[315px] items-center justify-center sm:w-[435px] lg:mr-8 lg:w-[515px] xl:mr-14 xl:w-[575px]"
             >
-              {/* Fresh Green Batwan Accent Top-Left on Dark Pine Canvas */}
-              <img
-                src="./images/cansi-layers/batwan-upper.png"
-                alt=""
-                aria-hidden="true"
-                className="pointer-events-none absolute -left-3 top-[10%] z-10 h-10 w-10 -rotate-12 object-contain drop-shadow-[0_10px_14px_rgba(0,0,0,0.45)] sm:h-12 sm:w-12"
-              />
-
-              {/* Fresh Lemongrass Stalks Draped Gracefully Along Lower-Left Warm Beige Curve */}
-              <img
-                src="./images/cansi-layers/lemongrass.png"
-                alt=""
-                aria-hidden="true"
-                className="pointer-events-none absolute -bottom-5 -left-10 z-20 hidden h-32 w-32 rotate-[52deg] object-contain opacity-95 drop-shadow-[0_10px_14px_rgba(6,24,14,0.22)] sm:block lg:-bottom-8 lg:-left-14 lg:h-38 lg:w-38"
-              />
-
               {/* Authentic PIYO Toyo-Calamansi-Sili Sawsawan Dipping Bowl Resting on Upper-Right Warm Beige */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute -right-5 top-[3%] z-20 h-22 w-22 sm:-right-12 sm:top-[5%] sm:h-28 sm:w-28 lg:-right-16 xl:-right-22 xl:h-32 xl:w-32"
+                className="pointer-events-none absolute -right-5 top-[4%] z-20 h-22 w-22 sm:-right-12 sm:top-[6%] sm:h-28 sm:w-28 lg:-right-16 xl:-right-22 xl:h-32 xl:w-32"
               >
                 <div className="absolute inset-2 translate-x-1.5 translate-y-2.5 rounded-full bg-black/32 blur-md" />
                 <img
@@ -269,32 +253,6 @@ export function HeroSection({
                   draggable={false}
                 />
               </button>
-
-              {/* Fresh Halved Calamansi, Green Sili Haba & Red Sili Labuyo Accents Along Warm Beige Edge */}
-              <img
-                src="./images/cansi-layers/calamansi-top.png"
-                alt=""
-                aria-hidden="true"
-                className="pointer-events-none absolute -right-2 top-[41%] z-20 h-11 w-11 rotate-12 object-contain drop-shadow-[0_8px_12px_rgba(6,24,14,0.28)] sm:-right-9 sm:h-12 sm:w-12 xl:-right-14"
-              />
-              <img
-                src="./images/cansi-layers/sili-green.png"
-                alt=""
-                aria-hidden="true"
-                className="pointer-events-none absolute bottom-[27%] -right-3 z-20 hidden h-20 w-20 rotate-[14deg] object-contain drop-shadow-[0_8px_14px_rgba(6,24,14,0.24)] sm:block sm:-right-12 xl:-right-18"
-              />
-              <img
-                src="./images/cansi-layers/sili-red.png"
-                alt=""
-                aria-hidden="true"
-                className="pointer-events-none absolute -bottom-7 left-[28%] z-20 hidden h-14 w-14 -rotate-[32deg] object-contain drop-shadow-[0_8px_12px_rgba(6,24,14,0.24)] sm:block"
-              />
-              <img
-                src="./images/cansi-layers/scallions.png"
-                alt=""
-                aria-hidden="true"
-                className="pointer-events-none absolute -bottom-6 right-[22%] z-20 hidden h-14 w-14 rotate-12 object-contain drop-shadow-[0_8px_12px_rgba(6,24,14,0.22)] sm:block"
-              />
 
               {/* Subtle Editorial Tagaytay Stamp Resting Quietly on Lower Beige Ribbon */}
               <div
