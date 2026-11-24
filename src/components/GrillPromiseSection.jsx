@@ -260,18 +260,6 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                 />
               </svg>
 
-              {/* Subtle Culinary Line-Art Pattern inside clipped silhouette */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 opacity-65"
-                style={{
-                  clipPath:
-                    'polygon(2% 3%, 48% 12%, 100% 2%, 100% 98%, 48% 88%, 2% 97%, 6% 50%)',
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='130' viewBox='0 0 130 130'%3E%3Ccircle cx='34' cy='34' r='14' fill='none' stroke='rgba(250,246,236,0.12)' stroke-width='1.2'/%3E%3Cpath d='M34 20v28M20 34h28M24 24l20 20M44 24L24 44' stroke='rgba(223,185,111,0.14)' stroke-width='1'/%3E%3Cpath d='M86 38c8-10 22-12 30-8-6 10-16 18-30 14z' fill='none' stroke='rgba(223,185,111,0.14)' stroke-width='1.2'/%3E%3Cpath d='M22 98c10-10 28-10 38 0-8 10-26 10-38 0z' fill='none' stroke='rgba(250,246,236,0.1)' stroke-width='1.2'/%3E%3C/svg%3E")`,
-                  backgroundSize: '130px 130px',
-                }}
-              />
-
               {/* Breathing Golden-Amber Hearth Halo Behind the Floating Exploded Cansi */}
               <div
                 aria-hidden="true"
@@ -349,48 +337,6 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                         className="h-full w-full object-contain [mask-image:radial-gradient(ellipse_49%_49%_at_50%_50%,black_66%,transparent_99%)]"
                       />
                     </div>
-
-                    {/* Floating 3D Parallax Satellite Ingredients Caught in Dynamic Gust */}
-                    <img
-                      src="./images/cansi-float-calamansi.png"
-                      alt=""
-                      aria-hidden="true"
-                      className="cansi-orbit-a pointer-events-none absolute left-[10%] top-[14%] z-20 h-11 w-11 object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.55)] transition-transform duration-500 sm:left-[12%] sm:h-14 sm:w-14"
-                      style={{
-                        marginLeft: `${(tilt.x * -14).toFixed(1)}px`,
-                        marginTop: `${(tilt.y * -10).toFixed(1)}px`,
-                      }}
-                    />
-                    <img
-                      src="./images/cansi-float-chili.png"
-                      alt=""
-                      aria-hidden="true"
-                      className="cansi-orbit-b pointer-events-none absolute right-[10%] top-[18%] z-20 h-11 w-12 object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.55)] transition-transform duration-500 sm:right-[11%] sm:h-14 sm:w-16"
-                      style={{
-                        marginRight: `${(tilt.x * 14).toFixed(1)}px`,
-                        marginTop: `${(tilt.y * -12).toFixed(1)}px`,
-                      }}
-                    />
-                    <img
-                      src="./images/cansi-float-garlic.png"
-                      alt=""
-                      aria-hidden="true"
-                      className="cansi-orbit-c pointer-events-none absolute bottom-[22%] left-[11%] z-20 h-9 w-9 object-contain drop-shadow-[0_10px_14px_rgba(0,0,0,0.55)] transition-transform duration-500 sm:left-[13%] sm:h-11 sm:w-11"
-                      style={{
-                        marginLeft: `${(tilt.x * -16).toFixed(1)}px`,
-                        marginBottom: `${(tilt.y * 10).toFixed(1)}px`,
-                      }}
-                    />
-                    <img
-                      src="./images/cansi-float-lemongrass.png"
-                      alt=""
-                      aria-hidden="true"
-                      className="cansi-orbit-a pointer-events-none absolute bottom-[24%] right-[9%] z-20 h-14 w-14 rotate-12 object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.55)] transition-transform duration-500 sm:right-[10%] sm:h-16 sm:w-16"
-                      style={{
-                        marginRight: `${(tilt.x * 16).toFixed(1)}px`,
-                        marginBottom: `${(tilt.y * 12).toFixed(1)}px`,
-                      }}
-                    />
 
                     {/* Mid-Air Shimmering Golden Broth Droplets */}
                     {BROTH_DROPLETS.map((drop, idx) => (
