@@ -1,16 +1,232 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Flame, Soup, UtensilsCrossed, ArrowUpRight } from 'lucide-react';
+import { CANSI_LAYERS, CANSI_STAGE_ASPECT } from '../data/cansiLayers';
 
-const BROTH_DROPLETS = [
-  { left: '14%', top: '20%', size: 6, delay: '0s', duration: '3.4s' },
-  { left: '22%', top: '72%', size: 5, delay: '0.8s', duration: '4.1s' },
-  { left: '30%', top: '12%', size: 4, delay: '1.4s', duration: '3.7s' },
-  { left: '78%', top: '18%', size: 6, delay: '0.4s', duration: '3.9s' },
-  { left: '84%', top: '56%', size: 5, delay: '1.1s', duration: '4.3s' },
-  { left: '72%', top: '78%', size: 4, delay: '1.8s', duration: '3.5s' },
-  { left: '18%', top: '46%', size: 4, delay: '2.1s', duration: '4.0s' },
-  { left: '82%', top: '34%', size: 5, delay: '0.6s', duration: '3.6s' },
-];
+// Organic scatter coordinates (relative to each ingredient's final assembled spot in the bowl)
+// Spread wide into the open warm-beige areas around #craft (far left, top sky, center gap, bottom strip, far right)
+// so visitors first see scattered ingredients across the page + the steaming bowl, then watch them slowly build into the bowl.
+const LAYER_CHOREOGRAPHY = {
+  bowl: {
+    isBowl: true,
+    depth: 0.45,
+    idleY: '-5px',
+    idleX: '0px',
+    idleRot: '0deg',
+    idleDur: '5.8s',
+    idleDelay: '0s',
+  },
+  'beef-center': {
+    sx: '-190px',
+    sy: '-240px',
+    srot: '-24deg',
+    sscale: 0.88,
+    delay: '0ms',
+    dur: '1600ms',
+    depth: 0.95,
+    idleY: '-9px',
+    idleX: '2px',
+    idleRot: '1.5deg',
+    idleDur: '4.9s',
+    idleDelay: '0.2s',
+  },
+  'beef-left': {
+    sx: '-295px',
+    sy: '205px',
+    srot: '-32deg',
+    sscale: 0.9,
+    delay: '120ms',
+    dur: '1650ms',
+    depth: 1.05,
+    idleY: '-8px',
+    idleX: '-3px',
+    idleRot: '-2deg',
+    idleDur: '5.3s',
+    idleDelay: '0.5s',
+  },
+  'beef-right': {
+    sx: '235px',
+    sy: '115px',
+    srot: '26deg',
+    sscale: 0.9,
+    delay: '220ms',
+    dur: '1680ms',
+    depth: 1.0,
+    idleY: '-10px',
+    idleX: '3px',
+    idleRot: '2deg',
+    idleDur: '5.1s',
+    idleDelay: '0.8s',
+  },
+  shank: {
+    sx: '-285px',
+    sy: '-210px',
+    srot: '-26deg',
+    sscale: 0.84,
+    delay: '360ms',
+    dur: '1900ms',
+    depth: 1.25,
+    idleY: '-11px',
+    idleX: '1px',
+    idleRot: '1.2deg',
+    idleDur: '5.6s',
+    idleDelay: '0.1s',
+  },
+  langka: {
+    sx: '210px',
+    sy: '-165px',
+    srot: '30deg',
+    sscale: 0.9,
+    delay: '540ms',
+    dur: '1750ms',
+    depth: 1.15,
+    idleY: '-10px',
+    idleX: '4px',
+    idleRot: '2.4deg',
+    idleDur: '5.4s',
+    idleDelay: '0.7s',
+  },
+  lemongrass: {
+    sx: '-610px',
+    sy: '-175px',
+    srot: '-38deg',
+    sscale: 0.9,
+    delay: '640ms',
+    dur: '1850ms',
+    depth: 1.1,
+    idleY: '-9px',
+    idleX: '-4px',
+    idleRot: '-1.8deg',
+    idleDur: '6.0s',
+    idleDelay: '0.4s',
+  },
+  'calamansi-top': {
+    sx: '-435px',
+    sy: '-125px',
+    srot: '-65deg',
+    sscale: 0.92,
+    delay: '780ms',
+    dur: '1700ms',
+    depth: 1.35,
+    idleY: '-12px',
+    idleX: '-2px',
+    idleRot: '-3deg',
+    idleDur: '4.8s',
+    idleDelay: '0.9s',
+  },
+  'batwan-upper': {
+    sx: '-845px',
+    sy: '75px',
+    srot: '42deg',
+    sscale: 0.94,
+    delay: '860ms',
+    dur: '1800ms',
+    depth: 1.3,
+    idleY: '-11px',
+    idleX: '-3px',
+    idleRot: '2.5deg',
+    idleDur: '5.2s',
+    idleDelay: '0.3s',
+  },
+  'batwan-mid': {
+    sx: '-795px',
+    sy: '225px',
+    srot: '-44deg',
+    sscale: 0.94,
+    delay: '940ms',
+    dur: '1820ms',
+    depth: 1.35,
+    idleY: '-10px',
+    idleX: '-4px',
+    idleRot: '-2.2deg',
+    idleDur: '5.5s',
+    idleDelay: '1.1s',
+  },
+  'calamansi-low': {
+    sx: '-490px',
+    sy: '265px',
+    srot: '55deg',
+    sscale: 0.92,
+    delay: '1020ms',
+    dur: '1750ms',
+    depth: 1.28,
+    idleY: '-9px',
+    idleX: '-3px',
+    idleRot: '3deg',
+    idleDur: '4.9s',
+    idleDelay: '0.6s',
+  },
+  'sili-green': {
+    sx: '215px',
+    sy: '-45px',
+    srot: '38deg',
+    sscale: 0.92,
+    delay: '1100ms',
+    dur: '1650ms',
+    depth: 1.4,
+    idleY: '-12px',
+    idleX: '4px',
+    idleRot: '2.8deg',
+    idleDur: '4.7s',
+    idleDelay: '0.5s',
+  },
+  'sili-red': {
+    sx: '190px',
+    sy: '205px',
+    srot: '-42deg',
+    sscale: 0.94,
+    delay: '1180ms',
+    dur: '1620ms',
+    depth: 1.45,
+    idleY: '-11px',
+    idleX: '5px',
+    idleRot: '-3deg',
+    idleDur: '4.6s',
+    idleDelay: '1.0s',
+  },
+  garlic: {
+    sx: '-125px',
+    sy: '-150px',
+    srot: '24deg',
+    sscale: 0.94,
+    delay: '1260ms',
+    dur: '1600ms',
+    depth: 1.5,
+    idleY: '-13px',
+    idleX: '2px',
+    idleRot: '1.6deg',
+    idleDur: '5.0s',
+    idleDelay: '0.2s',
+  },
+  scallions: {
+    sx: '165px',
+    sy: '-135px',
+    srot: '-28deg',
+    sscale: 0.94,
+    delay: '1340ms',
+    dur: '1580ms',
+    depth: 1.55,
+    idleY: '-12px',
+    idleX: '3px',
+    idleRot: '-2deg',
+    idleDur: '4.8s',
+    idleDelay: '0.7s',
+  },
+  droplets: {
+    sx: '0px',
+    sy: '-40px',
+    srot: '0deg',
+    sscale: 1.18,
+    sopacity: 0,
+    delay: '1420ms',
+    dur: '1350ms',
+    depth: 1.6,
+    idleY: '-10px',
+    idleX: '2px',
+    idleRot: '0.8deg',
+    idleDur: '5.3s',
+    idleDelay: '0.4s',
+  },
+};
 
 const HIGHLIGHTS = [
   {
@@ -37,7 +253,76 @@ const HIGHLIGHTS = [
 ];
 
 export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
+  const sectionRef = useRef(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0, hovered: false });
+  const [phase, setPhase] = useState(() => {
+    if (
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      return 'assembled';
+    }
+    return 'scattered';
+  });
+
+  useEffect(() => {
+    if (
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      setPhase('assembled');
+      return undefined;
+    }
+
+    const node = sectionRef.current;
+    if (!node) return undefined;
+
+    let holdTimer = null;
+    let settleTimer = null;
+
+    const clearTimers = () => {
+      if (holdTimer) {
+        window.clearTimeout(holdTimer);
+        holdTimer = null;
+      }
+      if (settleTimer) {
+        window.clearTimeout(settleTimer);
+        settleTimer = null;
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
+
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.18) {
+          clearTimers();
+          // Hold briefly in the scattered state so visitors clearly see scattered ingredients + waiting bowl,
+          // then smoothly glide every ingredient inward to build the Bacolod Cansi bowl.
+          holdTimer = window.setTimeout(() => {
+            setPhase('building');
+            settleTimer = window.setTimeout(() => {
+              setPhase('assembled');
+            }, 3050);
+          }, 700);
+        } else if (!entry.isIntersecting) {
+          // Reset cleanly when scrolling away so re-visiting #craft replays the scatter-to-bowl build
+          clearTimers();
+          setPhase('scattered');
+        }
+      },
+      { threshold: [0, 0.18, 0.35] },
+    );
+
+    observer.observe(node);
+    return () => {
+      clearTimers();
+      observer.disconnect();
+    };
+  }, []);
 
   const handleStageMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -50,10 +335,14 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
     setTilt({ x: 0, y: 0, hovered: false });
   };
 
+  const isScattered = phase === 'scattered';
+
   return (
     <section
+      ref={sectionRef}
       id="craft"
-      className="relative overflow-hidden border-b border-[#0B2718]/12 bg-[#F5EFE2] py-14 text-[#0B2718] sm:py-16 lg:flex lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:items-center lg:py-10 xl:py-12"
+      data-cansi-phase={phase}
+      className="cansi-stage-root relative overflow-hidden border-b border-[#0B2718]/12 bg-[#F5EFE2] py-14 text-[#0B2718] sm:py-16 lg:flex lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:items-center lg:py-10 xl:py-12"
     >
       {/* Top-Left Open Flame Accent blended cleanly into warm beige */}
       <img
@@ -148,100 +437,168 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
             </div>
           </div>
 
-          {/* Right Interactive 3D Animated Mid-Air Exploded Bacolod Cansi Floating Cleanly on Warm Beige */}
-          <div className="relative lg:col-span-6">
+          {/* Right Interactive Scatter-to-Bowl Animated Exploded Bacolod Cansi */}
+          <div className="relative z-20 lg:col-span-6">
             <div
               onPointerMove={handleStageMove}
               onPointerLeave={handleStageLeave}
-              className="group relative flex h-[430px] items-center justify-center py-2 sm:h-[540px] lg:h-[600px] xl:h-[650px]"
+              className="group relative flex h-[470px] items-center justify-center py-2 sm:h-[560px] lg:h-[620px] xl:h-[670px]"
             >
-              {/* Interactive 3D Parallax Exploded Bacolod Cansi Showcase */}
-              <div className="relative z-10 flex h-full w-full items-center justify-center">
-                <button
-                  type="button"
-                  onClick={onInspectDish}
-                  aria-label="Inspect Bacolod Cansi — ₱666"
-                  className="relative flex h-[420px] w-full max-w-[540px] cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] sm:h-[530px] sm:max-w-[660px] lg:h-[590px] lg:max-w-[740px] xl:h-[640px] xl:max-w-[800px]"
+              <button
+                type="button"
+                onClick={onInspectDish}
+                aria-label="Inspect Bacolod Cansi — ₱666"
+                className="relative flex h-full cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718]"
+                style={{
+                  aspectRatio: `${CANSI_STAGE_ASPECT}`,
+                  maxWidth: '100%',
+                  perspective: '1000px',
+                }}
+              >
+                {/* 3D Tilting Master Stage */}
+                <div
+                  className="relative h-full w-full transition-transform duration-300 ease-out"
                   style={{
-                    perspective: '960px',
+                    transform: `rotateY(${(tilt.x * 6.5).toFixed(2)}deg) rotateX(${(-tilt.y * 5).toFixed(2)}deg) scale(${tilt.hovered ? 1.025 : 1})`,
+                    transformStyle: 'preserve-3d',
                   }}
                 >
-                  {/* 3D Tilting Container */}
+                  {/* Soft Natural Ground Shadow Underneath the Stoneware Bowl */}
                   <div
-                    className="relative flex h-full w-full items-center justify-center transition-transform duration-300 ease-out"
+                    aria-hidden="true"
+                    className="pointer-events-none absolute left-[17%] bottom-[2.2%] h-[5.2%] w-[70%] rounded-full transition-all duration-700"
                     style={{
-                      transform: `rotateY(${(tilt.x * 7).toFixed(2)}deg) rotateX(${(-tilt.y * 5.5).toFixed(2)}deg) scale(${tilt.hovered ? 1.03 : 1})`,
-                      transformStyle: 'preserve-3d',
+                      background:
+                        'radial-gradient(ellipse at center, rgba(54,40,24,0.32) 0%, rgba(54,40,24,0.14) 48%, rgba(54,40,24,0) 76%)',
+                      filter: 'blur(7px)',
+                      transform: isScattered ? 'scale(0.92)' : 'scale(1)',
                     }}
+                  />
+
+                  {/* Rising Translucent Steam Ribbons Directly Above the Stoneware Bowl */}
+                  <svg
+                    viewBox="0 0 260 220"
+                    fill="none"
+                    aria-hidden="true"
+                    className="pointer-events-none absolute left-[14%] top-[24%] z-30 h-[38%] w-[70%] opacity-75"
                   >
-                    {/* Rising Translucent Cansi Broth Steam Ribbons */}
-                    <svg
-                      viewBox="0 0 260 220"
-                      fill="none"
-                      aria-hidden="true"
-                      className="pointer-events-none absolute -top-4 left-1/2 z-20 h-52 w-64 -translate-x-1/2 opacity-75 sm:h-60 sm:w-72"
-                    >
-                      <path
-                        d="M95 190 C78 148, 114 114, 92 66 C80 42, 96 22, 106 8"
-                        stroke="url(#piyo-steam-grad)"
-                        strokeWidth="8"
-                        strokeLinecap="round"
-                        className="cansi-steam"
-                        style={{ animationDelay: '0s', filter: 'blur(5px)' }}
-                      />
-                      <path
-                        d="M134 195 C152 152, 116 112, 140 62 C150 38, 134 18, 126 6"
-                        stroke="url(#piyo-steam-grad)"
-                        strokeWidth="9"
-                        strokeLinecap="round"
-                        className="cansi-steam"
-                        style={{ animationDelay: '1.5s', filter: 'blur(6px)' }}
-                      />
-                      <path
-                        d="M170 184 C154 146, 182 110, 162 70 C154 52, 166 30, 174 16"
-                        stroke="url(#piyo-steam-grad)"
-                        strokeWidth="7"
-                        strokeLinecap="round"
-                        className="cansi-steam"
-                        style={{ animationDelay: '3.0s', filter: 'blur(5px)' }}
-                      />
-                      <defs>
-                        <linearGradient id="piyo-steam-grad" x1="0" y1="1" x2="0" y2="0">
-                          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
-                          <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.62" />
-                          <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
+                    <path
+                      d="M95 190 C78 148, 114 114, 92 66 C80 42, 96 22, 106 8"
+                      stroke="url(#piyo-steam-grad)"
+                      strokeWidth="8"
+                      strokeLinecap="round"
+                      className="cansi-steam"
+                      style={{ animationDelay: '0s', filter: 'blur(5px)' }}
+                    />
+                    <path
+                      d="M134 195 C152 152, 116 112, 140 62 C150 38, 134 18, 126 6"
+                      stroke="url(#piyo-steam-grad)"
+                      strokeWidth="9"
+                      strokeLinecap="round"
+                      className="cansi-steam"
+                      style={{ animationDelay: '1.5s', filter: 'blur(6px)' }}
+                    />
+                    <path
+                      d="M170 184 C154 146, 182 110, 162 70 C154 52, 166 30, 174 16"
+                      stroke="url(#piyo-steam-grad)"
+                      strokeWidth="7"
+                      strokeLinecap="round"
+                      className="cansi-steam"
+                      style={{ animationDelay: '3.0s', filter: 'blur(5px)' }}
+                    />
+                    <defs>
+                      <linearGradient id="piyo-steam-grad" x1="0" y1="1" x2="0" y2="0">
+                        <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
+                        <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.62" />
+                        <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
 
-                    {/* Levitating Hyper-Realistic Mid-Air Exploded Bacolod Cansi Centerpiece */}
-                    <div className="cansi-hero-levitate relative z-10 flex h-full w-full items-center justify-center">
-                      <img
-                        src="./images/cansi-exploded-hero.jpg"
-                        alt="Hyper-realistic mid-air exploded Bacolod Cansi showing stoneware bowl, splashing golden batwan broth, beef shank bone marrow, langka jackfruit, lemongrass, calamansi, chilies, and toasted garlic"
-                        className="h-full w-full scale-[1.24] object-contain sm:scale-[1.28] lg:scale-[1.32] [mask-image:radial-gradient(ellipse_49%_49%_at_50%_50%,black_68%,transparent_99%)]"
-                      />
-                    </div>
+                  {/* 16 Pixel-Accurate Layered Sprites: Bowl Waiting + Ingredients Scattering In */}
+                  {CANSI_LAYERS.map((layer) => {
+                    const choreo = LAYER_CHOREOGRAPHY[layer.id] || {};
+                    const isBowl = Boolean(choreo.isBowl);
+                    const depth = choreo.depth ?? 1;
+                    const parallaxX = tilt.hovered ? tilt.x * 9 * depth : 0;
+                    const parallaxY = tilt.hovered ? tilt.y * 7 * depth : 0;
 
-                    {/* Mid-Air Shimmering Golden Broth Droplets */}
-                    {BROTH_DROPLETS.map((drop, idx) => (
-                      <span
-                        key={idx}
-                        aria-hidden="true"
-                        className="cansi-droplet pointer-events-none absolute z-20 rounded-full bg-gradient-to-br from-[#F8D078] via-[#D9932C] to-[#9E5610] shadow-[0_2px_8px_rgba(180,105,22,0.45)]"
+                    return (
+                      <div
+                        key={layer.id}
+                        data-cansi-layer={layer.id}
+                        className="pointer-events-none absolute"
                         style={{
-                          left: drop.left,
-                          top: drop.top,
-                          width: `${drop.size}px`,
-                          height: `${drop.size}px`,
-                          animationDelay: drop.delay,
-                          animationDuration: drop.duration,
+                          left: `${layer.left}%`,
+                          top: `${layer.top}%`,
+                          width: `${layer.width}%`,
+                          height: `${layer.height}%`,
+                          zIndex: layer.zIndex,
+                          transform: `translate3d(${parallaxX.toFixed(1)}px, ${parallaxY.toFixed(1)}px, 0)`,
+                          transition: 'transform 320ms ease-out',
                         }}
-                      />
-                    ))}
-                  </div>
-                </button>
-              </div>
+                      >
+                        {isBowl ? (
+                          <div
+                            className={`h-full w-full ${phase !== 'scattered' ? 'cansi-bowl-impact' : ''}`}
+                          >
+                            <div
+                              className="cansi-layer-float h-full w-full"
+                              style={{
+                                '--idle-x': choreo.idleX,
+                                '--idle-y': choreo.idleY,
+                                '--idle-rot': choreo.idleRot,
+                                '--idle-dur': choreo.idleDur,
+                                '--idle-delay': choreo.idleDelay,
+                              }}
+                            >
+                              <img
+                                src={layer.src}
+                                alt="Steaming stoneware bowl of PIYO Bacolod Cansi with splashing golden batwan broth"
+                                className="h-full w-full select-none object-contain"
+                                draggable={false}
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <div
+                            data-scattered={isScattered ? 'true' : 'false'}
+                            className="cansi-ingredient-fly h-full w-full"
+                            style={{
+                              '--sx': choreo.sx,
+                              '--sy': choreo.sy,
+                              '--srot': choreo.srot,
+                              '--sscale': choreo.sscale ?? 0.92,
+                              '--sopacity': choreo.sopacity ?? 0.98,
+                              '--fly-delay': choreo.delay,
+                              '--fly-dur': choreo.dur,
+                            }}
+                          >
+                            <div
+                              className="cansi-layer-float h-full w-full"
+                              style={{
+                                '--idle-x': choreo.idleX,
+                                '--idle-y': choreo.idleY,
+                                '--idle-rot': choreo.idleRot,
+                                '--idle-dur': choreo.idleDur,
+                                '--idle-delay': choreo.idleDelay,
+                              }}
+                            >
+                              <img
+                                src={layer.src}
+                                alt=""
+                                aria-hidden="true"
+                                className="h-full w-full select-none object-contain"
+                                draggable={false}
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </button>
             </div>
           </div>
         </div>

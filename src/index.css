@@ -375,6 +375,87 @@
   will-change: transform, opacity;
 }
 
+/* Scatter-to-Bowl Exploded Bacolod Cansi Choreography */
+@keyframes cansi-layer-idle {
+  0%,
+  100% {
+    transform: translate3d(0, 0px, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(var(--idle-x, 0px), var(--idle-y, -8px), 0) rotate(var(--idle-rot, 0deg));
+  }
+}
+
+@keyframes cansi-bowl-settle {
+  0% {
+    transform: translate3d(0, 0px, 0) scale(1);
+  }
+  38% {
+    transform: translate3d(0, 9px, 0) scale(1.028, 0.972);
+  }
+  72% {
+    transform: translate3d(0, -3px, 0) scale(0.992, 1.01);
+  }
+  100% {
+    transform: translate3d(0, 0px, 0) scale(1);
+  }
+}
+
+.cansi-stage-root {
+  --scatter-mult: 0.42;
+}
+@media (min-width: 640px) {
+  .cansi-stage-root {
+    --scatter-mult: 0.62;
+  }
+}
+@media (min-width: 1024px) {
+  .cansi-stage-root {
+    --scatter-mult: 0.86;
+  }
+}
+@media (min-width: 1280px) {
+  .cansi-stage-root {
+    --scatter-mult: 1;
+  }
+}
+
+.cansi-ingredient-fly {
+  will-change: transform, opacity;
+  transition-property: transform, opacity;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  transition-duration: var(--fly-dur, 1750ms);
+  transition-delay: var(--fly-delay, 0ms);
+}
+
+.cansi-ingredient-fly[data-scattered='true'] {
+  transform: translate3d(
+      calc(var(--sx, 0px) * var(--scatter-mult)),
+      calc(var(--sy, 0px) * var(--scatter-mult)),
+      0
+    )
+    rotate(var(--srot, 0deg))
+    scale(var(--sscale, 0.92));
+  opacity: var(--sopacity, 0.96);
+  transition-duration: 500ms;
+  transition-delay: 0ms;
+}
+
+.cansi-ingredient-fly[data-scattered='false'] {
+  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  opacity: 1;
+}
+
+.cansi-layer-float {
+  animation: cansi-layer-idle var(--idle-dur, 5.2s) ease-in-out var(--idle-delay, 0s) infinite;
+  will-change: transform;
+}
+
+.cansi-bowl-impact {
+  animation: cansi-bowl-settle 920ms cubic-bezier(0.22, 1, 0.36, 1) 1.05s both;
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cansi-hero-levitate,
   .cansi-orbit-a,
@@ -382,8 +463,13 @@
   .cansi-orbit-c,
   .cansi-steam,
   .cansi-droplet,
-  .cansi-halo {
+  .cansi-halo,
+  .cansi-layer-float,
+  .cansi-bowl-impact {
     animation: none;
+  }
+  .cansi-ingredient-fly {
+    transition: none;
   }
 }
 
