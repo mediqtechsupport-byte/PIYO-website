@@ -42,10 +42,30 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
         }}
       />
 
+      {/* Subtle Bottom-Left & Bottom-Right Fresh Cansi Ingredients Accent */}
+      <img
+        src="./images/cansi-ingredients-corner.jpg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 left-0 hidden h-36 w-48 object-cover object-left-bottom opacity-90 mix-blend-multiply md:block lg:h-44 lg:w-56"
+        onError={(e) => {
+          e.currentTarget.style.display = 'none';
+        }}
+      />
+      <img
+        src="./images/cansi-ingredients-corner.jpg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 right-0 hidden h-36 w-48 -scale-x-100 object-cover object-left-bottom opacity-85 mix-blend-multiply md:block lg:h-44 lg:w-56"
+        onError={(e) => {
+          e.currentTarget.style.display = 'none';
+        }}
+      />
+
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
           {/* Left Editorial Column */}
-          <div className="lg:col-span-6">
+          <div className="relative z-10 lg:col-span-6">
             <h2 className="font-serif text-[2.15rem] font-semibold leading-[1.12] tracking-tight text-[#0B2718] sm:text-5xl xl:text-[3.25rem]">
               PIYO&apos;s{' '}
               <span className="relative inline-block whitespace-nowrap">
@@ -124,86 +144,120 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
             </div>
           </div>
 
-          {/* Right Forest-Green Botanical Banner & Floating PIYO Oval Platter */}
-          <div className="relative mx-auto w-full max-w-[520px] lg:col-span-6 lg:max-w-none">
-            <div className="relative mx-auto flex items-center justify-center py-4 sm:py-6">
-              {/* Pillowy Curved PIYO Forest-Green & Gold Culinary Sketch Banner */}
+          {/* Right Stretched Forest-Green Cansi Ingredients Tapestry & Oval Platter */}
+          <div className="relative lg:col-span-6">
+            <div className="relative -mx-5 flex items-center justify-center py-5 sm:-mx-8 sm:py-6 lg:mx-0 lg:mr-[calc(50%-50vw)] lg:justify-start lg:pl-6 xl:pl-10">
+              {/* Stretched Deep Forest Green Tapestry extending flush to the right viewport edge */}
               <svg
-                viewBox="0 0 540 420"
+                viewBox="0 0 960 440"
+                preserveAspectRatio="xMinYMid slice"
                 aria-hidden="true"
-                className="w-full max-w-[540px] drop-shadow-[0_18px_36px_rgba(11,39,24,0.24)]"
+                className="pointer-events-none h-[300px] w-full drop-shadow-[0_18px_36px_rgba(11,39,24,0.22)] sm:h-[390px] lg:h-[430px] xl:h-[460px]"
               >
                 <defs>
+                  {/* Bacolod Cansi Ingredient Sketches: Marrow Bone, Calamansi, Siling Haba Chili, Lemongrass & Langka */}
                   <pattern
-                    id="piyo-culinary-sketch"
-                    width="110"
-                    height="110"
+                    id="piyo-cansi-ingredients"
+                    width="150"
+                    height="150"
                     patternUnits="userSpaceOnUse"
                   >
+                    {/* Beef Bone Marrow cross-section */}
                     <path
-                      d="M16 32 C28 18, 52 18, 66 32 C52 46, 28 46, 16 32 Z M66 32 L78 24 L76 40 Z"
+                      d="M24 38 C20 22, 42 16, 54 28 C64 38, 56 54, 40 54 C28 54, 26 46, 24 38 Z"
                       fill="none"
-                      stroke="rgba(223,185,111,0.26)"
+                      stroke="rgba(223,185,111,0.24)"
+                      strokeWidth="1.4"
+                    />
+                    <ellipse
+                      cx="40"
+                      cy="37"
+                      rx="8"
+                      ry="6.5"
+                      fill="none"
+                      stroke="rgba(250,246,236,0.18)"
+                      strokeWidth="1.2"
+                    />
+
+                    {/* Halved Calamansi Citrus Wheel */}
+                    <circle
+                      cx="114"
+                      cy="38"
+                      r="16"
+                      fill="none"
+                      stroke="rgba(250,246,236,0.2)"
+                      strokeWidth="1.35"
+                    />
+                    <path
+                      d="M114 22 L114 54 M98 38 L130 38 M102.7 26.7 L125.3 49.3 M125.3 26.7 L102.7 49.3"
+                      stroke="rgba(223,185,111,0.22)"
+                      strokeWidth="1.15"
+                    />
+
+                    {/* Siling Haba Green Finger Chili Pod */}
+                    <path
+                      d="M22 114 C34 102, 54 96, 66 98 C56 108, 42 120, 22 114 Z M66 98 C72 95, 76 91, 79 87"
+                      fill="none"
+                      stroke="rgba(223,185,111,0.24)"
                       strokeWidth="1.4"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
-                    <circle
-                      cx="32"
-                      cy="82"
-                      r="14"
-                      fill="none"
+
+                    {/* Lemongrass (Tanglad) Bundle + Langka Wedge */}
+                    <path
+                      d="M94 128 L128 88 M102 132 L134 94 M110 134 L138 102"
                       stroke="rgba(250,246,236,0.18)"
-                      strokeWidth="1.4"
-                    />
-                    <path
-                      d="M32 68 L32 96 M18 82 L46 82 M22 72 L42 92 M42 72 L22 92"
-                      stroke="rgba(250,246,236,0.16)"
-                      strokeWidth="1.2"
-                    />
-                    <path
-                      d="M84 62 C92 50, 102 52, 98 66 C94 78, 80 78, 84 62 Z M84 62 C80 74, 72 86, 68 96"
-                      fill="none"
-                      stroke="rgba(223,185,111,0.22)"
-                      strokeWidth="1.4"
+                      strokeWidth="1.3"
                       strokeLinecap="round"
+                    />
+                    <path
+                      d="M66 126 C72 112, 86 112, 90 126 Z"
+                      fill="none"
+                      stroke="rgba(223,185,111,0.2)"
+                      strokeWidth="1.3"
+                      strokeLinejoin="round"
                     />
                   </pattern>
                 </defs>
                 <path
-                  d="M 16 18 Q 270 68 524 18 Q 486 210 524 402 Q 270 352 16 402 Q 54 210 16 18 Z"
+                  d="M 18 14 Q 440 72 960 10 L 960 430 Q 440 368 18 426 Q 68 220 18 14 Z"
                   fill="#113421"
                 />
                 <path
-                  d="M 16 18 Q 270 68 524 18 Q 486 210 524 402 Q 270 352 16 402 Q 54 210 16 18 Z"
-                  fill="url(#piyo-culinary-sketch)"
+                  d="M 18 14 Q 440 72 960 10 L 960 430 Q 440 368 18 426 Q 68 220 18 14 Z"
+                  fill="url(#piyo-cansi-ingredients)"
                 />
               </svg>
 
-              {/* Interactive Tilted Cream-White Oval Platter */}
-              <button
-                type="button"
-                onClick={onInspectDish}
-                aria-label="Inspect Bacolod Cansi — ₱666"
-                className="group absolute inset-0 m-auto flex aspect-[1.32/1] w-[86%] -rotate-3 items-center justify-center overflow-hidden rounded-[50%] border-[8px] border-[#FAF6EC] bg-[#FAF6EC] shadow-[0_28px_56px_-14px_rgba(6,24,14,0.48)] transition duration-500 hover:rotate-0 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0B2718] sm:w-[88%] sm:border-[12px]"
-              >
-                <img
-                  src="./images/dish-cansi-oval-platter.jpg"
-                  alt="PIYO Bacolod Cansi beef shank and bone marrow soup with batwan, jackfruit, and lemongrass on an oval platter"
-                  className="h-full w-full scale-[1.22] rotate-[1deg] object-cover object-center transition duration-700 group-hover:scale-[1.26]"
-                />
-              </button>
+              {/* Interactive Tilted Cream-White Oval Platter centered cleanly over left-mid of stretched green canvas */}
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center lg:justify-start lg:pl-14 xl:pl-20">
+                <div className="relative flex w-[84%] max-w-[460px] items-center justify-center sm:w-[76%] sm:max-w-[500px] lg:w-[88%] lg:max-w-[520px]">
+                  <button
+                    type="button"
+                    onClick={onInspectDish}
+                    aria-label="Inspect Bacolod Cansi — ₱666"
+                    className="pointer-events-auto group relative flex aspect-[1.32/1] w-full -rotate-2 items-center justify-center overflow-hidden rounded-[50%] border-[8px] border-[#FAF6EC] bg-[#FAF6EC] shadow-[0_28px_56px_-14px_rgba(6,24,14,0.52)] transition duration-500 hover:rotate-0 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0B2718] sm:border-[12px]"
+                  >
+                    <img
+                      src="./images/dish-cansi-oval-platter.jpg"
+                      alt="PIYO Bacolod Cansi beef shank and bone marrow soup with batwan, jackfruit, and lemongrass on an oval platter"
+                      className="h-full w-full scale-[1.22] rotate-[1deg] object-cover object-center transition duration-700 group-hover:scale-[1.26]"
+                    />
+                  </button>
 
-              {/* Clean Floating Dish Tag */}
-              <button
-                type="button"
-                onClick={onInspectDish}
-                className="absolute bottom-2 right-2 z-10 inline-flex items-center gap-2 rounded-full border border-[#0B2718]/15 bg-[#FAF6EC]/95 px-4 py-2 text-xs font-bold text-[#0B2718] shadow-lg backdrop-blur-sm transition hover:bg-white sm:bottom-3 sm:right-4"
-              >
-                <span className="h-2 w-2 rounded-full bg-[#C29645]" aria-hidden="true" />
-                <span>Bacolod Cansi · ₱666</span>
-                <ArrowUpRight className="h-3.5 w-3.5 text-[#C29645]" aria-hidden="true" />
-              </button>
+                  {/* Clean Floating Dish Tag */}
+                  <button
+                    type="button"
+                    onClick={onInspectDish}
+                    className="pointer-events-auto absolute -bottom-3 right-2 z-10 inline-flex items-center gap-2 rounded-full border border-[#0B2718]/15 bg-[#FAF6EC]/95 px-4 py-2 text-xs font-bold text-[#0B2718] shadow-lg backdrop-blur-sm transition hover:bg-white sm:bottom-1 sm:right-4"
+                  >
+                    <span className="h-2 w-2 rounded-full bg-[#C29645]" aria-hidden="true" />
+                    <span>Bacolod Cansi · ₱666</span>
+                    <ArrowUpRight className="h-3.5 w-3.5 text-[#C29645]" aria-hidden="true" />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
