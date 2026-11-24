@@ -451,8 +451,8 @@ export function RestaurantMenuBoard({
             items={conveyorItems}
             legend={BESTSELLER_LEGEND}
             eyebrow="House Highlights · Best Sellers"
-            heading="PIYO favorites gliding straight from hearth to table."
-            caption="Hover to pause & lift any plate, flick to spin the belt, or click a dish to order or customize."
+            heading="PIYO Favorites, Straight from Hearth to Table."
+            caption="Hover to pause any plate, flick to spin the belt, or click a dish to order or customize."
             autoplay
             speed={24}
             onAdd={handleConveyorAdd}
@@ -469,10 +469,10 @@ export function RestaurantMenuBoard({
               <button
                 type="button"
                 onClick={() => handleSelectCategory('soups')}
-                className="inline-flex items-center gap-2 rounded-full border border-[#DFD0B2]/60 bg-[#F5EFE2] px-5 py-2.5 text-sm font-bold text-[#0B2718] shadow-md transition hover:-translate-y-px hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
+                className="inline-flex min-h-[42px] items-center gap-2 rounded-full border border-[#DFD0B2]/60 bg-[#F5EFE2] px-5 py-2 text-xs font-bold tracking-wide text-[#0B2718] shadow-md transition hover:-translate-y-px hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:text-[13px]"
               >
                 <span>Browse Soups &amp; Full Categories</span>
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
             }
           />
