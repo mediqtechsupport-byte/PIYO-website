@@ -81,8 +81,8 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
       </div>
 
       {/* Editorial Narrative Column (Pure Typography + Hairlines — Zero AI Cards) */}
-      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-5 pb-12 pt-4 sm:px-8 lg:grid lg:grid-cols-12 lg:items-center lg:px-10 lg:py-5 xl:px-14 xl:py-8">
-        <div className="lg:col-span-6 lg:col-start-7 lg:pl-8 xl:pl-14">
+      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-5 pb-12 pt-4 sm:px-8 lg:grid lg:grid-cols-12 lg:items-center lg:px-10 lg:py-5 2xl:px-14 2xl:py-8">
+        <div className="lg:col-span-6 lg:col-start-7 lg:pl-8 2xl:pl-14">
           {/* Quiet Tracked Eyebrow */}
           <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.24em] text-[#DFB96F]">
             <span>Our Story</span>
@@ -91,14 +91,14 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           </div>
 
           {/* Authoritative Editorial Serif Headline */}
-          <h2 className="mt-3 font-serif text-[2.2rem] font-normal leading-[1.06] tracking-[-0.015em] text-[#FAF6EC] sm:text-4xl lg:text-[2.65rem] xl:mt-4 xl:text-[3.25rem]">
+          <h2 className="mt-2.5 font-serif text-[2.15rem] font-normal leading-[1.06] tracking-[-0.015em] text-[#FAF6EC] sm:text-4xl lg:text-[2.6rem] 2xl:mt-4 2xl:text-[3.25rem]">
             From Negros Hearth{' '}
             <span className="block italic font-medium text-[#E0B96B]">
               to Tagaytay&rsquo;s Ridge.
             </span>
           </h2>
 
-          <p className="mt-3 max-w-lg text-xs leading-relaxed text-[#C9D6CE] sm:text-sm sm:leading-6 xl:mt-4 xl:text-[15px] xl:leading-7">
+          <p className="mt-2.5 max-w-lg text-xs leading-relaxed text-[#C9D6CE] sm:text-sm sm:leading-6 2xl:mt-4 2xl:text-[15px] 2xl:leading-7">
             PIYO Grill &amp; Restaurant began with a simple promise along the
             cool highway mist of Bagong Tubig: serve honest, slow-simmered
             Negrense food and live charcoal sinugba in a calm room where every
@@ -106,20 +106,20 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           </p>
 
           {/* Hairline-Ruled Numbered Editorial Chapters (Zero Rounded Boxes) */}
-          <ol className="mt-4 divide-y divide-[#FAF6EC]/12 border-y border-[#FAF6EC]/12 xl:mt-6">
+          <ol className="mt-4 divide-y divide-[#FAF6EC]/12 border-y border-[#FAF6EC]/12 2xl:mt-6">
             {CHAPTERS.map((chapter) => (
               <li
                 key={chapter.num}
-                className="grid grid-cols-[2.2rem_1fr] items-baseline gap-x-3 py-2.5 xl:py-3.5"
+                className="grid grid-cols-[2.2rem_1fr] items-baseline gap-x-3 py-2.5 2xl:py-3.5"
               >
                 <span className="font-serif text-sm italic text-[#DFB96F]">
                   {chapter.num}
                 </span>
                 <div>
-                  <h3 className="font-serif text-base font-medium tracking-wide text-[#FAF6EC] xl:text-lg">
+                  <h3 className="font-serif text-base font-medium tracking-wide text-[#FAF6EC] 2xl:text-lg">
                     {chapter.label}
                   </h3>
-                  <p className="mt-0.5 text-xs leading-relaxed text-[#B6C5BB] xl:mt-1 xl:text-[13px]">
+                  <p className="mt-0.5 text-xs leading-relaxed text-[#B6C5BB] 2xl:mt-1 2xl:text-[13px]">
                     {chapter.text}
                   </p>
                 </div>
@@ -128,7 +128,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           </ol>
 
           {/* Understated Editorial Actions */}
-          <div className="mt-4 flex flex-wrap items-center gap-6 xl:mt-6">
+          <div className="mt-4 flex flex-wrap items-center gap-6 2xl:mt-6">
             <button
               type="button"
               onClick={onExploreCraft}
