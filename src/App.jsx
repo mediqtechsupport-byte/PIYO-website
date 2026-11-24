@@ -356,9 +356,13 @@ export default function App() {
         onClear={() => setTrayItems([])}
       />
 
-      {/* Floating Side Tray Pill (Bottom-Right on Desktop so center content stays unobstructed) */}
+      {/* Floating Side Tray Pill (Bottom-Right on Desktop, hidden on Desktop #menu where My Order sidebar is live) */}
       {trayCount > 0 && !isTrayOpen && (
-        <div className="pointer-events-none fixed inset-x-0 bottom-[78px] z-[35] flex justify-center px-4 md:inset-x-auto md:bottom-6 md:right-6 md:justify-end md:px-0">
+        <div
+          className={`pointer-events-none fixed inset-x-0 bottom-[78px] z-[35] flex justify-center px-4 md:inset-x-auto md:bottom-6 md:right-6 md:justify-end md:px-0 ${
+            activeSection === 'menu' ? 'lg:hidden' : ''
+          }`}
+        >
           <button
             type="button"
             onClick={() => setIsTrayOpen(true)}

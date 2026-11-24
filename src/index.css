@@ -48,6 +48,46 @@
   }
 }
 
+/* Smooth levitating dish float + synced floor shadow for PIYO Menu Workbench */
+@keyframes piyo-float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-11px);
+  }
+}
+
+@keyframes piyo-float-shadow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.65;
+  }
+  50% {
+    transform: scale(0.86);
+    opacity: 0.34;
+  }
+}
+
+.piyo-float-dish {
+  animation: piyo-float 4.2s ease-in-out infinite;
+  will-change: transform;
+}
+
+.piyo-float-shadow {
+  animation: piyo-float-shadow 4.2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .piyo-float-dish,
+  .piyo-float-shadow {
+    animation: none;
+  }
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

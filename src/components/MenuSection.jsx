@@ -522,14 +522,14 @@ export function MenuSection({
               {/* Center Featured Dish Spotlight & Customizer */}
               {featuredDish && (
                 <div className="mt-5 grid grid-cols-1 items-center gap-6 md:grid-cols-12">
-                  {/* Circular Overhead Dish Showcase with Subtle Emerald Botanical Sprigs */}
+                  {/* Larger Levitating Circular Dish Showcase with Botanical Sprigs & Synced Ground Shadow */}
                   <div className="relative flex flex-col items-center justify-center md:col-span-5">
-                    <div className="relative flex h-56 w-56 items-center justify-center sm:h-64 sm:w-64 xl:h-72 xl:w-72">
+                    <div className="piyo-float-dish relative flex h-68 w-68 items-center justify-center sm:h-76 sm:w-76 xl:h-[330px] xl:w-[330px]">
                       <svg
                         viewBox="0 0 320 320"
                         fill="none"
                         aria-hidden="true"
-                        className="pointer-events-none absolute -inset-3 h-[calc(100%+24px)] w-[calc(100%+24px)] opacity-85"
+                        className="pointer-events-none absolute -inset-3.5 h-[calc(100%+28px)] w-[calc(100%+28px)] opacity-90"
                       >
                         <path
                           d="M52 96C26 70 28 38 64 36C74 62 72 82 52 96Z"
@@ -557,7 +557,7 @@ export function MenuSection({
                         />
                       </svg>
 
-                      <div className="relative h-52 w-52 overflow-hidden rounded-full border-[4px] border-[#DFB96F]/55 bg-[#06180E] shadow-[0_24px_48px_-14px_rgba(0,0,0,0.65)] sm:h-60 sm:w-60 xl:h-64 xl:w-64">
+                      <div className="relative h-64 w-64 overflow-hidden rounded-full border-[5px] border-[#DFB96F]/60 bg-[#06180E] shadow-[0_32px_60px_-14px_rgba(0,0,0,0.78),0_0_40px_-12px_rgba(223,185,111,0.22)] sm:h-72 sm:w-72 xl:h-[312px] xl:w-[312px]">
                         <img
                           key={featuredDish.id}
                           src={featuredDish.image}
@@ -567,16 +567,22 @@ export function MenuSection({
                       </div>
 
                       {featuredDish.badge && (
-                        <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#DFB96F]/45 bg-[#06180E] px-3 py-1 text-[10px] font-bold tracking-wide text-[#DFB96F] shadow-md">
+                        <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#DFB96F]/50 bg-[#06180E]/95 px-3.5 py-1 text-[11px] font-bold tracking-wide text-[#DFB96F] shadow-lg backdrop-blur-xs">
                           {featuredDish.badge}
                         </span>
                       )}
                     </div>
 
+                    {/* Soft Levitation Ground Shadow synced with float */}
+                    <div
+                      aria-hidden="true"
+                      className="piyo-float-shadow mt-4 h-3.5 w-44 rounded-full bg-black/55 blur-md sm:w-52"
+                    />
+
                     <button
                       type="button"
                       onClick={() => onSelectDish && onSelectDish(featuredDish)}
-                      className="mt-3.5 inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#A9BEB0] transition hover:text-[#DFB96F]"
+                      className="mt-2.5 inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#A9BEB0] transition hover:text-[#DFB96F]"
                     >
                       <Info className="h-3.5 w-3.5" aria-hidden="true" />
                       <span>Ingredients &amp; prep ({featuredDish.prepTime})</span>
