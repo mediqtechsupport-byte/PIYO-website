@@ -254,16 +254,6 @@ export function HeroSection({
                 />
               </button>
 
-              {/* Subtle Editorial Tagaytay Stamp Resting Quietly on Lower Beige Ribbon */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -bottom-9 left-[44%] z-20 hidden -translate-x-1/2 items-center gap-2 whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.24em] text-[#0B2718]/55 lg:flex"
-              >
-                <span className="h-px w-5 bg-[#0B2718]/30" />
-                <span>Km. 64 · Tagaytay</span>
-                <span className="h-px w-5 bg-[#0B2718]/30" />
-              </div>
-
               {/* Realistic Soft Overhead Contact Shadow Under the Main Circular Plate */}
               <div
                 aria-hidden="true"
