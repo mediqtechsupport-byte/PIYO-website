@@ -5,13 +5,15 @@ import {
   ShoppingBag,
   MapPin,
   Phone,
+  Calendar,
 } from 'lucide-react';
 import { RESTAURANT_INFO } from '../data/menuData';
 
 const NAV_LINKS = [
-  { id: 'history', label: 'History' },
+  { id: 'home', label: 'Home' },
+  { id: 'history', label: 'Our Story' },
   { id: 'menu', label: 'Menu' },
-  { id: 'heritage', label: 'Story' },
+  { id: 'heritage', label: 'Heritage' },
   { id: 'reviews', label: 'Reviews' },
   { id: 'visit', label: 'Visit' },
 ];
@@ -74,9 +76,9 @@ export function Navbar({
             </div>
           </button>
 
-          {/* Desktop Centered Navigation Links */}
+          {/* Desktop Centered Navigation Links with Active Gold Underline */}
           <nav
-            className="hidden items-center gap-7 md:flex lg:gap-9"
+            className="hidden items-center gap-7 md:flex lg:gap-8"
             aria-label="Main navigation"
           >
             {NAV_LINKS.map((link) => {
@@ -86,13 +88,19 @@ export function Navbar({
                   key={link.id}
                   type="button"
                   onClick={() => onNavigate(link.id)}
-                  className={`relative shrink-0 whitespace-nowrap py-1 text-[13px] font-medium tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] rounded ${
+                  className={`relative shrink-0 whitespace-nowrap py-1.5 text-[13px] font-medium tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] rounded ${
                     isActive
                       ? 'text-[#DFB96F]'
-                      : 'text-[#C8D4CC] hover:text-[#FAF6EC]'
+                      : 'text-[#D0DCD4] hover:text-[#FAF6EC]'
                   }`}
                 >
                   {link.label}
+                  {isActive && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-x-0 -bottom-0.5 h-[1.5px] rounded-full bg-[#DFB96F]"
+                    />
+                  )}
                 </button>
               );
             })}
@@ -114,7 +122,7 @@ export function Navbar({
             <button
               type="button"
               onClick={onOpenTray}
-              className="relative inline-flex min-h-[36px] shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-[#FAF6EC] transition hover:border-white/30 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
+              className="relative inline-flex min-h-[38px] shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-white/15 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-[#FAF6EC] transition hover:border-white/30 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
               aria-label={`Open order tray with ${trayCount} items`}
             >
               <ShoppingBag className="h-3.5 w-3.5 shrink-0 text-[#DFB96F]" />
@@ -126,13 +134,14 @@ export function Navbar({
               )}
             </button>
 
-            {/* Editorial Outlined Reserve CTA (Desktop) */}
+            {/* Verdeo-Style Warm Gold Book a Table CTA (Desktop) */}
             <button
               type="button"
               onClick={() => onNavigate('visit')}
-              className="hidden min-h-[38px] shrink-0 items-center whitespace-nowrap rounded-full border border-white/30 bg-white/[0.03] px-5 py-1.5 text-xs font-medium tracking-wide text-[#FAF6EC] transition hover:border-[#DFB96F]/70 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] md:inline-flex"
+              className="hidden min-h-[38px] shrink-0 items-center gap-2 whitespace-nowrap rounded-lg bg-[#DFB96F] px-4 py-2 text-xs font-bold tracking-wide text-[#06180E] shadow-sm transition hover:bg-[#E8C988] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FAF6EC] md:inline-flex"
             >
-              Book a table
+              <span>Book a Table</span>
+              <Calendar className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
             </button>
           </div>
         </div>

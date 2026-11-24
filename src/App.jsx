@@ -251,6 +251,7 @@ export default function App() {
       <main>
         <HeroSection
           onExploreMenu={() => scrollToSection('menu')}
+          onExploreStory={() => scrollToSection('history')}
           openStatus={openStatus}
           onSelectDishById={(id) =>
             setSelectedDish(
