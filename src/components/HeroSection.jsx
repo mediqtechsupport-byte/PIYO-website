@@ -40,11 +40,11 @@ export function HeroSection({
       {/* Main Two-Column Hero Stage */}
       <div className="relative mx-auto flex w-full max-w-7xl flex-1 items-center px-5 pb-8 pt-6 sm:px-8 sm:pb-10 sm:pt-10 lg:py-5">
         <div className="grid w-full items-center gap-10 lg:grid-cols-12 lg:gap-8 xl:gap-12">
-          {/* Left Editorial Column */}
-          <div className="lg:col-span-6 xl:col-span-6">
-            {/* Editorial Eyebrow with Gold Dot & Hairline */}
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-medium uppercase tracking-[0.2em] text-[#B7C7BD] sm:text-xs">
-              <span className="inline-flex items-center gap-2">
+          {/* Left Editorial Column — Unified Flush Left/Right Editorial Measure */}
+          <div className="w-full max-w-[496px] lg:col-span-6 xl:col-span-6">
+            {/* Editorial Eyebrow with Gold Dot & Full-Width Hairline */}
+            <div className="flex w-full items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#B7C7BD] sm:text-xs">
+              <span className="inline-flex shrink-0 items-center gap-2">
                 <span
                   className="h-1.5 w-1.5 rounded-full bg-[#DFB96F]"
                   aria-hidden="true"
@@ -52,10 +52,10 @@ export function HeroSection({
                 Tagaytay City
               </span>
               <span
-                className="h-px w-8 shrink-0 bg-[#DFB96F]/45 sm:w-12"
+                className="h-px flex-1 bg-[#DFB96F]/45"
                 aria-hidden="true"
               />
-              <span>Negros Heritage &amp; Sinugba</span>
+              <span className="shrink-0">Negros Heritage &amp; Sinugba</span>
             </div>
 
             {/* Display Serif Headline */}
@@ -68,19 +68,19 @@ export function HeroSection({
             </h1>
 
             {/* Accent-Bordered Editorial Copy */}
-            <p className="mt-6 max-w-lg border-l-2 border-[#DFB96F]/55 pl-4 text-sm leading-relaxed text-[#D0DDD4] sm:text-[15px] sm:leading-7">
+            <p className="mt-6 w-full border-l-2 border-[#DFB96F]/55 pl-4 text-sm leading-relaxed text-[#D0DDD4] sm:text-[15px] sm:leading-7">
               Bacolod cansi with free soup refills, charcoal chicken inasal,
               sizzling plates and fresh coolers — served in the cool Tagaytay
               breeze.
             </p>
 
-            {/* Quick Signature Highlights */}
-            <div className="mt-5 flex flex-wrap gap-2">
+            {/* Quick Signature Highlights — Equal Side-by-Side Alignment */}
+            <div className="mt-5 grid w-full grid-cols-3 gap-2.5">
               {['Charcoal Sinugba', 'Free Soup Refills', 'Dine-In · Takeout'].map(
                 (tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-white/15 bg-[#0B2718]/75 px-3 py-1 text-[11px] font-medium tracking-wide text-[#D5E1D9] backdrop-blur-sm"
+                    className="flex items-center justify-center whitespace-nowrap rounded-full border border-white/15 bg-[#0B2718]/75 px-2.5 py-1.5 text-center text-[10.5px] font-medium tracking-wide text-[#D5E1D9] backdrop-blur-sm sm:text-[11px]"
                   >
                     {tag}
                   </span>
@@ -88,12 +88,12 @@ export function HeroSection({
               )}
             </div>
 
-            {/* Primary CTA & Direct Frosted Phone Button */}
-            <div className="mt-7 flex flex-wrap items-center gap-3.5 sm:gap-4">
+            {/* Primary CTA & Direct Frosted Phone Button — Equal 50/50 Side-by-Side */}
+            <div className="mt-6 grid w-full grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-3.5">
               <button
                 type="button"
                 onClick={onExploreMenu}
-                className="inline-flex min-h-[48px] items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#DFB96F] px-7 py-3 text-sm font-semibold text-[#06180E] shadow-lg shadow-black/30 transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FAF6EC] focus-visible:ring-offset-2 focus-visible:ring-offset-[#06180E] active:scale-[0.99]"
+                className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#DFB96F] px-6 py-3 text-sm font-semibold text-[#06180E] shadow-lg shadow-black/30 transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FAF6EC] focus-visible:ring-offset-2 focus-visible:ring-offset-[#06180E] active:scale-[0.99]"
               >
                 <span>See the menu</span>
                 <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -101,7 +101,7 @@ export function HeroSection({
 
               <a
                 href={`tel:${RESTAURANT_INFO.mobileTel}`}
-                className="inline-flex min-h-[48px] items-center gap-2.5 whitespace-nowrap rounded-full border border-white/25 bg-[#0D2B1B]/75 px-5 py-3 text-sm font-medium tracking-wide text-[#FAF6EC] backdrop-blur-sm transition hover:border-[#DFB96F]/65 hover:bg-[#133A25] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
+                className="inline-flex min-h-[48px] w-full items-center justify-center gap-2.5 whitespace-nowrap rounded-full border border-white/25 bg-[#0D2B1B]/75 px-5 py-3 text-sm font-medium tracking-wide text-[#FAF6EC] backdrop-blur-sm transition hover:border-[#DFB96F]/65 hover:bg-[#133A25] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
               >
                 <Phone
                   className="h-4 w-4 shrink-0 text-[#DFB96F]"
@@ -111,25 +111,27 @@ export function HeroSection({
               </a>
             </div>
 
-            {/* Guest Favorite Rating Row */}
-            <div className="mt-8 flex flex-wrap items-center gap-3 sm:mt-10">
-              <div
-                className="flex items-center gap-1"
-                aria-label={`Rated ${RESTAURANT_INFO.rating.score} out of 5 stars`}
-              >
-                {[...Array(5)].map((_, idx) => (
-                  <Star
-                    key={idx}
-                    className="h-4 w-4 fill-[#DFB96F] text-[#DFB96F]"
-                    aria-hidden="true"
-                  />
-                ))}
+            {/* Guest Favorite Rating Row — Aligned Across Full Measure */}
+            <div className="mt-6 flex w-full flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-5 sm:mt-7">
+              <div className="flex items-center gap-2">
+                <div
+                  className="flex items-center gap-1"
+                  aria-label={`Rated ${RESTAURANT_INFO.rating.score} out of 5 stars`}
+                >
+                  {[...Array(5)].map((_, idx) => (
+                    <Star
+                      key={idx}
+                      className="h-4 w-4 fill-[#DFB96F] text-[#DFB96F]"
+                      aria-hidden="true"
+                    />
+                  ))}
+                </div>
+                <strong className="text-sm font-semibold text-[#FAF6EC]">
+                  {RESTAURANT_INFO.rating.score}
+                </strong>
               </div>
               <p className="text-xs text-[#C0CEC5] sm:text-sm">
-                <strong className="font-semibold text-[#FAF6EC]">
-                  {RESTAURANT_INFO.rating.score}
-                </strong>{' '}
-                · Guest favorite along Tagaytay–Nasugbu Hwy
+                Guest favorite along Tagaytay–Nasugbu Hwy
               </p>
             </div>
           </div>
@@ -169,7 +171,7 @@ export function HeroSection({
                     Tonight&apos;s Pick
                   </span>
                   <span className="mt-0.5 block whitespace-nowrap font-serif text-lg font-semibold leading-tight text-[#FAF6EC] transition-colors group-hover:text-[#DFB96F] sm:text-[1.35rem]">
-                    Chicken Inasal · ₱401
+                    Chicken Inasal · ₱366
                   </span>
                   <span className="mt-0.5 block text-[11px] text-[#B7C7BD]">
                     Banana Leaf · Annatto Grill
