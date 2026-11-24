@@ -208,13 +208,13 @@ export function RestaurantMenuBoard({
 
       {/* Full-Bleed Deep Forest Green Solihiya-Woven Whole-Page Menu Grid */}
       <div
-        className="relative z-10 flex-1 bg-[#0A2215] px-4 py-10 sm:px-8 lg:px-12 lg:py-12"
+        className="relative z-10 flex-1 bg-[#0A2215] px-4 py-6 sm:px-8 lg:px-12 lg:py-7"
         style={{
           backgroundImage: SOLIHIYA_BG,
           backgroundSize: '64px 64px',
         }}
       >
-        <div className="mx-auto grid w-full max-w-[1520px] grid-cols-1 gap-x-7 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mx-auto grid w-full max-w-[1520px] grid-cols-1 gap-x-7 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-y-7">
           {visibleItems.map((dish) => {
             const stats = trayStatsByDishId[dish.id] || {
               totalQty: 0,
@@ -230,7 +230,7 @@ export function RestaurantMenuBoard({
             return (
               <article
                 key={dish.id}
-                className="group relative flex flex-col items-center pt-[68px]"
+                className="group relative flex flex-col items-center pt-0"
               >
                 {/* Overlapping Ceramic-Rimmed Dish Medallion + Curved Heritage Arc Caption */}
                 <button
