@@ -16,11 +16,11 @@ import {
   Check,
   Tag,
   Info,
-  BookOpen,
+  ArrowLeft,
 } from 'lucide-react';
 import { MENU_CATEGORIES, MENU_ITEMS, QUICK_FILTERS } from '../data/menuData';
 import { formatPeso } from '../utils/hours';
-import { RestaurantMenuModal } from './RestaurantMenuModal';
+import { RestaurantMenuBoard } from './RestaurantMenuModal';
 
 const CATEGORY_ICONS = {
   UtensilsCrossed,
@@ -137,7 +137,7 @@ export function MenuSection({
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [showFilterRow, setShowFilterRow] = useState(false);
-  const [isMenuBookOpen, setIsMenuBookOpen] = useState(false);
+  const [menuView, setMenuView] = useState('board'); // 'board' = Filipino Menu landing view, 'customize' = Dish Customizer workbench
 
   const [featuredDishId, setFeaturedDishId] = useState('bacolod-cansi');
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
@@ -280,15 +280,35 @@ export function MenuSection({
     }
   };
 
-  const handleSelectFromGrid = (dish) => {
-    setFeaturedDishId(dish.id);
-    if (activeCategory !== 'all' && activeCategory !== dish.category) {
-      setActiveCategory(dish.category);
-    }
+  const scrollMenuToTop = () => {
     const menuEl = document.getElementById('menu');
     if (menuEl) {
-      menuEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const header = document.querySelector('header');
+      const offset = header
+        ? Math.floor(header.getBoundingClientRect().height)
+        : 69;
+      const top = Math.max(
+        0,
+        Math.round(menuEl.getBoundingClientRect().top + window.scrollY - offset)
+      );
+      window.scrollTo({ top, behavior: 'smooth' });
     }
+  };
+
+  const handleCustomizeDish = (dish) => {
+    if (dish) {
+      setFeaturedDishId(dish.id);
+      setActiveCategory(dish.category);
+      setActiveFilter('all');
+      setSearchQuery('');
+    }
+    setMenuView('customize');
+    scrollMenuToTop();
+  };
+
+  const handleBackToMenuBoard = () => {
+    setMenuView('board');
+    scrollMenuToTop();
   };
 
   const activeCategoryMeta =
@@ -307,6 +327,17 @@ export function MenuSection({
 
       {/* Full-Page Edge-to-Edge Container */}
       <div className="relative z-10 mx-auto w-full max-w-[1680px] px-4 sm:px-6 lg:px-8">
+        {menuView === 'board' ? (
+          <RestaurantMenuBoard
+            trayItems={trayItems}
+            onQuickAdd={onQuickAdd}
+            onUpdateTrayQty={onUpdateTrayQty}
+            onCustomizeDish={handleCustomizeDish}
+            onOpenCustomizer={() => handleCustomizeDish(featuredDish)}
+            onOpenTray={onOpenTray}
+          />
+        ) : (
+          <>
         {/* Top Full-Width Category & Cart Navigation Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-[22px] border border-[#DFB96F]/20 bg-[#0B2718]/95 px-4 py-2.5 shadow-[0_14px_36px_-18px_rgba(0,0,0,0.65)] backdrop-blur-md sm:px-5">
           {/* Left Brand Mark */}
@@ -356,15 +387,15 @@ export function MenuSection({
             })}
           </div>
 
-          {/* Right Menu Board + Search + Cart Pill */}
+          {/* Right Back-to-Menu + Search + Cart Pill */}
           <div className="order-2 flex items-center gap-2 lg:order-3">
             <button
               type="button"
-              onClick={() => setIsMenuBookOpen(true)}
+              onClick={handleBackToMenuBoard}
               className="hidden min-h-[36px] items-center gap-1.5 rounded-full border border-[#F5EFE2]/45 bg-[#F5EFE2] px-3.5 py-1.5 text-xs font-bold text-[#0B2718] shadow-sm transition hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5EFE2] sm:inline-flex"
             >
-              <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>Menu Board</span>
+              <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+              <span>Filipino Menu</span>
             </button>
 
             {showSearchInput ? (
@@ -440,11 +471,11 @@ export function MenuSection({
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => setIsMenuBookOpen(true)}
+                    onClick={handleBackToMenuBoard}
                     className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-[#DFD0B2] bg-[#F5EFE2] px-4 py-1.5 text-xs font-bold text-[#0B2718] shadow-sm transition hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5EFE2]"
                   >
-                    <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
-                    <span>Restaurant Menu</span>
+                    <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+                    <span>Back to Menu</span>
                   </button>
                   <button
                     type="button"
@@ -989,17 +1020,8 @@ export function MenuSection({
             </div>
           </aside>
         </div>
-
-        {/* Printed-Style Rectangular Restaurant Menu Sheet Modal */}
-        <RestaurantMenuModal
-          isOpen={isMenuBookOpen}
-          onClose={() => setIsMenuBookOpen(false)}
-          trayItems={trayItems}
-          onQuickAdd={onQuickAdd}
-          onUpdateTrayQty={onUpdateTrayQty}
-          onCustomizeDish={handleSelectFromGrid}
-          onOpenTray={onOpenTray}
-        />
+          </>
+        )}
       </div>
     </section>
   );
