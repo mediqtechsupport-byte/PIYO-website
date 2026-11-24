@@ -66,98 +66,6 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
         }}
       />
 
-      {/* Individual 3D Cansi & Grill Ingredients scattered separately across open warm beige background */}
-      <img
-        src="./images/ing-calamansi-3d.jpg"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute left-[45%] top-2 z-0 hidden h-24 w-24 -rotate-12 object-contain brightness-[1.06] contrast-[1.06] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_62%,transparent_98%)] md:block xl:left-[45%] xl:top-3 xl:h-28 xl:w-28"
-        onError={(e) => {
-          e.currentTarget.style.display = 'none';
-        }}
-      />
-      <img
-        src="./images/ing-beef-3d.jpg"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute right-[23%] top-1 z-0 hidden h-28 w-28 -rotate-[8deg] object-contain brightness-[1.04] contrast-[1.04] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_76%,transparent_99%)] md:block xl:right-[22%] xl:top-2 xl:h-32 xl:w-32"
-        onError={(e) => {
-          e.currentTarget.style.display = 'none';
-        }}
-      />
-      <img
-        src="./images/ing-chili-3d.jpg"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute right-[5%] top-2 z-0 h-20 w-20 rotate-[14deg] object-contain brightness-[1.06] contrast-[1.06] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_62%,transparent_98%)] sm:h-24 sm:w-24 xl:right-[6%] xl:top-3 xl:h-28 xl:w-28"
-        onError={(e) => {
-          e.currentTarget.style.display = 'none';
-        }}
-      />
-      <img
-        src="./images/ing-garlic-3d.jpg"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-2 left-[2%] z-0 hidden h-20 w-20 -rotate-12 object-contain brightness-[1.06] contrast-[1.06] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_62%,transparent_98%)] sm:block xl:bottom-4 xl:left-[4%] xl:h-24 xl:w-24"
-        onError={(e) => {
-          e.currentTarget.style.display = 'none';
-        }}
-      />
-      <img
-        src="./images/ing-lemongrass-3d.jpg"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-2 left-[40%] z-0 hidden h-24 w-24 rotate-[18deg] object-contain brightness-[1.06] contrast-[1.06] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_62%,transparent_98%)] md:block xl:bottom-4 xl:left-[41%] xl:h-28 xl:w-28"
-        onError={(e) => {
-          e.currentTarget.style.display = 'none';
-        }}
-      />
-      <img
-        src="./images/ing-marrow-3d.jpg"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-2 right-[9%] z-0 h-24 w-24 rotate-[8deg] object-contain brightness-[1.06] contrast-[1.06] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_62%,transparent_98%)] sm:h-28 sm:w-28 xl:bottom-4 xl:right-[11%] xl:h-32 xl:w-32"
-        onError={(e) => {
-          e.currentTarget.style.display = 'none';
-        }}
-      />
-      <img
-        src="./images/ing-salt-3d.png"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-2 right-[26%] z-0 hidden h-20 w-24 rotate-[-6deg] object-contain drop-shadow-[0_6px_12px_rgba(11,39,24,0.12)] md:block xl:bottom-4 xl:right-[27%] xl:h-24 xl:w-28 2xl:right-[28%]"
-        onError={(e) => {
-          e.currentTarget.style.display = 'none';
-        }}
-      />
-      <img
-        src="./images/ing-pepper-3d.jpg"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute right-[35%] top-1 z-0 hidden h-20 w-20 rotate-[12deg] object-contain brightness-[1.05] contrast-[1.06] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_76%,transparent_99%)] lg:block xl:right-[36%] xl:top-2 xl:h-24 xl:w-24"
-        onError={(e) => {
-          e.currentTarget.style.display = 'none';
-        }}
-      />
-      <img
-        src="./images/ing-salt-3d.png"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute left-[3%] top-[44%] z-0 hidden h-20 w-24 rotate-[10deg] object-contain opacity-95 drop-shadow-[0_6px_12px_rgba(11,39,24,0.12)] 2xl:block"
-        onError={(e) => {
-          e.currentTarget.style.display = 'none';
-        }}
-      />
-      <img
-        src="./images/ing-pepper-3d.jpg"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute left-[4.5%] top-[62%] z-0 hidden h-20 w-20 -rotate-[14deg] object-contain brightness-[1.05] contrast-[1.06] mix-blend-multiply [mask-image:radial-gradient(closest-side,black_76%,transparent_99%)] 2xl:block"
-        onError={(e) => {
-          e.currentTarget.style.display = 'none';
-        }}
-      />
-
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-10">
           {/* Left Editorial Column */}
@@ -332,23 +240,6 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                       />
                     ))}
                   </div>
-                </button>
-
-                {/* Clean Floating Dish Tag */}
-                <button
-                  type="button"
-                  onClick={onInspectDish}
-                  className="pointer-events-auto absolute bottom-2 right-2 z-30 inline-flex items-center gap-2 rounded-full border border-[#0B2718]/18 bg-[#FAF6EC]/95 px-4 py-2 text-xs font-bold text-[#0B2718] shadow-lg backdrop-blur-sm transition hover:bg-white sm:bottom-4 sm:right-4"
-                >
-                  <span
-                    className="h-2 w-2 rounded-full bg-[#C29645]"
-                    aria-hidden="true"
-                  />
-                  <span>Bacolod Cansi · ₱666</span>
-                  <ArrowUpRight
-                    className="h-3.5 w-3.5 text-[#C29645]"
-                    aria-hidden="true"
-                  />
                 </button>
               </div>
             </div>
