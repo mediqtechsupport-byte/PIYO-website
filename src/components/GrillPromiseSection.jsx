@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { Flame, Soup, UtensilsCrossed, ArrowUpRight } from 'lucide-react';
 
 const BROTH_DROPLETS = [
-  { left: '20%', top: '24%', size: 6, delay: '0s', duration: '3.4s' },
-  { left: '28%', top: '68%', size: 5, delay: '0.8s', duration: '4.1s' },
-  { left: '34%', top: '16%', size: 4, delay: '1.4s', duration: '3.7s' },
-  { left: '72%', top: '22%', size: 6, delay: '0.4s', duration: '3.9s' },
-  { left: '78%', top: '54%', size: 5, delay: '1.1s', duration: '4.3s' },
-  { left: '66%', top: '74%', size: 4, delay: '1.8s', duration: '3.5s' },
-  { left: '24%', top: '46%', size: 4, delay: '2.1s', duration: '4.0s' },
-  { left: '76%', top: '34%', size: 5, delay: '0.6s', duration: '3.6s' },
+  { left: '14%', top: '20%', size: 6, delay: '0s', duration: '3.4s' },
+  { left: '22%', top: '72%', size: 5, delay: '0.8s', duration: '4.1s' },
+  { left: '30%', top: '12%', size: 4, delay: '1.4s', duration: '3.7s' },
+  { left: '78%', top: '18%', size: 6, delay: '0.4s', duration: '3.9s' },
+  { left: '84%', top: '56%', size: 5, delay: '1.1s', duration: '4.3s' },
+  { left: '72%', top: '78%', size: 4, delay: '1.8s', duration: '3.5s' },
+  { left: '18%', top: '46%', size: 4, delay: '2.1s', duration: '4.0s' },
+  { left: '82%', top: '34%', size: 5, delay: '0.6s', duration: '3.6s' },
 ];
 
 const HIGHLIGHTS = [
@@ -153,7 +153,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
             <div
               onPointerMove={handleStageMove}
               onPointerLeave={handleStageLeave}
-              className="group relative flex h-[360px] items-center justify-center py-2 sm:h-[440px] lg:h-[490px] xl:h-[530px]"
+              className="group relative flex h-[430px] items-center justify-center py-2 sm:h-[540px] lg:h-[600px] xl:h-[650px]"
             >
               {/* Interactive 3D Parallax Exploded Bacolod Cansi Showcase */}
               <div className="relative z-10 flex h-full w-full items-center justify-center">
@@ -161,7 +161,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                   type="button"
                   onClick={onInspectDish}
                   aria-label="Inspect Bacolod Cansi — ₱666"
-                  className="relative flex h-[350px] w-full max-w-[460px] cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] sm:h-[430px] sm:max-w-[560px] lg:h-[480px] lg:max-w-[600px]"
+                  className="relative flex h-[420px] w-full max-w-[540px] cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] sm:h-[530px] sm:max-w-[660px] lg:h-[590px] lg:max-w-[740px] xl:h-[640px] xl:max-w-[800px]"
                   style={{
                     perspective: '960px',
                   }}
@@ -179,7 +179,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                       viewBox="0 0 260 220"
                       fill="none"
                       aria-hidden="true"
-                      className="pointer-events-none absolute -top-2 left-1/2 z-20 h-44 w-56 -translate-x-1/2 opacity-75 sm:h-52 sm:w-64"
+                      className="pointer-events-none absolute -top-4 left-1/2 z-20 h-52 w-64 -translate-x-1/2 opacity-75 sm:h-60 sm:w-72"
                     >
                       <path
                         d="M95 190 C78 148, 114 114, 92 66 C80 42, 96 22, 106 8"
@@ -219,7 +219,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                       <img
                         src="./images/cansi-exploded-hero.jpg"
                         alt="Hyper-realistic mid-air exploded Bacolod Cansi showing stoneware bowl, splashing golden batwan broth, beef shank bone marrow, langka jackfruit, lemongrass, calamansi, chilies, and toasted garlic"
-                        className="h-full w-full object-contain [mask-image:radial-gradient(ellipse_49%_49%_at_50%_50%,black_68%,transparent_99%)]"
+                        className="h-full w-full scale-[1.24] object-contain sm:scale-[1.28] lg:scale-[1.32] [mask-image:radial-gradient(ellipse_49%_49%_at_50%_50%,black_68%,transparent_99%)]"
                       />
                     </div>
 
