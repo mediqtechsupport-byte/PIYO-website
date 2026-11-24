@@ -10,6 +10,7 @@ import {
   Pizza,
   Sparkles,
   CupSoda,
+  Coffee,
   CircleDot,
   ShoppingBag,
   SlidersHorizontal,
@@ -29,17 +30,19 @@ const CATEGORY_ICONS = {
   Pizza,
   Sparkles,
   CupSoda,
+  Coffee,
   Bowl: CircleDot,
 };
 
 const TOP_CATEGORY_TABS = [
   { id: 'soups', label: 'Soups', icon: 'Soup' },
-  { id: 'grill', label: 'Grill & Specials', icon: 'Flame' },
-  { id: 'pasta-pizza', label: 'Silog & Pasta', icon: 'Pizza' },
+  { id: 'grill', label: 'Sinugba & Specials', icon: 'Flame' },
+  { id: 'pasta-pizza', label: 'Pasta & Pizza', icon: 'Pizza' },
   { id: 'appetizers', label: 'Appetizers', icon: 'Sparkles' },
   { id: 'drinks', label: 'Drinks', icon: 'CupSoda' },
+  { id: 'coffee', label: 'Coffee', icon: 'Coffee' },
   { id: 'sides', label: 'Sides', icon: 'Bowl' },
-  { id: 'all', label: 'All (29)', icon: 'UtensilsCrossed' },
+  { id: 'all', label: `All (${MENU_ITEMS.length})`, icon: 'UtensilsCrossed' },
 ];
 
 const ADDON_IMAGES = {
@@ -56,9 +59,9 @@ const ADDON_IMAGES = {
 };
 
 const UNIVERSAL_ADDONS = [
-  { id: 'garlic-rice', label: 'Garlic Rice', price: 45 },
-  { id: 'atchara', label: 'Side Atchara', price: 45 },
-  { id: 'calamansi-chili', label: 'Calamansi & Chili', price: 0 },
+  { id: 'garlic-rice', label: 'Garlic Rice', price: 86 },
+  { id: 'plain-rice', label: 'Plain Rice', price: 63 },
+  { id: 'atchara', label: 'Atchara', price: 33 },
 ];
 
 const PROMO_CATALOG = {
@@ -99,17 +102,18 @@ function getDishBuildOptions(dish) {
 
 function getRecommendedPairings(dish) {
   const byCategory = {
-    soups: ['garlic-rice-side', 'mashed-potato-atchara', 'mango-dragon-swirl'],
+    soups: ['garlic-rice-side', 'atchara-side', 'mango-dragon-swirl'],
     grill: ['bacolod-cansi', 'garlic-rice-side', 'guyabano-breeze'],
-    'pasta-pizza': ['piyo-savory-wings', 'cheesy-lumpia', 'berry-avocado-shakes'],
-    appetizers: ['bacolod-chicken-inasal', 'garlic-rice-side', 'mango-dragon-swirl'],
-    drinks: ['bacolod-cansi', 'bacolod-chicken-inasal', 'cheesy-lumpia'],
+    'pasta-pizza': ['piyo-savory-wings', 'cheesy-beef-lumpia', 'avocado-chill'],
+    appetizers: ['bacolod-chicken-inasal', 'garlic-rice-side', 'cucumber-lemonade'],
+    drinks: ['bacolod-cansi', 'bacolod-chicken-inasal', 'cheesy-beef-lumpia'],
+    coffee: ['truffle-mushroom-pasta', 'creamy-carbonara', 'crispy-eggplant-sticks'],
     sides: ['bacolod-cansi', 'bacolod-chicken-inasal', 'mango-dragon-swirl'],
   };
   const preferredIds = byCategory[dish?.category] || [
     'garlic-rice-side',
     'mango-dragon-swirl',
-    'cheesy-lumpia',
+    'cheesy-beef-lumpia',
   ];
   const picks = preferredIds
     .map((id) => MENU_ITEMS.find((m) => m.id === id))
@@ -329,7 +333,6 @@ export function MenuSection({
           onQuickAdd={onQuickAdd}
           onUpdateTrayQty={onUpdateTrayQty}
           onCustomizeDish={handleCustomizeDish}
-          onOpenCustomizer={() => handleCustomizeDish(featuredDish)}
           onOpenTray={onOpenTray}
         />
       ) : (

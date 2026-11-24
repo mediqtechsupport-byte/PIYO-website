@@ -16,9 +16,10 @@ const BANIG_STRIP_BG = `url("data:image/svg+xml,${encodeURIComponent(
 const CATEGORY_ARC_FALLBACK = {
   soups: 'LUTONG NEGROS',
   grill: 'CHARCOAL SINUGBA',
-  'pasta-pizza': 'TAGAYTAY COMFORT',
+  'pasta-pizza': 'PASTA & 10" PIZZA',
   appetizers: 'PULUTAN & SHARE',
   drinks: 'TROPICAL COOLER',
+  coffee: 'FRESHLY BREWED',
   sides: 'HAPAG PAIRING',
 };
 
@@ -81,7 +82,6 @@ export function RestaurantMenuBoard({
   onQuickAdd,
   onUpdateTrayQty,
   onCustomizeDish,
-  onOpenCustomizer,
   onOpenTray,
 }) {
   const [selectedCat, setSelectedCat] = useState('all');
@@ -130,17 +130,6 @@ export function RestaurantMenuBoard({
             </span>
 
             <div className="flex items-center gap-2">
-              {onOpenCustomizer && (
-                <button
-                  type="button"
-                  onClick={onOpenCustomizer}
-                  className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-[#0B2718]/25 bg-[#FAF6EC]/90 px-4 py-1.5 text-xs font-bold text-[#0B2718] transition hover:border-[#0B2718] hover:bg-[#E7DCC5]"
-                >
-                  <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
-                  <span>Meal Builder</span>
-                </button>
-              )}
-
               <button
                 type="button"
                 onClick={onOpenTray}
