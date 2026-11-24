@@ -24,7 +24,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
   return (
     <section
       id="history"
-      className="relative flex flex-col items-center justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#06180E] pb-14 pt-48 text-[#FAF6EC] sm:pb-16 sm:pt-56 lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:pb-12 lg:pt-[285px] xl:pb-14 xl:pt-[310px]"
+      className="relative flex flex-col items-center justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#06180E] pb-14 pt-52 text-[#FAF6EC] sm:pb-16 sm:pt-60 lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:pb-14 lg:pt-[300px] xl:pb-16 xl:pt-[320px]"
     >
       {/* Full-Bleed Centered PIYO Facade — Illuminated Roof & PIYO Sign Clearly Visible at Top */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
@@ -32,7 +32,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           src="./images/piyo-place-mobile.jpg"
           alt=""
           loading="lazy"
-          className="h-full w-full translate-x-[9.6%] -translate-y-[8%] scale-[1.16] object-cover object-[50%_28%] opacity-72 brightness-[0.94] contrast-[1.06] saturate-[0.95]"
+          className="h-full w-full translate-x-[12.2%] -translate-y-[3%] scale-[1.24] object-cover object-[50%_28%] opacity-72 brightness-[0.94] contrast-[1.06] saturate-[0.95]"
         />
         {/* Seamless left & right atmospheric fade into #06180E */}
         <div
