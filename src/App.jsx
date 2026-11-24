@@ -34,12 +34,16 @@ export default function App() {
   // while handing off completely to #spotlight's GSAP dish orbit animation and #menu's native scroll
   useEffect(() => {
     const CHAPTER_IDS = ['home', 'history', 'craft', 'spotlight'];
-    const STICKY_OFFSET = 74;
+    const getStickyOffset = () => {
+      const header = document.querySelector('header');
+      return header ? Math.floor(header.getBoundingClientRect().height) : 69;
+    };
 
     const handleWheel = (e) => {
       if (window.innerWidth < 1024 || selectedDish || isTrayOpen) return;
       if (Math.abs(e.deltaY) < 16 || e.ctrlKey) return;
 
+      const STICKY_OFFSET = getStickyOffset();
       const spotlightEl = document.getElementById('spotlight');
       const menuEl = document.getElementById('menu');
       const goingDown = e.deltaY > 0;
@@ -165,7 +169,13 @@ export default function App() {
     setActiveSection(id);
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const header = document.querySelector('header');
+      const offset = header ? Math.floor(header.getBoundingClientRect().height) : 69;
+      const top = Math.max(
+        0,
+        Math.round(el.getBoundingClientRect().top + window.scrollY - offset)
+      );
+      window.scrollTo({ top, behavior: 'smooth' });
     }
   };
 

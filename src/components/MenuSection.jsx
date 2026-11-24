@@ -296,7 +296,7 @@ export function MenuSection({
   return (
     <section
       id="menu"
-      className="relative flex flex-col justify-center overflow-hidden border-t border-[#DFB96F]/15 bg-[#06180E] py-6 text-[#FAF6EC] sm:py-8 lg:min-h-[calc(100svh-74px)] lg:py-6"
+      className="relative flex flex-col justify-center overflow-hidden border-t border-[#DFB96F]/15 bg-[#06180E] py-6 text-[#FAF6EC] sm:py-8 lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:py-6"
     >
       {/* Subtle Dark Forest Ambient Glow */}
       <div

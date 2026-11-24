@@ -41,10 +41,10 @@
   }
 }
 
-/* Desktop scroll padding so section landings align cleanly below the 74px header without fighting GSAP ScrollTrigger */
+/* Desktop scroll padding synced to actual live header height so zero sliver leaks above sections */
 @media (min-width: 1024px) {
   html {
-    scroll-padding-top: 74px;
+    scroll-padding-top: var(--nav-h, 69px);
   }
 }
 
@@ -114,15 +114,15 @@
 }
 @media (min-width: 768px) {
   .piyo-orbit {
-    --piyo-orbit-h: calc(100svh - 74px);
+    --piyo-orbit-h: calc(100svh - var(--nav-h, 69px));
   }
 }
 .piyo-orbit .dsh-root {
-  top: 86px;
+  top: var(--nav-h, 86px);
 }
 @media (min-width: 768px) {
   .piyo-orbit .dsh-root {
-    top: 74px;
+    top: var(--nav-h, 69px);
   }
 }
 .piyo-orbit .dsh-top {

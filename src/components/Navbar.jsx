@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Home,
   UtensilsCrossed,
@@ -23,10 +23,34 @@ export function Navbar({
   onOpenTray,
   openStatus,
 }) {
+  const headerRef = useRef(null);
+
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const syncNavHeight = () => {
+      const h = Math.floor(el.getBoundingClientRect().height);
+      if (h > 0) {
+        document.documentElement.style.setProperty('--nav-h', `${h}px`);
+      }
+    };
+    syncNavHeight();
+    const ro = new ResizeObserver(syncNavHeight);
+    ro.observe(el);
+    window.addEventListener('resize', syncNavHeight);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', syncNavHeight);
+    };
+  }, []);
+
   return (
     <>
       {/* Top Header (Seamless Editorial Desktop Nav + Mobile App Header) */}
-      <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#06180E]/92 text-[#FAF6EC] backdrop-blur-md">
+      <header
+        ref={headerRef}
+        className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#06180E]/92 text-[#FAF6EC] backdrop-blur-md"
+      >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:px-8 md:py-3.5">
           {/* Editorial Serif Brand Crest & Wordmark */}
           <button

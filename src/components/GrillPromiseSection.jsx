@@ -29,7 +29,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
   return (
     <section
       id="craft"
-      className="relative overflow-hidden border-b border-[#0B2718]/12 bg-[#F5EFE2] py-14 text-[#0B2718] sm:py-16 lg:flex lg:min-h-[calc(100svh-74px)] lg:items-center lg:py-10 xl:py-12"
+      className="relative overflow-hidden border-b border-[#0B2718]/12 bg-[#F5EFE2] py-14 text-[#0B2718] sm:py-16 lg:flex lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:items-center lg:py-10 xl:py-12"
     >
       {/* Top-Left Open Flame Accent blended cleanly into warm beige */}
       <img

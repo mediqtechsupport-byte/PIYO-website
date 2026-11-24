@@ -18,7 +18,7 @@ export function HeroSection({
   return (
     <section
       id="home"
-      className="relative flex flex-col justify-between overflow-hidden bg-[#06180E] text-[#FAF6EC] lg:min-h-[calc(100svh-74px)]"
+      className="relative flex flex-col justify-between overflow-hidden bg-[#06180E] text-[#FAF6EC] lg:min-h-[calc(100svh-var(--nav-h,69px))]"
     >
       {/* Warm Illuminated Restaurant Facade & Dining Room Backdrop */}
       <div className="pointer-events-none absolute inset-0">

@@ -30,7 +30,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
   return (
     <section
       id="history"
-      className="relative flex flex-col justify-center overflow-hidden border-y border-[#DFB96F]/20 bg-[#06180E] py-10 text-[#FAF6EC] sm:py-12 lg:min-h-[calc(100svh-74px)] lg:py-4"
+      className="relative flex flex-col justify-center overflow-hidden border-y border-[#DFB96F]/20 bg-[#06180E] py-10 text-[#FAF6EC] sm:py-12 lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:py-4"
     >
       {/* Full-Bleed Architectural Background of PIYO's Real Tagaytay Place */}
       <div className="pointer-events-none absolute inset-0">
