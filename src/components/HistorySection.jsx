@@ -40,7 +40,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
         </p>
       </div>
 
-      {/* Desktop Full-Bleed Continuous 100% Architectural Canvas (Zero Hard Cutoff, Dead-Level Front Elevation) */}
+      {/* Desktop Full-Bleed Continuous 100% Architectural Canvas (Text Left, Dead-Level Front Elevation Right) */}
       <div className="pointer-events-none absolute inset-0 hidden lg:block">
         <img
           src="./images/piyo-place-real.jpg"
@@ -48,19 +48,19 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           loading="lazy"
           className="h-full w-full object-cover object-[center_52%]"
         />
-        {/* Whisper-soft unifying wash keeping the front facade razor-sharp while blending warm window light into the story column */}
+        {/* Whisper-soft unifying wash keeping the left narrative razor-sharp while letting the right facade glow cleanly */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(90deg, rgba(6,24,14,0.02) 0%, rgba(6,24,14,0.0) 44%, rgba(6,24,14,0.34) 56%, rgba(6,24,14,0.68) 72%, rgba(6,24,14,0.88) 100%)',
+              'linear-gradient(90deg, rgba(6,24,14,0.88) 0%, rgba(6,24,14,0.70) 30%, rgba(6,24,14,0.28) 46%, rgba(6,24,14,0.0) 58%, rgba(6,24,14,0.04) 100%)',
           }}
         />
         <div
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse 44% 50% at 54% 52%, rgba(223,185,111,0.05) 0%, transparent 72%)',
+              'radial-gradient(ellipse 44% 50% at 48% 52%, rgba(223,185,111,0.05) 0%, transparent 72%)',
           }}
         />
         <div
@@ -72,9 +72,9 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
         />
       </div>
 
-      {/* Center Editorial Content Grid — Aligned & Connected Directly with the Facade Horizon */}
+      {/* Center Editorial Content Grid — Narrative Left, Connected Directly with Straight-On Facade Right */}
       <div className="relative z-10 mx-auto flex w-full max-w-[1520px] flex-1 items-center px-5 pb-10 pt-4 sm:px-8 lg:grid lg:grid-cols-12 lg:px-10 lg:py-4 2xl:px-14 2xl:py-6">
-        <div className="lg:col-span-6 lg:col-start-7 lg:pl-4 xl:pl-8 2xl:pl-10">
+        <div className="lg:col-span-6 lg:pr-6 xl:pr-10 2xl:pr-12">
           {/* Quiet Tracked Eyebrow */}
           <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.24em] text-[#DFB96F]">
             <span>Our Story</span>
