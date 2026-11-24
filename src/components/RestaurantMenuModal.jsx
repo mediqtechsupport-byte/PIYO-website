@@ -111,103 +111,105 @@ export function RestaurantMenuBoard({
   );
 
   return (
-    <div className="mx-auto flex w-full max-w-[1140px] flex-col overflow-hidden rounded-[22px] border-2 border-[#DFD0B2]/55 bg-[#0A2215] text-[#0B2718] shadow-[0_32px_80px_-20px_rgba(0,0,0,0.82)] lg:max-h-[calc(100svh-var(--nav-h,69px)-36px)]">
-      {/* Warm Sunlit Beige Editorial Header with Tropical Palm Frond Shadows */}
-      <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#ECE2CC] px-5 pb-4 pt-4 sm:px-8 sm:pt-5">
+    <div className="flex min-h-[calc(100svh-var(--nav-h,69px))] w-full flex-col bg-[#0A2215] text-[#0B2718]">
+      {/* Full-Bleed Warm Sunlit Beige Editorial Header with Tropical Palm Frond Shadows */}
+      <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#ECE2CC] px-4 pb-5 pt-5 sm:px-8 lg:px-12 lg:pb-6 lg:pt-6">
         {/* Corner Tropical Palm Frond Silhouettes */}
-        <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-36 w-52 text-[#0B2718] sm:h-40 sm:w-60" />
-        <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-32 w-48 -scale-x-100 text-[#0B2718] opacity-75 sm:h-36 sm:w-52" />
+        <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-40 w-56 text-[#0B2718] sm:h-48 sm:w-72" />
+        <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-36 w-52 -scale-x-100 text-[#0B2718] opacity-75 sm:h-44 sm:w-64" />
 
-        {/* Top-Left / Top-Right Utility Controls */}
-        <div className="relative z-10 flex flex-wrap items-center justify-between gap-2">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[#0B2718]/20 bg-[#FAF6EC]/85 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#0B2718]">
-            <span
-              aria-hidden="true"
-              className="h-1.5 w-1.5 rotate-45 bg-[#8A673D]"
-            />
-            {RESTAURANT_INFO.established} · Tagaytay City
-          </span>
+        <div className="relative z-10 mx-auto w-full max-w-[1520px]">
+          {/* Top-Left / Top-Right Utility Controls */}
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#0B2718]/20 bg-[#FAF6EC]/85 px-3.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#0B2718]">
+              <span
+                aria-hidden="true"
+                className="h-1.5 w-1.5 rotate-45 bg-[#8A673D]"
+              />
+              {RESTAURANT_INFO.established} · Tagaytay City
+            </span>
 
-          <div className="flex items-center gap-2">
-            {onOpenCustomizer && (
+            <div className="flex items-center gap-2">
+              {onOpenCustomizer && (
+                <button
+                  type="button"
+                  onClick={onOpenCustomizer}
+                  className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-[#0B2718]/25 bg-[#FAF6EC]/90 px-4 py-1.5 text-xs font-bold text-[#0B2718] transition hover:border-[#0B2718] hover:bg-[#E7DCC5]"
+                >
+                  <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
+                  <span>Meal Builder</span>
+                </button>
+              )}
+
               <button
                 type="button"
-                onClick={onOpenCustomizer}
-                className="inline-flex min-h-[34px] items-center gap-1.5 rounded-full border border-[#0B2718]/25 bg-[#FAF6EC]/90 px-3.5 py-1 text-xs font-bold text-[#0B2718] transition hover:border-[#0B2718] hover:bg-[#E7DCC5]"
+                onClick={onOpenTray}
+                className="inline-flex min-h-[36px] items-center gap-2 rounded-full bg-[#0B2718] px-4 py-1.5 text-xs font-bold text-[#F5EFE2] shadow-sm transition hover:bg-[#143D28]"
               >
-                <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
-                <span>Meal Builder</span>
+                <ShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
+                <span>
+                  {trayCount > 0 ? `${trayCount} · ${formatPeso(trayTotal)}` : 'Cart'}
+                </span>
               </button>
-            )}
-
-            <button
-              type="button"
-              onClick={onOpenTray}
-              className="inline-flex min-h-[34px] items-center gap-2 rounded-full bg-[#0B2718] px-3.5 py-1 text-xs font-bold text-[#F5EFE2] shadow-sm transition hover:bg-[#143D28]"
-            >
-              <ShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>
-                {trayCount > 0 ? `${trayCount} · ${formatPeso(trayTotal)}` : 'Cart'}
-              </span>
-            </button>
+            </div>
           </div>
-        </div>
 
-        {/* Centered Filipino Heritage Script Title & Poetic Manifesto */}
-        <div className="relative z-10 mt-1 text-center">
-          <p className="font-script text-[38px] leading-[1.05] text-[#7E5A30] sm:text-[46px]">
-            Hapag ng PIYO
-          </p>
-          <div className="mt-0.5 flex items-center justify-center gap-3">
-            <span
-              aria-hidden="true"
-              className="h-[1px] w-10 bg-gradient-to-r from-transparent to-[#0B2718]/45 sm:w-14"
-            />
-            <h2 className="font-serif text-lg font-bold uppercase tracking-[0.28em] text-[#0B2718] sm:text-xl">
-              Filipino Menu
-            </h2>
-            <span
-              aria-hidden="true"
-              className="h-[1px] w-10 bg-gradient-to-l from-transparent to-[#0B2718]/45 sm:w-14"
-            />
+          {/* Centered Filipino Heritage Script Title & Poetic Manifesto */}
+          <div className="mt-1 text-center">
+            <p className="font-script text-[42px] leading-[1.05] text-[#7E5A30] sm:text-[54px]">
+              Hapag ng PIYO
+            </p>
+            <div className="mt-0.5 flex items-center justify-center gap-3">
+              <span
+                aria-hidden="true"
+                className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#0B2718]/45 sm:w-16"
+              />
+              <h2 className="font-serif text-lg font-bold uppercase tracking-[0.28em] text-[#0B2718] sm:text-2xl">
+                Filipino Menu
+              </h2>
+              <span
+                aria-hidden="true"
+                className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#0B2718]/45 sm:w-16"
+              />
+            </div>
+            <p className="mx-auto mt-1.5 max-w-xl text-xs leading-relaxed text-[#384D40] sm:text-[13px]">
+              Hindi lamang pagkain — kundi hapag para sa kwento, lutong Negros, at init ng pamilya.
+            </p>
           </div>
-          <p className="mx-auto mt-1.5 max-w-lg text-[11.5px] leading-relaxed text-[#384D40] sm:text-xs">
-            Hindi lamang pagkain — kundi hapag para sa kwento, lutong Negros, at init ng pamilya.
-          </p>
-        </div>
 
-        {/* Category Filter Pills (Dark Forest Green & Warm Parchment) */}
-        <div
-          className="relative z-10 mt-3.5 flex items-center justify-start gap-1.5 overflow-x-auto no-scrollbar pb-0.5 sm:justify-center"
-          role="tablist"
-          aria-label="Filipino menu categories"
-        >
-          {MENU_CATEGORIES.map((cat) => {
-            const active = selectedCat === cat.id;
-            return (
-              <button
-                key={cat.id}
-                type="button"
-                role="tab"
-                aria-selected={active}
-                onClick={() => setSelectedCat(cat.id)}
-                className={`min-h-[32px] shrink-0 rounded-full px-3.5 py-1 text-[11px] font-bold tracking-wide transition ${
-                  active
-                    ? 'bg-[#0B2718] text-[#F5EFE2] shadow-sm'
-                    : 'border border-[#0B2718]/20 bg-[#FAF6EC]/85 text-[#1B3A29] hover:border-[#0B2718]/50 hover:bg-[#E6DAC2]'
-                }`}
-              >
-                {cat.label}
-              </button>
-            );
-          })}
+          {/* Category Filter Pills (Dark Forest Green & Warm Parchment) */}
+          <div
+            className="mt-4 flex items-center justify-start gap-2 overflow-x-auto no-scrollbar pb-0.5 sm:justify-center"
+            role="tablist"
+            aria-label="Filipino menu categories"
+          >
+            {MENU_CATEGORIES.map((cat) => {
+              const active = selectedCat === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setSelectedCat(cat.id)}
+                  className={`min-h-[34px] shrink-0 rounded-full px-4 py-1.5 text-xs font-bold tracking-wide transition ${
+                    active
+                      ? 'bg-[#0B2718] text-[#F5EFE2] shadow-sm'
+                      : 'border border-[#0B2718]/20 bg-[#FAF6EC]/85 text-[#1B3A29] hover:border-[#0B2718]/50 hover:bg-[#E6DAC2]'
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      {/* Woven Filipino Banig Border Strip Separating Beige Header & Dark Green Canvas */}
+      {/* Full-Bleed Woven Filipino Banig Border Strip */}
       <div
         aria-hidden="true"
-        className="h-[10px] w-full shrink-0 border-y border-[#0B2718]/25 bg-[#E6D9BE]"
+        className="h-[12px] w-full shrink-0 border-y border-[#0B2718]/25 bg-[#E6D9BE]"
         style={{
           backgroundImage: BANIG_STRIP_BG,
           backgroundRepeat: 'repeat-x',
@@ -215,15 +217,15 @@ export function RestaurantMenuBoard({
         }}
       />
 
-      {/* Scrollable Deep Forest Green Solihiya-Woven Canvas with Tall Warm-Beige Cards */}
+      {/* Full-Bleed Deep Forest Green Solihiya-Woven Whole-Page Menu Grid */}
       <div
-        className="relative z-10 flex-1 bg-[#0A2215] px-5 py-7 sm:px-8 sm:py-8 lg:overflow-y-auto"
+        className="relative z-10 flex-1 bg-[#0A2215] px-4 py-10 sm:px-8 lg:px-12 lg:py-12"
         style={{
           backgroundImage: SOLIHIYA_BG,
           backgroundSize: '64px 64px',
         }}
       >
-        <div className="grid grid-cols-1 gap-x-6 gap-y-11 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto grid w-full max-w-[1520px] grid-cols-1 gap-x-7 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {visibleItems.map((dish) => {
             const stats = trayStatsByDishId[dish.id] || {
               totalQty: 0,
@@ -392,14 +394,16 @@ export function RestaurantMenuBoard({
         </div>
       </div>
 
-      {/* Bottom Warm Beige Filipino Heritage Footer Strip */}
-      <div className="relative z-10 flex shrink-0 flex-wrap items-center justify-between gap-2 border-t border-[#0B2718]/20 bg-[#ECE2CC] px-5 py-3 text-[11px] text-[#2F4537] sm:px-8">
-        <span>
-          {RESTAURANT_INFO.shortAddress} · Libreng Sabaw Refill sa Bacolod Cansi
-        </span>
-        <span className="font-bold text-[#0B2718]">
-          Showing {visibleItems.length} of {MENU_ITEMS.length} dishes
-        </span>
+      {/* Full-Bleed Bottom Warm Beige Filipino Heritage Footer Strip */}
+      <div className="relative z-10 shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC] px-4 py-3.5 text-xs text-[#2F4537] sm:px-8 lg:px-12">
+        <div className="mx-auto flex w-full max-w-[1520px] flex-wrap items-center justify-between gap-2">
+          <span>
+            {RESTAURANT_INFO.shortAddress} · Libreng Sabaw Refill sa Bacolod Cansi
+          </span>
+          <span className="font-bold text-[#0B2718]">
+            Showing {visibleItems.length} of {MENU_ITEMS.length} dishes
+          </span>
+        </div>
       </div>
     </div>
   );

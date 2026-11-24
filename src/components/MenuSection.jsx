@@ -317,27 +317,31 @@ export function MenuSection({
   return (
     <section
       id="menu"
-      className="relative flex flex-col justify-center overflow-hidden border-t border-[#DFB96F]/15 bg-[#06180E] py-6 text-[#FAF6EC] sm:py-8 lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:py-6"
+      className={`relative flex flex-col overflow-x-clip border-t border-[#DFB96F]/15 bg-[#06180E] text-[#FAF6EC] ${
+        menuView === 'board'
+          ? 'min-h-[calc(100svh-var(--nav-h,69px))] p-0'
+          : 'justify-center py-6 sm:py-8 lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:py-6'
+      }`}
     >
-      {/* Subtle Dark Forest Ambient Glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(22,64,42,0.55),transparent_50%),radial-gradient(circle_at_85%_82%,rgba(223,185,111,0.08),transparent_48%)]"
-      />
-
-      {/* Full-Page Edge-to-Edge Container */}
-      <div className="relative z-10 mx-auto w-full max-w-[1680px] px-4 sm:px-6 lg:px-8">
-        {menuView === 'board' ? (
-          <RestaurantMenuBoard
-            trayItems={trayItems}
-            onQuickAdd={onQuickAdd}
-            onUpdateTrayQty={onUpdateTrayQty}
-            onCustomizeDish={handleCustomizeDish}
-            onOpenCustomizer={() => handleCustomizeDish(featuredDish)}
-            onOpenTray={onOpenTray}
+      {menuView === 'board' ? (
+        <RestaurantMenuBoard
+          trayItems={trayItems}
+          onQuickAdd={onQuickAdd}
+          onUpdateTrayQty={onUpdateTrayQty}
+          onCustomizeDish={handleCustomizeDish}
+          onOpenCustomizer={() => handleCustomizeDish(featuredDish)}
+          onOpenTray={onOpenTray}
+        />
+      ) : (
+        <>
+          {/* Subtle Dark Forest Ambient Glow */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(22,64,42,0.55),transparent_50%),radial-gradient(circle_at_85%_82%,rgba(223,185,111,0.08),transparent_48%)]"
           />
-        ) : (
-          <>
+
+          {/* Full-Page Edge-to-Edge Container */}
+          <div className="relative z-10 mx-auto w-full max-w-[1680px] px-4 sm:px-6 lg:px-8">
         {/* Top Full-Width Category & Cart Navigation Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-[22px] border border-[#DFB96F]/20 bg-[#0B2718]/95 px-4 py-2.5 shadow-[0_14px_36px_-18px_rgba(0,0,0,0.65)] backdrop-blur-md sm:px-5">
           {/* Left Brand Mark */}
@@ -1020,9 +1024,9 @@ export function MenuSection({
             </div>
           </aside>
         </div>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
     </section>
   );
 }
