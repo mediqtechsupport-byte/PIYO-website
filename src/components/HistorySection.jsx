@@ -24,7 +24,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
   return (
     <section
       id="history"
-      className="relative flex flex-col items-center justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#06180E] pb-14 pt-52 text-[#FAF6EC] sm:pb-16 sm:pt-60 lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:pb-14 lg:pt-[300px] xl:pb-16 xl:pt-[320px]"
+      className="relative flex flex-col items-center justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#08130B] pb-14 pt-52 text-[#FAF6EC] sm:pb-16 sm:pt-60 lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:pb-14 lg:pt-[300px] xl:pb-16 xl:pt-[320px]"
     >
       {/* Full-Bleed Centered PIYO Facade — Illuminated Roof & PIYO Sign Clearly Visible at Top */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
@@ -34,12 +34,12 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           loading="lazy"
           className="h-full w-full translate-x-[12.2%] -translate-y-[3%] scale-[1.24] object-cover object-[50%_28%] opacity-72 brightness-[0.94] contrast-[1.06] saturate-[0.95]"
         />
-        {/* Seamless left & right atmospheric fade into #06180E */}
+        {/* Seamless left & right atmospheric fade into #08130B */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(90deg, #06180E 0%, rgba(6,24,14,0.42) 15%, rgba(6,24,14,0) 32%, rgba(6,24,14,0) 68%, rgba(6,24,14,0.42) 85%, #06180E 100%)',
+              'linear-gradient(90deg, #08130B 0%, rgba(8,19,11,0.42) 15%, rgba(8,19,11,0) 32%, rgba(8,19,11,0) 68%, rgba(8,19,11,0.42) 85%, #08130B 100%)',
           }}
         />
         {/* Keeps top PIYO gable sign bright & unobstructed while smoothly darkening the lower half behind text */}
@@ -47,7 +47,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(180deg, rgba(6,24,14,0.72) 0%, rgba(6,24,14,0.12) 16%, rgba(6,24,14,0.06) 33%, rgba(6,24,14,0.68) 52%, rgba(6,24,14,0.90) 74%, #06180E 98%)',
+              'linear-gradient(180deg, rgba(8,19,11,0.72) 0%, rgba(8,19,11,0.12) 16%, rgba(8,19,11,0.06) 33%, rgba(8,19,11,0.68) 52%, rgba(8,19,11,0.90) 74%, #08130B 98%)',
           }}
         />
       </div>
@@ -63,7 +63,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           </div>
 
           {/* Serene Centered Display Serif Headline */}
-          <h2 className="mt-3.5 font-serif text-[2.05rem] font-normal leading-[1.1] tracking-[-0.02em] text-[#FAF6EC] drop-shadow-[0_4px_24px_rgba(4,16,9,0.85)] sm:text-4xl lg:text-[2.65rem] xl:text-[2.85rem]">
+          <h2 className="mt-3.5 font-serif text-[2.05rem] font-normal leading-[1.1] tracking-[-0.02em] text-[#FAF6EC] drop-shadow-[0_4px_24px_rgba(5,13,7,0.85)] sm:text-4xl lg:text-[2.65rem] xl:text-[2.85rem]">
             From Negros Hearth{' '}
             <span className="italic font-medium text-[#E0B96B]">
               to Tagaytay&rsquo;s Ridge.
@@ -77,7 +77,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           </p>
 
           {/* Clean Symmetrical 3-Column Minimalist Pillar Strip */}
-          <dl className="mt-7 grid w-full max-w-2xl grid-cols-1 divide-y divide-[#FAF6EC]/12 border-y border-[#FAF6EC]/15 bg-[#06180E]/45 backdrop-blur-[2px] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          <dl className="mt-7 grid w-full max-w-2xl grid-cols-1 divide-y divide-[#FAF6EC]/12 border-y border-[#FAF6EC]/15 bg-[#08130B]/45 backdrop-blur-[2px] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
             {PILLARS.map((item) => (
               <div key={item.num} className="px-5 py-3.5 sm:py-4">
                 <dt className="font-serif text-xs italic text-[#DFB96F]">
@@ -96,7 +96,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
             <button
               type="button"
               onClick={onExploreCraft}
-              className="group inline-flex min-h-[44px] items-center gap-2.5 rounded-full bg-[#DFB96F] px-7 py-2.5 text-xs font-bold tracking-wide text-[#06180E] shadow-lg transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:text-sm"
+              className="group inline-flex min-h-[44px] items-center gap-2.5 rounded-full bg-[#DFB96F] px-7 py-2.5 text-xs font-bold tracking-wide text-[#08130B] shadow-lg transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:text-sm"
             >
               <span>See #1 House Cansi</span>
               <ArrowRight
@@ -108,7 +108,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
             <button
               type="button"
               onClick={onVisitPlace}
-              className="group inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[#FAF6EC]/25 bg-[#06180E]/55 px-6 py-2.5 text-xs font-medium tracking-wide text-[#FAF6EC] backdrop-blur-xs transition hover:border-[#DFB96F]/60 hover:text-[#DFB96F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:text-sm"
+              className="group inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[#FAF6EC]/25 bg-[#08130B]/55 px-6 py-2.5 text-xs font-medium tracking-wide text-[#FAF6EC] backdrop-blur-xs transition hover:border-[#DFB96F]/60 hover:text-[#DFB96F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:text-sm"
             >
               <MapPin className="h-3.5 w-3.5 text-[#DFB96F]" aria-hidden="true" />
               <span>Directions · Km. 64</span>

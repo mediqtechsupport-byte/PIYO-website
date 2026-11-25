@@ -93,7 +93,7 @@ const TIERS = [
 
 // PIYO Dark Forest Green & Warm Beige Conveyor Belt Material Tokens
 const THEME =
-  "[--belt:#123421] [--belt-side:#05130B] [--rail:#DFD0B2] [--island:#F5EFE2] [--island-low:#E4D7BC] [--island-wall:#9E8C6B]";
+  "[--belt:#152517] [--belt-side:#060F08] [--rail:#DFD0B2] [--island:#F5EFE2] [--island-low:#E4D7BC] [--island-wall:#9E8C6B]";
 
 type Geo = {
   width: number; height: number; d: number; r: number; s: number; l: number; pitch: number; n: number;
@@ -746,31 +746,45 @@ export function SushiConveyorMenu({
   const roving = active ?? center;
   const tiers = legendEntries(items, legend);
   const g = geo;
-  const control = "inline-flex size-9 items-center justify-center rounded-full border border-[#DFD0B2]/45 bg-[#F5EFE2] text-[#0B2718] shadow-md outline-none transition-colors hover:bg-[#E7DBC3] focus-visible:ring-2 focus-visible:ring-[#DFB96F] motion-reduce:transition-none";
+  const control = "inline-flex size-9 items-center justify-center rounded-full border border-[#DFD0B2]/45 bg-[#F5EFE2] text-[#0D1C11] shadow-md outline-none transition-colors hover:bg-[#E7DBC3] focus-visible:ring-2 focus-visible:ring-[#DFB96F] motion-reduce:transition-none";
 
   const header = (eyebrow || heading || tiers.length > 0) && (
-    <div className={wide ? "flex w-full flex-col items-start gap-3 text-left" : "flex flex-col items-center gap-2 px-2 text-center"}>
-      {eyebrow && <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#DFB96F]">{eyebrow}</p>}
+    <div className={wide ? "flex w-full flex-col items-start gap-3.5 text-left" : "flex flex-col items-center gap-2 px-2 text-center"}>
+      {eyebrow && (
+        <p className={`inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#DFB96F] ${wide ? "" : "justify-center"}`}>
+          {wide && <span className="h-px w-7 bg-[#DFB96F]/55" aria-hidden="true" />}
+          <span>{eyebrow}</span>
+        </p>
+      )}
       {heading && (
         <h3
-          className={`font-serif font-semibold tracking-[-0.02em] text-[#F5EFE2] ${
-            wide ? "w-full text-[2.25rem] leading-[1.1] xl:text-[2.65rem]" : "max-w-[18ch] text-balance text-2xl leading-[1.18] md:text-[1.75rem]"
+          className={`font-serif font-medium tracking-[-0.02em] text-[#FAF6EC] ${
+            wide ? "w-full text-[2.5rem] leading-[1.08] lg:text-[2.85rem] xl:text-[3.25rem]" : "max-w-[18ch] text-balance text-2xl leading-[1.16] md:text-[1.9rem]"
           }`}
         >
-          {heading}
+          {heading.includes(",") ? (
+            <>
+              <span className="block">{heading.slice(0, heading.indexOf(",") + 1)}</span>
+              <span className="block italic font-normal text-[#DFB96F]">
+                {heading.slice(heading.indexOf(",") + 1).trim()}
+              </span>
+            </>
+          ) : (
+            heading
+          )}
         </h3>
       )}
       {tiers.length > 0 && (
         <ul
           aria-hidden="true"
           data-legend
-          className={`mt-1 flex w-full flex-wrap items-center gap-x-4 gap-y-1.5 border-y border-[#DFB96F]/18 py-2.5 text-xs font-medium tabular-nums text-[#D2DDD4] ${
-            wide ? "justify-start" : "justify-center border-none py-1"
+          className={`mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-2 border-y border-[#DFB96F]/20 py-3.5 text-[13px] font-medium tabular-nums text-[#D8E3DA] ${
+            wide ? "w-full max-w-[440px] justify-between" : "justify-center border-none py-1 text-xs"
           } ${narrow ? "max-w-[15rem]" : ""}`}
         >
           {tiers.map((entry) => (
-            <li key={entry.tier} className="inline-flex items-center gap-1.5">
-              <span className={`size-2 rounded-full border-2 bg-transparent ${tierStyle(entry.tier).ring}`} />
+            <li key={entry.tier} className="inline-flex items-center gap-2">
+              <span className={`size-2.5 rounded-full border-2 bg-transparent ${tierStyle(entry.tier).ring}`} />
               {entry.label}
             </li>
           ))}
@@ -786,14 +800,21 @@ export function SushiConveyorMenu({
       data-caption
       className={
         wide
-          ? "min-h-[3.5rem] w-full"
+          ? "min-h-[5.25rem] w-full max-w-[440px] border-l-2 border-[#DFB96F]/55 pl-4"
           : `mx-auto mt-2 max-w-md px-2 text-center ${narrow ? "min-h-[3.5rem]" : "min-h-[2.75rem]"}`
       }
     >
-      <p className={`text-sm leading-relaxed ${current ? "font-semibold text-[#F5EFE2]" : "text-[#C6D5CA]"}`}>
-        {current ? <>{current.name} <span className="font-bold tabular-nums text-[#DFB96F]">· {current.price}</span></> : caption}
+      <p className={current ? "font-serif text-[21px] font-medium leading-snug text-[#FAF6EC]" : "text-[15px] leading-relaxed text-[#CBD9CF]"}>
+        {current ? (
+          <>
+            {current.name}{' '}
+            <span className="font-sans text-base font-bold tabular-nums text-[#DFB96F]">· {current.price}</span>
+          </>
+        ) : (
+          caption
+        )}
       </p>
-      {current?.description && <p className="mt-1 text-[13px] leading-relaxed text-[#B8C9BD]">{current.description}</p>}
+      {current?.description && <p className="mt-1.5 text-sm leading-relaxed text-[#BFCFC4]">{current.description}</p>}
     </div>
   );
 
@@ -898,8 +919,8 @@ export function SushiConveyorMenu({
             </span>
             <span ref={(node) => { lifts.current[i] = node; }} data-lift className="absolute inset-0">
               {/* Warm Beige Ceramic Plate Rim */}
-              <span aria-hidden="true" data-placeholder className="absolute inset-[1%] rounded-[50%] border border-[#0B2718]/25 bg-[#F5EFE2] shadow-md">
-                <span className="absolute inset-[28%] rounded-[50%] bg-[#0B2718]/10" />
+              <span aria-hidden="true" data-placeholder className="absolute inset-[1%] rounded-[50%] border border-[#0D1C11]/25 bg-[#F5EFE2] shadow-md">
+                <span className="absolute inset-[28%] rounded-[50%] bg-[#0D1C11]/10" />
               </span>
               {!broken && (
                 <img
@@ -907,7 +928,7 @@ export function SushiConveyorMenu({
                   alt=""
                   draggable={false}
                   onError={() => setFailed((old) => (old[item.id] ? old : { ...old, [item.id]: true }))}
-                  className="pointer-events-none absolute inset-[5%] size-[90%] select-none rounded-[50%] object-cover ring-1 ring-[#0B2718]/25"
+                  className="pointer-events-none absolute inset-[5%] size-[90%] select-none rounded-[50%] object-cover ring-1 ring-[#0D1C11]/25"
                 />
               )}
               {!broken && (
@@ -920,7 +941,7 @@ export function SushiConveyorMenu({
               )}
               <span aria-hidden="true" data-ring className={`pointer-events-none absolute -inset-[2%] rounded-[50%] border-[2.5px] ${tier.ring}`} />
               <span ref={(node) => { anchors.current[i] = node; }} aria-hidden="true" className="pointer-events-none absolute left-1/2 top-0 size-0">
-                <span data-chip className={`absolute bottom-[8px] left-0 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#0B2718]/20 bg-[#F5EFE2] py-1.5 pl-2.5 pr-3 text-[11px] font-bold leading-none text-[#0B2718] shadow-[0_10px_22px_-6px_rgba(0,0,0,0.65)] transition-[opacity,translate] duration-300 motion-reduce:transition-none ${isActive && lifted !== i ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0"}`}>
+                <span data-chip className={`absolute bottom-[8px] left-0 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#0D1C11]/20 bg-[#F5EFE2] py-1.5 pl-2.5 pr-3 text-[11px] font-bold leading-none text-[#0D1C11] shadow-[0_10px_22px_-6px_rgba(0,0,0,0.65)] transition-[opacity,translate] duration-300 motion-reduce:transition-none ${isActive && lifted !== i ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0"}`}>
                   <span className={`size-2 rounded-full ${tier.dot}`} />
                   {item.name}
                   <span className="tabular-nums text-[#755C3B]">{item.price}</span>
@@ -947,13 +968,13 @@ export function SushiConveyorMenu({
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10" style={{ background: "radial-gradient(64% 52% at 64% 54%, rgba(245,239,226,0.08), transparent 72%)" }} />
       {wide ? (
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,25rem)_minmax(0,1fr)] items-center gap-12 px-5 py-8 sm:px-8 lg:gap-16 lg:py-10">
-          <div className="relative z-10 flex flex-col items-start gap-4">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,30rem)_minmax(0,1fr)] items-center gap-10 px-5 py-8 sm:px-8 lg:gap-12 lg:py-10">
+          <div className="relative z-10 flex flex-col items-start gap-5">
             {header}
             {captionNode}
             {action}
           </div>
-          <div className="min-w-0 w-full lg:-mt-7 lg:translate-x-6 xl:translate-x-14 2xl:translate-x-28">
+          <div className="min-w-0 w-full lg:-mt-7 lg:translate-x-4 xl:translate-x-10 2xl:translate-x-22">
             {stage}
           </div>
         </div>
@@ -1093,11 +1114,11 @@ function DishDialog({ uid, item, index, total, labels, reduced, broken, source, 
   };
 
   return createPortal(
-    <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby={titleId} data-dish-dialog className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4 text-[#0B2718] sm:p-8" onKeyDown={onKeyDown}>
-      <div aria-hidden="true" className={`absolute inset-0 bg-[#041009]/80 backdrop-blur-md transition-opacity duration-300 motion-reduce:transition-none ${shown ? "opacity-100" : "opacity-0"}`} onClick={dismiss} />
+    <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby={titleId} data-dish-dialog className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4 text-[#0D1C11] sm:p-8" onKeyDown={onKeyDown}>
+      <div aria-hidden="true" className={`absolute inset-0 bg-[#050D07]/80 backdrop-blur-md transition-opacity duration-300 motion-reduce:transition-none ${shown ? "opacity-100" : "opacity-0"}`} onClick={dismiss} />
       <div className="relative grid w-full max-w-[52rem] items-center gap-6 p-6 sm:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] sm:gap-10 sm:p-9">
         <div aria-hidden="true" className={`absolute inset-0 rounded-[2rem] border-2 border-[#DFD0B2] bg-[#F5EFE2] shadow-2xl transition-[opacity,scale] duration-300 motion-reduce:transition-none ${shown ? "scale-100 opacity-100" : "scale-[0.97] opacity-0"}`} />
-        <button ref={closeRef} type="button" onClick={dismiss} className={`absolute right-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full border border-[#0B2718]/20 bg-[#FAF6EC] px-3 py-1.5 text-xs font-bold text-[#0B2718] outline-none transition-[opacity,color,background-color] duration-300 hover:bg-[#0B2718] hover:text-[#F5EFE2] focus-visible:ring-2 focus-visible:ring-[#0B2718] motion-reduce:transition-none ${shown ? "opacity-100" : "opacity-0"}`}>
+        <button ref={closeRef} type="button" onClick={dismiss} className={`absolute right-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full border border-[#0D1C11]/20 bg-[#FAF6EC] px-3 py-1.5 text-xs font-bold text-[#0D1C11] outline-none transition-[opacity,color,background-color] duration-300 hover:bg-[#0D1C11] hover:text-[#F5EFE2] focus-visible:ring-2 focus-visible:ring-[#0D1C11] motion-reduce:transition-none ${shown ? "opacity-100" : "opacity-0"}`}>
           {labels.close}
           <svg aria-hidden="true" viewBox="0 0 16 16" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" /></svg>
         </button>
@@ -1105,10 +1126,10 @@ function DishDialog({ uid, item, index, total, labels, reduced, broken, source, 
           <span aria-hidden="true" className="absolute inset-x-[8%] bottom-[-4%] top-[14%] rounded-full bg-black opacity-25 blur-2xl" />
           {broken ? (
             <span aria-hidden="true" className="absolute inset-[3%] rounded-full border border-[#DFD0B2] bg-[#EAE0CA]">
-              <span className="absolute inset-[30%] rounded-full bg-[#0B2718]/15" />
+              <span className="absolute inset-[30%] rounded-full bg-[#0D1C11]/15" />
             </span>
           ) : (
-            <img src={item.image} alt={item.name} draggable={false} className="relative size-full select-none rounded-full border-[6px] border-[#FAF6EC] object-cover shadow-lg ring-1 ring-[#0B2718]/15" />
+            <img src={item.image} alt={item.name} draggable={false} className="relative size-full select-none rounded-full border-[6px] border-[#FAF6EC] object-cover shadow-lg ring-1 ring-[#0D1C11]/15" />
           )}
           <span aria-hidden="true" className={`absolute -inset-[2%] rounded-full border-[3px] ${tier.ring}`} />
         </div>
@@ -1117,23 +1138,23 @@ function DishDialog({ uid, item, index, total, labels, reduced, broken, source, 
             <span aria-hidden="true" className={`size-2 rounded-full ${tier.dot}`} />
             {pad(index + 1)} / {pad(total)} · PIYO BEST SELLER
           </p>
-          <h3 id={titleId} className="font-serif text-3xl font-bold tracking-tight text-[#0B2718] sm:text-4xl">{item.name}</h3>
+          <h3 id={titleId} className="font-serif text-3xl font-bold tracking-tight text-[#0D1C11] sm:text-4xl">{item.name}</h3>
           {item.description && <p className="text-sm leading-relaxed text-[#384D40]">{item.description}</p>}
           {item.details && item.details.length > 0 && (
             <ul className="flex flex-wrap justify-center gap-2 sm:justify-start">
-              {item.details.map((detail) => <li key={detail} className="rounded-full border border-[#0B2718]/20 bg-[#EAE0CA] px-3 py-1 text-xs font-semibold text-[#0B2718]">{detail}</li>)}
+              {item.details.map((detail) => <li key={detail} className="rounded-full border border-[#0D1C11]/20 bg-[#EAE0CA] px-3 py-1 text-xs font-semibold text-[#0D1C11]">{detail}</li>)}
             </ul>
           )}
           <div className="mt-2 flex flex-wrap items-center justify-center gap-3 sm:justify-start">
-            <p className="text-2xl font-extrabold tabular-nums tracking-tight text-[#0B2718]">{item.price}</p>
-            <button type="button" data-add onClick={add} className="inline-flex items-center gap-2 rounded-full bg-[#0B2718] px-5 py-2.5 text-sm font-bold text-[#F5EFE2] shadow-sm outline-none transition-[translate,box-shadow,background-color] hover:-translate-y-px hover:bg-[#16402A] hover:shadow-md focus-visible:ring-2 focus-visible:ring-[#0B2718] motion-reduce:transition-none">
+            <p className="text-2xl font-extrabold tabular-nums tracking-tight text-[#0D1C11]">{item.price}</p>
+            <button type="button" data-add onClick={add} className="inline-flex items-center gap-2 rounded-full bg-[#0D1C11] px-5 py-2.5 text-sm font-bold text-[#F5EFE2] shadow-sm outline-none transition-[translate,box-shadow,background-color] hover:-translate-y-px hover:bg-[#182A1B] hover:shadow-md focus-visible:ring-2 focus-visible:ring-[#0D1C11] motion-reduce:transition-none">
               {added
                 ? <svg aria-hidden="true" viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M3.5 8.5l3 3 6-7" /></svg>
                 : <svg aria-hidden="true" viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M8 3.5v9M3.5 8h9" /></svg>}
               {labels.add}
             </button>
             {onCustomize && (
-              <button type="button" onClick={onCustomize} className="inline-flex items-center gap-1.5 rounded-full border border-[#0B2718]/30 bg-[#EAE0CA] px-4 py-2.5 text-sm font-bold text-[#0B2718] transition hover:border-[#0B2718] hover:bg-[#DFD2B6]">
+              <button type="button" onClick={onCustomize} className="inline-flex items-center gap-1.5 rounded-full border border-[#0D1C11]/30 bg-[#EAE0CA] px-4 py-2.5 text-sm font-bold text-[#0D1C11] transition hover:border-[#0D1C11] hover:bg-[#DFD2B6]">
                 {labels.customize ?? "Customize"}
               </button>
             )}

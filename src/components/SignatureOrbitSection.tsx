@@ -78,7 +78,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
       'Lemongrass',
       'Free Soup Refills',
     ],
-    accent: '#0B2718',
+    accent: '#0D1C11',
   },
   {
     title: 'Chicken',
@@ -121,7 +121,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
       'Cracked Pepper',
       'Caramelized Onion',
     ],
-    accent: '#113421',
+    accent: '#152517',
   },
   {
     title: 'Crispy',
@@ -142,7 +142,7 @@ const PIYO_ORBIT_DISHES: Dish[] = [
       'Soy-Vinegar Dip',
       'Atchara',
     ],
-    accent: '#0F2F1D',
+    accent: '#112013',
   },
   {
     title: 'Pork Adobo',
@@ -200,7 +200,7 @@ export function SignatureOrbitSection({
     <section
       id="spotlight"
       aria-label="Signature Dish Orbit Showcase"
-      className="border-b border-[#0B2718]/12 bg-[#F5EFE2]"
+      className="border-b border-[#0D1C11]/12 bg-[#F5EFE2]"
     >
       <DishOrbitCarousel
         dishes={PIYO_ORBIT_DISHES}
@@ -215,7 +215,7 @@ export function SignatureOrbitSection({
       {/* Kitchen Story Modal triggered by "Play video" / Spotlight preview */}
       {activeStoryDish && activeStoryMeta && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-[#06180E]/75 backdrop-blur-sm sm:items-center sm:p-4"
+          className="fixed inset-0 z-50 flex items-end justify-center bg-[#08130B]/75 backdrop-blur-sm sm:items-center sm:p-4"
           onClick={() => setStoryIndex(null)}
           role="dialog"
           aria-modal="true"
@@ -225,23 +225,23 @@ export function SignatureOrbitSection({
             className="w-full max-w-lg overflow-hidden rounded-t-3xl bg-[#FAF6EC] text-[#1D231E] shadow-2xl sm:rounded-3xl pb-safe"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative h-48 bg-[#0B2718] sm:h-56">
+            <div className="relative h-48 bg-[#0D1C11] sm:h-56">
               <img
                 src={activeStoryDish.image}
                 alt={`${activeStoryDish.title} ${activeStoryDish.subtitle}`}
                 className="h-full w-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#06180E]/90 via-[#06180E]/25 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#08130B]/90 via-[#08130B]/25 to-transparent" />
               <button
                 type="button"
                 onClick={() => setStoryIndex(null)}
-                className="absolute right-3.5 top-3.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#06180E]/80 text-[#FAF6EC] hover:bg-[#0B2718]"
+                className="absolute right-3.5 top-3.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#08130B]/80 text-[#FAF6EC] hover:bg-[#0D1C11]"
                 aria-label="Close kitchen spotlight"
               >
                 <X className="h-5 w-5" />
               </button>
               <div className="absolute bottom-4 left-5 right-5">
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#D8B36A] px-2.5 py-0.5 text-[11px] font-bold text-[#06180E]">
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#D8B36A] px-2.5 py-0.5 text-[11px] font-bold text-[#08130B]">
                   <Flame className="h-3 w-3" />
                   From the PIYO Kitchen
                 </span>
@@ -253,13 +253,13 @@ export function SignatureOrbitSection({
 
             <div className="space-y-4 p-5">
               <div>
-                <h4 className="font-serif text-xl font-semibold text-[#0B2718]">
+                <h4 className="font-serif text-xl font-semibold text-[#0D1C11]">
                   {activeStoryMeta.storyTitle}
                 </h4>
                 <ol className="mt-2.5 space-y-2 text-sm text-[#344037]">
                   {activeStoryMeta.prepSteps.map((step, i) => (
                     <li key={step} className="flex items-start gap-2.5">
-                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#0B2718] text-[11px] font-bold text-[#D8B36A]">
+                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#0D1C11] text-[11px] font-bold text-[#D8B36A]">
                         {i + 1}
                       </span>
                       <span>{step}</span>
@@ -269,11 +269,11 @@ export function SignatureOrbitSection({
               </div>
 
               <div className="flex items-center justify-between rounded-2xl bg-[#E5EDE7]/80 px-4 py-3 text-xs">
-                <span className="flex items-center gap-1.5 font-semibold text-[#0B2718]">
+                <span className="flex items-center gap-1.5 font-semibold text-[#0D1C11]">
                   <Sparkles className="h-4 w-4 text-[#C29645]" />
                   Best paired with: {activeStoryMeta.pairWith}
                 </span>
-                <span className="hidden items-center gap-1 text-[#16402A] sm:inline-flex">
+                <span className="hidden items-center gap-1 text-[#182A1B] sm:inline-flex">
                   <MapPin className="h-3.5 w-3.5" />
                   Km. 64 Tagaytay
                 </span>
@@ -283,7 +283,7 @@ export function SignatureOrbitSection({
                 <button
                   type="button"
                   onClick={() => setStoryIndex(null)}
-                  className="rounded-full border border-[#0B2718]/25 px-4 py-2.5 text-xs font-bold text-[#0B2718] hover:bg-[#E5EDE7]"
+                  className="rounded-full border border-[#0D1C11]/25 px-4 py-2.5 text-xs font-bold text-[#0D1C11] hover:bg-[#E5EDE7]"
                 >
                   Close
                 </button>
@@ -294,7 +294,7 @@ export function SignatureOrbitSection({
                       setStoryIndex(null);
                       onSelectMenuDish(activeMenuDish);
                     }}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#0B2718] px-5 py-2.5 text-xs font-bold text-[#FAF6EC] shadow-sm hover:bg-[#113421]"
+                    className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#0D1C11] px-5 py-2.5 text-xs font-bold text-[#FAF6EC] shadow-sm hover:bg-[#152517]"
                   >
                     <UtensilsCrossed className="h-4 w-4 text-[#D8B36A]" />
                     <span>

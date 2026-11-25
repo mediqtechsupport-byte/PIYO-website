@@ -7,11 +7,11 @@
 
   /* shadcn, DishOrbitCarousel & SushiConveyorMenu theme tokens mapped to PIYO's dark forest-green & warm beige palette */
   --color-background: #f5efe2;
-  --color-foreground: #0b2718;
-  --color-primary: #0b2718;
+  --color-foreground: #0D1C11;
+  --color-primary: #0D1C11;
   --color-muted-foreground: #3f5244;
   --color-card: #f5efe2;
-  --color-card-foreground: #0b2718;
+  --color-card-foreground: #0D1C11;
   --color-border: #d9cbb0;
   --color-muted: #ebe1cc;
   --color-ring: #dfb96f;
@@ -21,11 +21,11 @@
   --color-chart-4: #ebe1cc;
   --color-chart-5: #b85d38;
 
-  --color-forest-950: #06180e;
-  --color-forest-900: #0b2718;
-  --color-forest-800: #113421;
-  --color-forest-700: #16402a;
-  --color-sage-600: #2b4e3b;
+  --color-forest-950: #08130B;
+  --color-forest-900: #0D1C11;
+  --color-forest-800: #152517;
+  --color-forest-700: #182A1B;
+  --color-sage-600: #213725;
   --color-sage-200: #cddbd1;
   --color-sage-100: #e5ede7;
 
@@ -169,7 +169,7 @@
   transition: transform 0.2s, background-color 0.2s;
 }
 .piyo-orbit .dsh-acts .dsh-btn:hover {
-  background: #0b2718;
+  background: #0D1C11;
   color: #faf6ec;
 }
 .piyo-orbit .dsh-acts {
@@ -177,7 +177,7 @@
 }
 .piyo-orbit .dsh-card {
   background: rgba(250, 246, 236, 0.88);
-  border: 1px solid rgba(11, 39, 24, 0.14);
+  border: 1px solid rgba(13, 28, 17, 0.14);
 }
 .piyo-orbit .dsh-rate {
   height: 60px;
@@ -187,8 +187,8 @@
   width: 68px;
   height: 60px;
   border-radius: 14px;
-  border: 1px solid rgba(11, 39, 24, 0.25);
-  box-shadow: 0 8px 18px -10px rgba(6, 24, 14, 0.45);
+  border: 1px solid rgba(13, 28, 17, 0.25);
+  box-shadow: 0 8px 18px -10px rgba(8, 19, 11, 0.45);
 }
 .piyo-orbit .dsh-badge svg {
   left: 50%;

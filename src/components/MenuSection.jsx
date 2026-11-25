@@ -321,7 +321,7 @@ export function MenuSection({
   return (
     <section
       id="menu"
-      className="relative flex min-h-[calc(100svh-var(--nav-h,69px))] flex-col overflow-x-clip border-t border-[#DFB96F]/15 bg-[#06180E] p-0 text-[#FAF6EC]"
+      className="relative flex min-h-[calc(100svh-var(--nav-h,69px))] flex-col overflow-x-clip border-t border-[#DFB96F]/15 bg-[#08130B] p-0 text-[#FAF6EC]"
     >
       <RestaurantMenuBoard
         selectedCat={boardCategory}
@@ -336,7 +336,7 @@ export function MenuSection({
       {menuView === 'customize' &&
         createPortal(
           <div
-            className="fixed inset-0 z-[45] flex flex-col overflow-y-auto bg-[#06180E] py-5 text-[#FAF6EC] sm:py-6"
+            className="fixed inset-0 z-[45] flex flex-col overflow-y-auto bg-[#08130B] py-5 text-[#FAF6EC] sm:py-6"
             onWheel={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
@@ -345,19 +345,19 @@ export function MenuSection({
             {/* Subtle Dark Forest Ambient Glow */}
             <div
               aria-hidden="true"
-              className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(22,64,42,0.55),transparent_50%),radial-gradient(circle_at_85%_82%,rgba(223,185,111,0.08),transparent_48%)]"
+              className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(19,35,22,0.55),transparent_50%),radial-gradient(circle_at_85%_82%,rgba(223,185,111,0.08),transparent_48%)]"
             />
 
             {/* Full-Screen Dedicated Customizer Container */}
             <div className="relative z-10 mx-auto my-auto w-full max-w-7xl px-5 sm:px-8">
         {/* Top Full-Width Category & Cart Navigation Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-2 rounded-[22px] border border-[#DFB96F]/20 bg-[#0B2718]/95 px-4 py-2 shadow-[0_14px_36px_-18px_rgba(0,0,0,0.65)] backdrop-blur-md sm:px-5 lg:flex-nowrap">
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-[22px] border border-[#DFB96F]/20 bg-[#0D1C11]/95 px-4 py-2 shadow-[0_14px_36px_-18px_rgba(0,0,0,0.65)] backdrop-blur-md sm:px-5 lg:flex-nowrap">
           {/* Left Brand Mark */}
           <div className="flex shrink-0 items-center gap-2">
             <span className="font-serif text-xl font-bold tracking-tight text-[#FAF6EC] sm:text-2xl">
               PIYO<span className="text-[#DFB96F]">.</span>
             </span>
-            <span className="hidden rounded-full border border-[#DFB96F]/25 bg-[#06180E]/75 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#DFB96F] 2xl:inline-block">
+            <span className="hidden rounded-full border border-[#DFB96F]/25 bg-[#08130B]/75 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#DFB96F] 2xl:inline-block">
               {MENU_ITEMS.length} Dishes
             </span>
           </div>
@@ -383,7 +383,7 @@ export function MenuSection({
                   }}
                   className={`inline-flex min-h-[34px] shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold transition-all xl:px-3 ${
                     isActive
-                      ? 'bg-[#16402A] text-[#DFB96F] shadow-sm ring-1 ring-[#DFB96F]/45'
+                      ? 'bg-[#182A1B] text-[#DFB96F] shadow-sm ring-1 ring-[#DFB96F]/45'
                       : 'text-[#C6D5CB] hover:bg-white/[0.06] hover:text-[#FAF6EC]'
                   }`}
                 >
@@ -404,7 +404,7 @@ export function MenuSection({
             <button
               type="button"
               onClick={handleBackToMenuBoard}
-              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-[#F5EFE2]/45 bg-[#F5EFE2] px-3.5 py-1.5 text-xs font-bold text-[#0B2718] shadow-sm transition hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5EFE2]"
+              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-[#F5EFE2]/45 bg-[#F5EFE2] px-3.5 py-1.5 text-xs font-bold text-[#0D1C11] shadow-sm transition hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5EFE2]"
             >
               <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
               <span>Filipino Menu</span>
@@ -423,7 +423,7 @@ export function MenuSection({
                   placeholder="Search dish..."
                   aria-label="Search menu dishes"
                   autoFocus
-                  className="w-40 rounded-full border border-[#DFB96F]/35 bg-[#06180E] py-1.5 pl-8 pr-7 text-xs text-[#FAF6EC] placeholder-[#89A091] focus:border-[#DFB96F] focus:outline-none sm:w-48"
+                  className="w-40 rounded-full border border-[#DFB96F]/35 bg-[#08130B] py-1.5 pl-8 pr-7 text-xs text-[#FAF6EC] placeholder-[#89A091] focus:border-[#DFB96F] focus:outline-none sm:w-48"
                 />
                 <button
                   type="button"
@@ -442,7 +442,7 @@ export function MenuSection({
                 type="button"
                 onClick={() => setShowSearchInput(true)}
                 aria-label="Search dishes"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-[#06180E]/80 text-[#FAF6EC] transition hover:border-[#DFB96F]/50 hover:text-[#DFB96F]"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-[#08130B]/80 text-[#FAF6EC] transition hover:border-[#DFB96F]/50 hover:text-[#DFB96F]"
               >
                 <Search className="h-4 w-4" aria-hidden="true" />
               </button>
@@ -451,12 +451,12 @@ export function MenuSection({
             <button
               type="button"
               onClick={onOpenTray}
-              className="inline-flex min-h-[36px] items-center gap-2 rounded-full bg-[#DFB96F] px-4 py-1.5 text-xs font-bold text-[#06180E] shadow-sm transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
+              className="inline-flex min-h-[36px] items-center gap-2 rounded-full bg-[#DFB96F] px-4 py-1.5 text-xs font-bold text-[#08130B] shadow-sm transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
             >
               <ShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
               <span>Cart</span>
               {trayCount > 0 && (
-                <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#06180E] px-1.5 text-[10px] font-extrabold text-[#DFB96F]">
+                <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#08130B] px-1.5 text-[10px] font-extrabold text-[#DFB96F]">
                   {trayCount}
                 </span>
               )}
@@ -467,7 +467,7 @@ export function MenuSection({
         {/* Main Full-Page 2-Column Dark Forest Green Ordering Workbench */}
         <div className="mt-4 grid grid-cols-1 items-stretch gap-5 lg:grid-cols-12">
           {/* LEFT 8-COL: Meal Category + Featured Dish Builder + Recommended Pairings */}
-          <div className="flex flex-col justify-between rounded-[26px] border border-[#DFB96F]/20 bg-[#0B2718]/95 p-5 shadow-[0_24px_54px_-22px_rgba(0,0,0,0.72)] sm:p-6 lg:col-span-8">
+          <div className="flex flex-col justify-between rounded-[26px] border border-[#DFB96F]/20 bg-[#0D1C11]/95 p-5 shadow-[0_24px_54px_-22px_rgba(0,0,0,0.72)] sm:p-6 lg:col-span-8">
             <div>
               {/* Meal Category Header + Filter Toggle */}
               <div className="flex items-center justify-between gap-3">
@@ -489,7 +489,7 @@ export function MenuSection({
                     className={`flex h-9 w-9 items-center justify-center rounded-full border transition ${
                       showFilterRow || activeFilter !== 'all'
                         ? 'border-[#DFB96F]/60 bg-[#DFB96F]/18 text-[#DFB96F]'
-                        : 'border-white/15 bg-[#06180E]/75 text-[#DFB96F] hover:border-[#DFB96F]/50'
+                        : 'border-white/15 bg-[#08130B]/75 text-[#DFB96F] hover:border-[#DFB96F]/50'
                     }`}
                   >
                     <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
@@ -509,8 +509,8 @@ export function MenuSection({
                         onClick={() => setActiveFilter(tag.id)}
                         className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-semibold transition ${
                           active
-                            ? 'bg-[#DFB96F] text-[#06180E]'
-                            : 'bg-[#06180E]/70 text-[#C8D6CD] hover:bg-[#143D27]'
+                            ? 'bg-[#DFB96F] text-[#08130B]'
+                            : 'bg-[#08130B]/70 text-[#C8D6CD] hover:bg-[#162719]'
                         }`}
                       >
                         {tag.label}
@@ -532,8 +532,8 @@ export function MenuSection({
                         onClick={() => setFeaturedDishId(item.id)}
                         className={`min-h-[34px] shrink-0 whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
                           isSelected
-                            ? 'bg-[#DFB96F] text-[#06180E] shadow-sm'
-                            : 'border border-white/10 bg-[#06180E]/75 text-[#D2DFD6] hover:border-[#DFB96F]/40 hover:text-[#FAF6EC]'
+                            ? 'bg-[#DFB96F] text-[#08130B] shadow-sm'
+                            : 'border border-white/10 bg-[#08130B]/75 text-[#D2DFD6] hover:border-[#DFB96F]/40 hover:text-[#FAF6EC]'
                         }`}
                       >
                         {item.name}
@@ -541,7 +541,7 @@ export function MenuSection({
                     );
                   })
                 ) : (
-                  <div className="flex w-full items-center justify-between rounded-2xl border border-white/10 bg-[#06180E]/65 px-4 py-3 text-xs text-[#C6D5CB]">
+                  <div className="flex w-full items-center justify-between rounded-2xl border border-white/10 bg-[#08130B]/65 px-4 py-3 text-xs text-[#C6D5CB]">
                     <span>No dishes match &ldquo;{searchQuery}&rdquo;.</span>
                     <button
                       type="button"
@@ -572,7 +572,7 @@ export function MenuSection({
                       >
                         <path
                           d="M52 96C26 70 28 38 64 36C74 62 72 82 52 96Z"
-                          fill="#2D6A44"
+                          fill="#243D29"
                         />
                         <path
                           d="M84 62C68 30 82 14 108 26C106 46 96 58 84 62Z"
@@ -580,11 +580,11 @@ export function MenuSection({
                         />
                         <path
                           d="M36 122C12 110 8 84 36 78C46 94 46 110 36 122Z"
-                          fill="#205234"
+                          fill="#1E3322"
                         />
                         <path
                           d="M258 242C284 252 292 278 264 288C246 274 246 256 258 242Z"
-                          fill="#2D6A44"
+                          fill="#243D29"
                         />
                         <path
                           d="M226 266C240 294 224 312 200 296C202 278 212 268 226 266Z"
@@ -592,11 +592,11 @@ export function MenuSection({
                         />
                         <path
                           d="M274 210C298 208 310 232 288 248C272 238 268 224 274 210Z"
-                          fill="#205234"
+                          fill="#1E3322"
                         />
                       </svg>
 
-                      <div className="relative h-64 w-64 overflow-hidden rounded-full border-[5px] border-[#DFB96F]/60 bg-[#06180E] shadow-[0_32px_60px_-14px_rgba(0,0,0,0.78),0_0_40px_-12px_rgba(223,185,111,0.22)] sm:h-72 sm:w-72 xl:h-[312px] xl:w-[312px]">
+                      <div className="relative h-64 w-64 overflow-hidden rounded-full border-[5px] border-[#DFB96F]/60 bg-[#08130B] shadow-[0_32px_60px_-14px_rgba(0,0,0,0.78),0_0_40px_-12px_rgba(223,185,111,0.22)] sm:h-72 sm:w-72 xl:h-[312px] xl:w-[312px]">
                         <img
                           key={featuredDish.id}
                           src={featuredDish.image}
@@ -606,7 +606,7 @@ export function MenuSection({
                       </div>
 
                       {featuredDish.badge && (
-                        <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#DFB96F]/50 bg-[#06180E]/95 px-3.5 py-1 text-[11px] font-bold tracking-wide text-[#DFB96F] shadow-lg backdrop-blur-xs">
+                        <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#DFB96F]/50 bg-[#08130B]/95 px-3.5 py-1 text-[11px] font-bold tracking-wide text-[#DFB96F] shadow-lg backdrop-blur-xs">
                           {featuredDish.badge}
                         </span>
                       )}
@@ -652,8 +652,8 @@ export function MenuSection({
                               onClick={() => setSelectedVariantIdx(idx)}
                               className={`min-h-[34px] rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all ${
                                 active
-                                  ? 'bg-[#DFB96F] text-[#06180E] shadow-xs'
-                                  : 'border border-dashed border-[#DFB96F]/30 bg-[#06180E]/60 text-[#D7E3DB] hover:border-[#DFB96F]/60'
+                                  ? 'bg-[#DFB96F] text-[#08130B] shadow-xs'
+                                  : 'border border-dashed border-[#DFB96F]/30 bg-[#08130B]/60 text-[#D7E3DB] hover:border-[#DFB96F]/60'
                               }`}
                             >
                               {variant.label}
@@ -682,8 +682,8 @@ export function MenuSection({
                               aria-pressed={checked}
                               className={`group relative flex flex-col items-center rounded-2xl border border-dashed px-2 pb-4 pt-2.5 text-center transition-all ${
                                 checked
-                                  ? 'border-[#DFB96F]/70 bg-[#123924] shadow-sm'
-                                  : 'border-white/18 bg-[#06180E]/65 hover:border-[#DFB96F]/40'
+                                  ? 'border-[#DFB96F]/70 bg-[#152517] shadow-sm'
+                                  : 'border-white/18 bg-[#08130B]/65 hover:border-[#DFB96F]/40'
                               }`}
                             >
                               {/* Crisp Warm-Cream Medallion so 3D studio renders stay ultra-crisp on dark green */}
@@ -708,8 +708,8 @@ export function MenuSection({
                                 aria-hidden="true"
                                 className={`absolute -bottom-2.5 left-1/2 flex h-5 w-5 -translate-x-1/2 items-center justify-center rounded-full border transition-all ${
                                   checked
-                                    ? 'border-[#DFB96F] bg-[#DFB96F] text-[#06180E]'
-                                    : 'border-white/25 bg-[#06180E] text-[#9EB2A6]'
+                                    ? 'border-[#DFB96F] bg-[#DFB96F] text-[#08130B]'
+                                    : 'border-white/25 bg-[#08130B] text-[#9EB2A6]'
                                 }`}
                               >
                                 {checked ? (
@@ -726,12 +726,12 @@ export function MenuSection({
 
                     {/* Stepper + Compact Split "₱Price | Add to order" Gold Pill CTA */}
                     <div className="mt-6 flex max-w-[390px] flex-wrap items-center gap-2.5">
-                      <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#06180E]/80 px-1.5 py-1">
+                      <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#08130B]/80 px-1.5 py-1">
                         <button
                           type="button"
                           onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                           aria-label="Decrease quantity"
-                          className="flex h-7 w-7 items-center justify-center rounded-full bg-[#133A25] text-[#FAF6EC] transition hover:bg-[#DFB96F] hover:text-[#06180E]"
+                          className="flex h-7 w-7 items-center justify-center rounded-full bg-[#162719] text-[#FAF6EC] transition hover:bg-[#DFB96F] hover:text-[#08130B]"
                         >
                           <Minus className="h-3 w-3" aria-hidden="true" />
                         </button>
@@ -742,7 +742,7 @@ export function MenuSection({
                           type="button"
                           onClick={() => setQuantity((q) => q + 1)}
                           aria-label="Increase quantity"
-                          className="flex h-7 w-7 items-center justify-center rounded-full bg-[#133A25] text-[#FAF6EC] transition hover:bg-[#DFB96F] hover:text-[#06180E]"
+                          className="flex h-7 w-7 items-center justify-center rounded-full bg-[#162719] text-[#FAF6EC] transition hover:bg-[#DFB96F] hover:text-[#08130B]"
                         >
                           <Plus className="h-3 w-3" aria-hidden="true" />
                         </button>
@@ -751,13 +751,13 @@ export function MenuSection({
                       <button
                         type="button"
                         onClick={handleAddFeaturedToOrder}
-                        className="inline-flex min-h-[40px] flex-1 items-center justify-center gap-3.5 rounded-full bg-[#DFB96F] px-5 py-2 text-xs font-bold text-[#06180E] shadow-lg transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] active:scale-[0.99] sm:max-w-[260px] sm:text-[13px]"
+                        className="inline-flex min-h-[40px] flex-1 items-center justify-center gap-3.5 rounded-full bg-[#DFB96F] px-5 py-2 text-xs font-bold text-[#08130B] shadow-lg transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] active:scale-[0.99] sm:max-w-[260px] sm:text-[13px]"
                       >
                         <span className="tabular-nums">
                           {formatPeso(builderLineTotal)}
                         </span>
                         <span
-                          className="h-3.5 w-px bg-[#06180E]/25"
+                          className="h-3.5 w-px bg-[#08130B]/25"
                           aria-hidden="true"
                         />
                         <span>Add to order</span>
@@ -777,7 +777,7 @@ export function MenuSection({
                 {recommendedPairings.map((pairing) => (
                   <div
                     key={pairing.id}
-                    className="relative flex items-center gap-3 rounded-2xl border border-dashed border-[#DFB96F]/25 bg-[#06180E]/65 p-2.5 transition hover:border-[#DFB96F]/55"
+                    className="relative flex items-center gap-3 rounded-2xl border border-dashed border-[#DFB96F]/25 bg-[#08130B]/65 p-2.5 transition hover:border-[#DFB96F]/55"
                   >
                     <button
                       type="button"
@@ -810,7 +810,7 @@ export function MenuSection({
                       type="button"
                       onClick={() => onQuickAdd && onQuickAdd(pairing)}
                       aria-label={`Quick add ${pairing.name} to order`}
-                      className="absolute bottom-2.5 right-2.5 flex h-7 w-7 items-center justify-center rounded-full bg-[#DFB96F] text-[#06180E] shadow-xs transition hover:bg-[#E7C88B] active:scale-95"
+                      className="absolute bottom-2.5 right-2.5 flex h-7 w-7 items-center justify-center rounded-full bg-[#DFB96F] text-[#08130B] shadow-xs transition hover:bg-[#E7C88B] active:scale-95"
                     >
                       <Plus className="h-3.5 w-3.5 stroke-[2.5]" aria-hidden="true" />
                     </button>
@@ -823,7 +823,7 @@ export function MenuSection({
           {/* RIGHT 4-COL: Dark Forest Green "My Order" Panel */}
           <aside
             aria-label="My Order summary"
-            className="flex flex-col justify-between rounded-[26px] border border-[#DFB96F]/20 bg-[#0B2718]/95 p-5 shadow-[0_24px_54px_-22px_rgba(0,0,0,0.72)] sm:p-6 lg:col-span-4"
+            className="flex flex-col justify-between rounded-[26px] border border-[#DFB96F]/20 bg-[#0D1C11]/95 p-5 shadow-[0_24px_54px_-22px_rgba(0,0,0,0.72)] sm:p-6 lg:col-span-4"
           >
             <div>
               <div className="flex items-baseline justify-between gap-2">
@@ -849,7 +849,7 @@ export function MenuSection({
                     return (
                       <div
                         key={entry.key}
-                        className="flex items-center gap-3 rounded-2xl border border-dashed border-[#DFB96F]/25 bg-[#06180E]/65 p-3"
+                        className="flex items-center gap-3 rounded-2xl border border-dashed border-[#DFB96F]/25 bg-[#08130B]/65 p-3"
                       >
                         <img
                           src={entry.dish.image}
@@ -877,7 +877,7 @@ export function MenuSection({
                                   onUpdateTrayQty(entry.key, entry.quantity + 1)
                                 }
                                 aria-label={`Add one more ${entry.dish.name}`}
-                                className="flex h-6 w-6 items-center justify-center rounded-full bg-[#133A25] text-[#FAF6EC] transition hover:bg-[#DFB96F] hover:text-[#06180E]"
+                                className="flex h-6 w-6 items-center justify-center rounded-full bg-[#162719] text-[#FAF6EC] transition hover:bg-[#DFB96F] hover:text-[#08130B]"
                               >
                                 <Plus className="h-3 w-3" aria-hidden="true" />
                               </button>
@@ -891,7 +891,7 @@ export function MenuSection({
                                   onUpdateTrayQty(entry.key, entry.quantity - 1)
                                 }
                                 aria-label={`Remove one ${entry.dish.name}`}
-                                className="flex h-6 w-6 items-center justify-center rounded-full bg-[#133A25] text-[#FAF6EC] transition hover:bg-[#DFB96F] hover:text-[#06180E]"
+                                className="flex h-6 w-6 items-center justify-center rounded-full bg-[#162719] text-[#FAF6EC] transition hover:bg-[#DFB96F] hover:text-[#08130B]"
                               >
                                 <Minus className="h-3 w-3" aria-hidden="true" />
                               </button>
@@ -903,8 +903,8 @@ export function MenuSection({
                   })}
                 </div>
               ) : (
-                <div className="mt-4 rounded-2xl border border-dashed border-[#DFB96F]/25 bg-[#06180E]/55 px-4 py-7 text-center">
-                  <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[#143D27] text-[#DFB96F]">
+                <div className="mt-4 rounded-2xl border border-dashed border-[#DFB96F]/25 bg-[#08130B]/55 px-4 py-7 text-center">
+                  <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[#162719] text-[#DFB96F]">
                     <ShoppingBag className="h-5 w-5" aria-hidden="true" />
                   </div>
                   <p className="mt-3 text-sm font-bold text-[#FAF6EC]">
@@ -918,7 +918,7 @@ export function MenuSection({
                   <button
                     type="button"
                     onClick={handleLoadPopularCombo}
-                    className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#16402A] px-4 py-2 text-xs font-bold text-[#DFB96F] ring-1 ring-[#DFB96F]/40 transition hover:bg-[#DFB96F] hover:text-[#06180E]"
+                    className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#182A1B] px-4 py-2 text-xs font-bold text-[#DFB96F] ring-1 ring-[#DFB96F]/40 transition hover:bg-[#DFB96F] hover:text-[#08130B]"
                   >
                     <Sparkles className="h-3.5 w-3.5" />
                     <span>Load PIYO Bestseller Set</span>
@@ -936,8 +936,8 @@ export function MenuSection({
                   </span>
 
                   {promoObj ? (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[#DFB96F]/35 bg-[#143D27] px-2.5 py-1 text-xs font-bold text-[#DFB96F]">
-                      <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#DFB96F] text-[9px] text-[#06180E]">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[#DFB96F]/35 bg-[#162719] px-2.5 py-1 text-xs font-bold text-[#DFB96F]">
+                      <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#DFB96F] text-[9px] text-[#08130B]">
                         <Tag className="h-2.5 w-2.5" aria-hidden="true" />
                       </span>
                       <span>{promoObj.code}</span>
@@ -964,11 +964,11 @@ export function MenuSection({
                         }}
                         placeholder="PIYO10"
                         aria-label="Enter promo code"
-                        className="w-24 rounded-full border border-[#DFB96F]/30 bg-[#06180E] px-2.5 py-1 text-xs font-semibold uppercase text-[#FAF6EC] placeholder-[#7C9384] focus:border-[#DFB96F] focus:outline-none"
+                        className="w-24 rounded-full border border-[#DFB96F]/30 bg-[#08130B] px-2.5 py-1 text-xs font-semibold uppercase text-[#FAF6EC] placeholder-[#7C9384] focus:border-[#DFB96F] focus:outline-none"
                       />
                       <button
                         type="submit"
-                        className="rounded-full bg-[#DFB96F] px-2.5 py-1 text-[11px] font-bold text-[#06180E] hover:bg-[#E7C88B]"
+                        className="rounded-full bg-[#DFB96F] px-2.5 py-1 text-[11px] font-bold text-[#08130B] hover:bg-[#E7C88B]"
                       >
                         Apply
                       </button>
@@ -1017,7 +1017,7 @@ export function MenuSection({
                 type="button"
                 onClick={onOpenTray}
                 disabled={trayItems.length === 0}
-                className="mt-5 min-h-[46px] w-full rounded-full bg-[#DFB96F] px-6 py-3 text-sm font-bold text-[#06180E] shadow-[0_14px_30px_-10px_rgba(223,185,111,0.45)] transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40"
+                className="mt-5 min-h-[46px] w-full rounded-full bg-[#DFB96F] px-6 py-3 text-sm font-bold text-[#08130B] shadow-[0_14px_30px_-10px_rgba(223,185,111,0.45)] transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Confirm Order
               </button>

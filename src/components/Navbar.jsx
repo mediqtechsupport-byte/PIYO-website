@@ -51,7 +51,7 @@ export function Navbar({
       {/* Top Header (Seamless Editorial Desktop Nav + Mobile App Header) */}
       <header
         ref={headerRef}
-        className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#06180E]/92 text-[#FAF6EC] backdrop-blur-md"
+        className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#08130B]/92 text-[#FAF6EC] backdrop-blur-md"
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:px-8 md:py-3.5">
           {/* Editorial Serif Brand Crest & Wordmark */}
@@ -64,7 +64,7 @@ export function Navbar({
             <img
               src="./logo.svg"
               alt="PIYO Est. 2025 Crest"
-              className="h-10 w-10 shrink-0 rounded-full border border-[#C8A15A] bg-[#0B2718] p-[1.5px] transition-transform duration-300 group-hover:scale-105"
+              className="h-10 w-10 shrink-0 rounded-full border border-[#C8A15A] bg-[#0D1C11] p-[1.5px] transition-transform duration-300 group-hover:scale-105"
             />
             <div>
               <span className="block whitespace-nowrap font-serif text-[1.6rem] font-semibold leading-none tracking-tight text-[#FAF6EC] sm:text-[1.75rem]">
@@ -128,7 +128,7 @@ export function Navbar({
               <ShoppingBag className="h-3.5 w-3.5 shrink-0 text-[#DFB96F]" />
               <span className="md:hidden">Tray</span>
               {trayCount > 0 && (
-                <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[#DFB96F] px-1 text-[10px] font-bold text-[#06180E]">
+                <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[#DFB96F] px-1 text-[10px] font-bold text-[#08130B]">
                   {trayCount}
                 </span>
               )}
@@ -138,7 +138,7 @@ export function Navbar({
             <button
               type="button"
               onClick={() => onNavigate('visit')}
-              className="hidden min-h-[38px] shrink-0 items-center gap-2 whitespace-nowrap rounded-lg bg-[#DFB96F] px-4 py-2 text-xs font-bold tracking-wide text-[#06180E] shadow-sm transition hover:bg-[#E8C988] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FAF6EC] md:inline-flex"
+              className="hidden min-h-[38px] shrink-0 items-center gap-2 whitespace-nowrap rounded-lg bg-[#DFB96F] px-4 py-2 text-xs font-bold tracking-wide text-[#08130B] shadow-sm transition hover:bg-[#E8C988] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FAF6EC] md:inline-flex"
             >
               <span>Book a Table</span>
               <Calendar className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
@@ -147,7 +147,7 @@ export function Navbar({
         </div>
 
         {/* Slim Live Status Sub-bar on Mobile */}
-        <div className="flex items-center justify-between border-t border-white/[0.06] bg-[#04120A]/85 px-5 py-1 text-[11px] text-[#B8C7BD] md:hidden">
+        <div className="flex items-center justify-between border-t border-white/[0.06] bg-[#050E08]/85 px-5 py-1 text-[11px] text-[#B8C7BD] md:hidden">
           <span className="inline-flex items-center gap-1.5 truncate">
             <span
               className={`h-1.5 w-1.5 shrink-0 rounded-full ${
@@ -164,7 +164,7 @@ export function Navbar({
 
       {/* Native-Style Mobile Bottom Navigation Bar */}
       <nav
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-[#0B2718]/15 bg-[#FAF6EC]/95 backdrop-blur-lg shadow-[0_-4px_20px_rgba(12,38,24,0.1)] md:hidden pb-safe"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-[#0D1C11]/15 bg-[#FAF6EC]/95 backdrop-blur-lg shadow-[0_-4px_20px_rgba(13,28,17,0.1)] md:hidden pb-safe"
         aria-label="Mobile bottom navigation"
       >
         <div className="mx-auto grid max-w-md grid-cols-4 px-2 pt-1.5">
@@ -190,15 +190,15 @@ export function Navbar({
                 onClick={() =>
                   item.id === 'tray' ? onOpenTray() : onNavigate(item.id)
                 }
-                className={`relative flex min-h-[48px] flex-col items-center justify-center gap-0.5 rounded-xl py-1 text-[11px] font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] ${
+                className={`relative flex min-h-[48px] flex-col items-center justify-center gap-0.5 rounded-xl py-1 text-[11px] font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11] ${
                   isActive
-                    ? 'text-[#0B2718]'
-                    : 'text-[#4B584E] hover:text-[#0B2718]'
+                    ? 'text-[#0D1C11]'
+                    : 'text-[#4B584E] hover:text-[#0D1C11]'
                 }`}
               >
                 <span
                   className={`relative flex h-7 w-11 items-center justify-center rounded-full transition-colors ${
-                    isActive ? 'bg-[#0B2718] text-[#FAF6EC]' : 'bg-transparent'
+                    isActive ? 'bg-[#0D1C11] text-[#FAF6EC]' : 'bg-transparent'
                   }`}
                 >
                   <Icon className="h-4 w-4" />

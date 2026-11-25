@@ -293,7 +293,7 @@ export default function App() {
       </main>
 
       {/* Heritage Forest Green Footer */}
-      <footer className="border-t border-[#D8B36A]/25 bg-[#06180E] py-10 text-[#FAF6EC]">
+      <footer className="border-t border-[#D8B36A]/25 bg-[#08130B] py-10 text-[#FAF6EC]">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-5 text-center sm:flex-row sm:px-8 sm:text-left">
           <div className="flex items-center gap-3.5">
             <img
@@ -378,10 +378,10 @@ export default function App() {
             type="button"
             onClick={() => setIsTrayOpen(true)}
             aria-label={`View your tray (${trayCount} items, ${formatPeso(traySubtotal)})`}
-            className="pointer-events-auto flex w-full max-w-sm items-center justify-between gap-4 rounded-full border border-[#0B2718]/20 bg-[#DFB96F] px-3.5 py-2.5 text-sm font-bold text-[#06180E] shadow-[0_18px_36px_-8px_rgba(6,24,14,0.45)] transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] active:scale-[0.99] md:w-auto md:min-w-[248px]"
+            className="pointer-events-auto flex w-full max-w-sm items-center justify-between gap-4 rounded-full border border-[#0D1C11]/20 bg-[#DFB96F] px-3.5 py-2.5 text-sm font-bold text-[#08130B] shadow-[0_18px_36px_-8px_rgba(8,19,11,0.45)] transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11] active:scale-[0.99] md:w-auto md:min-w-[248px]"
           >
             <span className="inline-flex items-center gap-2.5">
-              <span className="inline-flex h-7 min-w-7 items-center justify-center rounded-full bg-[#06180E] px-2 text-xs font-bold text-[#DFB96F]">
+              <span className="inline-flex h-7 min-w-7 items-center justify-center rounded-full bg-[#08130B] px-2 text-xs font-bold text-[#DFB96F]">
                 {trayCount}
               </span>
               <span>View your tray</span>
@@ -396,7 +396,7 @@ export default function App() {
 
       {/* Floating Add-to-Tray Toast */}
       {toastText && (
-        <div className="fixed bottom-[138px] left-1/2 z-50 -translate-x-1/2 rounded-full bg-[#0B2718] px-4 py-2 text-xs font-semibold text-[#FAF6EC] shadow-lg ring-1 ring-[#D8B36A]/50 md:bottom-[84px]">
+        <div className="fixed bottom-[138px] left-1/2 z-50 -translate-x-1/2 rounded-full bg-[#0D1C11] px-4 py-2 text-xs font-semibold text-[#FAF6EC] shadow-lg ring-1 ring-[#D8B36A]/50 md:bottom-[84px]">
           {toastText}
         </div>
       )}

@@ -19,7 +19,7 @@ const SOLIHIYA_BG = `url("data:image/svg+xml,${encodeURIComponent(
 
 // Delicate Filipino Banig diamond woven border divider
 const BANIG_STRIP_BG = `url("data:image/svg+xml,${encodeURIComponent(
-  `<svg xmlns='http://www.w3.org/2000/svg' width='24' height='10' viewBox='0 0 24 10' fill='none'><path d='M0 5L6 1L12 5L6 9Z M12 5L18 1L24 5L18 9Z' stroke='#0B2718' stroke-opacity='0.24' stroke-width='0.9'/><circle cx='6' cy='5' r='1.1' fill='#8A673D' fill-opacity='0.5'/><circle cx='18' cy='5' r='1.1' fill='#8A673D' fill-opacity='0.5'/></svg>`
+  `<svg xmlns='http://www.w3.org/2000/svg' width='24' height='10' viewBox='0 0 24 10' fill='none'><path d='M0 5L6 1L12 5L6 9Z M12 5L18 1L24 5L18 9Z' stroke='#0D1C11' stroke-opacity='0.24' stroke-width='0.9'/><circle cx='6' cy='5' r='1.1' fill='#8A673D' fill-opacity='0.5'/><circle cx='18' cy='5' r='1.1' fill='#8A673D' fill-opacity='0.5'/></svg>`
 )}")`;
 
 const CATEGORY_ARC_FALLBACK = {
@@ -214,8 +214,8 @@ export function RestaurantMenuBoard({
               aria-label={`Customize ${dish.name}`}
               className="relative z-20 -mb-[74px] flex h-[148px] w-[148px] items-center justify-center transition-transform duration-300 group-hover:-translate-y-1"
             >
-              <span className="block h-[132px] w-[132px] overflow-hidden rounded-full bg-[#F5EFE2] p-[5px] shadow-[0_14px_28px_-8px_rgba(4,16,9,0.75)] ring-2 ring-[#DFD0B2]">
-                <span className="block h-full w-full overflow-hidden rounded-full ring-1 ring-[#0B2718]/25">
+              <span className="block h-[132px] w-[132px] overflow-hidden rounded-full bg-[#F5EFE2] p-[5px] shadow-[0_14px_28px_-8px_rgba(5,13,7,0.75)] ring-2 ring-[#DFD0B2]">
+                <span className="block h-full w-full overflow-hidden rounded-full ring-1 ring-[#0D1C11]/25">
                   <img
                     src={dish.image}
                     alt={dish.name}
@@ -238,7 +238,7 @@ export function RestaurantMenuBoard({
                   />
                 </defs>
                 <text
-                  fill="#173D28"
+                  fill="#182A1B"
                   fontSize="8.6"
                   fontWeight="700"
                   letterSpacing="2.1"
@@ -258,19 +258,19 @@ export function RestaurantMenuBoard({
             <div className="relative z-10 flex w-full flex-1 flex-col justify-between rounded-[18px] border border-[#DFD0B2] bg-[#F5EFE2] px-4 pb-4 pt-[96px] text-center shadow-[0_18px_38px_-16px_rgba(0,0,0,0.72)] transition-colors group-hover:border-[#FAF6EC] group-hover:bg-[#F8F3E8]">
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-2 rounded-[12px] border border-[#0B2718]/16"
+                className="pointer-events-none absolute inset-2 rounded-[12px] border border-[#0D1C11]/16"
               />
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute bottom-3 left-3 h-1.5 w-1.5 rotate-45 bg-[#0B2718]/25"
+                className="pointer-events-none absolute bottom-3 left-3 h-1.5 w-1.5 rotate-45 bg-[#0D1C11]/25"
               />
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute bottom-3 right-3 h-1.5 w-1.5 rotate-45 bg-[#0B2718]/25"
+                className="pointer-events-none absolute bottom-3 right-3 h-1.5 w-1.5 rotate-45 bg-[#0D1C11]/25"
               />
 
               <div className="relative z-10">
-                <h3 className="font-serif text-[20px] font-bold leading-snug tracking-tight text-[#0B2718]">
+                <h3 className="font-serif text-[20px] font-bold leading-snug tracking-tight text-[#0D1C11]">
                   {dish.name}
                 </h3>
                 <p className="mt-1.5 line-clamp-3 text-[11.5px] leading-relaxed text-[#3E5346]">
@@ -280,7 +280,7 @@ export function RestaurantMenuBoard({
 
               <div className="relative z-10 mt-3.5">
                 <div className="flex items-baseline justify-center gap-2">
-                  <p className="font-sans text-lg font-extrabold tracking-tight text-[#0B2718]">
+                  <p className="font-sans text-lg font-extrabold tracking-tight text-[#0D1C11]">
                     {formatPeso(dish.price)}
                   </p>
                   {dish.serving && (
@@ -290,11 +290,11 @@ export function RestaurantMenuBoard({
                   )}
                 </div>
 
-                <div className="mt-3 flex items-center justify-center gap-2 border-t border-[#0B2718]/14 pt-3">
+                <div className="mt-3 flex items-center justify-center gap-2 border-t border-[#0D1C11]/14 pt-3">
                   <button
                     type="button"
                     onClick={() => onCustomizeDish && onCustomizeDish(dish)}
-                    className="inline-flex min-h-[32px] items-center gap-1 rounded-full border border-[#0B2718]/28 bg-[#EAE0CA] px-3 py-1 text-[11px] font-semibold text-[#0B2718] transition hover:border-[#0B2718] hover:bg-[#DFD2B6]"
+                    className="inline-flex min-h-[32px] items-center gap-1 rounded-full border border-[#0D1C11]/28 bg-[#EAE0CA] px-3 py-1 text-[11px] font-semibold text-[#0D1C11] transition hover:border-[#0D1C11] hover:bg-[#DFD2B6]"
                   >
                     <SlidersHorizontal
                       className="h-3 w-3"
@@ -304,7 +304,7 @@ export function RestaurantMenuBoard({
                   </button>
 
                   {stats.totalQty > 0 && stats.latestEntry ? (
-                    <div className="inline-flex min-h-[32px] items-center gap-1.5 rounded-full bg-[#0B2718] px-2 py-0.5 text-xs font-extrabold text-[#F5EFE2]">
+                    <div className="inline-flex min-h-[32px] items-center gap-1.5 rounded-full bg-[#0D1C11] px-2 py-0.5 text-xs font-extrabold text-[#F5EFE2]">
                       <button
                         type="button"
                         onClick={() =>
@@ -335,7 +335,7 @@ export function RestaurantMenuBoard({
                     <button
                       type="button"
                       onClick={() => onQuickAdd && onQuickAdd(dish)}
-                      className="inline-flex min-h-[32px] items-center gap-1 rounded-full bg-[#0B2718] px-3.5 py-1 text-[11px] font-bold text-[#F5EFE2] transition hover:bg-[#16402A] active:scale-95"
+                      className="inline-flex min-h-[32px] items-center gap-1 rounded-full bg-[#0D1C11] px-3.5 py-1 text-[11px] font-bold text-[#F5EFE2] transition hover:bg-[#182A1B] active:scale-95"
                     >
                       <Plus
                         className="h-3.5 w-3.5 stroke-[2.5]"
@@ -356,11 +356,11 @@ export function RestaurantMenuBoard({
   return (
     <>
       {/* Inline Whole-Page Menu Landing ("Best Sellers" Highlight Conveyor — allows scrolling freely to other sections) */}
-      <div className="flex min-h-[calc(100svh-var(--nav-h,69px))] w-full flex-col bg-[#0A2215] text-[#0B2718]">
+      <div className="flex min-h-[calc(100svh-var(--nav-h,69px))] w-full flex-col bg-[#0B190F] text-[#0D1C11]">
         {/* Full-Bleed Warm Sunlit Beige Editorial Title Banner with Tropical Palm Frond Shadows */}
         <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#F1E8D5] pb-2.5 pt-2.5 lg:pb-3 lg:pt-3">
-          <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-36 w-52 text-[#0B2718] sm:h-40 sm:w-60" />
-          <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-32 w-48 -scale-x-100 text-[#0B2718] opacity-75 sm:h-36 sm:w-52" />
+          <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-36 w-52 text-[#0D1C11] sm:h-40 sm:w-60" />
+          <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-32 w-48 -scale-x-100 text-[#0D1C11] opacity-75 sm:h-36 sm:w-52" />
 
           <div className="relative z-10 mx-auto w-full max-w-7xl px-5 text-center sm:px-8">
             <p className="font-script text-[38px] leading-[1.02] text-[#7E5A30] sm:text-[48px]">
@@ -369,14 +369,14 @@ export function RestaurantMenuBoard({
             <div className="mt-0.5 flex items-center justify-center gap-3">
               <span
                 aria-hidden="true"
-                className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#0B2718]/45 sm:w-16"
+                className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#0D1C11]/45 sm:w-16"
               />
-              <h2 className="font-serif text-lg font-bold uppercase tracking-[0.28em] text-[#0B2718] sm:text-2xl">
+              <h2 className="font-serif text-lg font-bold uppercase tracking-[0.28em] text-[#0D1C11] sm:text-2xl">
                 Filipino Menu
               </h2>
               <span
                 aria-hidden="true"
-                className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#0B2718]/45 sm:w-16"
+                className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#0D1C11]/45 sm:w-16"
               />
             </div>
             <p className="mx-auto mt-1 max-w-xl text-xs leading-relaxed text-[#384D40] sm:text-[13px]">
@@ -386,7 +386,7 @@ export function RestaurantMenuBoard({
         </div>
 
         {/* Sticky Category Navigation + Cart Bar + Woven Banig Strip */}
-        <div className="sticky top-[var(--nav-h,64px)] z-30 w-full shrink-0 shadow-[0_12px_28px_-14px_rgba(4,16,9,0.68)]">
+        <div className="sticky top-[var(--nav-h,64px)] z-30 w-full shrink-0 shadow-[0_12px_28px_-14px_rgba(5,13,7,0.68)]">
           <div className="bg-[#EFE6D2]/96 py-2.5 backdrop-blur-md">
             <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-5 sm:px-8">
               <div
@@ -405,8 +405,8 @@ export function RestaurantMenuBoard({
                       onClick={() => handleSelectCategory(cat.id)}
                       className={`min-h-[34px] shrink-0 rounded-full px-3.5 py-1 text-xs font-bold tracking-wide transition ${
                         active
-                          ? 'bg-[#0B2718] text-[#F5EFE2] shadow-sm'
-                          : 'border border-[#0B2718]/20 bg-[#FAF6EC]/90 text-[#1B3A29] hover:border-[#0B2718]/50 hover:bg-[#E6DAC2]'
+                          ? 'bg-[#0D1C11] text-[#F5EFE2] shadow-sm'
+                          : 'border border-[#0D1C11]/20 bg-[#FAF6EC]/90 text-[#1A2D1D] hover:border-[#0D1C11]/50 hover:bg-[#E6DAC2]'
                       }`}
                     >
                       {cat.label}
@@ -418,7 +418,7 @@ export function RestaurantMenuBoard({
               <button
                 type="button"
                 onClick={onOpenTray}
-                className="inline-flex min-h-[34px] shrink-0 items-center gap-2 rounded-full bg-[#0B2718] px-4 py-1.5 text-xs font-bold text-[#F5EFE2] shadow-sm transition hover:bg-[#143D28]"
+                className="inline-flex min-h-[34px] shrink-0 items-center gap-2 rounded-full bg-[#0D1C11] px-4 py-1.5 text-xs font-bold text-[#F5EFE2] shadow-sm transition hover:bg-[#162719]"
               >
                 <ShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>
@@ -430,7 +430,7 @@ export function RestaurantMenuBoard({
 
           <div
             aria-hidden="true"
-            className="h-[11px] w-full border-y border-[#0B2718]/25 bg-[#E6D9BE]"
+            className="h-[11px] w-full border-y border-[#0D1C11]/25 bg-[#E6D9BE]"
             style={{
               backgroundImage: BANIG_STRIP_BG,
               backgroundRepeat: 'repeat-x',
@@ -441,7 +441,7 @@ export function RestaurantMenuBoard({
 
         {/* Full-Bleed Deep Forest Green Solihiya-Woven Best Sellers Conveyor Highlight */}
         <div
-          className="relative z-10 flex flex-1 items-center bg-[#0A2215]"
+          className="relative z-10 flex flex-1 items-center bg-[#0B190F]"
           style={{
             backgroundImage: SOLIHIYA_BG,
             backgroundSize: '64px 64px',
@@ -449,9 +449,9 @@ export function RestaurantMenuBoard({
         >
           <SushiConveyorMenu
             items={conveyorItems}
-            legend={BESTSELLER_LEGEND}
+            legend={[]}
             eyebrow="House Highlights · Best Sellers"
-            heading="PIYO Favorites, Straight from Hearth to Table."
+            heading="PIYO Favorites, From Hearth to Table."
             caption="Hover to pause any plate, flick to spin the belt, or click a dish to order or customize."
             autoplay
             speed={24}
@@ -469,10 +469,10 @@ export function RestaurantMenuBoard({
               <button
                 type="button"
                 onClick={() => handleSelectCategory('soups')}
-                className="inline-flex min-h-[42px] items-center gap-2 rounded-full border border-[#DFD0B2]/60 bg-[#F5EFE2] px-5 py-2 text-xs font-bold tracking-wide text-[#0B2718] shadow-md transition hover:-translate-y-px hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:text-[13px]"
+                className="inline-flex min-h-[48px] items-center gap-2.5 rounded-full border border-[#DFD0B2]/60 bg-[#F5EFE2] px-7 py-3 text-sm font-bold tracking-wide text-[#0D1C11] shadow-md transition hover:-translate-y-px hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
               >
                 <span>Browse Soups &amp; Full Categories</span>
-                <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </button>
             }
           />
@@ -481,10 +481,10 @@ export function RestaurantMenuBoard({
         {/* Full-Bleed Bottom Warm Beige Filipino Heritage Banner Strip */}
         <div
           aria-hidden="true"
-          className="relative z-10 w-full shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC]"
+          className="relative z-10 w-full shrink-0 border-t border-[#0D1C11]/20 bg-[#ECE2CC]"
         >
           <div
-            className="h-[11px] w-full border-b border-[#0B2718]/20 bg-[#E6D9BE]"
+            className="h-[11px] w-full border-b border-[#0D1C11]/20 bg-[#E6D9BE]"
             style={{
               backgroundImage: BANIG_STRIP_BG,
               backgroundRepeat: 'repeat-x',
@@ -499,7 +499,7 @@ export function RestaurantMenuBoard({
       {isLockedCategory &&
         createPortal(
           <div
-            className="fixed inset-0 z-[44] flex flex-col overflow-hidden bg-[#0A2215] text-[#0B2718]"
+            className="fixed inset-0 z-[44] flex flex-col overflow-hidden bg-[#0B190F] text-[#0D1C11]"
             onWheel={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
@@ -507,15 +507,15 @@ export function RestaurantMenuBoard({
           >
             {/* Pinned Warm Sunlit Beige Header + Category Navigation Bar */}
             <div className="relative z-20 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#ECE2CC] pb-3.5 pt-4">
-              <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-36 w-52 text-[#0B2718] sm:h-44 sm:w-64" />
-              <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-32 w-48 -scale-x-100 text-[#0B2718] opacity-75 sm:h-40 sm:w-60" />
+              <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-36 w-52 text-[#0D1C11] sm:h-44 sm:w-64" />
+              <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-32 w-48 -scale-x-100 text-[#0D1C11] opacity-75 sm:h-40 sm:w-60" />
 
               <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <button
                     type="button"
                     onClick={() => handleSelectCategory('bestsellers')}
-                    className="inline-flex min-h-[34px] items-center gap-1.5 rounded-full border border-[#0B2718]/25 bg-[#FAF6EC]/95 px-3.5 py-1 text-xs font-bold text-[#0B2718] shadow-xs transition hover:border-[#0B2718] hover:bg-[#0B2718] hover:text-[#F5EFE2]"
+                    className="inline-flex min-h-[34px] items-center gap-1.5 rounded-full border border-[#0D1C11]/25 bg-[#FAF6EC]/95 px-3.5 py-1 text-xs font-bold text-[#0D1C11] shadow-xs transition hover:border-[#0D1C11] hover:bg-[#0D1C11] hover:text-[#F5EFE2]"
                   >
                     <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
                     <span>Best Sellers</span>
@@ -524,7 +524,7 @@ export function RestaurantMenuBoard({
                   <button
                     type="button"
                     onClick={onOpenTray}
-                    className="inline-flex min-h-[34px] shrink-0 items-center gap-2 rounded-full bg-[#0B2718] px-4 py-1.5 text-xs font-bold text-[#F5EFE2] shadow-sm transition hover:bg-[#143D28]"
+                    className="inline-flex min-h-[34px] shrink-0 items-center gap-2 rounded-full bg-[#0D1C11] px-4 py-1.5 text-xs font-bold text-[#F5EFE2] shadow-sm transition hover:bg-[#162719]"
                   >
                     <ShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
                     <span>
@@ -540,14 +540,14 @@ export function RestaurantMenuBoard({
                   <div className="mt-0.5 flex items-center justify-center gap-3">
                     <span
                       aria-hidden="true"
-                      className="h-[1px] w-10 bg-gradient-to-r from-transparent to-[#0B2718]/45 sm:w-14"
+                      className="h-[1px] w-10 bg-gradient-to-r from-transparent to-[#0D1C11]/45 sm:w-14"
                     />
-                    <h2 className="font-serif text-base font-bold uppercase tracking-[0.26em] text-[#0B2718] sm:text-xl">
+                    <h2 className="font-serif text-base font-bold uppercase tracking-[0.26em] text-[#0D1C11] sm:text-xl">
                       {activeCategoryMeta.label}
                     </h2>
                     <span
                       aria-hidden="true"
-                      className="h-[1px] w-10 bg-gradient-to-l from-transparent to-[#0B2718]/45 sm:w-14"
+                      className="h-[1px] w-10 bg-gradient-to-l from-transparent to-[#0D1C11]/45 sm:w-14"
                     />
                   </div>
                 </div>
@@ -569,8 +569,8 @@ export function RestaurantMenuBoard({
                         onClick={() => handleSelectCategory(cat.id)}
                         className={`min-h-[34px] shrink-0 rounded-full px-3.5 py-1 text-xs font-bold tracking-wide transition ${
                           active
-                            ? 'bg-[#0B2718] text-[#F5EFE2] shadow-sm'
-                            : 'border border-[#0B2718]/20 bg-[#FAF6EC]/90 text-[#1B3A29] hover:border-[#0B2718]/50 hover:bg-[#E6DAC2]'
+                            ? 'bg-[#0D1C11] text-[#F5EFE2] shadow-sm'
+                            : 'border border-[#0D1C11]/20 bg-[#FAF6EC]/90 text-[#1A2D1D] hover:border-[#0D1C11]/50 hover:bg-[#E6DAC2]'
                         }`}
                       >
                         {cat.label}
@@ -584,7 +584,7 @@ export function RestaurantMenuBoard({
             {/* Pinned Woven Banig Strip */}
             <div
               aria-hidden="true"
-              className="h-[11px] w-full shrink-0 border-y border-[#0B2718]/25 bg-[#E6D9BE]"
+              className="h-[11px] w-full shrink-0 border-y border-[#0D1C11]/25 bg-[#E6D9BE]"
               style={{
                 backgroundImage: BANIG_STRIP_BG,
                 backgroundRepeat: 'repeat-x',
@@ -595,7 +595,7 @@ export function RestaurantMenuBoard({
             {/* Independently Scrollable Solihiya Grid */}
             <div
               ref={lockedScrollRef}
-              className="relative z-10 flex-1 overflow-y-auto bg-[#0A2215] py-6 lg:py-7"
+              className="relative z-10 flex-1 overflow-y-auto bg-[#0B190F] py-6 lg:py-7"
               style={{
                 backgroundImage: SOLIHIYA_BG,
                 backgroundSize: '64px 64px',
@@ -607,10 +607,10 @@ export function RestaurantMenuBoard({
             {/* Pinned Bottom Warm Beige Heritage Banner Strip */}
             <div
               aria-hidden="true"
-              className="relative z-10 w-full shrink-0 border-t border-[#0B2718]/20 bg-[#ECE2CC]"
+              className="relative z-10 w-full shrink-0 border-t border-[#0D1C11]/20 bg-[#ECE2CC]"
             >
               <div
-                className="h-[11px] w-full border-b border-[#0B2718]/20 bg-[#E6D9BE]"
+                className="h-[11px] w-full border-b border-[#0D1C11]/20 bg-[#E6D9BE]"
                 style={{
                   backgroundImage: BANIG_STRIP_BG,
                   backgroundRepeat: 'repeat-x',

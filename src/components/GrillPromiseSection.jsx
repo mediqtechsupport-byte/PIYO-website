@@ -234,7 +234,7 @@ const HIGHLIGHTS = [
     title: 'Daily Fresh Prep & Negros Heritage',
     description:
       'Chicken inasal marinated in calamansi, tanglad & annatto oil, paired with crisp Tagaytay produce and real Negrense batwan every morning.',
-    tileClass: 'bg-[#E5EDE7] text-[#0B2718]',
+    tileClass: 'bg-[#E5EDE7] text-[#0D1C11]',
   },
   {
     icon: UtensilsCrossed,
@@ -248,7 +248,7 @@ const HIGHLIGHTS = [
     title: 'Free Cansi Refills for Dine-In & Groups',
     description:
       'Spacious 6–8 seater family tables, takeout bilao spreads, and steaming complimentary broth refills on every Bacolod Cansi.',
-    tileClass: 'bg-[#DDE8E0] text-[#113421]',
+    tileClass: 'bg-[#DDE8E0] text-[#152517]',
   },
 ];
 
@@ -349,7 +349,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
       ref={sectionRef}
       id="craft"
       data-cansi-phase={phase}
-      className="cansi-stage-root relative overflow-hidden border-b border-[#0B2718]/12 bg-[#F5EFE2] py-14 text-[#0B2718] sm:py-16 lg:flex lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:items-center lg:py-10 xl:py-12"
+      className="cansi-stage-root relative overflow-hidden border-b border-[#0D1C11]/12 bg-[#F5EFE2] py-14 text-[#0D1C11] sm:py-16 lg:flex lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:items-center lg:py-10 xl:py-12"
     >
       {/* Top-Left Open Flame Accent blended cleanly into warm beige */}
       <img
@@ -366,7 +366,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-10">
           {/* Left Editorial Column */}
           <div className="relative z-20 pb-2 lg:col-span-6 lg:pb-2">
-            <h2 className="font-serif text-[2rem] font-semibold leading-[1.12] tracking-[-0.02em] text-[#0B2718] sm:text-[2.55rem] lg:text-[2.6rem] xl:text-[2.85rem]">
+            <h2 className="font-serif text-[2rem] font-semibold leading-[1.12] tracking-[-0.02em] text-[#0D1C11] sm:text-[2.55rem] lg:text-[2.6rem] xl:text-[2.85rem]">
               PIYO&apos;s{' '}
               <span className="relative inline-block whitespace-nowrap">
                 <span className="relative z-10">#1 House Favorite</span>
@@ -385,7 +385,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                   />
                   <path
                     d="M14 15.5C96 10 220 9.5 304 13"
-                    stroke="#0B2718"
+                    stroke="#0D1C11"
                     strokeWidth="2.2"
                     strokeLinecap="round"
                     opacity="0.35"
@@ -408,12 +408,12 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                 return (
                   <div key={item.title} className="flex items-start gap-4">
                     <div
-                      className={`flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl shadow-xs ring-1 ring-[#0B2718]/10 sm:h-14 sm:w-14 ${item.tileClass}`}
+                      className={`flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl shadow-xs ring-1 ring-[#0D1C11]/10 sm:h-14 sm:w-14 ${item.tileClass}`}
                     >
                       <Icon className="h-6 w-6 stroke-[1.75]" aria-hidden="true" />
                     </div>
                     <div className="pt-0.5">
-                      <h3 className="font-serif text-lg font-semibold leading-snug text-[#0B2718] sm:text-xl">
+                      <h3 className="font-serif text-lg font-semibold leading-snug text-[#0D1C11] sm:text-xl">
                         {item.title}
                       </h3>
                       <p className="mt-0.5 text-xs leading-relaxed text-[#47574B] sm:text-sm">
@@ -429,7 +429,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
               <button
                 type="button"
                 onClick={onExploreGrill}
-                className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#0B2718] px-6 py-2.5 text-xs font-bold text-[#FAF6EC] shadow-md transition hover:bg-[#133A25] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] sm:text-sm"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#0D1C11] px-6 py-2.5 text-xs font-bold text-[#FAF6EC] shadow-md transition hover:bg-[#162719] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11] sm:text-sm"
               >
                 <span>Browse Grill &amp; Specials</span>
                 <ArrowUpRight className="h-4 w-4 text-[#DFB96F]" aria-hidden="true" />
@@ -437,7 +437,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
               <button
                 type="button"
                 onClick={onInspectDish}
-                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-[#0B2718]/25 bg-[#FAF6EC] px-5 py-2.5 text-xs font-semibold text-[#0B2718] transition hover:border-[#0B2718]/45 hover:bg-[#E5EDE7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718] sm:text-sm"
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-[#0D1C11]/25 bg-[#FAF6EC] px-5 py-2.5 text-xs font-semibold text-[#0D1C11] transition hover:border-[#0D1C11]/45 hover:bg-[#E5EDE7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11] sm:text-sm"
               >
                 <span>Inspect Bacolod Cansi · ₱666</span>
               </button>
@@ -456,7 +456,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                 onClick={handleReplayClick}
                 title="Touch me to replay animation"
                 aria-label="Replay Bacolod Cansi ingredient assembly animation"
-                className="relative mx-auto flex h-full w-auto cursor-pointer items-center justify-center rounded-3xl outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2718]/35"
+                className="relative mx-auto flex h-full w-auto cursor-pointer items-center justify-center rounded-3xl outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11]/35"
                 style={{
                   aspectRatio: `${CANSI_STAGE_ASPECT}`,
                   maxWidth: '100%',
@@ -466,7 +466,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                 {/* Subtle "Touch me" interactive hint centered below the bowl */}
                 <span
                   aria-hidden="true"
-                  className={`pointer-events-none absolute -bottom-3 left-1/2 z-30 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap text-[11px] font-medium tracking-[0.18em] uppercase text-[#0B2718]/55 transition-all duration-500 group-hover:text-[#0B2718]/85 ${
+                  className={`pointer-events-none absolute -bottom-3 left-1/2 z-30 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap text-[11px] font-medium tracking-[0.18em] uppercase text-[#0D1C11]/55 transition-all duration-500 group-hover:text-[#0D1C11]/85 ${
                     phase === 'assembled' ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
                   }`}
                 >

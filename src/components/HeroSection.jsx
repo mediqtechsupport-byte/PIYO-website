@@ -46,19 +46,19 @@ export function HeroSection({
   return (
     <section
       id="home"
-      className="relative flex flex-col justify-center overflow-hidden bg-[#06180E] text-[#FAF6EC] lg:min-h-[calc(100svh-var(--nav-h,69px))]"
+      className="relative flex flex-col justify-center overflow-hidden bg-[#08130B] text-[#FAF6EC] lg:min-h-[calc(100svh-var(--nav-h,69px))]"
     >
-      {/* Sweeping Warm Cream-Beige Curved Organic Diagonal Shape with Subtle Filipino Solihiya Weave & Botanical Shadow */}
+      {/* Sweeping Warm Cream-Beige Curved Organic Diagonal Shape Hugging the Main Plate */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-[28%] -right-[14%] h-[490px] w-[700px] -rotate-[34deg] overflow-hidden rounded-[9999px] bg-[#EDE5D0] shadow-[inset_0_2px_28px_rgba(6,24,14,0.10)] sm:-bottom-[24%] sm:-right-[12%] sm:h-[580px] sm:w-[860px] lg:-bottom-[22%] lg:-right-[10%] lg:h-[630px] lg:w-[960px] xl:-bottom-[20%] xl:-right-[8%] xl:h-[680px] xl:w-[1040px]"
+        className="pointer-events-none absolute -bottom-[32%] -right-[18%] h-[460px] w-[620px] -rotate-[34deg] overflow-hidden rounded-[9999px] bg-[#EDE5D0] shadow-[inset_0_2px_28px_rgba(8,19,11,0.10)] sm:-bottom-[28%] sm:-right-[16%] sm:h-[540px] sm:w-[760px] lg:-bottom-[28%] lg:-right-[14%] lg:h-[590px] lg:w-[840px] xl:-bottom-[26%] xl:-right-[12%] xl:h-[650px] xl:w-[940px] 2xl:-bottom-[24%] 2xl:-right-[10%] 2xl:h-[710px] 2xl:w-[1020px]"
       >
         {/* Subtle Woven Solihiya Linen Texture Inside Warm Beige Curve */}
         <div
           className="absolute inset-0 opacity-[0.075]"
           style={{
             backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg width='56' height='56' viewBox='0 0 56 56' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%230B2718' stroke-width='1'%3E%3Cpath d='M0 28H56M28 0V56M0 0L56 56M56 0L0 56' opacity='0.45'/%3E%3Crect x='14' y='14' width='28' height='28' rx='4'/%3E%3C/g%3E%3C/svg%3E\")",
+              "url(\"data:image/svg+xml,%3Csvg width='56' height='56' viewBox='0 0 56 56' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%230D1C11' stroke-width='1'%3E%3Cpath d='M0 28H56M28 0V56M0 0L56 56M56 0L0 56' opacity='0.45'/%3E%3Crect x='14' y='14' width='28' height='28' rx='4'/%3E%3C/g%3E%3C/svg%3E\")",
             backgroundSize: '48px 48px',
           }}
         />
@@ -66,7 +66,7 @@ export function HeroSection({
         <svg
           viewBox="0 0 360 360"
           fill="none"
-          className="absolute -bottom-8 right-10 h-72 w-72 rotate-[26deg] text-[#0B2718]/[0.08] sm:h-88 sm:w-88"
+          className="absolute -bottom-8 right-10 h-72 w-72 rotate-[26deg] text-[#0D1C11]/[0.08] sm:h-88 sm:w-88"
         >
           <path
             d="M40 320C115 240 205 155 320 40"
@@ -97,7 +97,7 @@ export function HeroSection({
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 52% 65% at 16% 42%, rgba(20,66,40,0.22) 0%, transparent 70%)',
+            'radial-gradient(ellipse 52% 65% at 16% 42%, rgba(19,35,22,0.22) 0%, transparent 70%)',
         }}
       />
 
@@ -155,7 +155,7 @@ export function HeroSection({
               <button
                 type="button"
                 onClick={onExploreMenu}
-                className="group inline-flex min-h-[46px] items-center justify-center gap-2.5 whitespace-nowrap rounded-full bg-[#DFB96F] px-6 py-2.5 text-xs font-bold tracking-wide text-[#06180E] shadow-lg shadow-black/25 transition hover:bg-[#E8C988] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FAF6EC] sm:px-7 sm:text-sm"
+                className="group inline-flex min-h-[46px] items-center justify-center gap-2.5 whitespace-nowrap rounded-full bg-[#DFB96F] px-6 py-2.5 text-xs font-bold tracking-wide text-[#08130B] shadow-lg shadow-black/25 transition hover:bg-[#E8C988] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FAF6EC] sm:px-7 sm:text-sm"
               >
                 <span>Explore Our Menu</span>
                 <ArrowRight
@@ -208,50 +208,17 @@ export function HeroSection({
             </div>
           </div>
 
-          {/* Right Overhead Circular Matte-Stoneware Dish Showcase */}
+          {/* Right Overhead Circular Matte-Stoneware Dish Showcase Centered Over Warm Beige Curve */}
           <div className="relative flex items-center justify-center lg:col-span-6 lg:justify-end">
             <div
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
-              className="relative flex aspect-square w-[315px] items-center justify-center sm:w-[435px] lg:mr-8 lg:w-[515px] xl:mr-14 xl:w-[575px]"
+              className="relative flex aspect-square w-[340px] items-center justify-center sm:w-[465px] lg:w-[565px] lg:translate-x-10 xl:w-[645px] xl:translate-x-20 2xl:w-[690px] 2xl:translate-x-32"
             >
-              {/* Authentic PIYO Toyo-Calamansi-Sili Sawsawan Dipping Bowl Resting on Upper-Right Warm Beige */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -right-5 top-[4%] z-20 h-22 w-22 sm:-right-12 sm:top-[6%] sm:h-28 sm:w-28 lg:-right-16 xl:-right-22 xl:h-32 xl:w-32"
-              >
-                <div className="absolute inset-2 translate-x-1.5 translate-y-2.5 rounded-full bg-black/32 blur-md" />
-                <img
-                  src="./images/hero-side-sawsawan.png"
-                  alt=""
-                  className="relative h-full w-full select-none rounded-full object-contain drop-shadow-[0_12px_18px_rgba(6,24,14,0.34)]"
-                  draggable={false}
-                />
-              </div>
-
-              {/* Authentic PIYO House Pickled Papaya Atchara Bowl Resting on Lower-Right Warm Beige */}
-              <button
-                type="button"
-                onClick={() => onSelectDishById('atchara')}
-                aria-label="Inspect PIYO House Atchara — ₱33"
-                className="group absolute -bottom-3 -right-4 z-20 h-24 w-24 cursor-pointer rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#06180E] sm:-bottom-5 sm:-right-10 sm:h-30 sm:w-30 lg:-right-14 xl:-bottom-6 xl:-right-20 xl:h-34 xl:w-34"
-              >
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-2 translate-x-1.5 translate-y-2.5 rounded-full bg-black/30 blur-md"
-                />
-                <img
-                  src="./images/hero-side-atchara.png"
-                  alt="PIYO House Pickled Papaya Atchara in matte black stoneware ramekin"
-                  className="relative h-full w-full select-none rounded-full object-contain drop-shadow-[0_12px_18px_rgba(6,24,14,0.34)] transition-transform duration-300 group-hover:scale-105"
-                  draggable={false}
-                />
-              </button>
-
               {/* Realistic Soft Overhead Contact Shadow Under the Main Circular Plate */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-[4%] translate-x-3 translate-y-5 rounded-full bg-black/42 blur-2xl"
+                className="pointer-events-none absolute inset-[4%] translate-x-3 translate-y-5 rounded-full bg-black/45 blur-2xl"
               />
 
               {/* Cross-Fading Circular Overhead Matte-Stoneware PIYO Menu Plates */}
@@ -269,7 +236,7 @@ export function HeroSection({
                       src={plate.image}
                       alt={plate.alt}
                       draggable={false}
-                      className={`absolute inset-0 h-full w-full select-none rounded-full object-contain drop-shadow-[0_24px_34px_rgba(0,0,0,0.48)] transition-all duration-700 ease-out ${
+                      className={`absolute inset-0 h-full w-full select-none rounded-full object-contain drop-shadow-[0_26px_38px_rgba(0,0,0,0.52)] transition-all duration-700 ease-out ${
                         isActive
                           ? 'scale-100 rotate-0 opacity-100 group-hover:scale-[1.025]'
                           : 'pointer-events-none scale-95 -rotate-6 opacity-0'

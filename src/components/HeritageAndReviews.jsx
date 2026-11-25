@@ -8,12 +8,12 @@ export function HeritageAndReviews() {
       {/* Negros Heritage & Tagaytay Space Section */}
       <section
         id="heritage"
-        className="border-y border-[#0B2718]/15 bg-[#0B2718] py-12 text-[#FAF6EC] sm:py-16"
+        className="border-y border-[#0D1C11]/15 bg-[#0D1C11] py-12 text-[#FAF6EC] sm:py-16"
       >
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="grid items-center gap-8 lg:grid-cols-12">
             <div className="lg:col-span-6">
-              <span className="inline-block rounded-full border border-[#D8B36A]/45 bg-[#06180E]/60 px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#D8B36A]">
+              <span className="inline-block rounded-full border border-[#D8B36A]/45 bg-[#08130B]/60 px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#D8B36A]">
                 Our Story &amp; Atmosphere
               </span>
               <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight sm:text-4xl">
@@ -27,7 +27,7 @@ export function HeritageAndReviews() {
               </p>
 
               <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                <div className="rounded-2xl border border-white/10 bg-[#06180E]/65 p-4">
+                <div className="rounded-2xl border border-white/10 bg-[#08130B]/65 p-4">
                   <Wind className="h-5 w-5 text-[#D8B36A]" />
                   <h3 className="mt-2 text-sm font-bold text-[#FAF6EC]">
                     Fresh Indoor Comfort
@@ -37,7 +37,7 @@ export function HeritageAndReviews() {
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-[#06180E]/65 p-4">
+                <div className="rounded-2xl border border-white/10 bg-[#08130B]/65 p-4">
                   <Flame className="h-5 w-5 text-[#D8B36A]" />
                   <h3 className="mt-2 text-sm font-bold text-[#FAF6EC]">
                     Free Kansi Soup Refills
@@ -47,7 +47,7 @@ export function HeritageAndReviews() {
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-[#06180E]/65 p-4">
+                <div className="rounded-2xl border border-white/10 bg-[#08130B]/65 p-4">
                   <Users className="h-5 w-5 text-[#D8B36A]" />
                   <h3 className="mt-2 text-sm font-bold text-[#FAF6EC]">
                     6–8 Seater Family Tables
@@ -62,7 +62,7 @@ export function HeritageAndReviews() {
             {/* Collage Showcase */}
             <div className="grid grid-cols-2 gap-3 lg:col-span-6">
               <div className="space-y-3">
-                <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#06180E]">
+                <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#08130B]">
                   <img
                     src="./images/dish-silog.jpg"
                     alt="A Taste of Home Filipino breakfast silog plate"
@@ -78,7 +78,7 @@ export function HeritageAndReviews() {
                     </p>
                   </div>
                 </div>
-                <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#06180E]">
+                <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#08130B]">
                   <img
                     src="./images/dish-refreshers.jpg"
                     alt="PIYO Tropical Fruit Coolers and Shakes"
@@ -89,7 +89,7 @@ export function HeritageAndReviews() {
               </div>
 
               <div className="mt-5 space-y-3">
-                <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#06180E]">
+                <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#08130B]">
                   <img
                     src="./images/dish-pasta-pizza.jpg"
                     alt="Creamy Fettuccine and Filipino Pork Adobo Pizza"
@@ -97,7 +97,7 @@ export function HeritageAndReviews() {
                     className="aspect-[4/3] w-full object-cover"
                   />
                 </div>
-                <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#06180E]">
+                <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#08130B]">
                   <img
                     src="./images/dish-specials.jpg"
                     alt="Crispy Pata and Sizzling Sisig platter"
@@ -122,7 +122,7 @@ export function HeritageAndReviews() {
       {/* Customer Testimonials (Honoring PIYO's Torn-Parchment on Sage-Green Theme!) */}
       <section
         id="reviews"
-        className="relative overflow-hidden bg-[#0F2F1D] py-12 text-[#FAF6EC] sm:py-16"
+        className="relative overflow-hidden bg-[#112013] py-12 text-[#FAF6EC] sm:py-16"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(216,179,106,0.14),transparent_50%)]" />
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
@@ -157,7 +157,7 @@ export function HeritageAndReviews() {
                         />
                       ))}
                     </div>
-                    <Quote className="h-4 w-4 text-[#0B2718]/35" />
+                    <Quote className="h-4 w-4 text-[#0D1C11]/35" />
                   </div>
 
                   <p className="mt-3 text-sm leading-relaxed text-[#2C362D]">
@@ -165,10 +165,10 @@ export function HeritageAndReviews() {
                   </p>
                 </div>
 
-                <div className="mt-5 border-t border-[#0B2718]/15 pt-3.5">
+                <div className="mt-5 border-t border-[#0D1C11]/15 pt-3.5">
                   <div className="flex items-center justify-between gap-2">
                     <div>
-                      <p className="font-serif text-lg font-bold text-[#0B2718]">
+                      <p className="font-serif text-lg font-bold text-[#0D1C11]">
                         — {item.author}
                       </p>
                       <p className="text-[11px] font-medium text-[#4A5E4E]">
@@ -178,10 +178,10 @@ export function HeritageAndReviews() {
                     <img
                       src="./logo.svg"
                       alt="PIYO Verified Seal"
-                      className="h-9 w-9 rounded-full ring-1 ring-[#0B2718]/25"
+                      className="h-9 w-9 rounded-full ring-1 ring-[#0D1C11]/25"
                     />
                   </div>
-                  <p className="mt-2 rounded-lg bg-[#0B2718]/8 px-2.5 py-1 text-[11px] font-semibold text-[#0B2718]">
+                  <p className="mt-2 rounded-lg bg-[#0D1C11]/8 px-2.5 py-1 text-[11px] font-semibold text-[#0D1C11]">
                     Food: {item.ratings.food} · Service: {item.ratings.service} · Atmosphere:{' '}
                     {item.ratings.atmosphere}
                   </p>
