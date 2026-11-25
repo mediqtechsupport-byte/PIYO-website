@@ -63,7 +63,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           </div>
 
           {/* Serene Centered Display Serif Headline */}
-          <h2 className="mt-3.5 font-serif text-[2.25rem] font-normal leading-[1.08] tracking-[-0.02em] text-[#FAF6EC] drop-shadow-[0_4px_24px_rgba(4,16,9,0.85)] sm:text-5xl lg:text-[3.15rem]">
+          <h2 className="mt-3.5 font-serif text-[2.05rem] font-normal leading-[1.1] tracking-[-0.02em] text-[#FAF6EC] drop-shadow-[0_4px_24px_rgba(4,16,9,0.85)] sm:text-4xl lg:text-[2.65rem] xl:text-[2.85rem]">
             From Negros Hearth{' '}
             <span className="italic font-medium text-[#E0B96B]">
               to Tagaytay&rsquo;s Ridge.

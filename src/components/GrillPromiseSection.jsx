@@ -86,8 +86,8 @@ const LAYER_CHOREOGRAPHY = {
     idleDelay: '0.7s',
   },
   lemongrass: {
-    sx: '-555px',
-    sy: '-235px',
+    sx: '-510px',
+    sy: '-275px',
     srot: '-38deg',
     sscale: 0.9,
     delay: '640ms',
@@ -366,7 +366,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-10">
           {/* Left Editorial Column */}
           <div className="relative z-20 pb-2 lg:col-span-6 lg:pb-2">
-            <h2 className="font-serif text-[2.15rem] font-semibold leading-[1.12] tracking-tight text-[#0B2718] sm:text-5xl xl:text-[3.25rem]">
+            <h2 className="font-serif text-[2rem] font-semibold leading-[1.12] tracking-[-0.02em] text-[#0B2718] sm:text-[2.55rem] lg:text-[2.6rem] xl:text-[2.85rem]">
               PIYO&apos;s{' '}
               <span className="relative inline-block whitespace-nowrap">
                 <span className="relative z-10">#1 House Favorite</span>
@@ -391,8 +391,8 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                     opacity="0.35"
                   />
                 </svg>
-              </span>{' '}
-              — Authentic Bacolod Cansi
+              </span>
+              <span className="mt-1 block">Authentic Bacolod Cansi</span>
             </h2>
 
             <p className="mt-5 max-w-xl text-sm leading-relaxed text-[#425246] sm:text-[15px] sm:leading-7">
