@@ -296,8 +296,8 @@ export function SushiConveyorMenu({
   const geo = React.useMemo(() => {
     if (!size.stage || count === 0) return null;
     const span = halfSpan(makeGeo(1000, count, 100, kb)) / 100;
-    const cap = wide ? 172 : clamp(size.section * 0.143, 96, 150);
-    const fit = (size.stage - 8) / (2 * span);
+    const cap = wide ? 184 : clamp(size.section * 0.143, 96, 150);
+    const fit = (size.stage - 6) / (2 * span);
     return makeGeo(size.stage, count, Math.round(clamp(fit, Math.min(96, cap), cap)), kb);
   }, [size.stage, size.section, count, kb, wide]);
 
@@ -753,8 +753,8 @@ export function SushiConveyorMenu({
       {eyebrow && <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#DFB96F]">{eyebrow}</p>}
       {heading && (
         <h3
-          className={`text-balance font-serif font-semibold tracking-[-0.015em] text-[#F5EFE2] ${
-            wide ? "max-w-[18ch] text-[2.15rem] leading-[1.12] xl:text-[2.55rem]" : "max-w-[18ch] text-2xl leading-[1.18] md:text-[1.75rem]"
+          className={`font-serif font-semibold tracking-[-0.02em] text-[#F5EFE2] ${
+            wide ? "w-full text-[2.25rem] leading-[1.1] xl:text-[2.65rem]" : "max-w-[18ch] text-balance text-2xl leading-[1.18] md:text-[1.75rem]"
           }`}
         >
           {heading}
@@ -786,7 +786,7 @@ export function SushiConveyorMenu({
       data-caption
       className={
         wide
-          ? "min-h-[3.5rem] max-w-[42ch]"
+          ? "min-h-[3.5rem] w-full"
           : `mx-auto mt-2 max-w-md px-2 text-center ${narrow ? "min-h-[3.5rem]" : "min-h-[2.75rem]"}`
       }
     >
@@ -947,13 +947,13 @@ export function SushiConveyorMenu({
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10" style={{ background: "radial-gradient(64% 52% at 58% 54%, rgba(245,239,226,0.08), transparent 72%)" }} />
       {wide ? (
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,27.5rem)_minmax(0,1fr)] items-center gap-12 px-5 py-8 sm:px-8 lg:py-10 xl:gap-14">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,26rem)_minmax(0,1fr)] items-center gap-6 px-5 py-8 sm:px-8 lg:gap-8 lg:py-10">
           <div className="flex flex-col items-start gap-4">
             {header}
             {captionNode}
             {action}
           </div>
-          <div className="min-w-0 w-full">
+          <div className="min-w-0 w-full lg:-mt-7">
             {stage}
           </div>
         </div>
