@@ -5,6 +5,9 @@ import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 gsap.registerPlugin(ScrollTrigger)
+if (typeof window !== "undefined") {
+  ScrollTrigger.config({ ignoreMobileResize: true })
+}
 
 /*
  * Dish Orbit Carousel: a smart-kitchen-display menu. The plated dish sits on
@@ -132,8 +135,9 @@ const FONT = "dsh-face"
 
 const CSS =
   ".dsh-trk{position:relative;width:100%}" +
-  ".dsh-root{position:sticky;top:0;overflow:hidden;width:100%;background:var(--color-background);color:var(--color-foreground);" +
-  "font-family:" + FONT + ",ui-sans-serif,system-ui,sans-serif;container-type:inline-size;-webkit-tap-highlight-color:transparent}" +
+  ".dsh-root{position:-webkit-sticky;position:sticky;top:0;overflow:hidden;width:100%;background:var(--color-background);color:var(--color-foreground);" +
+  "font-family:" + FONT + ",ui-sans-serif,system-ui,sans-serif;-webkit-tap-highlight-color:transparent}" +
+  ".dsh-stage{position:relative;width:100%;height:100%;container-type:inline-size}" +
   ".dsh-root *{box-sizing:border-box}" +
   ".dsh-bd{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;pointer-events:none}" +
   ".dsh-wash{position:absolute;inset:0;background:color-mix(in oklab,var(--color-background) 38%,transparent);pointer-events:none}" +
@@ -328,8 +332,8 @@ export function DishOrbitCarousel({
         gsap.set([p.orbit, p.head, p.body], { autoAlpha: 0 })
       }
       gsap.set([b.orbit, b.head, b.body, b.eye], { autoAlpha: 1, rotation: 0, y: 0 })
-      gsap.set(b.t1, { clipPath: SHOW })
-      gsap.set(b.t2, { clipPath: SHOW })
+      gsap.set(b.t1, { clipPath: SHOW, WebkitClipPath: SHOW })
+      gsap.set(b.t2, { clipPath: SHOW, WebkitClipPath: SHOW })
       arc.current.a0 = rest[0]
       arc.current.a1 = rest[1]
       drawArc()
@@ -347,14 +351,14 @@ export function DishOrbitCarousel({
       .set(a.orbit, { autoAlpha: 0, rotation: 0 }, 0.62 * s)
       .fromTo(b.orbit, { autoAlpha: 1, rotation: -SWING * d }, { rotation: 0, duration: 0.95 * s, ease: "power3.out" }, 0.3 * s)
     // title: thin line clips away to the right, heavy line to the left, then the next wipes in
-    tl.to(a.t1, { clipPath: HIDE_1, duration: 0.42 * s, ease: "power2.in" }, 0)
-      .to(a.t2, { clipPath: HIDE_2, duration: 0.42 * s, ease: "power2.in" }, 0.06 * s)
+    tl.to(a.t1, { clipPath: HIDE_1, WebkitClipPath: HIDE_1, duration: 0.42 * s, ease: "power2.in" }, 0)
+      .to(a.t2, { clipPath: HIDE_2, WebkitClipPath: HIDE_2, duration: 0.42 * s, ease: "power2.in" }, 0.06 * s)
       .to(a.eye, { autoAlpha: 0, duration: 0.25 * s }, 0)
       .set(a.head, { autoAlpha: 0 }, 0.5 * s)
       .set(b.head, { autoAlpha: 1 }, 0.5 * s)
       .fromTo(b.eye, { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: 0.4 * s, ease: "power2.out" }, 0.55 * s)
-      .fromTo(b.t1, { clipPath: HIDE_1 }, { clipPath: SHOW, duration: 0.7 * s, ease: "power3.out" }, 0.55 * s)
-      .fromTo(b.t2, { clipPath: HIDE_2 }, { clipPath: SHOW, duration: 0.7 * s, ease: "power3.out" }, 0.62 * s)
+      .fromTo(b.t1, { clipPath: HIDE_1, WebkitClipPath: HIDE_1 }, { clipPath: SHOW, WebkitClipPath: SHOW, duration: 0.7 * s, ease: "power3.out" }, 0.55 * s)
+      .fromTo(b.t2, { clipPath: HIDE_2, WebkitClipPath: HIDE_2 }, { clipPath: SHOW, WebkitClipPath: SHOW, duration: 0.7 * s, ease: "power3.out" }, 0.62 * s)
     // card: cross-fade, the incoming rows rise in turn
     tl.to(a.body, { autoAlpha: 0, y: -6, duration: 0.3 * s, ease: "power1.in" }, 0.05 * s)
       .set(b.body, { autoAlpha: 1, y: 0 }, 0.4 * s)
@@ -497,6 +501,7 @@ export function DishOrbitCarousel({
       <style>
         {(fontSrc ? "@font-face{font-family:" + FONT + ";src:url(" + fontSrc + ") format('woff2');font-weight:100 900;font-display:swap}" : "") + CSS}
       </style>
+      <div className="dsh-stage">
       {backdrop ? <img className="dsh-bd" src={backdrop} alt="" width={1200} height={900} /> : null}
       {backdrop ? <div className="dsh-dim" /> : null}
       {backdrop ? <div className="dsh-wash" /> : null}
@@ -607,6 +612,7 @@ export function DishOrbitCarousel({
 
       </div>
       <p className="dsh-sr" aria-live="polite">{dish ? "Dish " + (index + 1) + " of " + n + ": " + dish.title + " " + dish.subtitle : ""}</p>
+      </div>
     </div>
     </div>
   )

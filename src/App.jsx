@@ -135,6 +135,10 @@ export default function App() {
   //    and multi-screen sections scroll naturally inside themselves.
   useEffect(() => {
     const CHAPTER_IDS = ['home', 'history', 'craft', 'spotlight'];
+    const isIOS =
+      typeof navigator !== 'undefined' &&
+      (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1));
     let lastScrollY = window.scrollY;
     let lastDir = 0;
     let isTouching = false;
@@ -224,16 +228,18 @@ export default function App() {
       window.scrollTo({ top: clamped, behavior: 'smooth' });
 
       if (flushTimer) window.clearTimeout(flushTimer);
-      flushTimer = window.setTimeout(() => {
-        if (isTouching || isInteractionBlocked()) return;
-        const delta = Math.abs(window.scrollY - clamped);
-        if (delta > 1 && delta <= 12) {
-          ScrollTrigger.getAll().forEach((st) => {
-            st.getTween?.()?.kill();
-          });
-          window.scrollTo({ top: clamped, behavior: 'instant' });
-        }
-      }, lockMs - 60);
+      if (!isIOS) {
+        flushTimer = window.setTimeout(() => {
+          if (isTouching || isInteractionBlocked()) return;
+          const delta = Math.abs(window.scrollY - clamped);
+          if (delta > 1 && delta <= 12) {
+            ScrollTrigger.getAll().forEach((st) => {
+              st.getTween?.()?.kill();
+            });
+            window.scrollTo({ top: clamped, behavior: 'instant' });
+          }
+        }, lockMs - 60);
+      }
     };
 
     const settleToCleanPage = () => {
@@ -248,7 +254,8 @@ export default function App() {
         0,
         document.documentElement.scrollHeight - window.innerHeight
       );
-      if (y <= 1 || maxScroll - y <= 16) return;
+      // Guard against iOS Safari negative rubber-band overscroll & bottom bounce
+      if (y <= 1 || y >= maxScroll - 16) return;
 
       const { pages } = getPageMetrics();
       if (pages.length < 2) return;

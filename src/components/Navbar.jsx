@@ -37,11 +37,16 @@ export function Navbar({
     if (!headerEl) return;
     let refreshTimer = null;
 
+    let lastNavH = 0;
+    let lastBottomH = -1;
+    let lastWidth = window.innerWidth;
+
     const syncChromeMetrics = () => {
       const navH = Math.ceil(headerEl.getBoundingClientRect().height);
       const bottomH = bottomEl
         ? Math.ceil(bottomEl.getBoundingClientRect().height)
         : 0;
+      const width = window.innerWidth;
       const root = document.documentElement;
       if (navH > 0) {
         root.style.setProperty('--nav-h', `${navH}px`);
@@ -52,10 +57,17 @@ export function Navbar({
         `calc(100svh - ${navH > 0 ? navH : 69}px - ${bottomH}px)`
       );
 
-      if (refreshTimer) window.clearTimeout(refreshTimer);
-      refreshTimer = window.setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 80);
+      // Only refresh ScrollTrigger when layout width or chrome bar heights actually change
+      // (avoids iOS Safari toolbar collapse/expand triggering mid-scroll jumps!)
+      if (navH !== lastNavH || bottomH !== lastBottomH || Math.abs(width - lastWidth) > 2) {
+        lastNavH = navH;
+        lastBottomH = bottomH;
+        lastWidth = width;
+        if (refreshTimer) window.clearTimeout(refreshTimer);
+        refreshTimer = window.setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 80);
+      }
     };
 
     syncChromeMetrics();
@@ -75,7 +87,7 @@ export function Navbar({
       {/* Top Header (Seamless Editorial Desktop Nav + Mobile App Header) */}
       <header
         ref={headerRef}
-        className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#08130B]/92 text-[#FAF6EC] backdrop-blur-md"
+        className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#08130B]/92 pt-[env(safe-area-inset-top)] text-[#FAF6EC] backdrop-blur-md"
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:px-8 md:py-3.5">
           {/* Editorial Serif Brand Crest & Wordmark */}

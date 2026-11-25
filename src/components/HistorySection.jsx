@@ -24,12 +24,12 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
   return (
     <section
       id="history"
-      className="relative flex min-h-[var(--stage-h)] flex-col items-center justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#08130B] pb-7 pt-[215px] text-[#FAF6EC] sm:pb-14 sm:pt-[285px] lg:pb-6 lg:pt-[clamp(165px,30svh,280px)] 2xl:pb-12 2xl:pt-[clamp(200px,33svh,320px)]"
+      className="relative flex min-h-[var(--stage-h)] flex-col items-center justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#08130B] pb-5 pt-[clamp(146px,25svh,215px)] text-[#FAF6EC] sm:pb-14 sm:pt-[285px] lg:pb-6 lg:pt-[clamp(165px,30svh,280px)] 2xl:pb-12 2xl:pt-[clamp(200px,33svh,320px)]"
     >
       {/* Mobile / Tablet Top-Framed PIYO Facade — Full Illuminated Gable & PIYO Sign Cleanly Above Text */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[315px] overflow-hidden sm:h-[380px] lg:hidden"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[clamp(220px,37svh,315px)] overflow-hidden sm:h-[380px] lg:hidden"
       >
         <img
           src="./images/piyo-place-mobile.jpg"

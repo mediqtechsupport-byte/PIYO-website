@@ -92,7 +92,7 @@ export function HeroSection({
       {/* Mobile / Tablet Curved Top Dark Obsidian-Pine Wave Framing the Plate Carousel Above the Text */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[215px] rounded-b-[46%] bg-gradient-to-b from-[#08130B] to-[#0D1C11] sm:h-[275px] lg:hidden"
+        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[min(215px,28svh)] rounded-b-[46%] bg-gradient-to-b from-[#08130B] to-[#0D1C11] sm:h-[275px] lg:hidden"
       />
 
       {/* Framing Warm Filipino Aromatics — Top-Left Corner (Cinnamon Bark, Dried Laurel Leaf & Star Anise) */}
@@ -222,7 +222,7 @@ export function HeroSection({
             <div
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
-              className="relative flex aspect-square w-[250px] items-center justify-center sm:w-[340px] lg:w-[min(520px,calc(var(--stage-h)-68px))] lg:translate-x-8 xl:w-[min(585px,calc(var(--stage-h)-68px))] xl:translate-x-12"
+              className="relative flex aspect-square w-[min(250px,33svh)] items-center justify-center sm:w-[340px] lg:w-[min(520px,calc(var(--stage-h)-68px))] lg:translate-x-8 xl:w-[min(585px,calc(var(--stage-h)-68px))] xl:translate-x-12"
             >
               {/* Realistic Soft Overhead Contact Shadow Under the Circular Plate */}
               <div

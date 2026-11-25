@@ -551,7 +551,7 @@ export function RestaurantMenuBoard({
             aria-label={`PIYO Filipino Menu — ${activeCategoryMeta.label}`}
           >
             {/* Pinned Slim Warm Sunlit Beige App Nav Header + Single-Row Scrollable Category Bar */}
-            <div className="relative z-20 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#ECE2CC] pb-2 pt-2 sm:pb-3.5 sm:pt-4">
+            <div className="relative z-20 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#ECE2CC] pb-2 pt-[max(0.5rem,env(safe-area-inset-top))] sm:pb-3.5 sm:pt-4">
               <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-4 h-24 w-36 text-[#0D1C11] opacity-80 sm:-top-3 sm:h-44 sm:w-64 sm:opacity-100" />
               <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-3 h-20 w-32 -scale-x-100 text-[#0D1C11] opacity-65 sm:-top-2 sm:h-40 sm:w-60 sm:opacity-75" />
 

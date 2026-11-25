@@ -255,8 +255,17 @@ const HIGHLIGHTS = [
 export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
   const sectionRef = useRef(null);
   const timersRef = useRef({ hold: null, settle: null });
+  const wasInViewRef = useRef(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0, hovered: false });
   const [replayKey, setReplayKey] = useState(0);
+  const [scatterMult, setScatterMult] = useState(() => {
+    if (typeof window === 'undefined') return 0.42;
+    const w = window.innerWidth;
+    if (w >= 1280) return 1;
+    if (w >= 1024) return 0.86;
+    if (w >= 640) return 0.62;
+    return 0.42;
+  });
   const [phase, setPhase] = useState(() => {
     if (
       typeof window !== 'undefined' &&
@@ -267,6 +276,16 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
     }
     return 'scattered';
   });
+
+  useEffect(() => {
+    const syncScatterMult = () => {
+      const w = window.innerWidth;
+      setScatterMult(w >= 1280 ? 1 : w >= 1024 ? 0.86 : w >= 640 ? 0.62 : 0.42);
+    };
+    syncScatterMult();
+    window.addEventListener('resize', syncScatterMult);
+    return () => window.removeEventListener('resize', syncScatterMult);
+  }, []);
 
   const clearTimers = () => {
     if (timersRef.current.hold) {
@@ -279,7 +298,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
     }
   };
 
-  const triggerBuildSequence = (holdMs = 700) => {
+  const triggerBuildSequence = (holdMs = 520) => {
     clearTimers();
     setPhase('scattered');
     setReplayKey((k) => k + 1);
@@ -309,14 +328,18 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
         const entry = entries[0];
         if (!entry) return;
 
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.18) {
-          triggerBuildSequence(700);
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.05) {
+          if (!wasInViewRef.current) {
+            wasInViewRef.current = true;
+            triggerBuildSequence(520);
+          }
         } else if (!entry.isIntersecting) {
+          wasInViewRef.current = false;
           clearTimers();
           setPhase('scattered');
         }
       },
-      { threshold: [0, 0.18, 0.35] },
+      { threshold: [0, 0.05, 0.2], rootMargin: '40px 0px' },
     );
 
     observer.observe(node);
@@ -328,10 +351,11 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
 
   const handleReplayClick = (e) => {
     e.currentTarget.blur();
-    triggerBuildSequence(760);
+    triggerBuildSequence(600);
   };
 
   const handleStageMove = (e) => {
+    if (e.pointerType !== 'mouse') return;
     const rect = e.currentTarget.getBoundingClientRect();
     const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
     const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
@@ -453,16 +477,22 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
               onPointerLeave={handleStageLeave}
               className="group relative flex h-[340px] w-full items-center justify-center pb-5 pt-1 sm:h-[480px] sm:py-2 lg:h-[clamp(370px,calc(var(--stage-h)-36px),600px)] 2xl:h-[clamp(440px,calc(var(--stage-h)-48px),665px)]"
             >
-              <button
-                type="button"
+              <div
+                role="button"
+                tabIndex={0}
                 onClick={handleReplayClick}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleReplayClick(e);
+                  }
+                }}
                 title="Touch me to replay animation"
                 aria-label="Replay Bacolod Cansi ingredient assembly animation"
-                className="relative mx-auto flex h-full w-auto cursor-pointer items-center justify-center rounded-3xl outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11]/35"
+                className="relative mx-auto flex h-full w-[min(86vw,300px)] cursor-pointer items-center justify-center rounded-3xl outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11]/35 sm:w-[410px] lg:w-auto"
                 style={{
                   aspectRatio: `${CANSI_STAGE_ASPECT}`,
                   maxWidth: '100%',
-                  perspective: '1000px',
                 }}
               >
                 {/* Subtle "Touch me" interactive hint centered below the bowl */}
@@ -475,12 +505,13 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#C29645]" />
                   <span>Touch me</span>
                 </span>
-                {/* 3D Tilting Master Stage */}
+                {/* Subtle Interactive Hover Stage (WebKit-safe flat compositing — no preserve-3d flatten bug) */}
                 <div
                   className="relative h-full w-full transition-transform duration-300 ease-out"
                   style={{
-                    transform: `rotateY(${(tilt.x * 6.5).toFixed(2)}deg) rotateX(${(-tilt.y * 5).toFixed(2)}deg) scale(${tilt.hovered ? 1.025 : 1})`,
-                    transformStyle: 'preserve-3d',
+                    transform: tilt.hovered
+                      ? `perspective(1000px) rotateY(${(tilt.x * 6.5).toFixed(2)}deg) rotateX(${(-tilt.y * 5).toFixed(2)}deg) scale(1.025)`
+                      : 'none',
                   }}
                 >
                   {/* Soft Natural Ground Shadow Underneath the Stoneware Bowl */}
@@ -505,43 +536,50 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                     <path
                       d="M95 190 C78 148, 114 114, 92 66 C80 42, 96 22, 106 8"
                       stroke="url(#piyo-steam-grad)"
-                      strokeWidth="8"
+                      strokeWidth="10"
                       strokeLinecap="round"
                       className="cansi-steam"
-                      style={{ animationDelay: '0s', filter: 'blur(5px)' }}
+                      style={{ animationDelay: '0s' }}
                     />
                     <path
                       d="M134 195 C152 152, 116 112, 140 62 C150 38, 134 18, 126 6"
                       stroke="url(#piyo-steam-grad)"
-                      strokeWidth="9"
+                      strokeWidth="11"
                       strokeLinecap="round"
                       className="cansi-steam"
-                      style={{ animationDelay: '1.5s', filter: 'blur(6px)' }}
+                      style={{ animationDelay: '1.5s' }}
                     />
                     <path
                       d="M170 184 C154 146, 182 110, 162 70 C154 52, 166 30, 174 16"
                       stroke="url(#piyo-steam-grad)"
-                      strokeWidth="7"
+                      strokeWidth="9"
                       strokeLinecap="round"
                       className="cansi-steam"
-                      style={{ animationDelay: '3.0s', filter: 'blur(5px)' }}
+                      style={{ animationDelay: '3.0s' }}
                     />
                     <defs>
                       <linearGradient id="piyo-steam-grad" x1="0" y1="1" x2="0" y2="0">
                         <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
-                        <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.62" />
+                        <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.45" />
                         <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
                       </linearGradient>
                     </defs>
                   </svg>
 
-                  {/* 16 Pixel-Accurate Layered Sprites: Bowl Waiting + Ingredients Scattering In */}
+                  {/* 16 Pixel-Accurate Layered Sprites: Direct WebKit-Safe Inline Transforms */}
                   {CANSI_LAYERS.map((layer) => {
                     const choreo = LAYER_CHOREOGRAPHY[layer.id] || {};
                     const isBowl = Boolean(choreo.isBowl);
                     const depth = choreo.depth ?? 1;
                     const parallaxX = tilt.hovered ? tilt.x * 9 * depth : 0;
                     const parallaxY = tilt.hovered ? tilt.y * 7 * depth : 0;
+                    const sxPx = (parseFloat(choreo.sx || '0') * scatterMult).toFixed(1);
+                    const syPx = (parseFloat(choreo.sy || '0') * scatterMult).toFixed(1);
+                    const srot = choreo.srot || '0deg';
+                    const sscale = choreo.sscale ?? 0.92;
+                    const sopacity = choreo.sopacity ?? 0.98;
+                    const flyDur = choreo.dur || '1750ms';
+                    const flyDelay = choreo.delay || '0ms';
 
                     return (
                       <div
@@ -554,8 +592,10 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                           width: `${layer.width}%`,
                           height: `${layer.height}%`,
                           zIndex: layer.zIndex,
-                          transform: `translate3d(${parallaxX.toFixed(1)}px, ${parallaxY.toFixed(1)}px, 0)`,
-                          transition: 'transform 320ms ease-out',
+                          transform: tilt.hovered
+                            ? `translate3d(${parallaxX.toFixed(1)}px, ${parallaxY.toFixed(1)}px, 0)`
+                            : undefined,
+                          transition: tilt.hovered ? 'transform 320ms ease-out' : undefined,
                         }}
                       >
                         {isBowl ? (
@@ -584,15 +624,17 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                         ) : (
                           <div
                             data-scattered={isScattered ? 'true' : 'false'}
-                            className="cansi-ingredient-fly h-full w-full"
+                            className="h-full w-full"
                             style={{
-                              '--sx': choreo.sx,
-                              '--sy': choreo.sy,
-                              '--srot': choreo.srot,
-                              '--sscale': choreo.sscale ?? 0.92,
-                              '--sopacity': choreo.sopacity ?? 0.98,
-                              '--fly-delay': choreo.delay,
-                              '--fly-dur': choreo.dur,
+                              willChange: 'transform, opacity',
+                              transform: isScattered
+                                ? `translate3d(${sxPx}px, ${syPx}px, 0px) rotate(${srot}) scale(${sscale})`
+                                : 'translate3d(0px, 0px, 0px) rotate(0deg) scale(1)',
+                              opacity: isScattered ? sopacity : 1,
+                              transitionProperty: 'transform, opacity',
+                              transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                              transitionDuration: isScattered ? '450ms' : flyDur,
+                              transitionDelay: isScattered ? '0ms' : flyDelay,
                             }}
                           >
                             <div
@@ -619,7 +661,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                     );
                   })}
                 </div>
-              </button>
+              </div>
             </div>
           </div>
         </div>
