@@ -943,17 +943,17 @@ export function SushiConveyorMenu({
       data-open={openIndex ?? ""}
       data-paused={paused || undefined}
       data-center={center}
-      className={`relative isolate w-full overflow-hidden text-[#F5EFE2] ${THEME} ${className ?? ""}`}
+      className={`relative isolate w-full overflow-x-clip text-[#F5EFE2] ${THEME} ${className ?? ""}`}
     >
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10" style={{ background: "radial-gradient(64% 52% at 58% 54%, rgba(245,239,226,0.08), transparent 72%)" }} />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10" style={{ background: "radial-gradient(64% 52% at 64% 54%, rgba(245,239,226,0.08), transparent 72%)" }} />
       {wide ? (
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,26rem)_minmax(0,1fr)] items-center gap-6 px-5 py-8 sm:px-8 lg:gap-8 lg:py-10">
-          <div className="flex flex-col items-start gap-4">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,25rem)_minmax(0,1fr)] items-center gap-12 px-5 py-8 sm:px-8 lg:gap-16 lg:py-10">
+          <div className="relative z-10 flex flex-col items-start gap-4">
             {header}
             {captionNode}
             {action}
           </div>
-          <div className="min-w-0 w-full lg:-mt-7">
+          <div className="min-w-0 w-full lg:-mt-7 lg:translate-x-6 xl:translate-x-14 2xl:translate-x-28">
             {stage}
           </div>
         </div>
