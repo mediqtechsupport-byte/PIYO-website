@@ -296,7 +296,7 @@ export function SushiConveyorMenu({
   const geo = React.useMemo(() => {
     if (!size.stage || count === 0) return null;
     const span = halfSpan(makeGeo(1000, count, 100, kb)) / 100;
-    const cap = wide ? 150 : clamp(size.section * 0.143, 96, 150);
+    const cap = wide ? 172 : clamp(size.section * 0.143, 96, 150);
     const fit = (size.stage - 8) / (2 * span);
     return makeGeo(size.stage, count, Math.round(clamp(fit, Math.min(96, cap), cap)), kb);
   }, [size.stage, size.section, count, kb, wide]);
@@ -749,12 +749,12 @@ export function SushiConveyorMenu({
   const control = "inline-flex size-9 items-center justify-center rounded-full border border-[#DFD0B2]/45 bg-[#F5EFE2] text-[#0B2718] shadow-md outline-none transition-colors hover:bg-[#E7DBC3] focus-visible:ring-2 focus-visible:ring-[#DFB96F] motion-reduce:transition-none";
 
   const header = (eyebrow || heading || tiers.length > 0) && (
-    <div className={wide ? "flex w-full flex-col items-start gap-2.5 text-left" : "flex flex-col items-center gap-2 px-2 text-center"}>
-      {eyebrow && <p className="text-[10.5px] font-semibold uppercase tracking-[0.22em] text-[#DFB96F]">{eyebrow}</p>}
+    <div className={wide ? "flex w-full flex-col items-start gap-3 text-left" : "flex flex-col items-center gap-2 px-2 text-center"}>
+      {eyebrow && <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#DFB96F]">{eyebrow}</p>}
       {heading && (
         <h3
           className={`text-balance font-serif font-semibold tracking-[-0.015em] text-[#F5EFE2] ${
-            wide ? "max-w-[15ch] text-[1.9rem] leading-[1.14] xl:text-[2.25rem]" : "max-w-[18ch] text-2xl leading-[1.18] md:text-[1.75rem]"
+            wide ? "max-w-[18ch] text-[2.15rem] leading-[1.12] xl:text-[2.55rem]" : "max-w-[18ch] text-2xl leading-[1.18] md:text-[1.75rem]"
           }`}
         >
           {heading}
@@ -764,7 +764,7 @@ export function SushiConveyorMenu({
         <ul
           aria-hidden="true"
           data-legend
-          className={`mt-1 flex w-full flex-wrap items-center gap-x-3.5 gap-y-1.5 border-y border-[#DFB96F]/18 py-2.5 text-[11px] font-medium tabular-nums text-[#D2DDD4] ${
+          className={`mt-1 flex w-full flex-wrap items-center gap-x-4 gap-y-1.5 border-y border-[#DFB96F]/18 py-2.5 text-xs font-medium tabular-nums text-[#D2DDD4] ${
             wide ? "justify-start" : "justify-center border-none py-1"
           } ${narrow ? "max-w-[15rem]" : ""}`}
         >
@@ -786,14 +786,14 @@ export function SushiConveyorMenu({
       data-caption
       className={
         wide
-          ? "min-h-[3.25rem] max-w-[34ch]"
+          ? "min-h-[3.5rem] max-w-[42ch]"
           : `mx-auto mt-2 max-w-md px-2 text-center ${narrow ? "min-h-[3.5rem]" : "min-h-[2.75rem]"}`
       }
     >
-      <p className={`text-[13px] leading-relaxed ${current ? "font-semibold text-[#F5EFE2]" : "text-[#C6D5CA]"}`}>
+      <p className={`text-sm leading-relaxed ${current ? "font-semibold text-[#F5EFE2]" : "text-[#C6D5CA]"}`}>
         {current ? <>{current.name} <span className="font-bold tabular-nums text-[#DFB96F]">· {current.price}</span></> : caption}
       </p>
-      {current?.description && <p className="mt-1 text-xs leading-relaxed text-[#B8C9BD]">{current.description}</p>}
+      {current?.description && <p className="mt-1 text-[13px] leading-relaxed text-[#B8C9BD]">{current.description}</p>}
     </div>
   );
 
@@ -947,13 +947,13 @@ export function SushiConveyorMenu({
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10" style={{ background: "radial-gradient(64% 52% at 58% 54%, rgba(245,239,226,0.08), transparent 72%)" }} />
       {wide ? (
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,22rem)_minmax(0,1fr)] items-center gap-10 px-5 py-8 sm:px-8 lg:py-10">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,27.5rem)_minmax(0,1fr)] items-center gap-12 px-5 py-8 sm:px-8 lg:py-10 xl:gap-14">
           <div className="flex flex-col items-start gap-4">
             {header}
             {captionNode}
             {action}
           </div>
-          <div className="min-w-0">
+          <div className="min-w-0 w-full">
             {stage}
           </div>
         </div>
