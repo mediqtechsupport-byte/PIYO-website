@@ -24,18 +24,18 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
   return (
     <section
       id="history"
-      className="relative flex min-h-[var(--stage-h)] flex-col items-center justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#08130B] pb-5 pt-[clamp(146px,25svh,215px)] text-[#FAF6EC] sm:pb-14 sm:pt-[285px] lg:pb-6 lg:pt-[clamp(165px,30svh,280px)] 2xl:pb-12 2xl:pt-[clamp(200px,33svh,320px)]"
+      className="relative flex min-h-[var(--stage-h)] flex-col items-center justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#08130B] pb-5 pt-[clamp(146px,25svh,215px)] text-[#FAF6EC] sm:pb-12 sm:pt-[clamp(260px,42svh,440px)] lg:pb-6 lg:pt-[clamp(165px,30svh,280px)] 2xl:pb-12 2xl:pt-[clamp(200px,33svh,320px)]"
     >
-      {/* Mobile / Tablet Top-Framed PIYO Facade — Full Illuminated Gable & PIYO Sign Cleanly Above Text */}
+      {/* Mobile / Fold / Tablet Top-Framed PIYO Facade — Full Illuminated Gable & PIYO Sign Centered Above Text */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[clamp(220px,37svh,315px)] overflow-hidden sm:h-[380px] lg:hidden"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[clamp(220px,37svh,315px)] overflow-hidden sm:h-[clamp(360px,58svh,580px)] lg:hidden"
       >
         <img
           src="./images/piyo-place-mobile.jpg"
           alt=""
           loading="lazy"
-          className="h-full w-full object-cover object-[15%_18%] opacity-90 brightness-[0.96] contrast-[1.06] saturate-[0.98]"
+          className="h-full w-full object-cover object-[15%_18%] opacity-90 brightness-[0.96] contrast-[1.06] saturate-[0.98] sm:translate-x-[10.5%] sm:scale-[1.2] sm:object-[50%_20%]"
         />
         {/* Subtle side vignette so roof eaves melt naturally into #08130B */}
         <div
