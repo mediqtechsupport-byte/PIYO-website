@@ -13,7 +13,11 @@ if (!fs.existsSync(distDir)) {
   process.exit(1);
 }
 
-const stageDir = fs.mkdtempSync(path.join(os.tmpdir(), 'piyo-gh-pages-'));
+const stageDir = path.join(rootDir, '.gh-pages-stage');
+if (fs.existsSync(stageDir)) {
+  fs.rmSync(stageDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 250 });
+}
+fs.mkdirSync(stageDir, { recursive: true });
 
 const remoteUrl = execFileSync(
   'git',
@@ -38,6 +42,8 @@ try {
 
   runGit(['init', '-b', 'gh-pages']);
   runGit(['config', 'core.autocrlf', 'false']);
+  runGit(['config', 'core.fsync', 'none']);
+  runGit(['config', 'gc.auto', '0']);
   runGit(['config', 'user.name', 'mediqtechsupport-byte']);
   runGit([
     'config',
