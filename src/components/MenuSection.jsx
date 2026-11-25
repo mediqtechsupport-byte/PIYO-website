@@ -321,7 +321,7 @@ export function MenuSection({
   return (
     <section
       id="menu"
-      className="relative flex min-h-[calc(100svh-var(--nav-h,69px))] flex-col overflow-x-clip border-t border-[#DFB96F]/15 bg-[#08130B] p-0 text-[#FAF6EC]"
+      className="relative flex min-h-[var(--stage-h)] flex-col overflow-x-clip border-t border-[#DFB96F]/15 bg-[#08130B] p-0 text-[#FAF6EC]"
     >
       <RestaurantMenuBoard
         selectedCat={boardCategory}
@@ -329,6 +329,7 @@ export function MenuSection({
         trayItems={trayItems}
         onQuickAdd={onQuickAdd}
         onUpdateTrayQty={onUpdateTrayQty}
+        onSelectDish={onSelectDish}
         onCustomizeDish={handleCustomizeDish}
         onOpenTray={onOpenTray}
       />
@@ -362,9 +363,9 @@ export function MenuSection({
             </span>
           </div>
 
-          {/* Center Icon Category Tabs */}
+          {/* Center Icon Category Tabs — Wrapped Cleanly on Mobile so Every Category Is Visible & Tappable */}
           <div
-            className="order-3 flex w-full min-w-0 items-center gap-0.5 overflow-x-auto no-scrollbar pb-0.5 pt-1 lg:order-2 lg:w-auto lg:py-0"
+            className="order-3 flex w-full min-w-0 flex-wrap items-center justify-center gap-1 pb-0.5 pt-1 lg:order-2 lg:w-auto lg:flex-nowrap lg:justify-start lg:gap-0.5 lg:py-0"
             role="tablist"
             aria-label="Menu categories"
           >
@@ -521,7 +522,14 @@ export function MenuSection({
               )}
 
               {/* Horizontal Pill Strip to Switch Featured Dish */}
-              <div className="mt-3.5 flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+              <div
+                onWheel={(e) => {
+                  if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                    e.currentTarget.scrollLeft += e.deltaY;
+                  }
+                }}
+                className="mt-3.5 flex items-center gap-2 overflow-x-auto pb-1.5"
+              >
                 {filteredItems.length > 0 ? (
                   filteredItems.map((item) => {
                     const isSelected = featuredDish?.id === item.id;

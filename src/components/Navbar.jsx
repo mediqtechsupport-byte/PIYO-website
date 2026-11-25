@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
   Home,
   UtensilsCrossed,
@@ -24,25 +25,48 @@ export function Navbar({
   trayCount,
   onOpenTray,
   openStatus,
+  activeOrderStatus = null,
+  activeOrdersCount = 0,
 }) {
   const headerRef = useRef(null);
+  const bottomNavRef = useRef(null);
 
   useEffect(() => {
-    const el = headerRef.current;
-    if (!el) return;
-    const syncNavHeight = () => {
-      const h = Math.floor(el.getBoundingClientRect().height);
-      if (h > 0) {
-        document.documentElement.style.setProperty('--nav-h', `${h}px`);
+    const headerEl = headerRef.current;
+    const bottomEl = bottomNavRef.current;
+    if (!headerEl) return;
+    let refreshTimer = null;
+
+    const syncChromeMetrics = () => {
+      const navH = Math.ceil(headerEl.getBoundingClientRect().height);
+      const bottomH = bottomEl
+        ? Math.ceil(bottomEl.getBoundingClientRect().height)
+        : 0;
+      const root = document.documentElement;
+      if (navH > 0) {
+        root.style.setProperty('--nav-h', `${navH}px`);
       }
+      root.style.setProperty('--bottom-nav-h', `${bottomH}px`);
+      root.style.setProperty(
+        '--stage-h',
+        `calc(100svh - ${navH > 0 ? navH : 69}px - ${bottomH}px)`
+      );
+
+      if (refreshTimer) window.clearTimeout(refreshTimer);
+      refreshTimer = window.setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 80);
     };
-    syncNavHeight();
-    const ro = new ResizeObserver(syncNavHeight);
-    ro.observe(el);
-    window.addEventListener('resize', syncNavHeight);
+
+    syncChromeMetrics();
+    const ro = new ResizeObserver(syncChromeMetrics);
+    ro.observe(headerEl);
+    if (bottomEl) ro.observe(bottomEl);
+    window.addEventListener('resize', syncChromeMetrics);
     return () => {
+      if (refreshTimer) window.clearTimeout(refreshTimer);
       ro.disconnect();
-      window.removeEventListener('resize', syncNavHeight);
+      window.removeEventListener('resize', syncChromeMetrics);
     };
   }, []);
 
@@ -106,32 +130,85 @@ export function Navbar({
             })}
           </nav>
 
-          {/* Right Action Cluster */}
+          {/* Right Action Cluster — Minimal Equal-Size Circular Icons on Mobile, Full Pills on Desktop */}
           <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
-            {/* Quick Call on Mobile */}
+            {/* Quick Call Icon on Mobile */}
             <a
               href={`tel:${RESTAURANT_INFO.mobileTel}`}
-              className="inline-flex min-h-[36px] shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/20 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-[#FAF6EC] transition hover:bg-white/10 md:hidden"
+              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/[0.05] text-[#FAF6EC] transition hover:border-[#DFB96F]/50 hover:bg-white/10 md:hidden"
               aria-label="Call PIYO Grill"
+              title="Call PIYO Grill"
             >
-              <Phone className="h-3.5 w-3.5 shrink-0 text-[#DFB96F]" />
-              <span>Call</span>
+              <Phone className="h-4 w-4 text-[#DFB96F]" />
             </a>
 
-            {/* Tray Button */}
+            {/* Tray Button — Same 36x36 Minimal Circle on Mobile, Full Badge Pill on Desktop */}
             <button
               type="button"
               onClick={onOpenTray}
-              className="relative inline-flex min-h-[38px] shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-white/15 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-[#FAF6EC] transition hover:border-white/30 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
+              className="relative inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/[0.05] text-[#FAF6EC] transition hover:border-[#DFB96F]/50 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] md:h-auto md:min-h-[38px] md:w-auto md:gap-1.5 md:rounded-lg md:border-white/15 md:bg-white/[0.04] md:px-3 md:py-1.5 md:text-xs md:font-medium md:hover:border-white/30"
               aria-label={`Open order tray with ${trayCount} items`}
+              title="Open order tray"
             >
-              <ShoppingBag className="h-3.5 w-3.5 shrink-0 text-[#DFB96F]" />
-              <span className="md:hidden">Tray</span>
-              {trayCount > 0 && (
-                <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[#DFB96F] px-1 text-[10px] font-bold text-[#08130B]">
+              <ShoppingBag className="h-4 w-4 shrink-0 text-[#DFB96F] md:h-3.5 md:w-3.5" />
+
+              {/* Mobile Minimal Corner Badge (never expands button width) */}
+              {trayCount > 0 ? (
+                <span className="absolute -right-1 -top-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[#DFB96F] px-1 text-[10px] font-extrabold text-[#08130B] ring-2 ring-[#08130B] md:static md:right-auto md:top-auto md:ring-0">
                   {trayCount}
                 </span>
-              )}
+              ) : activeOrderStatus &&
+                activeOrderStatus !== 'completed' &&
+                activeOrderStatus !== 'cancelled' ? (
+                <>
+                  {/* Mobile Live Status Dot */}
+                  <span
+                    className={`absolute -right-0.5 -top-0.5 flex h-3 w-3 items-center justify-center rounded-full ring-2 ring-[#08130B] md:hidden ${
+                      activeOrderStatus === 'ready'
+                        ? 'bg-emerald-400'
+                        : 'bg-[#DFB96F]'
+                    }`}
+                  >
+                    <span
+                      className={`h-full w-full animate-ping rounded-full opacity-75 ${
+                        activeOrderStatus === 'ready'
+                          ? 'bg-emerald-300'
+                          : 'bg-[#DFB96F]'
+                      }`}
+                    />
+                  </span>
+
+                  {/* Desktop Status Pill */}
+                  <span
+                    className={`hidden items-center gap-1 rounded-full px-1.5 py-0.5 text-[10px] font-bold md:inline-flex ${
+                      activeOrderStatus === 'ready'
+                        ? 'bg-emerald-400 text-emerald-950'
+                        : 'bg-[#DFB96F]/20 text-[#DFB96F]'
+                    }`}
+                  >
+                    <span
+                      className={`h-1.5 w-1.5 rounded-full ${
+                        activeOrderStatus === 'ready'
+                          ? 'bg-emerald-900'
+                          : 'animate-pulse bg-[#DFB96F]'
+                      }`}
+                    />
+                    <span>
+                      {activeOrderStatus === 'ready'
+                        ? activeOrdersCount > 1
+                          ? `${activeOrdersCount} · Ready!`
+                          : 'Ready!'
+                        : activeOrdersCount > 1
+                        ? `${activeOrdersCount} Live`
+                        : activeOrderStatus === 'preparing'
+                        ? 'Cooking'
+                        : activeOrderStatus === 'accepted'
+                        ? 'Accepted'
+                        : 'Live'}
+                    </span>
+                  </span>
+                </>
+              ) : null}
             </button>
 
             {/* Verdeo-Style Warm Gold Book a Table CTA (Desktop) */}
@@ -164,6 +241,7 @@ export function Navbar({
 
       {/* Native-Style Mobile Bottom Navigation Bar */}
       <nav
+        ref={bottomNavRef}
         className="fixed inset-x-0 bottom-0 z-40 border-t border-[#0D1C11]/15 bg-[#FAF6EC]/95 backdrop-blur-lg shadow-[0_-4px_20px_rgba(13,28,17,0.1)] md:hidden pb-safe"
         aria-label="Mobile bottom navigation"
       >

@@ -24,10 +24,42 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
   return (
     <section
       id="history"
-      className="relative flex flex-col items-center justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#08130B] pb-14 pt-52 text-[#FAF6EC] sm:pb-16 sm:pt-60 lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:pb-14 lg:pt-[300px] xl:pb-16 xl:pt-[320px]"
+      className="relative flex min-h-[var(--stage-h)] flex-col items-center justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#08130B] pb-7 pt-[215px] text-[#FAF6EC] sm:pb-14 sm:pt-[285px] lg:pb-6 lg:pt-[clamp(165px,30svh,280px)] 2xl:pb-12 2xl:pt-[clamp(200px,33svh,320px)]"
     >
-      {/* Full-Bleed Centered PIYO Facade — Illuminated Roof & PIYO Sign Clearly Visible at Top */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+      {/* Mobile / Tablet Top-Framed PIYO Facade — Full Illuminated Gable & PIYO Sign Cleanly Above Text */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[315px] overflow-hidden sm:h-[380px] lg:hidden"
+      >
+        <img
+          src="./images/piyo-place-mobile.jpg"
+          alt=""
+          loading="lazy"
+          className="h-full w-full object-cover object-[15%_18%] opacity-90 brightness-[0.96] contrast-[1.06] saturate-[0.98]"
+        />
+        {/* Subtle side vignette so roof eaves melt naturally into #08130B */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(90deg, rgba(8,19,11,0.55) 0%, rgba(8,19,11,0) 14%, rgba(8,19,11,0) 86%, rgba(8,19,11,0.55) 100%)',
+          }}
+        />
+        {/* Crisp unobstructed sign at top, dissolving smoothly into solid #08130B behind the story copy */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(180deg, rgba(8,19,11,0.35) 0%, rgba(8,19,11,0.04) 22%, rgba(8,19,11,0.08) 54%, rgba(8,19,11,0.74) 78%, #08130B 97%)',
+          }}
+        />
+      </div>
+
+      {/* Desktop Full-Bleed Centered PIYO Facade — Illuminated Roof & PIYO Sign Clearly Visible at Top */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 hidden lg:block"
+      >
         <img
           src="./images/piyo-place-mobile.jpg"
           alt=""
@@ -53,17 +85,17 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
       </div>
 
       {/* Centered Ultra-Minimalist Editorial Content Positioned Cleanly Below the Illuminated PIYO Sign */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-8">
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
           {/* Quiet Symmetrical Eyebrow */}
-          <div className="flex items-center justify-center gap-3 text-[11px] font-medium uppercase tracking-[0.26em] text-[#DFB96F]">
-            <span className="h-px w-8 bg-[#DFB96F]/45" aria-hidden="true" />
+          <div className="flex items-center justify-center gap-2.5 text-[10px] font-medium uppercase tracking-[0.24em] text-[#DFB96F] sm:gap-3 sm:text-[11px] sm:tracking-[0.26em]">
+            <span className="h-px w-6 bg-[#DFB96F]/45 sm:w-8" aria-hidden="true" />
             <span>Our Story · {RESTAURANT_INFO.established}</span>
-            <span className="h-px w-8 bg-[#DFB96F]/45" aria-hidden="true" />
+            <span className="h-px w-6 bg-[#DFB96F]/45 sm:w-8" aria-hidden="true" />
           </div>
 
           {/* Serene Centered Display Serif Headline */}
-          <h2 className="mt-3.5 font-serif text-[2.05rem] font-normal leading-[1.1] tracking-[-0.02em] text-[#FAF6EC] drop-shadow-[0_4px_24px_rgba(5,13,7,0.85)] sm:text-4xl lg:text-[2.65rem] xl:text-[2.85rem]">
+          <h2 className="mt-2 font-serif text-[1.8rem] font-normal leading-[1.08] tracking-[-0.02em] text-[#FAF6EC] drop-shadow-[0_4px_24px_rgba(5,13,7,0.85)] sm:mt-3.5 sm:text-4xl lg:mt-2.5 lg:text-[2.25rem] 2xl:mt-3.5 2xl:text-[2.85rem]">
             From Negros Hearth{' '}
             <span className="italic font-medium text-[#E0B96B]">
               to Tagaytay&rsquo;s Ridge.
@@ -71,36 +103,39 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           </h2>
 
           {/* Single Poetic Breathing Sentence */}
-          <p className="mt-3.5 max-w-xl text-sm leading-6 text-[#DDE8E1] sm:text-[15px] sm:leading-7">
+          <p className="mt-2.5 max-w-xl text-[13px] leading-[1.52] text-[#DDE8E1] sm:mt-3.5 sm:text-[15px] sm:leading-7 lg:mt-2.5 lg:text-sm lg:leading-6 2xl:mt-3.5 2xl:text-[15px] 2xl:leading-7">
             Honest batwan-soured cansi and live outdoor charcoal sinugba —
             served in a quiet, smoke-free sanctuary along Km.&nbsp;64.
           </p>
 
           {/* Clean Symmetrical 3-Column Minimalist Pillar Strip */}
-          <dl className="mt-7 grid w-full max-w-2xl grid-cols-1 divide-y divide-[#FAF6EC]/12 border-y border-[#FAF6EC]/15 bg-[#08130B]/45 backdrop-blur-[2px] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          <dl className="mt-5 grid w-full max-w-2xl grid-cols-3 divide-x divide-[#FAF6EC]/12 border-y border-[#FAF6EC]/15 bg-[#08130B]/45 backdrop-blur-[2px] sm:mt-7 lg:mt-4 2xl:mt-7">
             {PILLARS.map((item) => (
-              <div key={item.num} className="px-5 py-3.5 sm:py-4">
-                <dt className="font-serif text-xs italic text-[#DFB96F]">
+              <div key={item.num} className="px-2 py-2.5 sm:px-5 sm:py-4 lg:py-2.5 2xl:py-4">
+                <dt className="font-serif text-[11px] italic text-[#DFB96F] sm:text-xs">
                   {item.num}
                 </dt>
-                <dd className="mt-0.5 font-serif text-base font-medium tracking-wide text-[#FAF6EC]">
+                <dd className="mt-0.5 font-serif text-[13px] font-medium leading-tight tracking-wide text-[#FAF6EC] sm:text-base">
                   {item.title}
                 </dd>
-                <p className="mt-0.5 text-xs text-[#BDD0C4]">{item.note}</p>
+                <p className="mt-0.5 text-[10.5px] leading-snug text-[#BDD0C4] sm:text-xs">
+                  {item.note}
+                </p>
               </div>
             ))}
           </dl>
 
-          {/* Centered Minimalist Actions */}
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-4">
+          {/* Centered Minimalist Actions — Equal-Size Minimal Pills on Mobile */}
+          <div className="mt-5 grid w-full max-w-[330px] grid-cols-2 gap-2.5 sm:mt-7 sm:flex sm:w-auto sm:max-w-none sm:flex-wrap sm:items-center sm:justify-center sm:gap-4 lg:mt-4 2xl:mt-7">
             <button
               type="button"
               onClick={onExploreCraft}
-              className="group inline-flex min-h-[44px] items-center gap-2.5 rounded-full bg-[#DFB96F] px-7 py-2.5 text-xs font-bold tracking-wide text-[#08130B] shadow-lg transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:text-sm"
+              className="group inline-flex h-[40px] w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#DFB96F] px-3 text-[11.5px] font-bold tracking-wide text-[#08130B] shadow-lg transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:h-auto sm:min-h-[44px] sm:w-auto sm:gap-2.5 sm:px-7 sm:py-2.5 sm:text-sm"
             >
-              <span>See #1 House Cansi</span>
+              <span className="sm:hidden">#1 House Cansi</span>
+              <span className="hidden sm:inline">See #1 House Cansi</span>
               <ArrowRight
-                className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                className="h-3.5 w-3.5 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 sm:h-4 sm:w-4"
                 aria-hidden="true"
               />
             </button>
@@ -108,9 +143,12 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
             <button
               type="button"
               onClick={onVisitPlace}
-              className="group inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[#FAF6EC]/25 bg-[#08130B]/55 px-6 py-2.5 text-xs font-medium tracking-wide text-[#FAF6EC] backdrop-blur-xs transition hover:border-[#DFB96F]/60 hover:text-[#DFB96F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:text-sm"
+              className="group inline-flex h-[40px] w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#FAF6EC]/25 bg-[#08130B]/55 px-3 text-[11.5px] font-medium tracking-wide text-[#FAF6EC] backdrop-blur-xs transition hover:border-[#DFB96F]/60 hover:text-[#DFB96F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:h-auto sm:min-h-[44px] sm:w-auto sm:gap-2 sm:px-6 sm:py-2.5 sm:text-sm"
             >
-              <MapPin className="h-3.5 w-3.5 text-[#DFB96F]" aria-hidden="true" />
+              <MapPin
+                className="h-3.5 w-3.5 shrink-0 text-[#DFB96F]"
+                aria-hidden="true"
+              />
               <span>Directions · Km. 64</span>
             </button>
           </div>

@@ -64,7 +64,7 @@ export function VisitAndReserveSection({ openStatus }) {
   return (
     <section
       id="visit"
-      className="relative overflow-hidden border-t border-[#DFB96F]/15 bg-[#08130B] py-16 text-[#FAF6EC] sm:py-20 lg:py-24"
+      className="relative overflow-hidden border-t border-[#DFB96F]/15 bg-[#08130B] py-0 text-[#FAF6EC] lg:flex lg:min-h-[var(--stage-h)] lg:items-center lg:py-8 xl:py-14"
     >
       {/* Subtle Ambient Warm Gold & Deep Emerald Radial Atmosphere */}
       <div
@@ -76,24 +76,27 @@ export function VisitAndReserveSection({ openStatus }) {
         }}
       />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12 xl:gap-14">
-          {/* Left Column: Premier Location, Hours, Warm Beige Space Card & Direct Contacts */}
-          <div className="space-y-5 lg:col-span-5">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
+        <div className="grid items-start gap-0 lg:grid-cols-12 lg:gap-12 xl:gap-14">
+          {/* Left Column (Desktop) / Second Page After Book a Table (Mobile): Premier Location, Hours, Warm Beige Space Card & Direct Contacts */}
+          <div
+            id="visit-info"
+            className="order-2 flex min-h-[var(--stage-h)] flex-col justify-center space-y-3.5 py-5 sm:space-y-5 sm:py-10 lg:order-1 lg:col-span-5 lg:block lg:min-h-0 lg:py-0"
+          >
             <div>
               {/* Premier Location Pill */}
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#DFB96F]/30 bg-[#0B190F] px-3.5 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-[#DFB96F]">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#DFB96F]/30 bg-[#0B190F] px-3 py-0.5 text-[9.5px] font-bold uppercase tracking-[0.2em] text-[#DFB96F] sm:px-3.5 sm:py-1 sm:text-[10px] sm:tracking-[0.22em]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#DFB96F]" aria-hidden="true" />
                 Premier Location
               </span>
 
               {/* Stacked High-Contrast Display Heading */}
-              <h2 className="mt-4 font-serif text-4xl font-semibold uppercase leading-[1.02] tracking-tight text-[#FAF6EC] sm:text-[2.85rem]">
+              <h2 className="mt-2.5 font-serif text-[2.1rem] font-semibold uppercase leading-[1.02] tracking-tight text-[#FAF6EC] sm:mt-4 sm:text-[2.85rem]">
                 PIYO
                 <span className="block text-[#DFB96F]">Tagaytay</span>
               </h2>
 
-              <p className="mt-4 max-w-[38ch] text-sm leading-relaxed text-[#B7C9BE]">
+              <p className="mt-2 max-w-[38ch] text-xs leading-relaxed text-[#B7C9BE] sm:mt-4 sm:text-sm">
                 Elevated dining along the Tagaytay–Nasugbu Highway. Experience
                 misty mornings and cozy evening Cansi in a space designed for
                 warm hospitality.
@@ -103,7 +106,7 @@ export function VisitAndReserveSection({ openStatus }) {
             <div className="h-px w-full bg-[#FAF6EC]/10" aria-hidden="true" />
 
             {/* Operating Hours Dark Forest Card */}
-            <div className="relative overflow-hidden rounded-2xl border border-[#DFB96F]/20 bg-gradient-to-b from-[#112013]/95 to-[#0A170E]/95 p-5 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.55)]">
+            <div className="relative overflow-hidden rounded-2xl border border-[#DFB96F]/20 bg-gradient-to-b from-[#112013]/95 to-[#0A170E]/95 p-4 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.55)] sm:p-5">
               {/* Subtle top champagne-gold sheen */}
               <div
                 aria-hidden="true"
@@ -169,7 +172,7 @@ export function VisitAndReserveSection({ openStatus }) {
             </div>
 
             {/* Warm Cream Beige "Find Our Space" Contrast Card with Subtle Solihiya Linen & Botanical Flourish */}
-            <div className="relative overflow-hidden rounded-2xl border border-[#DFB96F]/35 bg-[#F5EFE2] p-5 text-[#08130B] shadow-[0_22px_48px_-18px_rgba(0,0,0,0.6)] sm:p-6">
+            <div className="relative overflow-hidden rounded-2xl border border-[#DFB96F]/35 bg-[#F5EFE2] p-4 text-[#08130B] shadow-[0_22px_48px_-18px_rgba(0,0,0,0.6)] sm:p-6">
               {/* Whisper-subtle Solihiya woven texture */}
               <div
                 aria-hidden="true"
@@ -224,18 +227,18 @@ export function VisitAndReserveSection({ openStatus }) {
                     href={RESTAURANT_INFO.googleMapsUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-xl bg-[#0D1C11] px-4 py-2.5 text-xs font-bold text-[#FAF6EC] shadow-sm transition hover:bg-[#162719] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11]"
+                    className="inline-flex h-[40px] w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#0D1C11] px-3 text-[11.5px] font-bold text-[#FAF6EC] shadow-sm transition hover:bg-[#162719] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11] sm:h-[42px] sm:gap-2 sm:rounded-xl sm:px-4 sm:text-xs"
                   >
-                    <Navigation className="h-3.5 w-3.5 text-[#DFB96F]" aria-hidden="true" />
+                    <Navigation className="h-3.5 w-3.5 shrink-0 text-[#DFB96F]" aria-hidden="true" />
                     <span>Google Maps</span>
                   </a>
                   <a
                     href={RESTAURANT_INFO.wazeUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-xl border border-[#0D1C11]/18 bg-[#FAF6EC]/95 px-4 py-2.5 text-xs font-bold text-[#0D1C11] transition hover:border-[#0D1C11]/40 hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11]"
+                    className="inline-flex h-[40px] w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#0D1C11]/18 bg-[#FAF6EC]/95 px-3 text-[11.5px] font-bold text-[#0D1C11] transition hover:border-[#0D1C11]/40 hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11] sm:h-[42px] sm:gap-2 sm:rounded-xl sm:px-4 sm:text-xs"
                   >
-                    <Compass className="h-3.5 w-3.5 text-[#0D1C11]" aria-hidden="true" />
+                    <Compass className="h-3.5 w-3.5 shrink-0 text-[#0D1C11]" aria-hidden="true" />
                     <span>Waze</span>
                   </a>
                 </div>
@@ -243,54 +246,57 @@ export function VisitAndReserveSection({ openStatus }) {
             </div>
 
             {/* Direct Phone Tiles with Subtle Gold Icon Medallion */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
               <a
                 href={`tel:${RESTAURANT_INFO.mobileTel}`}
-                className="group relative flex items-center justify-between gap-2 overflow-hidden rounded-2xl border border-[#DFB96F]/18 bg-gradient-to-b from-[#112013]/92 to-[#0A170E]/92 p-4 transition hover:border-[#DFB96F]/45 hover:bg-[#112013] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
+                className="group relative flex items-center justify-between gap-1.5 overflow-hidden rounded-2xl border border-[#DFB96F]/18 bg-gradient-to-b from-[#112013]/92 to-[#0A170E]/92 p-3 transition hover:border-[#DFB96F]/45 hover:bg-[#112013] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:gap-2 sm:p-4"
               >
                 <div
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[#DFB96F]/30 to-transparent"
                 />
                 <div className="min-w-0">
-                  <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-[#8DA496]">
+                  <span className="block text-[9.5px] font-bold uppercase tracking-[0.18em] text-[#8DA496] sm:text-[10px] sm:tracking-[0.2em]">
                     Inquiries
                   </span>
-                  <span className="mt-1 block truncate text-sm font-bold tabular-nums text-[#FAF6EC] transition-colors group-hover:text-[#DFB96F]">
+                  <span className="mt-1 block whitespace-nowrap text-[12px] font-bold tabular-nums text-[#FAF6EC] transition-colors group-hover:text-[#DFB96F] sm:text-sm">
                     {RESTAURANT_INFO.mobile}
                   </span>
                 </div>
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#DFB96F]/22 bg-[#DFB96F]/8 text-[#DFB96F] transition group-hover:bg-[#DFB96F]/16">
-                  <Phone className="h-3.5 w-3.5" aria-hidden="true" />
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#DFB96F]/22 bg-[#DFB96F]/8 text-[#DFB96F] transition group-hover:bg-[#DFB96F]/16 sm:h-8 sm:w-8">
+                  <Phone className="h-3 w-3 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
                 </span>
               </a>
 
               <a
                 href={`tel:${RESTAURANT_INFO.landlineTel}`}
-                className="group relative flex items-center justify-between gap-2 overflow-hidden rounded-2xl border border-[#DFB96F]/18 bg-gradient-to-b from-[#112013]/92 to-[#0A170E]/92 p-4 transition hover:border-[#DFB96F]/45 hover:bg-[#112013] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
+                className="group relative flex items-center justify-between gap-1.5 overflow-hidden rounded-2xl border border-[#DFB96F]/18 bg-gradient-to-b from-[#112013]/92 to-[#0A170E]/92 p-3 transition hover:border-[#DFB96F]/45 hover:bg-[#112013] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:gap-2 sm:p-4"
               >
                 <div
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[#DFB96F]/30 to-transparent"
                 />
                 <div className="min-w-0">
-                  <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-[#8DA496]">
+                  <span className="block text-[9.5px] font-bold uppercase tracking-[0.18em] text-[#8DA496] sm:text-[10px] sm:tracking-[0.2em]">
                     Landline
                   </span>
-                  <span className="mt-1 block truncate text-sm font-bold tabular-nums text-[#FAF6EC] transition-colors group-hover:text-[#DFB96F]">
+                  <span className="mt-1 block whitespace-nowrap text-[12px] font-bold tabular-nums text-[#FAF6EC] transition-colors group-hover:text-[#DFB96F] sm:text-sm">
                     {RESTAURANT_INFO.landline}
                   </span>
                 </div>
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#DFB96F]/22 bg-[#DFB96F]/8 text-[#DFB96F] transition group-hover:bg-[#DFB96F]/16">
-                  <Phone className="h-3.5 w-3.5" aria-hidden="true" />
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#DFB96F]/22 bg-[#DFB96F]/8 text-[#DFB96F] transition group-hover:bg-[#DFB96F]/16 sm:h-8 sm:w-8">
+                  <Phone className="h-3 w-3 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
                 </span>
               </a>
             </div>
           </div>
 
-          {/* Right Column: Luxury Dark Forest Green "Book a Table" Concierge Card */}
-          <div className="lg:col-span-7">
-            <div className="relative overflow-hidden rounded-3xl border border-[#DFB96F]/24 bg-gradient-to-b from-[#112013]/95 via-[#0B190F]/95 to-[#0A170E]/95 p-6 shadow-[0_28px_72px_-24px_rgba(0,0,0,0.72)] sm:p-8 lg:p-9">
+          {/* Right Column (Desktop) / First Page Before PIYO Tagaytay Info (Mobile): Luxury Dark Forest Green "Book a Table" Concierge Card */}
+          <div
+            id="book-table"
+            className="order-1 flex min-h-[var(--stage-h)] flex-col justify-center py-4 sm:py-8 lg:order-2 lg:col-span-7 lg:block lg:min-h-0 lg:py-0"
+          >
+            <div className="relative overflow-hidden rounded-3xl border border-[#DFB96F]/24 bg-gradient-to-b from-[#112013]/95 via-[#0B190F]/95 to-[#0A170E]/95 p-4.5 shadow-[0_28px_72px_-24px_rgba(0,0,0,0.72)] sm:p-8 lg:p-9">
               {/* Luminous champagne-gold hairline sheen along top rim */}
               <div
                 aria-hidden="true"
@@ -299,7 +305,7 @@ export function VisitAndReserveSection({ openStatus }) {
               {/* Subtle masked Solihiya weave fading gently from top-right corner */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute right-0 top-0 h-52 w-56 opacity-[0.11]"
+                className="pointer-events-none absolute right-0 top-0 h-44 w-48 opacity-[0.11] sm:h-52 sm:w-56"
                 style={{
                   backgroundImage: SOLIHIYA_GOLD_BG,
                   backgroundSize: '48px 48px',
@@ -314,7 +320,7 @@ export function VisitAndReserveSection({ openStatus }) {
                 aria-hidden="true"
                 viewBox="0 0 120 120"
                 fill="none"
-                className="pointer-events-none absolute right-3 top-3 h-24 w-24 text-[#DFB96F]/22"
+                className="pointer-events-none absolute right-2 top-2 h-20 w-20 text-[#DFB96F]/22 sm:right-3 sm:top-3 sm:h-24 sm:w-24"
               >
                 <path
                   d="M28 92C48 68 72 44 102 18"
@@ -332,34 +338,33 @@ export function VisitAndReserveSection({ openStatus }) {
               {/* Subtle architectural corner frame ticks */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute bottom-3.5 left-3.5 h-3.5 w-3.5 rounded-bl-md border-b border-l border-[#DFB96F]/20"
+                className="pointer-events-none absolute bottom-3 left-3 h-3 w-3 rounded-bl-md border-b border-l border-[#DFB96F]/20 sm:bottom-3.5 sm:left-3.5 sm:h-3.5 sm:w-3.5"
               />
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute bottom-3.5 right-3.5 h-3.5 w-3.5 rounded-br-md border-b border-r border-[#DFB96F]/20"
+                className="pointer-events-none absolute bottom-3 right-3 h-3 w-3 rounded-br-md border-b border-r border-[#DFB96F]/20 sm:bottom-3.5 sm:right-3.5 sm:h-3.5 sm:w-3.5"
               />
 
               <div className="relative">
-                <h3 className="font-serif text-3xl font-semibold tracking-tight text-[#FAF6EC] sm:text-[2.15rem]">
+                <h3 className="font-serif text-[1.65rem] font-semibold leading-tight tracking-tight text-[#FAF6EC] sm:text-[2.15rem]">
                   Book a Table
                 </h3>
-                <p className="mt-2 max-w-lg text-xs leading-relaxed text-[#A3B8AC] sm:text-[13.5px]">
+                <p className="mt-1 max-w-lg text-[11.5px] leading-relaxed text-[#A3B8AC] sm:mt-2 sm:text-[13.5px]">
                   Secure your placement for breakfast, lunch, or private evening
-                  gatherings. All details are sent directly to our concierge
-                  team for immediate confirmation.
+                  gatherings. Sent directly to our concierge team.
                 </p>
 
                 <div
-                  className="my-6 h-px w-full bg-[#FAF6EC]/10"
+                  className="my-3.5 h-px w-full bg-[#FAF6EC]/10 sm:my-6"
                   aria-hidden="true"
                 />
 
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {/* Guest Information */}
                   <div>
                     <label
                       htmlFor="reserve-name"
-                      className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.2em] text-[#DFB96F]"
+                      className="mb-1 block text-[9.5px] font-bold uppercase tracking-[0.18em] text-[#DFB96F] sm:mb-1.5 sm:text-[10px] sm:tracking-[0.2em]"
                     >
                       Guest Information
                     </label>
@@ -369,16 +374,16 @@ export function VisitAndReserveSection({ openStatus }) {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Enter Full Name (e.g. Alessandro Santos)"
-                      className="min-h-[46px] w-full rounded-xl border border-[#FAF6EC]/12 bg-[#061009] px-4 py-2.5 text-sm text-[#FAF6EC] placeholder-[#6B8275] transition focus:border-[#DFB96F]/65 focus:outline-none focus:ring-2 focus:ring-[#DFB96F]/25"
+                      className="min-h-[40px] w-full rounded-xl border border-[#FAF6EC]/12 bg-[#061009] px-3.5 py-2 text-xs text-[#FAF6EC] placeholder-[#6B8275] transition focus:border-[#DFB96F]/65 focus:outline-none focus:ring-2 focus:ring-[#DFB96F]/25 sm:min-h-[46px] sm:px-4 sm:py-2.5 sm:text-sm"
                     />
                   </div>
 
-                  {/* Date & Time Row */}
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
+                  {/* Date & Time Row — Side-by-Side on Mobile & Desktop */}
+                  <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                    <div className="min-w-0">
                       <label
                         htmlFor="reserve-date"
-                        className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.2em] text-[#9BB0A3]"
+                        className="mb-1 block text-[9.5px] font-bold uppercase tracking-[0.18em] text-[#9BB0A3] sm:mb-1.5 sm:text-[10px] sm:tracking-[0.2em]"
                       >
                         Date of Visit
                       </label>
@@ -388,14 +393,14 @@ export function VisitAndReserveSection({ openStatus }) {
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
                         style={{ colorScheme: 'dark' }}
-                        className="min-h-[46px] w-full rounded-xl border border-[#FAF6EC]/12 bg-[#061009] px-4 py-2.5 text-sm text-[#FAF6EC] transition focus:border-[#DFB96F]/65 focus:outline-none focus:ring-2 focus:ring-[#DFB96F]/25"
+                        className="min-h-[40px] w-full rounded-xl border border-[#FAF6EC]/12 bg-[#061009] px-2.5 py-2 text-xs text-[#FAF6EC] transition focus:border-[#DFB96F]/65 focus:outline-none focus:ring-2 focus:ring-[#DFB96F]/25 sm:min-h-[46px] sm:px-4 sm:py-2.5 sm:text-sm"
                       />
                     </div>
 
-                    <div>
+                    <div className="min-w-0">
                       <label
                         htmlFor="reserve-time"
-                        className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.2em] text-[#9BB0A3]"
+                        className="mb-1 block text-[9.5px] font-bold uppercase tracking-[0.18em] text-[#9BB0A3] sm:mb-1.5 sm:text-[10px] sm:tracking-[0.2em]"
                       >
                         Preferred Time
                       </label>
@@ -404,7 +409,7 @@ export function VisitAndReserveSection({ openStatus }) {
                           id="reserve-time"
                           value={timeSlot}
                           onChange={(e) => setTimeSlot(e.target.value)}
-                          className="min-h-[46px] w-full appearance-none rounded-xl border border-[#FAF6EC]/12 bg-[#061009] pl-4 pr-10 py-2.5 text-sm text-[#FAF6EC] transition focus:border-[#DFB96F]/65 focus:outline-none focus:ring-2 focus:ring-[#DFB96F]/25"
+                          className="min-h-[40px] w-full appearance-none truncate rounded-xl border border-[#FAF6EC]/12 bg-[#061009] py-2 pl-2.5 pr-7 text-xs text-[#FAF6EC] transition focus:border-[#DFB96F]/65 focus:outline-none focus:ring-2 focus:ring-[#DFB96F]/25 sm:min-h-[46px] sm:py-2.5 sm:pl-4 sm:pr-10 sm:text-sm"
                         >
                           <option className="bg-[#0B190F]">Fri–Sun Breakfast (7:30 AM)</option>
                           <option className="bg-[#0B190F]">Early Lunch (11:00 AM)</option>
@@ -414,19 +419,19 @@ export function VisitAndReserveSection({ openStatus }) {
                           <option className="bg-[#0B190F]">Fri–Sun Late Dinner (8:30 PM)</option>
                         </select>
                         <ChevronDown
-                          className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8DA496]"
+                          className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#8DA496] sm:right-3.5 sm:h-4 sm:w-4"
                           aria-hidden="true"
                         />
                       </div>
                     </div>
                   </div>
 
-                  {/* Party Size & Occasion Row */}
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
+                  {/* Party Size & Occasion Row — Side-by-Side on Mobile & Desktop */}
+                  <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                    <div className="min-w-0">
                       <label
                         htmlFor="reserve-party"
-                        className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.2em] text-[#9BB0A3]"
+                        className="mb-1 block text-[9.5px] font-bold uppercase tracking-[0.18em] text-[#9BB0A3] sm:mb-1.5 sm:text-[10px] sm:tracking-[0.2em]"
                       >
                         Party Size
                       </label>
@@ -435,7 +440,7 @@ export function VisitAndReserveSection({ openStatus }) {
                           id="reserve-party"
                           value={partySize}
                           onChange={(e) => setPartySize(e.target.value)}
-                          className="min-h-[46px] w-full appearance-none rounded-xl border border-[#FAF6EC]/12 bg-[#061009] pl-4 pr-10 py-2.5 text-sm text-[#FAF6EC] transition focus:border-[#DFB96F]/65 focus:outline-none focus:ring-2 focus:ring-[#DFB96F]/25"
+                          className="min-h-[40px] w-full appearance-none truncate rounded-xl border border-[#FAF6EC]/12 bg-[#061009] py-2 pl-2.5 pr-7 text-xs text-[#FAF6EC] transition focus:border-[#DFB96F]/65 focus:outline-none focus:ring-2 focus:ring-[#DFB96F]/25 sm:min-h-[46px] sm:py-2.5 sm:pl-4 sm:pr-10 sm:text-sm"
                         >
                           <option className="bg-[#0B190F]">1–2 Guests</option>
                           <option className="bg-[#0B190F]">3–5 Guests</option>
@@ -444,16 +449,16 @@ export function VisitAndReserveSection({ openStatus }) {
                           <option className="bg-[#0B190F]">16+ Private Event / Group</option>
                         </select>
                         <Users
-                          className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8DA496]"
+                          className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#8DA496] sm:right-3.5 sm:h-4 sm:w-4"
                           aria-hidden="true"
                         />
                       </div>
                     </div>
 
-                    <div>
+                    <div className="min-w-0">
                       <label
                         htmlFor="reserve-occasion"
-                        className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.2em] text-[#9BB0A3]"
+                        className="mb-1 block text-[9.5px] font-bold uppercase tracking-[0.18em] text-[#9BB0A3] sm:mb-1.5 sm:text-[10px] sm:tracking-[0.2em]"
                       >
                         Occasion
                       </label>
@@ -462,7 +467,7 @@ export function VisitAndReserveSection({ openStatus }) {
                           id="reserve-occasion"
                           value={occasion}
                           onChange={(e) => setOccasion(e.target.value)}
-                          className="min-h-[46px] w-full appearance-none rounded-xl border border-[#FAF6EC]/12 bg-[#061009] pl-4 pr-10 py-2.5 text-sm text-[#FAF6EC] transition focus:border-[#DFB96F]/65 focus:outline-none focus:ring-2 focus:ring-[#DFB96F]/25"
+                          className="min-h-[40px] w-full appearance-none truncate rounded-xl border border-[#FAF6EC]/12 bg-[#061009] py-2 pl-2.5 pr-7 text-xs text-[#FAF6EC] transition focus:border-[#DFB96F]/65 focus:outline-none focus:ring-2 focus:ring-[#DFB96F]/25 sm:min-h-[46px] sm:py-2.5 sm:pl-4 sm:pr-10 sm:text-sm"
                         >
                           <option className="bg-[#0B190F]">General Dining</option>
                           <option className="bg-[#0B190F]">Family Dine-In</option>
@@ -471,7 +476,7 @@ export function VisitAndReserveSection({ openStatus }) {
                           <option className="bg-[#0B190F]">Corporate / Group Event</option>
                         </select>
                         <Sparkles
-                          className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8DA496]"
+                          className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#8DA496] sm:right-3.5 sm:h-4 sm:w-4"
                           aria-hidden="true"
                         />
                       </div>
@@ -482,35 +487,35 @@ export function VisitAndReserveSection({ openStatus }) {
                   <div>
                     <label
                       htmlFor="reserve-notes"
-                      className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.2em] text-[#9BB0A3]"
+                      className="mb-1 block text-[9.5px] font-bold uppercase tracking-[0.18em] text-[#9BB0A3] sm:mb-1.5 sm:text-[10px] sm:tracking-[0.2em]"
                     >
                       Notes &amp; Special Requests
                     </label>
                     <textarea
                       id="reserve-notes"
-                      rows={3}
+                      rows={2}
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
-                      placeholder="Let us know about dietary requirements or dish pre-orders (e.g. 1 Bacolod Cansi)..."
-                      className="w-full rounded-xl border border-[#FAF6EC]/12 bg-[#061009] px-4 py-3 text-sm text-[#FAF6EC] placeholder-[#6B8275] transition focus:border-[#DFB96F]/65 focus:outline-none focus:ring-2 focus:ring-[#DFB96F]/25"
+                      placeholder="Dietary notes or dish pre-orders (e.g. 1 Bacolod Cansi)..."
+                      className="w-full rounded-xl border border-[#FAF6EC]/12 bg-[#061009] px-3.5 py-2 text-xs text-[#FAF6EC] placeholder-[#6B8275] transition focus:border-[#DFB96F]/65 focus:outline-none focus:ring-2 focus:ring-[#DFB96F]/25 sm:px-4 sm:py-3 sm:text-sm"
                     />
                   </div>
 
-                  {/* Primary Action Buttons Row */}
-                  <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
+                  {/* Primary Action Buttons Row — Minimal Equal-Size Pills on Mobile & Desktop */}
+                  <div className="grid grid-cols-2 gap-2.5 pt-1 sm:gap-3 sm:pt-2">
                     <a
                       href={smsHref}
-                      className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#E8C983] via-[#DFB96F] to-[#C89B49] px-5 py-3 text-[11px] font-bold uppercase tracking-[0.16em] text-[#08130B] shadow-[0_10px_28px_-6px_rgba(223,185,111,0.45)] transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FAF6EC]"
+                      className="inline-flex h-[40px] w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-[#E8C983] via-[#DFB96F] to-[#C89B49] px-2.5 text-[10.5px] font-bold uppercase tracking-[0.09em] text-[#08130B] shadow-[0_10px_28px_-6px_rgba(223,185,111,0.45)] transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FAF6EC] sm:h-[46px] sm:gap-2 sm:rounded-xl sm:px-5 sm:text-[11px] sm:tracking-[0.16em]"
                     >
-                      <MessageSquare className="h-3.5 w-3.5" aria-hidden="true" />
+                      <MessageSquare className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                       <span>Send via SMS</span>
                     </a>
 
                     <a
                       href={mailtoHref}
-                      className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-xl border border-[#FAF6EC]/16 bg-[#061009] px-5 py-3 text-[11px] font-bold uppercase tracking-[0.16em] text-[#F5EFE2] transition hover:border-[#DFB96F]/55 hover:bg-[#112013] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
+                      className="inline-flex h-[40px] w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#FAF6EC]/16 bg-[#061009] px-2.5 text-[10.5px] font-bold uppercase tracking-[0.09em] text-[#F5EFE2] transition hover:border-[#DFB96F]/55 hover:bg-[#112013] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:h-[46px] sm:gap-2 sm:rounded-xl sm:px-5 sm:text-[11px] sm:tracking-[0.16em]"
                     >
-                      <Mail className="h-3.5 w-3.5 text-[#DFB96F]" aria-hidden="true" />
+                      <Mail className="h-3.5 w-3.5 shrink-0 text-[#DFB96F]" aria-hidden="true" />
                       <span>Send via Email</span>
                     </a>
                   </div>
@@ -519,7 +524,7 @@ export function VisitAndReserveSection({ openStatus }) {
                   <button
                     type="button"
                     onClick={handleCopyBooking}
-                    className="flex min-h-[42px] w-full items-center justify-center gap-2 rounded-xl border border-[#FAF6EC]/10 bg-[#061009]/70 px-4 py-2.5 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#9EB3A6] transition hover:border-[#DFB96F]/40 hover:text-[#F5EFE2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
+                    className="flex h-[40px] w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#FAF6EC]/10 bg-[#061009]/70 px-4 text-[10.5px] font-bold uppercase tracking-[0.12em] text-[#9EB3A6] transition hover:border-[#DFB96F]/40 hover:text-[#F5EFE2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:h-[42px] sm:rounded-xl sm:text-[10.5px] sm:tracking-[0.16em]"
                   >
                     {copied ? (
                       <>

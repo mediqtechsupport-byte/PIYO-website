@@ -296,9 +296,10 @@ export function SushiConveyorMenu({
   const geo = React.useMemo(() => {
     if (!size.stage || count === 0) return null;
     const span = halfSpan(makeGeo(1000, count, 100, kb)) / 100;
-    const cap = wide ? 184 : clamp(size.section * 0.143, 96, 150);
-    const fit = (size.stage - 6) / (2 * span);
-    return makeGeo(size.stage, count, Math.round(clamp(fit, Math.min(96, cap), cap)), kb);
+    const cap = wide ? 184 : clamp(size.section * 0.143, 56, 150);
+    const fit = (size.stage - (wide ? 6 : 16)) / (2 * span);
+    const minPlate = wide ? 96 : 52;
+    return makeGeo(size.stage, count, Math.round(clamp(fit, Math.min(minPlate, cap), cap)), kb);
   }, [size.stage, size.section, count, kb, wide]);
 
   const live = React.useRef({
@@ -396,12 +397,17 @@ export function SushiConveyorMenu({
     const g = L.geo;
     s.raf = 0;
     if (!g || !s.visible) { s.last = 0; return; }
-    const dt = s.last ? clamp((now - s.last) / 1000, 0, 0.25) : 1 / 60;
+    const dt = s.last ? clamp((now - s.last) / 1000, 0, 0.05) : 1 / 60;
     s.last = now;
-    const steps = Math.max(1, Math.ceil(dt / 0.017));
-    const h = dt / steps;
     const stopped = L.paused || L.active !== null || L.open;
     const cruise = L.reduced ? 0 : L.speed;
+    const isSteadyCruise =
+      s.mode === RUN &&
+      !stopped &&
+      Math.abs(s.v - cruise) < 0.05 &&
+      L.active === null;
+    const steps = isSteadyCruise ? 1 : Math.max(1, Math.ceil(dt / 0.017));
+    const h = dt / steps;
     for (let step = 0; step < steps; step++) {
       if (s.mode === SEEK) {
         const w = 5.6;
@@ -742,16 +748,16 @@ export function SushiConveyorMenu({
   }, [openIndex, items, close]);
 
   const paths = React.useMemo(() => (geo ? { outer: edgePath(geo, geo.band / 2), inner: edgePath(geo, -geo.band / 2), island: edgePath(geo, -geo.band / 2 - geo.d * 0.035) } : null), [geo]);
-  const current = active === null ? null : items[active] ?? null;
+  const current = items[active ?? center] ?? null;
   const roving = active ?? center;
   const tiers = legendEntries(items, legend);
   const g = geo;
   const control = "inline-flex size-9 items-center justify-center rounded-full border border-[#DFD0B2]/45 bg-[#F5EFE2] text-[#0D1C11] shadow-md outline-none transition-colors hover:bg-[#E7DBC3] focus-visible:ring-2 focus-visible:ring-[#DFB96F] motion-reduce:transition-none";
 
   const header = (eyebrow || heading || tiers.length > 0) && (
-    <div className={wide ? "flex w-full flex-col items-start gap-3.5 text-left" : "flex flex-col items-center gap-2 px-2 text-center"}>
+    <div className={wide ? "flex w-full flex-col items-start gap-3.5 text-left" : "flex flex-col items-center gap-1 px-2 text-center sm:gap-2"}>
       {eyebrow && (
-        <p className={`inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#DFB96F] ${wide ? "" : "justify-center"}`}>
+        <p className={`inline-flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#DFB96F] sm:text-xs sm:tracking-[0.24em] ${wide ? "" : "justify-center"}`}>
           {wide && <span className="h-px w-7 bg-[#DFB96F]/55" aria-hidden="true" />}
           <span>{eyebrow}</span>
         </p>
@@ -759,7 +765,7 @@ export function SushiConveyorMenu({
       {heading && (
         <h3
           className={`font-serif font-medium tracking-[-0.02em] text-[#FAF6EC] ${
-            wide ? "w-full text-[2.5rem] leading-[1.08] lg:text-[2.85rem] xl:text-[3.25rem]" : "max-w-[18ch] text-balance text-2xl leading-[1.16] md:text-[1.9rem]"
+            wide ? "w-full text-[2.5rem] leading-[1.08] lg:text-[2.85rem] xl:text-[3.25rem]" : "max-w-[18ch] text-balance text-[1.4rem] leading-[1.12] sm:text-2xl md:text-[1.9rem]"
           }`}
         >
           {heading.includes(",") ? (
@@ -801,20 +807,24 @@ export function SushiConveyorMenu({
       className={
         wide
           ? "min-h-[5.25rem] w-full max-w-[440px] border-l-2 border-[#DFB96F]/55 pl-4"
-          : `mx-auto mt-2 max-w-md px-2 text-center ${narrow ? "min-h-[3.5rem]" : "min-h-[2.75rem]"}`
+          : `mx-auto mt-1.5 max-w-md px-2 text-center ${narrow ? "min-h-[3rem]" : "min-h-[2.75rem]"}`
       }
     >
-      <p className={current ? "font-serif text-[21px] font-medium leading-snug text-[#FAF6EC]" : "text-[15px] leading-relaxed text-[#CBD9CF]"}>
+      <p className={current ? "font-serif text-[18px] font-medium leading-snug text-[#FAF6EC] sm:text-[21px]" : "text-[14px] leading-relaxed text-[#CBD9CF] sm:text-[15px]"}>
         {current ? (
           <>
             {current.name}{' '}
-            <span className="font-sans text-base font-bold tabular-nums text-[#DFB96F]">· {current.price}</span>
+            <span className="font-sans text-sm font-bold tabular-nums text-[#DFB96F] sm:text-base">· {current.price}</span>
           </>
         ) : (
           caption
         )}
       </p>
-      {current?.description && <p className="mt-1.5 text-sm leading-relaxed text-[#BFCFC4]">{current.description}</p>}
+      {current?.description && (
+        <p className="mt-1 line-clamp-2 text-xs leading-snug text-[#BFCFC4] sm:mt-1.5 sm:line-clamp-none sm:text-sm sm:leading-relaxed">
+          {current.description}
+        </p>
+      )}
     </div>
   );
 
@@ -868,29 +878,38 @@ export function SushiConveyorMenu({
       )}
       <div ref={beltRef} data-belt aria-hidden="true" className="pointer-events-none absolute inset-0">
         {g && paths && (
-          <svg className="absolute left-0 top-0 overflow-visible" width={g.width} height={g.height} viewBox={`0 0 ${g.width} ${g.height}`} focusable="false">
-            <defs>
-              <filter id={`${uid}-soft`} x="-10%" y="-30%" width="120%" height="160%">
-                <feGaussianBlur stdDeviation={(g.d * 0.06).toFixed(1)} />
-              </filter>
-              <linearGradient id={`${uid}-island`} x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0" style={{ stopColor: "var(--island)" }} />
-                <stop offset="1" style={{ stopColor: "var(--island-low)" }} />
-              </linearGradient>
-            </defs>
-            <path d={paths.outer} transform={`translate(0 ${(g.side + g.d * 0.07).toFixed(1)})`} fill="black" className="opacity-55" filter={`url(#${uid}-soft)`} />
-            <path d={`${paths.outer}${paths.inner}`} fillRule="evenodd" transform={`translate(0 ${g.side.toFixed(1)})`} style={{ fill: "var(--belt-side)" }} />
-            <path d={`${paths.outer}${paths.inner}`} fillRule="evenodd" style={{ fill: "var(--belt)" }} />
-            <path ref={seamRef} fill="none" stroke="black" strokeOpacity={0.48} strokeWidth={Math.max(1, g.d * 0.013)} strokeLinecap="round" />
-            <path ref={glintRef} fill="none" stroke="#F5EFE2" strokeOpacity={0.18} strokeWidth={Math.max(0.8, g.d * 0.009)} strokeLinecap="round" />
-            <path d={paths.outer} fill="none" style={{ stroke: "var(--rail)" }} strokeWidth={Math.max(2, g.d * 0.026)} />
-            <path d={paths.outer} fill="none" stroke="white" strokeOpacity={0.55} strokeWidth={Math.max(0.8, g.d * 0.008)} transform="translate(0 -0.8)" />
-            <path d={paths.inner} fill="none" style={{ stroke: "var(--rail)" }} strokeWidth={Math.max(1.6, g.d * 0.02)} />
-            <path d={paths.inner} fill="none" stroke="white" strokeOpacity={0.42} strokeWidth={Math.max(0.8, g.d * 0.008)} transform="translate(0 -0.7)" />
-            <path d={paths.island} style={{ fill: "var(--island-wall)" }} />
-            <path d={paths.island} transform={`translate(0 ${(-g.side * 0.6).toFixed(1)})`} style={{ fill: `url(#${uid}-island)` }} />
-            <path d={paths.island} transform={`translate(0 ${(-g.side * 0.6 - 0.6).toFixed(1)})`} fill="none" stroke="white" strokeOpacity={0.6} strokeWidth={Math.max(0.8, g.d * 0.008)} />
-          </svg>
+          <>
+            {/* Static Belt Structure + Blurred Shadow (cached once on GPU, never re-rasterized during spin) */}
+            <svg className="absolute left-0 top-0 overflow-visible" width={g.width} height={g.height} viewBox={`0 0 ${g.width} ${g.height}`} focusable="false">
+              <defs>
+                <filter id={`${uid}-soft`} x="-10%" y="-30%" width="120%" height="160%">
+                  <feGaussianBlur stdDeviation={(g.d * 0.06).toFixed(1)} />
+                </filter>
+                <linearGradient id={`${uid}-island`} x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" style={{ stopColor: "var(--island)" }} />
+                  <stop offset="1" style={{ stopColor: "var(--island-low)" }} />
+                </linearGradient>
+              </defs>
+              <path d={paths.outer} transform={`translate(0 ${(g.side + g.d * 0.07).toFixed(1)})`} fill="black" className="opacity-55" filter={`url(#${uid}-soft)`} />
+              <path d={`${paths.outer}${paths.inner}`} fillRule="evenodd" transform={`translate(0 ${g.side.toFixed(1)})`} style={{ fill: "var(--belt-side)" }} />
+              <path d={`${paths.outer}${paths.inner}`} fillRule="evenodd" style={{ fill: "var(--belt)" }} />
+            </svg>
+            {/* Lightweight Animated Slats Layer (no SVG blur filter -> locked 60/120fps) */}
+            <svg className="absolute left-0 top-0 overflow-visible" width={g.width} height={g.height} viewBox={`0 0 ${g.width} ${g.height}`} focusable="false">
+              <path ref={seamRef} fill="none" stroke="black" strokeOpacity={0.48} strokeWidth={Math.max(1, g.d * 0.013)} strokeLinecap="round" />
+              <path ref={glintRef} fill="none" stroke="#F5EFE2" strokeOpacity={0.18} strokeWidth={Math.max(0.8, g.d * 0.009)} strokeLinecap="round" />
+            </svg>
+            {/* Static Top Rails + Center Island */}
+            <svg className="absolute left-0 top-0 overflow-visible" width={g.width} height={g.height} viewBox={`0 0 ${g.width} ${g.height}`} focusable="false">
+              <path d={paths.outer} fill="none" style={{ stroke: "var(--rail)" }} strokeWidth={Math.max(2, g.d * 0.026)} />
+              <path d={paths.outer} fill="none" stroke="white" strokeOpacity={0.55} strokeWidth={Math.max(0.8, g.d * 0.008)} transform="translate(0 -0.8)" />
+              <path d={paths.inner} fill="none" style={{ stroke: "var(--rail)" }} strokeWidth={Math.max(1.6, g.d * 0.02)} />
+              <path d={paths.inner} fill="none" stroke="white" strokeOpacity={0.42} strokeWidth={Math.max(0.8, g.d * 0.008)} transform="translate(0 -0.7)" />
+              <path d={paths.island} style={{ fill: "var(--island-wall)" }} />
+              <path d={paths.island} transform={`translate(0 ${(-g.side * 0.6).toFixed(1)})`} style={{ fill: `url(#${uid}-island)` }} />
+              <path d={paths.island} transform={`translate(0 ${(-g.side * 0.6 - 0.6).toFixed(1)})`} fill="none" stroke="white" strokeOpacity={0.6} strokeWidth={Math.max(0.8, g.d * 0.008)} />
+            </svg>
+          </>
         )}
       </div>
       {g && items.map((item, i) => {
@@ -910,7 +929,7 @@ export function SushiConveyorMenu({
             aria-haspopup="dialog"
             aria-current={isActive || undefined}
             className="absolute left-0 top-0 cursor-pointer rounded-[50%] outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#DFB96F]"
-            style={{ width: g.d, height: g.d * TILT, visibility: lifted === i ? "hidden" : undefined }}
+            style={{ width: g.d, height: g.d * TILT, visibility: lifted === i ? "hidden" : undefined, willChange: "transform" }}
             onFocus={() => { if (pointer.current.id < 0) { stop(); setActive(i); } }}
             onClick={(event) => { const pending = pendingOpen.current; pendingOpen.current = -1; if (event.detail === 0 || pending === i) open(i); }}
           >
@@ -979,11 +998,11 @@ export function SushiConveyorMenu({
           </div>
         </div>
       ) : (
-        <div className="flex w-full flex-col items-center px-4 pb-8 pt-6">
+        <div className="flex w-full flex-col items-center px-3 pb-4 pt-3.5 sm:px-4 sm:pb-8 sm:pt-6">
           {header}
-          <div className="mt-2 w-full min-w-0">{stage}</div>
+          <div className="-mt-4 w-full min-w-0 sm:mt-1">{stage}</div>
           {captionNode}
-          {action && <div className="mt-3 flex justify-center">{action}</div>}
+          {action && <div className="mt-3 flex justify-center sm:mt-4">{action}</div>}
         </div>
       )}
       {openIndex !== null && items[openIndex] && (
@@ -1154,7 +1173,7 @@ function DishDialog({ uid, item, index, total, labels, reduced, broken, source, 
               {labels.add}
             </button>
             {onCustomize && (
-              <button type="button" onClick={onCustomize} className="inline-flex items-center gap-1.5 rounded-full border border-[#0D1C11]/30 bg-[#EAE0CA] px-4 py-2.5 text-sm font-bold text-[#0D1C11] transition hover:border-[#0D1C11] hover:bg-[#DFD2B6]">
+              <button type="button" onClick={onCustomize} className="hidden items-center gap-1.5 rounded-full border border-[#0D1C11]/30 bg-[#EAE0CA] px-4 py-2.5 text-sm font-bold text-[#0D1C11] transition hover:border-[#0D1C11] hover:bg-[#DFD2B6] md:inline-flex">
                 {labels.customize ?? "Customize"}
               </button>
             )}

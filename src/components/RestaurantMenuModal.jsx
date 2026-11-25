@@ -1,8 +1,10 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   ArrowLeft,
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
   Plus,
   Minus,
   ShoppingBag,
@@ -111,19 +113,55 @@ export function RestaurantMenuBoard({
   trayItems = [],
   onQuickAdd,
   onUpdateTrayQty,
+  onSelectDish,
   onCustomizeDish,
   onOpenTray,
 }) {
   const lockedScrollRef = useRef(null);
+  const catRailRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
   const isLockedCategory = selectedCat !== 'bestsellers';
 
-  // Reset locked-category scroll container to top whenever switching between specific categories
+  const syncCatRailArrows = () => {
+    const el = catRailRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  };
+
+  // Reset locked-category scroll container to top & keep active category pill scrolled into view
   useEffect(() => {
-    if (isLockedCategory && lockedScrollRef.current) {
+    if (!isLockedCategory) return;
+    if (lockedScrollRef.current) {
       lockedScrollRef.current.scrollTop = 0;
     }
+    const raf = window.requestAnimationFrame(() => {
+      const rail = catRailRef.current;
+      if (!rail) return;
+      const activeTab = rail.querySelector('[aria-selected="true"]');
+      if (activeTab && typeof activeTab.scrollIntoView === 'function') {
+        activeTab.scrollIntoView({
+          behavior: 'smooth',
+          inline: 'center',
+          block: 'nearest',
+        });
+      }
+      syncCatRailArrows();
+    });
+    window.addEventListener('resize', syncCatRailArrows);
+    return () => {
+      window.cancelAnimationFrame(raf);
+      window.removeEventListener('resize', syncCatRailArrows);
+    };
   }, [selectedCat, isLockedCategory]);
+
+  const scrollCatRailBy = (deltaPx) => {
+    const el = catRailRef.current;
+    if (!el) return;
+    el.scrollBy({ left: deltaPx, behavior: 'smooth' });
+  };
 
   const handleSelectCategory = (catId) => {
     if (onSelectCat) onSelectCat(catId);
@@ -210,8 +248,14 @@ export function RestaurantMenuBoard({
             {/* Overlapping Ceramic-Rimmed Dish Medallion + Curved Heritage Arc Caption */}
             <button
               type="button"
-              onClick={() => onCustomizeDish && onCustomizeDish(dish)}
-              aria-label={`Customize ${dish.name}`}
+              onClick={() => {
+                if (typeof window !== 'undefined' && window.innerWidth < 768) {
+                  if (onSelectDish) onSelectDish(dish);
+                } else if (onCustomizeDish) {
+                  onCustomizeDish(dish);
+                }
+              }}
+              aria-label={`View ${dish.name}`}
               className="relative z-20 -mb-[74px] flex h-[148px] w-[148px] items-center justify-center transition-transform duration-300 group-hover:-translate-y-1"
             >
               <span className="block h-[132px] w-[132px] overflow-hidden rounded-full bg-[#F5EFE2] p-[5px] shadow-[0_14px_28px_-8px_rgba(5,13,7,0.75)] ring-2 ring-[#DFD0B2]">
@@ -219,7 +263,7 @@ export function RestaurantMenuBoard({
                   <img
                     src={dish.image}
                     alt={dish.name}
-                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </span>
@@ -278,23 +322,24 @@ export function RestaurantMenuBoard({
                 </p>
               </div>
 
-              <div className="relative z-10 mt-3.5">
-                <div className="flex items-baseline justify-center gap-2">
-                  <p className="font-sans text-lg font-extrabold tracking-tight text-[#0D1C11]">
+              <div className="relative z-10 mt-3.5 flex items-center justify-between gap-3 border-t border-[#0D1C11]/14 pt-3 md:block md:border-t-0 md:pt-0">
+                <div className="min-w-0 text-left md:flex md:items-baseline md:justify-center md:gap-2 md:text-center">
+                  <p className="font-sans text-lg font-extrabold leading-tight tracking-tight text-[#0D1C11]">
                     {formatPeso(dish.price)}
                   </p>
                   {dish.serving && (
-                    <span className="text-[10.5px] font-medium text-[#755C3B]">
-                      · {dish.serving}
+                    <span className="mt-0.5 block truncate text-[10.5px] font-medium text-[#755C3B] md:mt-0 md:inline">
+                      <span className="hidden md:inline">· </span>
+                      {dish.serving}
                     </span>
                   )}
                 </div>
 
-                <div className="mt-3 flex items-center justify-center gap-2 border-t border-[#0D1C11]/14 pt-3">
+                <div className="flex shrink-0 items-center justify-end gap-2 md:mt-3 md:justify-center md:border-t md:border-[#0D1C11]/14 md:pt-3">
                   <button
                     type="button"
                     onClick={() => onCustomizeDish && onCustomizeDish(dish)}
-                    className="inline-flex min-h-[32px] items-center gap-1 rounded-full border border-[#0D1C11]/28 bg-[#EAE0CA] px-3 py-1 text-[11px] font-semibold text-[#0D1C11] transition hover:border-[#0D1C11] hover:bg-[#DFD2B6]"
+                    className="hidden min-h-[32px] items-center gap-1 rounded-full border border-[#0D1C11]/28 bg-[#EAE0CA] px-3 py-1 text-[11px] font-semibold text-[#0D1C11] transition hover:border-[#0D1C11] hover:bg-[#DFD2B6] md:inline-flex"
                   >
                     <SlidersHorizontal
                       className="h-3 w-3"
@@ -304,7 +349,7 @@ export function RestaurantMenuBoard({
                   </button>
 
                   {stats.totalQty > 0 && stats.latestEntry ? (
-                    <div className="inline-flex min-h-[32px] items-center gap-1.5 rounded-full bg-[#0D1C11] px-2 py-0.5 text-xs font-extrabold text-[#F5EFE2]">
+                    <div className="inline-flex h-[34px] items-center gap-1.5 rounded-full bg-[#0D1C11] px-2.5 text-xs font-extrabold text-[#F5EFE2] md:h-auto md:min-h-[32px] md:px-2 md:py-0.5">
                       <button
                         type="button"
                         onClick={() =>
@@ -335,7 +380,7 @@ export function RestaurantMenuBoard({
                     <button
                       type="button"
                       onClick={() => onQuickAdd && onQuickAdd(dish)}
-                      className="inline-flex min-h-[32px] items-center gap-1 rounded-full bg-[#0D1C11] px-3.5 py-1 text-[11px] font-bold text-[#F5EFE2] transition hover:bg-[#182A1B] active:scale-95"
+                      className="inline-flex h-[34px] items-center gap-1 whitespace-nowrap rounded-full bg-[#0D1C11] px-4 text-xs font-bold text-[#F5EFE2] transition hover:bg-[#182A1B] active:scale-95 md:h-auto md:min-h-[32px] md:px-3.5 md:py-1 md:text-[11px]"
                     >
                       <Plus
                         className="h-3.5 w-3.5 stroke-[2.5]"
@@ -356,7 +401,7 @@ export function RestaurantMenuBoard({
   return (
     <>
       {/* Inline Whole-Page Menu Landing ("Best Sellers" Highlight Conveyor — allows scrolling freely to other sections) */}
-      <div className="flex min-h-[calc(100svh-var(--nav-h,69px))] w-full flex-col bg-[#0B190F] text-[#0D1C11]">
+      <div className="flex min-h-[var(--stage-h)] w-full flex-col justify-between bg-[#0B190F] text-[#0D1C11]">
         {/* Full-Bleed Warm Sunlit Beige Editorial Title Banner with Tropical Palm Frond Shadows */}
         <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#F1E8D5] pb-2.5 pt-2.5 lg:pb-3 lg:pt-3">
           <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-36 w-52 text-[#0D1C11] sm:h-40 sm:w-60" />
@@ -385,12 +430,12 @@ export function RestaurantMenuBoard({
           </div>
         </div>
 
-        {/* Sticky Category Navigation + Cart Bar + Woven Banig Strip */}
+        {/* Sticky Category Navigation + Cart Bar (Desktop/Tablet) + Woven Banig Strip */}
         <div className="sticky top-[var(--nav-h,64px)] z-30 w-full shrink-0 shadow-[0_12px_28px_-14px_rgba(5,13,7,0.68)]">
-          <div className="bg-[#EFE6D2]/96 py-2.5 backdrop-blur-md">
+          <div className="hidden bg-[#EFE6D2]/96 py-2.5 backdrop-blur-md md:block">
             <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-5 sm:px-8">
               <div
-                className="flex min-w-0 flex-1 items-center justify-start gap-1.5 overflow-x-auto no-scrollbar py-0.5 sm:justify-center"
+                className="flex min-w-0 flex-1 flex-wrap items-center justify-center gap-1.5 py-0.5"
                 role="tablist"
                 aria-label="Filipino menu categories"
               >
@@ -430,7 +475,7 @@ export function RestaurantMenuBoard({
 
           <div
             aria-hidden="true"
-            className="h-[11px] w-full border-y border-[#0D1C11]/25 bg-[#E6D9BE]"
+            className="h-[9px] w-full border-y border-[#0D1C11]/25 bg-[#E6D9BE] sm:h-[11px]"
             style={{
               backgroundImage: BANIG_STRIP_BG,
               backgroundRepeat: 'repeat-x',
@@ -452,9 +497,9 @@ export function RestaurantMenuBoard({
             legend={[]}
             eyebrow="House Highlights · Best Sellers"
             heading="PIYO Favorites, From Hearth to Table."
-            caption="Hover to pause any plate, flick to spin the belt, or click a dish to order or customize."
-            autoplay
-            speed={24}
+            caption="Hover or tap any plate to pause, flick to spin the belt, or select a dish to order or customize."
+            autoplay={false}
+            speed={28}
             onAdd={handleConveyorAdd}
             onCustomize={handleConveyorCustomize}
             labels={{
@@ -469,10 +514,10 @@ export function RestaurantMenuBoard({
               <button
                 type="button"
                 onClick={() => handleSelectCategory('soups')}
-                className="inline-flex min-h-[48px] items-center gap-2.5 rounded-full border border-[#DFD0B2]/60 bg-[#F5EFE2] px-7 py-3 text-sm font-bold tracking-wide text-[#0D1C11] shadow-md transition hover:-translate-y-px hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F]"
+                className="inline-flex h-[40px] items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#DFD0B2]/60 bg-[#F5EFE2] px-5 text-[11.5px] font-bold tracking-wide text-[#0D1C11] shadow-md transition hover:-translate-y-px hover:bg-[#EAE0CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:h-auto sm:min-h-[46px] sm:gap-2.5 sm:px-7 sm:py-3 sm:text-sm"
               >
                 <span>Browse Soups &amp; Full Categories</span>
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                <ArrowRight className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" aria-hidden="true" />
               </button>
             }
           />
@@ -499,84 +544,161 @@ export function RestaurantMenuBoard({
       {isLockedCategory &&
         createPortal(
           <div
-            className="fixed inset-0 z-[44] flex flex-col overflow-hidden bg-[#0B190F] text-[#0D1C11]"
+            className="fixed inset-0 z-[44] flex h-[100dvh] flex-col overflow-hidden bg-[#0B190F] text-[#0D1C11]"
             onWheel={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
             aria-label={`PIYO Filipino Menu — ${activeCategoryMeta.label}`}
           >
-            {/* Pinned Warm Sunlit Beige Header + Category Navigation Bar */}
-            <div className="relative z-20 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#ECE2CC] pb-3.5 pt-4">
-              <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-36 w-52 text-[#0D1C11] sm:h-44 sm:w-64" />
-              <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-32 w-48 -scale-x-100 text-[#0D1C11] opacity-75 sm:h-40 sm:w-60" />
+            {/* Pinned Slim Warm Sunlit Beige App Nav Header + Single-Row Scrollable Category Bar */}
+            <div className="relative z-20 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#ECE2CC] pb-2 pt-2 sm:pb-3.5 sm:pt-4">
+              <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-4 h-24 w-36 text-[#0D1C11] opacity-80 sm:-top-3 sm:h-44 sm:w-64 sm:opacity-100" />
+              <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-3 h-20 w-32 -scale-x-100 text-[#0D1C11] opacity-65 sm:-top-2 sm:h-40 sm:w-60 sm:opacity-75" />
 
-              <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
-                <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="relative z-10 mx-auto w-full max-w-7xl px-3 sm:px-8">
+                {/* Mobile: Ultra-Slim 1-Row App Header ([←] | Hapag ng PIYO · Category | [Bag]) · Desktop: Full Back & Cart Pills */}
+                <div className="relative flex items-center justify-between gap-2 sm:flex-wrap">
                   <button
                     type="button"
                     onClick={() => handleSelectCategory('bestsellers')}
-                    className="inline-flex min-h-[34px] items-center gap-1.5 rounded-full border border-[#0D1C11]/25 bg-[#FAF6EC]/95 px-3.5 py-1 text-xs font-bold text-[#0D1C11] shadow-xs transition hover:border-[#0D1C11] hover:bg-[#0D1C11] hover:text-[#F5EFE2]"
+                    aria-label="Back to Best Sellers"
+                    title="Back to Best Sellers"
+                    className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#0D1C11]/25 bg-[#FAF6EC]/95 text-[#0D1C11] shadow-xs transition hover:border-[#0D1C11] hover:bg-[#0D1C11] hover:text-[#F5EFE2] sm:h-auto sm:min-h-[34px] sm:w-auto sm:gap-1.5 sm:px-3.5 sm:py-1 sm:text-xs sm:font-bold"
                   >
-                    <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-                    <span>Best Sellers</span>
+                    <ArrowLeft className="h-4 w-4 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
+                    <span className="hidden sm:inline">Best Sellers</span>
                   </button>
+
+                  {/* Mobile Compact Centered Title Inline Between Back & Cart Icons */}
+                  <div className="min-w-0 flex-1 text-center sm:hidden">
+                    <p className="font-script text-[22px] leading-none text-[#7E5A30]">
+                      Hapag ng PIYO
+                    </p>
+                    <div className="mt-0.5 flex items-center justify-center gap-1.5">
+                      <span
+                        aria-hidden="true"
+                        className="h-[1px] w-5 bg-gradient-to-r from-transparent to-[#0D1C11]/45"
+                      />
+                      <h2 className="truncate font-serif text-[10.5px] font-bold uppercase tracking-[0.2em] text-[#0D1C11]">
+                        {activeCategoryMeta.label}
+                      </h2>
+                      <span
+                        aria-hidden="true"
+                        className="h-[1px] w-5 bg-gradient-to-l from-transparent to-[#0D1C11]/45"
+                      />
+                    </div>
+                  </div>
 
                   <button
                     type="button"
                     onClick={onOpenTray}
-                    className="inline-flex min-h-[34px] shrink-0 items-center gap-2 rounded-full bg-[#0D1C11] px-4 py-1.5 text-xs font-bold text-[#F5EFE2] shadow-sm transition hover:bg-[#162719]"
+                    aria-label={
+                      trayCount > 0
+                        ? `Open order cart (${trayCount} items, ${formatPeso(trayTotal)})`
+                        : 'Open order cart'
+                    }
+                    title="Open order cart"
+                    className="relative inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0D1C11] text-[#F5EFE2] shadow-sm transition hover:bg-[#162719] sm:h-auto sm:min-h-[34px] sm:w-auto sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs sm:font-bold"
                   >
-                    <ShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
-                    <span>
+                    <ShoppingBag className="h-4 w-4 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
+                    {trayCount > 0 && (
+                      <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#DFB96F] px-1 text-[10px] font-extrabold text-[#08130B] ring-2 ring-[#F5EFE2] sm:hidden">
+                        {trayCount}
+                      </span>
+                    )}
+                    <span className="hidden sm:inline">
                       {trayCount > 0 ? `${trayCount} · ${formatPeso(trayTotal)}` : 'Cart'}
                     </span>
                   </button>
                 </div>
 
-                <div className="mt-0.5 text-center">
-                  <p className="font-script text-[36px] leading-[1.05] text-[#7E5A30] sm:text-[46px]">
+                {/* Desktop / Tablet Editorial Title Below Top Row */}
+                <div className="mt-0.5 hidden text-center sm:block">
+                  <p className="font-script text-[46px] leading-[1.02] text-[#7E5A30]">
                     Hapag ng PIYO
                   </p>
                   <div className="mt-0.5 flex items-center justify-center gap-3">
                     <span
                       aria-hidden="true"
-                      className="h-[1px] w-10 bg-gradient-to-r from-transparent to-[#0D1C11]/45 sm:w-14"
+                      className="h-[1px] w-14 bg-gradient-to-r from-transparent to-[#0D1C11]/45"
                     />
-                    <h2 className="font-serif text-base font-bold uppercase tracking-[0.26em] text-[#0D1C11] sm:text-xl">
+                    <h2 className="font-serif text-xl font-bold uppercase tracking-[0.26em] text-[#0D1C11]">
                       {activeCategoryMeta.label}
                     </h2>
                     <span
                       aria-hidden="true"
-                      className="h-[1px] w-10 bg-gradient-to-l from-transparent to-[#0D1C11]/45 sm:w-14"
+                      className="h-[1px] w-14 bg-gradient-to-l from-transparent to-[#0D1C11]/45"
                     />
                   </div>
                 </div>
 
-                {/* Category Switcher Tabs (Click Best Sellers to unlock page scroll) */}
-                <div
-                  className="mt-3 flex items-center justify-start gap-1.5 overflow-x-auto no-scrollbar py-0.5 sm:justify-center"
-                  role="tablist"
-                  aria-label="Filipino menu categories"
-                >
-                  {MENU_CATEGORIES.map((cat) => {
-                    const active = selectedCat === cat.id;
-                    return (
-                      <button
-                        key={cat.id}
-                        type="button"
-                        role="tab"
-                        aria-selected={active}
-                        onClick={() => handleSelectCategory(cat.id)}
-                        className={`min-h-[34px] shrink-0 rounded-full px-3.5 py-1 text-xs font-bold tracking-wide transition ${
-                          active
-                            ? 'bg-[#0D1C11] text-[#F5EFE2] shadow-sm'
-                            : 'border border-[#0D1C11]/20 bg-[#FAF6EC]/90 text-[#1A2D1D] hover:border-[#0D1C11]/50 hover:bg-[#E6DAC2]'
-                        }`}
-                      >
-                        {cat.label}
-                      </button>
-                    );
-                  })}
+                {/* Slim Single-Row Category Pill Rail with ‹ › Scroll Buttons (Mobile) & Centered Row (Desktop) */}
+                <div className="mt-1.5 flex items-center gap-1 sm:mt-3 sm:justify-center">
+                  <button
+                    type="button"
+                    onClick={() => scrollCatRailBy(-170)}
+                    disabled={!canScrollLeft}
+                    aria-label="Scroll categories left"
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#0D1C11]/20 bg-[#FAF6EC]/95 text-[#0D1C11] shadow-xs transition lg:hidden ${
+                      canScrollLeft
+                        ? 'opacity-100 hover:bg-[#0D1C11] hover:text-[#F5EFE2]'
+                        : 'pointer-events-none opacity-30'
+                    }`}
+                  >
+                    <ChevronLeft className="h-3.5 w-3.5" aria-hidden="true" />
+                  </button>
+
+                  <div
+                    ref={catRailRef}
+                    onScroll={syncCatRailArrows}
+                    onWheel={(e) => {
+                      const el = catRailRef.current;
+                      if (!el || el.scrollWidth <= el.clientWidth) return;
+                      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                        el.scrollLeft += e.deltaY;
+                        syncCatRailArrows();
+                      }
+                    }}
+                    className="flex min-w-0 flex-1 items-center justify-start gap-1.5 overflow-x-auto no-scrollbar py-0.5 touch-pan-x lg:flex-initial lg:justify-center"
+                    role="tablist"
+                    aria-label="Filipino menu categories"
+                  >
+                    {MENU_CATEGORIES.filter((cat) => cat.id !== 'bestsellers').map(
+                      (cat) => {
+                        const active = selectedCat === cat.id;
+                        return (
+                          <button
+                            key={cat.id}
+                            type="button"
+                            role="tab"
+                            aria-selected={active}
+                            onClick={() => handleSelectCategory(cat.id)}
+                            className={`min-h-[28px] shrink-0 whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11px] font-bold tracking-wide sm:min-h-[34px] sm:px-3.5 sm:py-1 sm:text-xs ${
+                              active
+                                ? 'bg-[#0D1C11] text-[#F5EFE2] shadow-sm'
+                                : 'border border-[#0D1C11]/20 bg-[#FAF6EC]/90 text-[#1A2D1D] hover:border-[#0D1C11]/50 hover:bg-[#E6DAC2]'
+                            }`}
+                          >
+                            {cat.label}
+                          </button>
+                        );
+                      }
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => scrollCatRailBy(170)}
+                    disabled={!canScrollRight}
+                    aria-label="Scroll categories right"
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#0D1C11]/20 bg-[#FAF6EC]/95 text-[#0D1C11] shadow-xs transition lg:hidden ${
+                      canScrollRight
+                        ? 'opacity-100 hover:bg-[#0D1C11] hover:text-[#F5EFE2]'
+                        : 'pointer-events-none opacity-30'
+                    }`}
+                  >
+                    <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -584,7 +706,7 @@ export function RestaurantMenuBoard({
             {/* Pinned Woven Banig Strip */}
             <div
               aria-hidden="true"
-              className="h-[11px] w-full shrink-0 border-y border-[#0D1C11]/25 bg-[#E6D9BE]"
+              className="h-[7px] w-full shrink-0 border-y border-[#0D1C11]/25 bg-[#E6D9BE] sm:h-[11px]"
               style={{
                 backgroundImage: BANIG_STRIP_BG,
                 backgroundRepeat: 'repeat-x',
@@ -595,10 +717,11 @@ export function RestaurantMenuBoard({
             {/* Independently Scrollable Solihiya Grid */}
             <div
               ref={lockedScrollRef}
-              className="relative z-10 flex-1 overflow-y-auto bg-[#0B190F] py-6 lg:py-7"
+              className="relative z-10 min-h-0 flex-1 overflow-y-auto overscroll-contain bg-[#0B190F] py-6 lg:py-7"
               style={{
                 backgroundImage: SOLIHIYA_BG,
                 backgroundSize: '64px 64px',
+                WebkitOverflowScrolling: 'touch',
               }}
             >
               {renderDishCards(visibleItems)}

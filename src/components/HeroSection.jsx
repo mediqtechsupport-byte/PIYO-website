@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const HERO_PLATES = [
   {
@@ -21,7 +21,7 @@ const HERO_PLATES = [
     name: 'Grilled Pork Liempo',
     price: '₱401',
     image: './images/hero-plate-liempo.png',
-    alt: 'Overhead matte black stoneware plate of PIYO charcoal-grilled marinated Pork Liempo',
+    alt: 'Overhead matte black stoneware plate of PIYO charcoal-grilled marinated Pork Liempo with garlic rice and charred calamansi',
   },
 ];
 
@@ -46,120 +46,133 @@ export function HeroSection({
   return (
     <section
       id="home"
-      className="relative flex flex-col justify-center overflow-hidden bg-[#08130B] text-[#FAF6EC] lg:min-h-[calc(100svh-var(--nav-h,69px))]"
+      className="relative flex min-h-[var(--stage-h)] flex-col justify-center overflow-hidden bg-[#F5EFE2] text-[#08130B]"
     >
-      {/* Sweeping Warm Cream-Beige Curved Organic Diagonal Shape Hugging the Main Plate */}
+      {/* Atmospheric Overhead Culinary Tabletop Background — Strictly Inside the Warm Cream-Beige Area Only */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-[32%] -right-[18%] h-[460px] w-[620px] -rotate-[34deg] overflow-hidden rounded-[9999px] bg-[#EDE5D0] shadow-[inset_0_2px_28px_rgba(8,19,11,0.10)] sm:-bottom-[28%] sm:-right-[16%] sm:h-[540px] sm:w-[760px] lg:-bottom-[28%] lg:-right-[14%] lg:h-[590px] lg:w-[840px] xl:-bottom-[26%] xl:-right-[12%] xl:h-[650px] xl:w-[940px] 2xl:-bottom-[24%] 2xl:-right-[10%] 2xl:h-[710px] 2xl:w-[1020px]"
+        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
       >
-        {/* Subtle Woven Solihiya Linen Texture Inside Warm Beige Curve */}
-        <div
-          className="absolute inset-0 opacity-[0.075]"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg width='56' height='56' viewBox='0 0 56 56' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%230D1C11' stroke-width='1'%3E%3Cpath d='M0 28H56M28 0V56M0 0L56 56M56 0L0 56' opacity='0.45'/%3E%3Crect x='14' y='14' width='28' height='28' rx='4'/%3E%3C/g%3E%3C/svg%3E\")",
-            backgroundSize: '48px 48px',
-          }}
+        <img
+          src="./images/hero-beige-table-bg.jpg"
+          alt=""
+          draggable={false}
+          className="h-full w-full select-none object-cover object-left opacity-[0.28] saturate-[0.55] contrast-[0.9] sm:opacity-[0.31] lg:opacity-[0.33]"
         />
-        {/* Soft Warm Botanical Palm Frond Accent Along Outer Right Edge of Beige Curve */}
-        <svg
-          viewBox="0 0 360 360"
-          fill="none"
-          className="absolute -bottom-8 right-10 h-72 w-72 rotate-[26deg] text-[#0D1C11]/[0.08] sm:h-88 sm:w-88"
-        >
-          <path
-            d="M40 320C115 240 205 155 320 40"
-            stroke="currentColor"
-            strokeWidth="3.5"
-            strokeLinecap="round"
-          />
-          <path
-            d="M110 250C90 190 120 130 165 95M145 215C140 160 175 112 222 80M185 175C192 128 228 92 272 68M128 232C185 245 245 225 288 188M168 192C220 200 268 180 306 146M208 152C250 156 290 138 322 108"
-            stroke="currentColor"
-            strokeWidth="2.4"
-            strokeLinecap="round"
-          />
-        </svg>
-        {/* Soft Inner Radial Warmth */}
+        {/* Soft Warm Cream-Beige Veil Behind the Text Column so Typography Stays Effortlessly Crisp */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse 68% 68% at 38% 44%, rgba(255,252,244,0.45) 0%, transparent 72%)',
+              'radial-gradient(ellipse 38% 46% at 36% 47%, rgba(245,239,226,0.84) 0%, rgba(245,239,226,0.52) 52%, rgba(245,239,226,0.10) 100%)',
           }}
         />
       </div>
 
-      {/* Subtle Ambient Pine Vignette on Left Side for Pure Minimalist Depth */}
+      {/* Dramatic Organic Flowing Deep Obsidian-Pine S-Wave Sweeping Down the Right Half */}
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="none"
+        className="pointer-events-none absolute inset-0 z-[1] hidden h-full w-full lg:block"
+      >
+        <defs>
+          <linearGradient id="piyo-hero-wave-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#0D1C11" />
+            <stop offset="52%" stopColor="#08130B" />
+            <stop offset="100%" stopColor="#061009" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M 1190 0 C 1110 115, 965 135, 915 265 C 865 395, 905 510, 825 655 C 760 770, 750 845, 785 900 L 1440 900 L 1440 0 Z"
+          fill="url(#piyo-hero-wave-grad)"
+        />
+      </svg>
+
+      {/* Mobile / Tablet Curved Top Dark Obsidian-Pine Wave Framing the Plate Carousel Above the Text */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(ellipse 52% 65% at 16% 42%, rgba(19,35,22,0.22) 0%, transparent 70%)',
-        }}
+        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[215px] rounded-b-[46%] bg-gradient-to-b from-[#08130B] to-[#0D1C11] sm:h-[275px] lg:hidden"
+      />
+
+      {/* Framing Warm Filipino Aromatics — Top-Left Corner (Cinnamon Bark, Dried Laurel Leaf & Star Anise) */}
+      <img
+        src="./images/hero-spice-cinnamon.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-1 -top-6 z-20 hidden h-34 w-auto rotate-[34deg] select-none object-contain drop-shadow-[0_14px_20px_rgba(38,22,10,0.22)] lg:left-2 lg:-top-5 lg:block lg:h-44"
+        draggable={false}
+      />
+      <img
+        src="./images/hero-spice-laurel.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-4 top-14 z-20 hidden h-28 w-auto -rotate-[20deg] select-none object-contain drop-shadow-[0_14px_20px_rgba(24,28,16,0.20)] lg:-left-2 lg:top-20 lg:block lg:h-42"
+        draggable={false}
+      />
+      <img
+        src="./images/hero-spice-anise.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute left-14 top-5 z-20 hidden h-14 w-auto rotate-[16deg] select-none object-contain drop-shadow-[0_12px_18px_rgba(38,22,10,0.26)] lg:left-24 lg:top-7 lg:block lg:h-20"
+        draggable={false}
+      />
+
+      {/* Framing Warm Filipino Aromatics — Bottom-Right Corner Over Dark S-Wave */}
+      <img
+        src="./images/hero-spice-laurel.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-6 right-16 z-20 hidden h-36 w-auto rotate-[20deg] select-none object-contain drop-shadow-[0_18px_28px_rgba(0,0,0,0.65)] lg:block xl:right-24 xl:h-44"
+        draggable={false}
+      />
+      <img
+        src="./images/hero-spice-cinnamon.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-10 -right-2 z-20 hidden h-34 w-auto -rotate-[26deg] select-none object-contain drop-shadow-[0_18px_28px_rgba(0,0,0,0.65)] lg:block xl:right-3 xl:h-42"
+        draggable={false}
+      />
+      <img
+        src="./images/hero-spice-anise.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-10 right-28 z-20 hidden h-16 w-auto -rotate-[18deg] select-none object-contain drop-shadow-[0_16px_24px_rgba(0,0,0,0.70)] lg:block xl:right-40 xl:h-20"
+        draggable={false}
       />
 
       {/* Main Two-Column Hero Stage — Uniform max-w-7xl Rail */}
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center px-5 pb-12 pt-8 sm:px-8 sm:pb-14 sm:pt-10 lg:py-8">
-        <div className="grid w-full items-center gap-12 lg:grid-cols-12 lg:gap-8">
-          {/* Left Editorial Column (Verdeo Minimalist Script + Serif + 2 Pills + 3 Dots) */}
-          <div className="relative z-10 w-full max-w-[510px] lg:col-span-6">
-            {/* Organic Handwritten Script Eyebrow */}
-            <p className="font-script text-[1.6rem] font-medium leading-none tracking-[0.01em] text-[#DFB96F] sm:text-[1.9rem]">
-              Good Food, Tagaytay Mood
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center px-5 pb-10 pt-5 sm:px-8 sm:pb-12 sm:pt-7 lg:py-8">
+        <div className="grid w-full items-center gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-8">
+          {/* Editorial Text Column — Below Plate on Mobile, Left on Desktop */}
+          <div className="relative z-10 order-2 mx-auto w-full max-w-[490px] text-center lg:order-1 lg:col-span-5 lg:mx-0 lg:text-left">
+            {/* Punchy Warm Terracotta-Gold Eyebrow */}
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#8A5316] sm:text-xs">
+              Chef&apos;s Special · Tagaytay
             </p>
 
-            {/* Bold Sculptural Editorial Serif Headline + Handwritten Script Focal Word */}
-            <h1 className="mt-2.5 font-serif text-[2.65rem] font-medium leading-[1.06] tracking-[-0.025em] text-[#FAF6EC] sm:text-[3.35rem] lg:text-[3.6rem] xl:text-[3.95rem]">
-              Experience Food
-              <span className="block">That Feels Like</span>
-              <span className="font-script mt-0.5 block text-[3.55rem] font-medium leading-[0.92] tracking-[0.01em] text-[#DFB96F] sm:text-[4.35rem] xl:text-[4.85rem]">
-                Home
-              </span>
+            {/* Bold Ultra-Clean 2-Line Display Headline */}
+            <h1 className="mt-2.5 font-serif text-[2.35rem] font-semibold leading-[1.06] tracking-[-0.028em] text-[#08130B] sm:mt-3.5 sm:text-[3.3rem] lg:text-[3.75rem] xl:text-[4.2rem]">
+              Bringing smiles
+              <span className="block">to every plate.</span>
             </h1>
 
-            {/* Delicate Botanical Leaf Flourish */}
-            <div className="mt-1 pl-20 sm:pl-28" aria-hidden="true">
-              <svg
-                viewBox="0 0 36 22"
-                fill="none"
-                className="h-4 w-7 text-[#DFB96F]/85"
-              >
-                <path
-                  d="M4 18C9 9 20 3 32 4C28 14 18 20 4 18Z"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M4 18C12 13 20 9 29 5.5"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </div>
-
-            {/* Concise Warm Hospitality Description */}
-            <p className="mt-4 max-w-[38ch] text-sm leading-relaxed text-[#D0DDD4] sm:text-[15px] sm:leading-7">
-              From slow-simmered Bacolod cansi to charcoal-grilled chicken
-              inasal, we serve honest Negrense meals that warm your heart and
-              bring smiles to every plate.
+            {/* Crisp Minimalist 2-Line Description */}
+            <p className="mx-auto mt-3.5 max-w-[36ch] text-sm font-medium leading-6 text-[#18291D] sm:mt-5 sm:text-[15px] sm:leading-7 lg:mx-0 lg:max-w-[38ch]">
+              Slow-simmered Bacolod Cansi with free refills, charcoal chicken
+              inasal, and sizzling Negrense favorites along Km.&nbsp;64.
             </p>
 
-            {/* Dual Pill CTAs — Solid Warm Gold + Crisp Outline */}
-            <div className="mt-7 flex flex-wrap items-center gap-3.5 sm:gap-4">
+            {/* Minimal Equal-Size Pill CTA Pair on Mobile, Editorial Pair on Desktop */}
+            <div className="mx-auto mt-6 grid w-full max-w-[330px] grid-cols-2 gap-2.5 sm:mt-8 sm:max-w-[380px] sm:gap-3 lg:mx-0 lg:flex lg:w-auto lg:max-w-none lg:flex-wrap lg:items-center lg:justify-start lg:gap-4">
               <button
                 type="button"
                 onClick={onExploreMenu}
-                className="group inline-flex min-h-[46px] items-center justify-center gap-2.5 whitespace-nowrap rounded-full bg-[#DFB96F] px-6 py-2.5 text-xs font-bold tracking-wide text-[#08130B] shadow-lg shadow-black/25 transition hover:bg-[#E8C988] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FAF6EC] sm:px-7 sm:text-sm"
+                className="group inline-flex h-[40px] w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#08130B] px-3 text-[11.5px] font-bold tracking-wide text-[#FAF6EC] shadow-[0_14px_28px_-10px_rgba(8,19,11,0.48)] transition hover:-translate-y-0.5 hover:bg-[#152517] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08130B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5EFE2] sm:h-[44px] sm:px-5 sm:text-xs lg:h-auto lg:min-h-[50px] lg:w-auto lg:gap-2.5 lg:px-8 lg:py-3 lg:text-sm"
               >
-                <span>Explore Our Menu</span>
+                <span>Explore menu</span>
                 <ArrowRight
-                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                  className="h-3.5 w-3.5 shrink-0 text-[#DFB96F] transition-transform duration-300 group-hover:translate-x-0.5 lg:h-4 lg:w-4"
                   aria-hidden="true"
                 />
               </button>
@@ -167,19 +180,15 @@ export function HeroSection({
               <button
                 type="button"
                 onClick={onExploreStory}
-                className="group inline-flex min-h-[46px] items-center justify-center gap-2.5 whitespace-nowrap rounded-full border border-white/35 bg-transparent px-6 py-2.5 text-xs font-medium tracking-wide text-[#FAF6EC] transition hover:border-[#DFB96F] hover:text-[#DFB96F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:px-7 sm:text-sm"
+                className="inline-flex h-[40px] w-full items-center justify-center whitespace-nowrap rounded-full border border-[#08130B]/25 bg-[#F5EFE2]/75 px-3 text-[11.5px] font-semibold tracking-wide text-[#08130B] backdrop-blur-[2px] transition hover:border-[#08130B]/55 hover:bg-[#F5EFE2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08130B] sm:h-[44px] sm:px-5 sm:text-xs lg:h-auto lg:min-h-[50px] lg:w-auto lg:px-6 lg:py-3 lg:text-sm"
               >
-                <span>Our Story</span>
-                <Play
-                  className="h-3 w-3 fill-current transition-transform duration-300 group-hover:translate-x-0.5"
-                  aria-hidden="true"
-                />
+                Our story
               </button>
             </div>
 
-            {/* Interactive 3-Dot Dish Showcase Switcher (Bottom Left — Verdeo Signature) */}
+            {/* Clean Interactive 3-Dot Signature Dish Switcher (Desktop Position) */}
             <div
-              className="mt-10 flex items-center gap-3 lg:mt-14"
+              className="mt-10 hidden items-center gap-2.5 lg:mt-14 lg:flex"
               role="tablist"
               aria-label="Featured PIYO signature plates"
             >
@@ -193,35 +202,35 @@ export function HeroSection({
                     aria-selected={isActive}
                     aria-label={`Show ${plate.name} (${plate.price})`}
                     onClick={() => setActiveIdx(idx)}
-                    className={`h-2.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] ${
+                    className={`h-2.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08130B] ${
                       isActive
-                        ? 'w-2.5 bg-[#DFB96F] ring-4 ring-[#DFB96F]/25'
-                        : 'w-2.5 bg-[#FAF6EC]/40 hover:bg-[#FAF6EC]/75'
+                        ? 'w-6 bg-[#08130B]'
+                        : 'w-2.5 bg-[#08130B]/25 hover:bg-[#08130B]/55'
                     }`}
                   />
                 );
               })}
-              <span className="ml-2 text-[11px] font-medium tracking-wide text-[#A9BEB1]">
+              <span className="ml-2 text-xs font-semibold tracking-wide text-[#3D4E42]">
                 {activePlate.name} ·{' '}
-                <span className="text-[#DFB96F]">{activePlate.price}</span>
+                <span className="text-[#9E6622]">{activePlate.price}</span>
               </span>
             </div>
           </div>
 
-          {/* Right Overhead Circular Matte-Stoneware Dish Showcase Centered Over Warm Beige Curve */}
-          <div className="relative flex items-center justify-center lg:col-span-6 lg:justify-end">
+          {/* Overhead Circular Matte-Stoneware Plate Carousel — TOP on Mobile, Right Straddling S-Wave on Desktop */}
+          <div className="relative order-1 flex flex-col items-center justify-center lg:order-2 lg:col-span-7">
             <div
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
-              className="relative flex aspect-square w-[340px] items-center justify-center sm:w-[465px] lg:w-[565px] lg:translate-x-10 xl:w-[645px] xl:translate-x-20 2xl:w-[690px] 2xl:translate-x-32"
+              className="relative flex aspect-square w-[250px] items-center justify-center sm:w-[340px] lg:w-[min(520px,calc(var(--stage-h)-68px))] lg:translate-x-8 xl:w-[min(585px,calc(var(--stage-h)-68px))] xl:translate-x-12"
             >
-              {/* Realistic Soft Overhead Contact Shadow Under the Main Circular Plate */}
+              {/* Realistic Soft Overhead Contact Shadow Under the Circular Plate */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-[4%] translate-x-3 translate-y-5 rounded-full bg-black/45 blur-2xl"
+                className="pointer-events-none absolute inset-[5%] translate-x-3 translate-y-5 rounded-full bg-[#08130B]/40 blur-2xl lg:translate-x-4 lg:translate-y-6"
               />
 
-              {/* Cross-Fading Circular Overhead Matte-Stoneware PIYO Menu Plates */}
+              {/* Cross-Fading Circular Overhead Matte-Stoneware PIYO Plates */}
               <button
                 type="button"
                 onClick={() => onSelectDishById(activePlate.id)}
@@ -236,7 +245,7 @@ export function HeroSection({
                       src={plate.image}
                       alt={plate.alt}
                       draggable={false}
-                      className={`absolute inset-0 h-full w-full select-none rounded-full object-contain drop-shadow-[0_26px_38px_rgba(0,0,0,0.52)] transition-all duration-700 ease-out ${
+                      className={`absolute inset-0 h-full w-full select-none rounded-full object-contain drop-shadow-[0_24px_34px_rgba(8,19,11,0.42)] transition-all duration-700 ease-out lg:drop-shadow-[0_28px_40px_rgba(8,19,11,0.42)] ${
                         isActive
                           ? 'scale-100 rotate-0 opacity-100 group-hover:scale-[1.025]'
                           : 'pointer-events-none scale-95 -rotate-6 opacity-0'
@@ -245,6 +254,36 @@ export function HeroSection({
                   );
                 })}
               </button>
+            </div>
+
+            {/* Compact Interactive 3-Dot Dish Switcher Directly Under Plate on Mobile/Tablet */}
+            <div
+              className="mt-4 flex items-center justify-center gap-2 lg:hidden"
+              role="tablist"
+              aria-label="Featured PIYO signature plates"
+            >
+              {HERO_PLATES.map((plate, idx) => {
+                const isActive = idx === activeIdx;
+                return (
+                  <button
+                    key={plate.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-label={`Show ${plate.name} (${plate.price})`}
+                    onClick={() => setActiveIdx(idx)}
+                    className={`h-2 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08130B] ${
+                      isActive
+                        ? 'w-5 bg-[#08130B]'
+                        : 'w-2 bg-[#08130B]/25 hover:bg-[#08130B]/55'
+                    }`}
+                  />
+                );
+              })}
+              <span className="ml-1.5 text-xs font-semibold tracking-wide text-[#2E3F33]">
+                {activePlate.name} ·{' '}
+                <span className="text-[#8A5316]">{activePlate.price}</span>
+              </span>
             </div>
           </div>
         </div>

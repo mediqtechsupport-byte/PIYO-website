@@ -1,0 +1,33 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "piyo-kitchen-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-25",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 1
+    }
+  },
+  "vars": {
+    "ALLOWED_ORIGINS": "http://localhost:5173,https://mediqtechsupport-byte.github.io,https://piyogrill.com"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "piyo-kitchen-orders",
+      "database_id": "REPLACE_WITH_D1_DATABASE_ID"
+    }
+  ]
+  // Secrets (never put in config; set via `wrangler secret put <NAME>`):
+  // - KITCHEN_PIN           (staff PIN required to view/update orders on #kitchen)
+  // - TELEGRAM_BOT_TOKEN    (optional: Telegram Bot token for instant manager alerts)
+  // - TELEGRAM_CHAT_ID      (optional: Telegram chat/group ID for PIYO counter alerts)
+}

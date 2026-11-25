@@ -376,9 +376,24 @@ export function DishOrbitCarousel({
           : 0
         return `top ${stickyTop}px`
       },
-      end: "bottom bottom",
+      end: () => {
+        const r = rootRef.current
+        if (!r) return "bottom bottom"
+        const stickyTop = parseFloat(getComputedStyle(r).top) || 0
+        return `bottom ${Math.round(stickyTop + r.clientHeight)}px`
+      },
       invalidateOnRefresh: true,
-      snap: { snapTo: 1 / steps, duration: { min: 0.25, max: 0.65 }, delay: 0.06, ease: "power2.inOut" },
+      snap: {
+        snapTo: (value) => {
+          const navLock = (window as unknown as { __piyoNavLockUntil?: number }).__piyoNavLockUntil ?? 0
+          if (Date.now() < navLock) return value
+          if (value <= 0.04 || value >= 0.94) return value
+          return Math.round(value * steps) / steps
+        },
+        duration: { min: 0.2, max: 0.45 },
+        delay: 0.1,
+        ease: "power2.inOut",
+      },
       onUpdate: (self) => {
         // Looping: the last stretch shows the first dish, so jump back to the top unseen.
         if (loop && self.progress >= 1 && self.direction > 0) {

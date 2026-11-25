@@ -28,6 +28,14 @@ try {
   fs.cpSync(distDir, stageDir, { recursive: true });
   fs.writeFileSync(path.join(stageDir, '.nojekyll'), '');
 
+  // Clean /kitchen/ entry URL redirecting to ../#kitchen so relative assets resolve properly on GitHub Pages
+  const kitchenDir = path.join(stageDir, 'kitchen');
+  fs.mkdirSync(kitchenDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(kitchenDir, 'index.html'),
+    `<!doctype html><html lang="en"><head><meta charset="utf-8" /><title>PIYO Live Kitchen &amp; Cashier</title><meta http-equiv="refresh" content="0; url=../#kitchen" /><script>window.location.replace('../#kitchen');</script></head><body style="background:#061009;color:#FAF6EC;font-family:system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;margin:0"><a href="../#kitchen" style="color:#DFB96F">Opening PIYO Live Kitchen…</a></body></html>`
+  );
+
   runGit(['init', '-b', 'gh-pages']);
   runGit(['config', 'core.autocrlf', 'false']);
   runGit(['config', 'user.name', 'mediqtechsupport-byte']);

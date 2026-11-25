@@ -57,11 +57,22 @@
   }
 }
 
-/* Desktop scroll padding synced to actual live header height so zero sliver leaks above sections */
-@media (min-width: 1024px) {
-  html {
-    scroll-padding-top: var(--nav-h, 69px);
+/* Scroll padding & exact single-page stage height synced to live header + mobile bottom nav */
+:root {
+  --nav-h: 93px;
+  --bottom-nav-h: 72px;
+  --stage-h: calc(100svh - var(--nav-h, 93px) - var(--bottom-nav-h, 72px));
+}
+@media (min-width: 768px) {
+  :root {
+    --nav-h: 69px;
+    --bottom-nav-h: 0px;
+    --stage-h: calc(100svh - var(--nav-h, 69px));
   }
+}
+
+html {
+  scroll-padding-top: var(--nav-h, 69px);
 }
 
 /* Smooth levitating dish float + synced floor shadow for PIYO Menu Workbench */
@@ -126,15 +137,10 @@
 
 /* PIYO Signature Dish Orbit Showcase responsive framing for desktop + mobile */
 .piyo-orbit {
-  --piyo-orbit-h: calc(100svh - 159px);
-}
-@media (min-width: 768px) {
-  .piyo-orbit {
-    --piyo-orbit-h: calc(100svh - var(--nav-h, 69px));
-  }
+  --piyo-orbit-h: var(--stage-h, calc(100svh - var(--nav-h, 93px) - var(--bottom-nav-h, 72px)));
 }
 .piyo-orbit .dsh-root {
-  top: var(--nav-h, 86px);
+  top: var(--nav-h, 93px);
 }
 @media (min-width: 768px) {
   .piyo-orbit .dsh-root {
@@ -225,41 +231,115 @@
 }
 @container (max-width: 639px) {
   .piyo-orbit .dsh-canvas {
-    padding: 8px 14px 10px;
+    min-height: 100%;
+    justify-content: center;
+    padding: 14px 16px 18px;
+  }
+  .piyo-orbit .dsh-arc {
+    width: 190%;
+    left: -55%;
+    top: -16px;
+    opacity: 0.72;
   }
   .piyo-orbit .dsh-plates {
-    width: min(38vw, 20svh);
-    height: min(38vw, 20svh);
+    width: min(37vw, 19.5svh);
+    height: min(37vw, 19.5svh);
+    margin-top: 2px;
   }
   .piyo-orbit .dsh-head {
-    height: 142px;
-    margin-top: 6px;
-  }
-  .piyo-orbit .dsh-hd {
-    transform: scale(0.74);
-  }
-  .piyo-orbit .dsh-acts {
-    margin-top: 12px;
-  }
-  .piyo-orbit .dsh-acts .dsh-btn {
-    padding: 5px 12px;
-    font-size: 12px;
-  }
-  .piyo-orbit .dsh-card {
-    padding: 12px 15px;
-    margin-top: 8px;
-  }
-  .piyo-orbit .dsh-tabs {
-    margin-bottom: 10px;
-  }
-  .piyo-orbit .dsh-rate {
-    margin-bottom: 10px;
-  }
-  .piyo-orbit .dsh-react {
+    height: 116px;
     margin-top: 10px;
   }
+  .piyo-orbit .dsh-hd {
+    transform: scale(0.72);
+    transform-origin: 50% 0;
+  }
+  .piyo-orbit .dsh-eye {
+    margin: 0 0 6px 0;
+  }
+  .piyo-orbit .dsh-acts {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    max-width: 280px;
+    gap: 10px;
+  }
+  .piyo-orbit .dsh-acts .dsh-btn {
+    height: 36px;
+    width: 100%;
+    justify-content: center;
+    padding: 0 12px;
+    font-size: 11.5px;
+    white-space: nowrap;
+  }
+  .piyo-orbit .dsh-card {
+    padding: 13px 16px 14px;
+    margin-top: 12px;
+    border-radius: 18px;
+  }
+  .piyo-orbit .dsh-tabs {
+    padding: 0 2px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(13, 28, 17, 0.08);
+    padding-bottom: 7px;
+  }
+  .piyo-orbit .dsh-tab[aria-selected='true'] {
+    position: relative;
+  }
+  .piyo-orbit .dsh-tab[aria-selected='true']::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -8px;
+    height: 2px;
+    border-radius: 9999px;
+    background: #c29645;
+  }
+  .piyo-orbit .dsh-rate {
+    height: 48px;
+    margin: 0 0 8px 0;
+  }
+  .piyo-orbit .dsh-badge {
+    width: 56px;
+    height: 48px;
+    border-radius: 12px;
+  }
+  .piyo-orbit .dsh-badge svg {
+    bottom: 6px;
+    width: 10px;
+    height: 10px;
+  }
+  .piyo-orbit .dsh-num {
+    width: 56px;
+    top: 5px;
+    font-size: 21px;
+  }
+  .piyo-orbit .dsh-chef {
+    font-size: 17px;
+  }
+  .piyo-orbit .dsh-kit {
+    margin: 2px 0 8px;
+  }
+  .piyo-orbit .dsh-desc,
+  .piyo-orbit .dsh-ing {
+    font-size: 12px;
+    min-height: 40px;
+  }
+  .piyo-orbit .dsh-react {
+    margin-top: 11px;
+  }
+  .piyo-orbit .dsh-like,
+  .piyo-orbit .dsh-meh {
+    height: 31px;
+  }
+  .piyo-orbit .dsh-meh {
+    width: 31px;
+  }
   .piyo-orbit .dsh-pager {
-    top: 76px;
+    left: 14px;
+    top: 56px;
   }
 }
 

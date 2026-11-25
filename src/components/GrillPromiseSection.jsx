@@ -349,24 +349,24 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
       ref={sectionRef}
       id="craft"
       data-cansi-phase={phase}
-      className="cansi-stage-root relative overflow-hidden border-b border-[#0D1C11]/12 bg-[#F5EFE2] py-14 text-[#0D1C11] sm:py-16 lg:flex lg:min-h-[calc(100svh-var(--nav-h,69px))] lg:items-center lg:py-10 xl:py-12"
+      className="cansi-stage-root relative flex min-h-[var(--stage-h)] flex-col justify-center overflow-hidden border-b border-[#0D1C11]/12 bg-[#F5EFE2] pb-14 pt-10 text-[#0D1C11] sm:py-16 lg:py-4 2xl:py-8"
     >
-      {/* Top-Left Open Flame Accent blended cleanly into warm beige */}
+      {/* Top-Left Open Flame Accent blended cleanly into warm beige (Desktop / Tablet only so it never overlaps mobile headline) */}
       <img
         src="./images/flame-corner.jpg"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -left-2 -top-2 h-28 w-36 object-cover object-left-top opacity-90 mix-blend-multiply sm:h-40 sm:w-52 lg:h-52 lg:w-68"
+        className="pointer-events-none absolute -left-2 -top-2 hidden h-40 w-52 object-cover object-left-top opacity-90 mix-blend-multiply lg:block lg:h-52 lg:w-68"
         onError={(e) => {
           e.currentTarget.style.display = 'none';
         }}
       />
 
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
-        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-10">
-          {/* Left Editorial Column */}
-          <div className="relative z-20 pb-2 lg:col-span-6 lg:pb-2">
-            <h2 className="font-serif text-[2rem] font-semibold leading-[1.12] tracking-[-0.02em] text-[#0D1C11] sm:text-[2.55rem] lg:text-[2.6rem] xl:text-[2.85rem]">
+        <div className="grid items-center gap-7 sm:gap-10 lg:grid-cols-12 lg:gap-10">
+          {/* Editorial Column — Below Steaming Bowl on Mobile, Left on Desktop */}
+          <div className="relative z-20 order-2 pb-2 lg:order-1 lg:col-span-6 lg:pb-0">
+            <h2 className="text-center font-serif text-[1.6rem] font-semibold leading-[1.16] tracking-[-0.02em] text-[#0D1C11] sm:text-[2.45rem] sm:leading-[1.12] lg:text-left lg:text-[2.15rem] lg:leading-[1.08] 2xl:text-[2.85rem]">
               PIYO&apos;s{' '}
               <span className="relative inline-block whitespace-nowrap">
                 <span className="relative z-10">#1 House Favorite</span>
@@ -375,7 +375,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                   fill="none"
                   aria-hidden="true"
                   preserveAspectRatio="none"
-                  className="pointer-events-none absolute -bottom-1 left-0 h-3.5 w-full sm:h-4"
+                  className="pointer-events-none absolute -bottom-1 left-0 h-3 w-full sm:h-4"
                 >
                   <path
                     d="M4 11.5C82 4 218 4 316 10.5"
@@ -395,28 +395,28 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
               <span className="mt-1 block">Authentic Bacolod Cansi</span>
             </h2>
 
-            <p className="mt-5 max-w-xl text-sm leading-relaxed text-[#425246] sm:text-[15px] sm:leading-7">
+            <p className="mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-[#425246] sm:mt-5 sm:text-[15px] sm:leading-7 lg:mx-0 lg:mt-2.5 lg:text-left lg:text-[13px] lg:leading-[1.55] 2xl:mt-5 2xl:text-[15px] 2xl:leading-7">
               Loved by Tagaytay families and repeat visitors for our real
               batwan-soured beef shank &amp; bone marrow broth — served piping
               hot on banana leaf alongside outdoor charcoal-grilled favorites.
             </p>
 
             {/* 3 Tinted Line-Icon Highlights */}
-            <div className="mt-6 space-y-4">
+            <div className="mt-6 space-y-3.5 sm:space-y-4 lg:mt-3.5 lg:space-y-2.5 2xl:mt-6 2xl:space-y-4">
               {HIGHLIGHTS.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <div key={item.title} className="flex items-start gap-4">
+                  <div key={item.title} className="flex items-start gap-3.5 sm:gap-4 lg:gap-3 2xl:gap-4">
                     <div
-                      className={`flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl shadow-xs ring-1 ring-[#0D1C11]/10 sm:h-14 sm:w-14 ${item.tileClass}`}
+                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl shadow-xs ring-1 ring-[#0D1C11]/10 sm:h-14 sm:w-14 lg:h-10 lg:w-10 2xl:h-14 2xl:w-14 ${item.tileClass}`}
                     >
-                      <Icon className="h-6 w-6 stroke-[1.75]" aria-hidden="true" />
+                      <Icon className="h-5 w-5 stroke-[1.75] sm:h-6 sm:w-6 lg:h-[18px] lg:w-[18px] 2xl:h-6 2xl:w-6" aria-hidden="true" />
                     </div>
                     <div className="pt-0.5">
-                      <h3 className="font-serif text-lg font-semibold leading-snug text-[#0D1C11] sm:text-xl">
+                      <h3 className="font-serif text-[1.05rem] font-semibold leading-snug text-[#0D1C11] sm:text-xl lg:text-[1.02rem] 2xl:text-xl">
                         {item.title}
                       </h3>
-                      <p className="mt-0.5 text-xs leading-relaxed text-[#47574B] sm:text-sm">
+                      <p className="mt-0.5 text-xs leading-relaxed text-[#47574B] sm:text-sm lg:text-[11.5px] lg:leading-[1.45] 2xl:text-sm 2xl:leading-relaxed">
                         {item.description}
                       </p>
                     </div>
@@ -425,31 +425,33 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
               })}
             </div>
 
-            <div className="mt-7 flex flex-wrap items-center gap-3">
+            <div className="mx-auto mt-6 grid w-full max-w-[330px] grid-cols-2 gap-2.5 sm:mt-7 sm:flex sm:w-auto sm:max-w-none sm:flex-wrap sm:items-center sm:gap-3 lg:mx-0 lg:mt-4 2xl:mt-7">
               <button
                 type="button"
                 onClick={onExploreGrill}
-                className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#0D1C11] px-6 py-2.5 text-xs font-bold text-[#FAF6EC] shadow-md transition hover:bg-[#162719] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11] sm:text-sm"
+                className="inline-flex h-[40px] w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#0D1C11] px-3 text-[11.5px] font-bold text-[#FAF6EC] shadow-md transition hover:bg-[#162719] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11] sm:h-auto sm:min-h-[44px] sm:w-auto sm:gap-2 sm:px-6 sm:py-2.5 sm:text-sm"
               >
-                <span>Browse Grill &amp; Specials</span>
-                <ArrowUpRight className="h-4 w-4 text-[#DFB96F]" aria-hidden="true" />
+                <span className="sm:hidden">Browse Grill</span>
+                <span className="hidden sm:inline">Browse Grill &amp; Specials</span>
+                <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-[#DFB96F] sm:h-4 sm:w-4" aria-hidden="true" />
               </button>
               <button
                 type="button"
                 onClick={onInspectDish}
-                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-[#0D1C11]/25 bg-[#FAF6EC] px-5 py-2.5 text-xs font-semibold text-[#0D1C11] transition hover:border-[#0D1C11]/45 hover:bg-[#E5EDE7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11] sm:text-sm"
+                className="inline-flex h-[40px] w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#0D1C11]/25 bg-[#FAF6EC] px-3 text-[11.5px] font-semibold text-[#0D1C11] transition hover:border-[#0D1C11]/45 hover:bg-[#E5EDE7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11] sm:h-auto sm:min-h-[44px] sm:w-auto sm:px-5 sm:py-2.5 sm:text-sm"
               >
-                <span>Inspect Bacolod Cansi · ₱666</span>
+                <span className="sm:hidden">Cansi · ₱666</span>
+                <span className="hidden sm:inline">Inspect Bacolod Cansi · ₱666</span>
               </button>
             </div>
           </div>
 
-          {/* Right Interactive Scatter-to-Bowl Animated Exploded Bacolod Cansi */}
-          <div className="relative z-10 lg:col-span-6 lg:translate-x-10 xl:translate-x-20">
+          {/* Interactive Scatter-to-Bowl Animated Exploded Bacolod Cansi — TOP on Mobile, Right on Desktop */}
+          <div className="relative z-10 order-1 lg:order-2 lg:col-span-6 lg:translate-x-4 xl:translate-x-8 2xl:translate-x-16">
             <div
               onPointerMove={handleStageMove}
               onPointerLeave={handleStageLeave}
-              className="group relative flex h-[470px] w-full items-center justify-center py-2 sm:h-[560px] lg:h-[620px] xl:h-[670px]"
+              className="group relative flex h-[340px] w-full items-center justify-center pb-5 pt-1 sm:h-[480px] sm:py-2 lg:h-[clamp(370px,calc(var(--stage-h)-36px),600px)] 2xl:h-[clamp(440px,calc(var(--stage-h)-48px),665px)]"
             >
               <button
                 type="button"
