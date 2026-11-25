@@ -230,6 +230,19 @@ html {
   border-width: 2px;
 }
 @container (max-width: 639px) {
+  .piyo-orbit .dsh-root {
+    contain: layout style paint;
+    transform: translateZ(0);
+    will-change: transform;
+  }
+  .piyo-orbit .dsh-bd {
+    filter: saturate(0.85);
+  }
+  .piyo-orbit .dsh-card {
+    background: rgba(250, 246, 236, 0.95);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
   .piyo-orbit .dsh-canvas {
     min-height: 100%;
     justify-content: center;

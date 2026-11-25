@@ -122,7 +122,8 @@ export const ARC_SWEEP = [38, 146]
 const ORBIT_X = 299
 const ORBIT_Y = -450
 const ORBIT_R = 650
-const SCROLL_PER_DISH = 0.7 // stage heights of scroll per dish
+const SCROLL_PER_DISH_DESKTOP = 0.7 // stage heights of scroll per dish on desktop
+const SCROLL_PER_DISH_MOBILE = 0.34 // lighter thumb-friendly scroll travel per dish on phones
 const SWING = 50 // degrees the plate travels round the orbit's pivot
 const ITEM = 118 // thumbnail pitch in canvas px
 const VISIBLE = 4
@@ -247,6 +248,17 @@ export function DishOrbitCarousel({
   const [tab, setTab] = useState("overview")
   const [liked, setLiked] = useState({} as Record<number, boolean>)
   const [disliked, setDisliked] = useState({} as Record<number, boolean>)
+  const [isCompact, setIsCompact] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth < 768 : false
+  )
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)")
+    const sync = () => setIsCompact(mq.matches)
+    sync()
+    mq.addEventListener("change", sync)
+    return () => mq.removeEventListener("change", sync)
+  }, [])
 
   const trackRef = useRef(null as HTMLDivElement | null)
   const rootRef = useRef(null as HTMLDivElement | null)
@@ -327,31 +339,32 @@ export function DishOrbitCarousel({
     }
     const a = parts(from)
     const d = dirRef.current
+    const s = isCompact ? 0.65 : 1
     const tl = gsap.timeline({ onComplete: () => { tlRef.current = null } })
     tlRef.current = tl
     // plate: out over the top on the orbit, the next one swings in from the far side
-    tl.to(a.orbit, { rotation: SWING * d, duration: 0.62, ease: "power2.in" }, 0)
-      .set(a.orbit, { autoAlpha: 0, rotation: 0 }, 0.62)
-      .fromTo(b.orbit, { autoAlpha: 1, rotation: -SWING * d }, { rotation: 0, duration: 0.95, ease: "power3.out" }, 0.3)
+    tl.to(a.orbit, { rotation: SWING * d, duration: 0.62 * s, ease: "power2.in" }, 0)
+      .set(a.orbit, { autoAlpha: 0, rotation: 0 }, 0.62 * s)
+      .fromTo(b.orbit, { autoAlpha: 1, rotation: -SWING * d }, { rotation: 0, duration: 0.95 * s, ease: "power3.out" }, 0.3 * s)
     // title: thin line clips away to the right, heavy line to the left, then the next wipes in
-    tl.to(a.t1, { clipPath: HIDE_1, duration: 0.42, ease: "power2.in" }, 0)
-      .to(a.t2, { clipPath: HIDE_2, duration: 0.42, ease: "power2.in" }, 0.06)
-      .to(a.eye, { autoAlpha: 0, duration: 0.25 }, 0)
-      .set(a.head, { autoAlpha: 0 }, 0.5)
-      .set(b.head, { autoAlpha: 1 }, 0.5)
-      .fromTo(b.eye, { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 0.55)
-      .fromTo(b.t1, { clipPath: HIDE_1 }, { clipPath: SHOW, duration: 0.7, ease: "power3.out" }, 0.55)
-      .fromTo(b.t2, { clipPath: HIDE_2 }, { clipPath: SHOW, duration: 0.7, ease: "power3.out" }, 0.62)
+    tl.to(a.t1, { clipPath: HIDE_1, duration: 0.42 * s, ease: "power2.in" }, 0)
+      .to(a.t2, { clipPath: HIDE_2, duration: 0.42 * s, ease: "power2.in" }, 0.06 * s)
+      .to(a.eye, { autoAlpha: 0, duration: 0.25 * s }, 0)
+      .set(a.head, { autoAlpha: 0 }, 0.5 * s)
+      .set(b.head, { autoAlpha: 1 }, 0.5 * s)
+      .fromTo(b.eye, { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: 0.4 * s, ease: "power2.out" }, 0.55 * s)
+      .fromTo(b.t1, { clipPath: HIDE_1 }, { clipPath: SHOW, duration: 0.7 * s, ease: "power3.out" }, 0.55 * s)
+      .fromTo(b.t2, { clipPath: HIDE_2 }, { clipPath: SHOW, duration: 0.7 * s, ease: "power3.out" }, 0.62 * s)
     // card: cross-fade, the incoming rows rise in turn
-    tl.to(a.body, { autoAlpha: 0, y: -6, duration: 0.3, ease: "power1.in" }, 0.05)
-      .set(b.body, { autoAlpha: 1, y: 0 }, 0.4)
-    if (b.body) tl.fromTo(b.body.children, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.06, ease: "power2.out" }, 0.4)
+    tl.to(a.body, { autoAlpha: 0, y: -6, duration: 0.3 * s, ease: "power1.in" }, 0.05 * s)
+      .set(b.body, { autoAlpha: 1, y: 0 }, 0.4 * s)
+    if (b.body) tl.fromTo(b.body.children, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.5 * s, stagger: 0.05 * s, ease: "power2.out" }, 0.4 * s)
     // the band stretches along the orbit with the plates, then settles into the next dish's span, morphing colour
-    tl.to(arc.current, { a0: ARC_SWEEP[0], a1: ARC_SWEEP[1], duration: 0.6, ease: "power2.inOut", onUpdate: drawArc }, 0)
-      .to(arc.current, { a0: rest[0], a1: rest[1], duration: 0.85, ease: "power3.out", onUpdate: drawArc }, 0.6)
-    if (arcRef.current) tl.to(arcRef.current, { fill: tint, duration: 1.1, ease: "power1.inOut" }, 0.1)
+    tl.to(arc.current, { a0: ARC_SWEEP[0], a1: ARC_SWEEP[1], duration: 0.6 * s, ease: "power2.inOut", onUpdate: drawArc }, 0)
+      .to(arc.current, { a0: rest[0], a1: rest[1], duration: 0.85 * s, ease: "power3.out", onUpdate: drawArc }, 0.6 * s)
+    if (arcRef.current) tl.to(arcRef.current, { fill: tint, duration: 1.1 * s, ease: "power1.inOut" }, 0.1 * s)
     shown.current = to
-  }, [index, n, dishes])
+  }, [index, n, dishes, isCompact])
 
   useEffect(() => () => { tlRef.current?.kill() }, [])
 
@@ -383,17 +396,20 @@ export function DishOrbitCarousel({
         return `bottom ${Math.round(stickyTop + r.clientHeight)}px`
       },
       invalidateOnRefresh: true,
-      snap: {
-        snapTo: (value) => {
-          const navLock = (window as unknown as { __piyoNavLockUntil?: number }).__piyoNavLockUntil ?? 0
-          if (Date.now() < navLock) return value
-          if (value <= 0.04 || value >= 0.94) return value
-          return Math.round(value * steps) / steps
-        },
-        duration: { min: 0.2, max: 0.45 },
-        delay: 0.1,
-        ease: "power2.inOut",
-      },
+      // On phones, let native 120Hz touch inertia glide freely through dishes without JS backward-snap resistance.
+      snap: isCompact
+        ? undefined
+        : {
+            snapTo: (value) => {
+              const navLock = (window as unknown as { __piyoNavLockUntil?: number }).__piyoNavLockUntil ?? 0
+              if (Date.now() < navLock) return value
+              if (value <= 0.04 || value >= 0.94) return value
+              return Math.round(value * steps) / steps
+            },
+            duration: { min: 0.2, max: 0.45 },
+            delay: 0.1,
+            ease: "power2.inOut",
+          },
       onUpdate: (self) => {
         // Looping: the last stretch shows the first dish, so jump back to the top unseen.
         if (loop && self.progress >= 1 && self.direction > 0) {
@@ -430,7 +446,7 @@ export function DishOrbitCarousel({
       trigger.kill()
       stRef.current = null
     }
-  }, [steps, loop, n])
+  }, [steps, loop, n, isCompact])
 
   // Buttons, keys and swipes jump to a dish and move the scroll to its stretch, so the two stay in step.
   const go = (to: number, dir?: 1 | -1) => {
@@ -464,12 +480,14 @@ export function DishOrbitCarousel({
   const start = stripStart(index, n, VISIBLE)
   const dish = dishes[index]
 
+  const scrollPerDish = isCompact ? SCROLL_PER_DISH_MOBILE : SCROLL_PER_DISH_DESKTOP
+
   return (
-    <div ref={trackRef} className={"dsh-trk" + (className ? " " + className : "")} style={{ height: "calc(" + height + " * " + (1 + steps * SCROLL_PER_DISH) + ")" }}>
+    <div ref={trackRef} className={"dsh-trk" + (className ? " " + className : "")} style={{ height: "calc(" + height + " * " + (1 + steps * scrollPerDish) + ")" }}>
     <div
       ref={rootRef}
       className="dsh-root"
-      style={{ height }}
+      style={{ height, touchAction: "pan-y" }}
       role="region"
       aria-roledescription="carousel"
       aria-label="Dishes"

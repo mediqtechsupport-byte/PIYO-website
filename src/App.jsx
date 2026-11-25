@@ -227,7 +227,7 @@ export default function App() {
       flushTimer = window.setTimeout(() => {
         if (isTouching || isInteractionBlocked()) return;
         const delta = Math.abs(window.scrollY - clamped);
-        if (delta > 1 && delta <= 44) {
+        if (delta > 1 && delta <= 12) {
           ScrollTrigger.getAll().forEach((st) => {
             st.getTween?.()?.kill();
           });
@@ -268,19 +268,21 @@ export default function App() {
         if (next && y > curr.internalEndY + 2 && y < next.startY - 2) {
           const span = Math.max(1, next.startY - curr.internalEndY);
           const progress = (y - curr.internalEndY) / span;
+          const forwardThreshold = curr.id === 'spotlight' ? 0.08 : 0.14;
           const goNext =
             lastDir > 0
-              ? progress >= 0.14
+              ? progress >= forwardThreshold
               : lastDir < 0
-              ? progress > 0.86
+              ? progress > 1 - forwardThreshold
               : progress >= 0.5;
-          glideFlushTo(goNext ? next.startY : curr.internalEndY, 540);
+          glideFlushTo(goNext ? next.startY : curr.internalEndY, 460);
           return;
         }
       }
     };
 
-    const scheduleSettle = (delayMs = 135) => {
+    const supportsScrollEnd = 'onscrollend' in window;
+    const scheduleSettle = (delayMs = supportsScrollEnd ? 280 : 210) => {
       if (settleTimer) window.clearTimeout(settleTimer);
       settleTimer = window.setTimeout(settleToCleanPage, delayMs);
     };
@@ -300,7 +302,7 @@ export default function App() {
       ) {
         return;
       }
-      scheduleSettle(140);
+      scheduleSettle(supportsScrollEnd ? 280 : 210);
     };
 
     const handleScrollEnd = () => {
@@ -316,7 +318,7 @@ export default function App() {
 
     const handleTouchEnd = () => {
       isTouching = false;
-      scheduleSettle(160);
+      scheduleSettle(supportsScrollEnd ? 320 : 240);
     };
 
     const handleWheel = (e) => {
