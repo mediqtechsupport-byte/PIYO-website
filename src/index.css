@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
-  --font-script: "Allura", "Cormorant Garamond", Georgia, serif;
+  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "DM Sans", system-ui, -apple-system, sans-serif;
+  --font-script: "Caveat", "Fraunces", Georgia, cursive;
 
   /* shadcn, DishOrbitCarousel & SushiConveyorMenu theme tokens mapped to PIYO's dark forest-green & warm beige palette */
   --color-background: #f5efe2;
@@ -49,6 +49,11 @@
     background-color: #f5efe2;
     color: #1d231e;
     padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .font-serif {
+    font-optical-sizing: auto;
+    font-variation-settings: "SOFT" 50, "WONK" 1;
   }
 }
 

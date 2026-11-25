@@ -105,23 +105,17 @@ export function HeroSection({
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center px-5 pb-12 pt-8 sm:px-8 sm:pb-14 sm:pt-10 lg:py-8">
         <div className="grid w-full items-center gap-12 lg:grid-cols-12 lg:gap-8">
           {/* Left Editorial Column (Verdeo Minimalist Script + Serif + 2 Pills + 3 Dots) */}
-          <div className="relative z-10 w-full max-w-[500px] lg:col-span-6">
-            {/* Calligraphic Script Eyebrow */}
-            <p
-              className="text-[1.85rem] leading-none text-[#DFB96F] sm:text-[2.2rem]"
-              style={{ fontFamily: "'Allura', cursive" }}
-            >
+          <div className="relative z-10 w-full max-w-[510px] lg:col-span-6">
+            {/* Organic Handwritten Script Eyebrow */}
+            <p className="font-script text-[1.6rem] font-medium leading-none tracking-[0.01em] text-[#DFB96F] sm:text-[1.9rem]">
               Good Food, Tagaytay Mood
             </p>
 
-            {/* Bold Editorial Serif Headline + Flowing Script Focal Word */}
-            <h1 className="mt-2 font-serif text-[2.75rem] font-semibold leading-[1.06] tracking-[-0.02em] text-[#FAF6EC] sm:text-[3.5rem] lg:text-[3.75rem] xl:text-[4.15rem]">
+            {/* Bold Sculptural Editorial Serif Headline + Handwritten Script Focal Word */}
+            <h1 className="mt-2.5 font-serif text-[2.65rem] font-medium leading-[1.06] tracking-[-0.025em] text-[#FAF6EC] sm:text-[3.35rem] lg:text-[3.6rem] xl:text-[3.95rem]">
               Experience Food
               <span className="block">That Feels Like</span>
-              <span
-                className="-mt-1 block font-normal leading-[0.95] text-[#DFB96F] text-[3.85rem] sm:text-[4.75rem] xl:text-[5.25rem]"
-                style={{ fontFamily: "'Allura', cursive" }}
-              >
+              <span className="font-script mt-0.5 block text-[3.55rem] font-medium leading-[0.92] tracking-[0.01em] text-[#DFB96F] sm:text-[4.35rem] xl:text-[4.85rem]">
                 Home
               </span>
             </h1>
