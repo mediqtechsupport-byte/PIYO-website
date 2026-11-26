@@ -212,23 +212,33 @@ export function ReceiptPrinter({
   };
 
   useEffect(() => {
-    if (!autoPrint || didAutoPrint.current) return;
-    didAutoPrint.current = true;
-    const t = window.setTimeout(() => {
+    if (!autoPrint || didAutoPrint.current) return undefined;
+    let tPress = 0;
+    let tPrint = 0;
+    const tStart = window.setTimeout(() => {
+      didAutoPrint.current = true;
       sfx.unlock();
       sfx.button();
       setPressed(true);
-      window.setTimeout(() => setPressed(false), 140);
-      window.setTimeout(printOne, 160);
-    }, 240);
-    return () => window.clearTimeout(t);
+      tPress = window.setTimeout(() => setPressed(false), 140);
+      tPrint = window.setTimeout(() => printOne(), 160);
+    }, 220);
+    return () => {
+      window.clearTimeout(tStart);
+      window.clearTimeout(tPress);
+      window.clearTimeout(tPrint);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoPrint]);
 
   /* Pulling the strip: it gives a little (it's still attached), then rips. */
   const onDown = (e: PointerEvent<HTMLDivElement>) => {
     sfx.unlock();
-    e.currentTarget.setPointerCapture(e.pointerId);
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      // Safari/iPadOS may ignore capture on synthetic or cancelled pointers
+    }
     drag.current = {
       x0: e.clientX,
       y0: e.clientY,
@@ -305,7 +315,7 @@ export function ReceiptPrinter({
           {
             "--u":
               unitFormula ??
-              "min((100vw - 32px) / 440, (100dvh - 24px) / 930)",
+              "min((100vw - 32px) / 440, (var(--dvh-full, 100vh) - 24px) / 930)",
             background:
               "radial-gradient(80% 70% at 50% 35%, #f2ece0 0%, #e6dfd1 55%, #d6cebe 100%)",
           } as CSSProperties
@@ -384,8 +394,7 @@ export function ReceiptPrinter({
                 width: u(PAPER_W),
                 bottom: u(H - SLOT_Y),
                 transformOrigin: "50% 100%",
-                WebkitMask: ZIGZAG_BOTTOM,
-                mask: ZIGZAG_BOTTOM,
+                ...ZIGZAG_BOTTOM_STYLE,
               }}
               initial={{
                 x: flying.x,
@@ -463,8 +472,7 @@ export function ReceiptPrinter({
                   width: u(PAPER_W),
                   top: u(SLOT_Y - 640 - 9),
                   height: u(9),
-                  WebkitMask: ZIGZAG_TOP,
-                  mask: ZIGZAG_TOP,
+                  ...ZIGZAG_TOP_STYLE,
                 }}
               />
             )}
@@ -481,14 +489,14 @@ export function ReceiptPrinter({
                     ? {
                         backgroundColor: ["#ffb340", "#7a5310", "#ffb340"],
                         boxShadow: [
-                          `0 0 ${u(8)} #ffb340`,
+                          "0 0 8px #ffb340",
                           "0 0 0px #ffb340",
-                          `0 0 ${u(8)} #ffb340`,
+                          "0 0 8px #ffb340",
                         ],
                       }
                     : {
                         backgroundColor: "#4fd27a",
-                        boxShadow: `0 0 ${u(7)} rgb(79 210 122 / 0.8)`,
+                        boxShadow: "0 0 7px rgba(79, 210, 122, 0.8)",
                       }
                 }
                 transition={
@@ -564,8 +572,7 @@ export function ReceiptPrinter({
               height: u(7),
               background:
                 "linear-gradient(180deg, #f4f5f7, #a9adb5 60%, #7c8089)",
-              WebkitMask: ZIGZAG_TOP_SMALL,
-              mask: ZIGZAG_TOP_SMALL,
+              ...ZIGZAG_TOP_SMALL_STYLE,
               filter: `drop-shadow(0 ${u(1)} ${u(1)} rgb(0 0 0 / 0.35))`,
             }}
           />
@@ -574,8 +581,9 @@ export function ReceiptPrinter({
           <motion.p
             key={hint}
             aria-live="polite"
-            initial={{ opacity: 0, y: 4, filter: "blur(4px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.24, ease: "easeOut" }}
             className="absolute inset-x-0 text-center text-[#5c574d]"
             style={{ top: u(898), fontSize: u(13) }}
           >
@@ -591,12 +599,43 @@ export function ReceiptPrinter({
  * The paper
  * ------------------------------------------------------------------------- */
 
-const ZIGZAG_TOP =
-  "conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(var(--u) * 12) 100%";
-const ZIGZAG_TOP_SMALL =
-  "conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(var(--u) * 6) 100%";
-const ZIGZAG_BOTTOM =
-  "conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(var(--u) * 12) 100%";
+const ZIGZAG_TOP_GRAD =
+  "conic-gradient(from 135deg at top, transparent, #000 1deg 89deg, transparent 90deg)";
+const ZIGZAG_BOTTOM_GRAD =
+  "conic-gradient(from -45deg at bottom, transparent, #000 1deg 89deg, transparent 90deg)";
+
+const ZIGZAG_TOP_STYLE: CSSProperties = {
+  WebkitMaskImage: ZIGZAG_TOP_GRAD,
+  maskImage: ZIGZAG_TOP_GRAD,
+  WebkitMaskPosition: "50% 0",
+  maskPosition: "50% 0",
+  WebkitMaskSize: "calc(var(--u) * 12) 100%",
+  maskSize: "calc(var(--u) * 12) 100%",
+  WebkitMaskRepeat: "repeat-x",
+  maskRepeat: "repeat-x",
+};
+
+const ZIGZAG_TOP_SMALL_STYLE: CSSProperties = {
+  WebkitMaskImage: ZIGZAG_TOP_GRAD,
+  maskImage: ZIGZAG_TOP_GRAD,
+  WebkitMaskPosition: "50% 0",
+  maskPosition: "50% 0",
+  WebkitMaskSize: "calc(var(--u) * 6) 100%",
+  maskSize: "calc(var(--u) * 6) 100%",
+  WebkitMaskRepeat: "repeat-x",
+  maskRepeat: "repeat-x",
+};
+
+const ZIGZAG_BOTTOM_STYLE: CSSProperties = {
+  WebkitMaskImage: ZIGZAG_BOTTOM_GRAD,
+  maskImage: ZIGZAG_BOTTOM_GRAD,
+  WebkitMaskPosition: "50% 100%",
+  maskPosition: "50% 100%",
+  WebkitMaskSize: "calc(var(--u) * 12) 100%",
+  maskSize: "calc(var(--u) * 12) 100%",
+  WebkitMaskRepeat: "repeat-x",
+  maskRepeat: "repeat-x",
+};
 
 function Row({ l, r, strong }: { l: string; r: string; strong?: boolean }) {
   return (
@@ -666,7 +705,7 @@ function Segment({
     return () => ro.disconnect();
   }, [full]);
   // only the printed part exists yet; as it grows, everything above it rises out of the slot
-  const height = useTransform(() => receipt.frac.get() * full.get());
+  const height = useTransform([receipt.frac, full], ([f, h]) => (f as number) * (h as number));
   return (
     <motion.div className="relative overflow-hidden" style={{ height }}>
       <div ref={inner}>
@@ -823,7 +862,17 @@ const GRAIN =
  * ------------------------------------------------------------------------- */
 
 let audio: AudioContext | null = null;
-const ac = () => (audio ??= new AudioContext());
+const ac = () => {
+  if (!audio) {
+    const Ctor =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext?: typeof AudioContext })
+        .webkitAudioContext;
+    if (!Ctor) throw new Error("WebAudio unavailable");
+    audio = new Ctor();
+  }
+  return audio;
+};
 let master: GainNode | null = null;
 let muted = false;
 /** Where every sound goes: one gain node, so muting silences everything at once. */

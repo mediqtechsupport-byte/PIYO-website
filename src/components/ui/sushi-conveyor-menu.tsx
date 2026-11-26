@@ -119,6 +119,18 @@ function clamp(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value));
 }
 
+function addMediaListener(mq: MediaQueryList, fn: () => void) {
+  if (typeof mq.addEventListener === "function") {
+    mq.addEventListener("change", fn);
+    return () => mq.removeEventListener("change", fn);
+  }
+  if (typeof mq.addListener === "function") {
+    mq.addListener(fn);
+    return () => mq.removeListener(fn);
+  }
+  return () => {};
+}
+
 function tierStyle(tier: number | undefined) {
   return TIERS[clamp(Math.round(tier ?? 1), 1, 5) - 1] ?? TIERS[0];
 }
@@ -539,11 +551,11 @@ export function SushiConveyorMenu({
   };
 
   React.useEffect(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => setReduced(media.matches);
     update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
+    return addMediaListener(media, update);
   }, []);
 
   React.useEffect(() => { setPlaying(autoplay); }, [autoplay]);
@@ -671,7 +683,13 @@ export function SushiConveyorMenu({
         stop();
         setActive(null);
         s.mode = DRAG;
-        if (stage.isConnected) stage.setPointerCapture(event.pointerId);
+        if (stage.isConnected) {
+          try {
+            stage.setPointerCapture(event.pointerId);
+          } catch {
+            // Safari/iPadOS may reject capture if pointer already transitioned
+          }
+        }
       }
       if (p.moved) {
         const v = (event.clientX - p.lastX) / Math.max(1, now - p.lastT);
@@ -698,7 +716,11 @@ export function SushiConveyorMenu({
     if (p.id !== event.pointerId) return;
     const s = sim.current;
     const stage = stageRef.current;
-    if (stage?.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
+    try {
+      if (stage?.hasPointerCapture?.(event.pointerId)) stage.releasePointerCapture(event.pointerId);
+    } catch {
+      // Ignore if pointer capture already released on iOS/iPadOS
+    }
     pointer.current = { ...p, id: -1 };
     if (s.mode === DRAG) {
       s.mode = RUN;
@@ -934,7 +956,14 @@ export function SushiConveyorMenu({
             onClick={(event) => { const pending = pendingOpen.current; pendingOpen.current = -1; if (event.detail === 0 || pending === i) open(i); }}
           >
             <span aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-75">
-              <span ref={(node) => { shadows.current[i] = node; }} className="absolute inset-x-[5%] bottom-[-9%] top-[16%] rounded-[50%] bg-black" style={{ filter: `blur(${Math.max(2, g.d * 0.045).toFixed(1)}px)` }} />
+              {/* Radial gradient contact shadow avoids 60fps per-plate CSS blur rasterization on iOS/iPadOS/Linux */}
+              <span
+                ref={(node) => { shadows.current[i] = node; }}
+                className="absolute inset-x-[-2%] bottom-[-14%] top-[12%] rounded-[50%]"
+                style={{
+                  background: "radial-gradient(closest-side, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.34) 55%, rgba(0,0,0,0) 100%)",
+                }}
+              />
             </span>
             <span ref={(node) => { lifts.current[i] = node; }} data-lift className="absolute inset-0">
               {/* Warm Beige Ceramic Plate Rim */}
@@ -960,7 +989,7 @@ export function SushiConveyorMenu({
               )}
               <span aria-hidden="true" data-ring className={`pointer-events-none absolute -inset-[2%] rounded-[50%] border-[2.5px] ${tier.ring}`} />
               <span ref={(node) => { anchors.current[i] = node; }} aria-hidden="true" className="pointer-events-none absolute left-1/2 top-0 size-0">
-                <span data-chip className={`absolute bottom-[8px] left-0 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#0D1C11]/20 bg-[#F5EFE2] py-1.5 pl-2.5 pr-3 text-[11px] font-bold leading-none text-[#0D1C11] shadow-[0_10px_22px_-6px_rgba(0,0,0,0.65)] transition-[opacity,translate] duration-300 motion-reduce:transition-none ${isActive && lifted !== i ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0"}`}>
+                <span data-chip className={`absolute bottom-[8px] left-0 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#0D1C11]/20 bg-[#F5EFE2] py-1.5 pl-2.5 pr-3 text-[11px] font-bold leading-none text-[#0D1C11] shadow-[0_10px_22px_-6px_rgba(0,0,0,0.65)] transition-[opacity,transform,translate] duration-300 motion-reduce:transition-none ${isActive && lifted !== i ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0"}`}>
                   <span className={`size-2 rounded-full ${tier.dot}`} />
                   {item.name}
                   <span className="tabular-nums text-[#755C3B]">{item.price}</span>
@@ -1057,18 +1086,20 @@ function DishDialog({ uid, item, index, total, labels, reduced, broken, source, 
     document.body.style.overflow = "hidden";
     onLift(true);
     let animation = null as Animation | null;
-    if (figure && from && !reduced && from.width > 0) {
+    if (figure && typeof figure.animate === "function" && from && !reduced && from.width > 0) {
       const to = figure.getBoundingClientRect();
-      const sx = from.width / to.width;
-      const sy = from.height / to.height;
-      const dx = from.left + from.width / 2 - (to.left + to.width / 2);
-      const dy = from.top + from.height / 2 - (to.top + to.height / 2);
-      const rise = Math.min(120, Math.abs(dy) * 0.3 + 40);
-      animation = figure.animate([
-        { transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` },
-        { transform: `translate(${dx * 0.42}px, ${dy * 0.42 - rise}px) scale(${((sx + 1) / 2) * 1.05}, ${((sy + 1) / 2) * 1.05}) rotate(${dx > 0 ? -6 : 6}deg)`, offset: 0.5 },
-        { transform: "none" },
-      ], { duration: 680, easing: "cubic-bezier(.22,.85,.3,1)" });
+      if (to.width > 0 && to.height > 0) {
+        const sx = from.width / to.width;
+        const sy = from.height / to.height;
+        const dx = from.left + from.width / 2 - (to.left + to.width / 2);
+        const dy = from.top + from.height / 2 - (to.top + to.height / 2);
+        const rise = Math.min(120, Math.abs(dy) * 0.3 + 40);
+        animation = figure.animate([
+          { transform: `translate3d(${dx}px, ${dy}px, 0) scale(${sx}, ${sy})` },
+          { transform: `translate3d(${dx * 0.42}px, ${dy * 0.42 - rise}px, 0) scale(${((sx + 1) / 2) * 1.05}, ${((sy + 1) / 2) * 1.05}) rotate(${dx > 0 ? -6 : 6}deg)`, offset: 0.5 },
+          { transform: "translate3d(0px, 0px, 0)" },
+        ], { duration: 680, easing: "cubic-bezier(.22,.85,.3,1)" });
+      }
     }
     const raf = requestAnimationFrame(() => setShown(true));
     return () => {
@@ -1086,18 +1117,28 @@ function DishDialog({ uid, item, index, total, labels, reduced, broken, source, 
     setShown(false);
     const figure = figureRef.current;
     const to = source();
-    if (!figure || !to || reduced || to.width === 0) { onClose(); return; }
+    if (!figure || typeof figure.animate !== "function" || !to || reduced || to.width === 0) { onClose(); return; }
     const from = figure.getBoundingClientRect();
+    if (from.width <= 0 || from.height <= 0) { onClose(); return; }
     const sx = to.width / from.width;
     const sy = to.height / from.height;
     const dx = to.left + to.width / 2 - (from.left + from.width / 2);
     const dy = to.top + to.height / 2 - (from.top + from.height / 2);
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      window.clearTimeout(fallbackTimer);
+      onClose();
+    };
+    const fallbackTimer = window.setTimeout(finish, 620);
     const animation = figure.animate([
-      { transform: "none" },
-      { transform: `translate(${dx * 0.58}px, ${dy * 0.58 - 36}px) scale(${(sx + 1) / 2}, ${(sy + 1) / 2})`, offset: 0.55 },
-      { transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` },
+      { transform: "translate3d(0px, 0px, 0)" },
+      { transform: `translate3d(${dx * 0.58}px, ${dy * 0.58 - 36}px, 0) scale(${(sx + 1) / 2}, ${(sy + 1) / 2})`, offset: 0.55 },
+      { transform: `translate3d(${dx}px, ${dy}px, 0) scale(${sx}, ${sy})` },
     ], { duration: 540, easing: "cubic-bezier(.45,0,.55,1)", fill: "forwards" });
-    animation.onfinish = () => onClose();
+    animation.onfinish = finish;
+    animation.oncancel = finish;
   }, [source, reduced, onClose]);
 
   React.useEffect(() => {
@@ -1136,7 +1177,7 @@ function DishDialog({ uid, item, index, total, labels, reduced, broken, source, 
     <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby={titleId} data-dish-dialog className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4 text-[#0D1C11] sm:p-8" onKeyDown={onKeyDown}>
       <div aria-hidden="true" className={`absolute inset-0 bg-[#050D07]/80 backdrop-blur-md transition-opacity duration-300 motion-reduce:transition-none ${shown ? "opacity-100" : "opacity-0"}`} onClick={dismiss} />
       <div className="relative grid w-full max-w-[52rem] items-center gap-6 p-6 sm:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] sm:gap-10 sm:p-9">
-        <div aria-hidden="true" className={`absolute inset-0 rounded-[2rem] border-2 border-[#DFD0B2] bg-[#F5EFE2] shadow-2xl transition-[opacity,scale] duration-300 motion-reduce:transition-none ${shown ? "scale-100 opacity-100" : "scale-[0.97] opacity-0"}`} />
+        <div aria-hidden="true" className={`absolute inset-0 rounded-[2rem] border-2 border-[#DFD0B2] bg-[#F5EFE2] shadow-2xl transition-[opacity,transform,scale] duration-300 motion-reduce:transition-none ${shown ? "scale-100 opacity-100" : "scale-[0.97] opacity-0"}`} />
         <button ref={closeRef} type="button" onClick={dismiss} className={`absolute right-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full border border-[#0D1C11]/20 bg-[#FAF6EC] px-3 py-1.5 text-xs font-bold text-[#0D1C11] outline-none transition-[opacity,color,background-color] duration-300 hover:bg-[#0D1C11] hover:text-[#F5EFE2] focus-visible:ring-2 focus-visible:ring-[#0D1C11] motion-reduce:transition-none ${shown ? "opacity-100" : "opacity-0"}`}>
           {labels.close}
           <svg aria-hidden="true" viewBox="0 0 16 16" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" /></svg>
@@ -1152,7 +1193,7 @@ function DishDialog({ uid, item, index, total, labels, reduced, broken, source, 
           )}
           <span aria-hidden="true" className={`absolute -inset-[2%] rounded-full border-[3px] ${tier.ring}`} />
         </div>
-        <div className={`relative flex flex-col gap-3 text-center transition-[opacity,translate] delay-150 duration-500 motion-reduce:transition-none sm:text-left ${shown ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}>
+        <div className={`relative flex flex-col gap-3 text-center transition-[opacity,transform,translate] delay-150 duration-500 motion-reduce:transition-none sm:text-left ${shown ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}>
           <p className="flex items-center justify-center gap-2 font-mono text-[11px] font-bold tracking-[0.2em] text-[#755C3B] sm:justify-start">
             <span aria-hidden="true" className={`size-2 rounded-full ${tier.dot}`} />
             {pad(index + 1)} / {pad(total)} · PIYO BEST SELLER
@@ -1166,7 +1207,7 @@ function DishDialog({ uid, item, index, total, labels, reduced, broken, source, 
           )}
           <div className="mt-2 flex flex-wrap items-center justify-center gap-3 sm:justify-start">
             <p className="text-2xl font-extrabold tabular-nums tracking-tight text-[#0D1C11]">{item.price}</p>
-            <button type="button" data-add onClick={add} className="inline-flex items-center gap-2 rounded-full bg-[#0D1C11] px-5 py-2.5 text-sm font-bold text-[#F5EFE2] shadow-sm outline-none transition-[translate,box-shadow,background-color] hover:-translate-y-px hover:bg-[#182A1B] hover:shadow-md focus-visible:ring-2 focus-visible:ring-[#0D1C11] motion-reduce:transition-none">
+            <button type="button" data-add onClick={add} className="inline-flex items-center gap-2 rounded-full bg-[#0D1C11] px-5 py-2.5 text-sm font-bold text-[#F5EFE2] shadow-sm outline-none transition-[transform,translate,box-shadow,background-color] hover:-translate-y-px hover:bg-[#182A1B] hover:shadow-md focus-visible:ring-2 focus-visible:ring-[#0D1C11] motion-reduce:transition-none">
               {added
                 ? <svg aria-hidden="true" viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M3.5 8.5l3 3 6-7" /></svg>
                 : <svg aria-hidden="true" viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M8 3.5v9M3.5 8h9" /></svg>}

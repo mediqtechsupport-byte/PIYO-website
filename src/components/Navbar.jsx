@@ -30,6 +30,52 @@ export function Navbar({
 }) {
   const headerRef = useRef(null);
   const bottomNavRef = useRef(null);
+  const progressBarRef = useRef(null);
+
+  // Zero-layout-reflow GPU scroll progress hairline across the bottom edge of the header
+  useEffect(() => {
+    let rafId = 0;
+    let cachedMaxScroll = Math.max(
+      1,
+      document.documentElement.scrollHeight - window.innerHeight
+    );
+
+    const syncMaxScroll = () => {
+      cachedMaxScroll = Math.max(
+        1,
+        document.documentElement.scrollHeight - window.innerHeight
+      );
+      schedule();
+    };
+
+    const paintProgress = () => {
+      rafId = 0;
+      const bar = progressBarRef.current;
+      if (!bar) return;
+      const ratio = Math.max(0, Math.min(1, window.scrollY / cachedMaxScroll));
+      bar.style.transform = `scaleX(${ratio.toFixed(4)})`;
+    };
+    const schedule = () => {
+      if (!rafId) rafId = window.requestAnimationFrame(paintProgress);
+    };
+
+    syncMaxScroll();
+    const ro =
+      typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(syncMaxScroll)
+        : null;
+    ro?.observe(document.body);
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', syncMaxScroll, { passive: true });
+    window.addEventListener('load', syncMaxScroll);
+    return () => {
+      if (rafId) window.cancelAnimationFrame(rafId);
+      ro?.disconnect();
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', syncMaxScroll);
+      window.removeEventListener('load', syncMaxScroll);
+    };
+  }, []);
 
   useEffect(() => {
     const headerEl = headerRef.current;
@@ -48,13 +94,19 @@ export function Navbar({
         : 0;
       const width = window.innerWidth;
       const root = document.documentElement;
+      const hasSvh =
+        typeof CSS !== 'undefined' &&
+        typeof CSS.supports === 'function' &&
+        CSS.supports('height', '100svh');
+      const fullH = hasSvh ? '100svh' : `${window.innerHeight}px`;
+
       if (navH > 0) {
         root.style.setProperty('--nav-h', `${navH}px`);
       }
       root.style.setProperty('--bottom-nav-h', `${bottomH}px`);
       root.style.setProperty(
         '--stage-h',
-        `calc(100svh - ${navH > 0 ? navH : 69}px - ${bottomH}px)`
+        `calc(${fullH} - ${navH > 0 ? navH : 69}px - ${bottomH}px)`
       );
 
       // Only refresh ScrollTrigger when layout width or chrome bar heights actually change
@@ -70,15 +122,39 @@ export function Navbar({
       }
     };
 
-    syncChromeMetrics();
-    const ro = new ResizeObserver(syncChromeMetrics);
-    ro.observe(headerEl);
-    if (bottomEl) ro.observe(bottomEl);
-    window.addEventListener('resize', syncChromeMetrics);
-    return () => {
+    const schedulePostLoadRefresh = () => {
       if (refreshTimer) window.clearTimeout(refreshTimer);
-      ro.disconnect();
+      refreshTimer = window.setTimeout(() => {
+        syncChromeMetrics();
+        ScrollTrigger.refresh();
+      }, 140);
+    };
+
+    syncChromeMetrics();
+    const ro =
+      typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(syncChromeMetrics)
+        : null;
+    if (ro) {
+      ro.observe(headerEl);
+      if (bottomEl) ro.observe(bottomEl);
+    }
+    window.addEventListener('resize', syncChromeMetrics);
+    window.addEventListener('orientationchange', schedulePostLoadRefresh);
+    window.addEventListener('load', schedulePostLoadRefresh);
+    let fontsCancelled = false;
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        if (!fontsCancelled) schedulePostLoadRefresh();
+      });
+    }
+    return () => {
+      fontsCancelled = true;
+      if (refreshTimer) window.clearTimeout(refreshTimer);
+      ro?.disconnect();
       window.removeEventListener('resize', syncChromeMetrics);
+      window.removeEventListener('orientationchange', schedulePostLoadRefresh);
+      window.removeEventListener('load', schedulePostLoadRefresh);
     };
   }, []);
 
@@ -112,31 +188,37 @@ export function Navbar({
             </div>
           </button>
 
-          {/* Desktop Centered Navigation Links with Active Gold Underline */}
+          {/* Desktop Centered Navigation Links with Smoothly Animated Active Gold Underline */}
           <nav
             className="hidden items-center gap-7 md:flex lg:gap-8"
             aria-label="Main navigation"
           >
             {NAV_LINKS.map((link) => {
-              const isActive = activeSection === link.id;
+              const isActive =
+                activeSection === link.id ||
+                (link.id === 'history' && activeSection === 'craft') ||
+                (link.id === 'menu' && activeSection === 'spotlight') ||
+                (link.id === 'visit' &&
+                  (activeSection === 'book-table' || activeSection === 'visit-info'));
               return (
                 <button
                   key={link.id}
                   type="button"
+                  aria-current={isActive ? 'page' : undefined}
                   onClick={() => onNavigate(link.id)}
-                  className={`relative shrink-0 whitespace-nowrap py-1.5 text-[13px] font-medium tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] rounded ${
+                  className={`relative shrink-0 whitespace-nowrap rounded py-1.5 text-[13px] font-medium tracking-wide transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] ${
                     isActive
                       ? 'text-[#DFB96F]'
                       : 'text-[#D0DCD4] hover:text-[#FAF6EC]'
                   }`}
                 >
                   {link.label}
-                  {isActive && (
-                    <span
-                      aria-hidden="true"
-                      className="absolute inset-x-0 -bottom-0.5 h-[1.5px] rounded-full bg-[#DFB96F]"
-                    />
-                  )}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute inset-x-0 -bottom-0.5 h-[1.5px] origin-center rounded-full bg-[#DFB96F] transition-[transform,opacity] duration-300 ease-out ${
+                      isActive ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0'
+                    }`}
+                  />
                 </button>
               );
             })}
@@ -223,10 +305,16 @@ export function Navbar({
               ) : null}
             </button>
 
-            {/* Verdeo-Style Warm Gold Book a Table CTA (Desktop) */}
+            {/* Verdeo-Style Warm Gold Book a Table CTA (Desktop & Tablet) */}
             <button
               type="button"
-              onClick={() => onNavigate('visit')}
+              onClick={() =>
+                onNavigate(
+                  typeof window !== 'undefined' && window.innerWidth < 1024
+                    ? 'book-table'
+                    : 'visit'
+                )
+              }
               className="hidden min-h-[38px] shrink-0 items-center gap-2 whitespace-nowrap rounded-lg bg-[#DFB96F] px-4 py-2 text-xs font-bold tracking-wide text-[#08130B] shadow-sm transition hover:bg-[#E8C988] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FAF6EC] md:inline-flex"
             >
               <span>Book a Table</span>
@@ -249,6 +337,18 @@ export function Navbar({
             Km. 64 · Tagaytay
           </span>
         </div>
+
+        {/* Hairline Champagne-Gold Page Scroll Progress Indicator (GPU scaleX, works on both mobile & web) */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[2px] overflow-hidden bg-transparent"
+        >
+          <div
+            ref={progressBarRef}
+            className="h-full w-full origin-left bg-gradient-to-r from-[#C29645] via-[#DFB96F] to-[#F5E1B0]"
+            style={{ transform: 'scaleX(0)', willChange: 'transform' }}
+          />
+        </div>
       </header>
 
       {/* Native-Style Mobile Bottom Navigation Bar */}
@@ -269,7 +369,14 @@ export function Navbar({
               item.id !== 'tray' &&
               (activeSection === item.id ||
                 (item.id === 'home' &&
-                  (activeSection === 'heritage' || activeSection === 'reviews')));
+                  (activeSection === 'history' ||
+                    activeSection === 'craft' ||
+                    activeSection === 'heritage' ||
+                    activeSection === 'reviews')) ||
+                (item.id === 'menu' && activeSection === 'spotlight') ||
+                (item.id === 'visit' &&
+                  (activeSection === 'book-table' ||
+                    activeSection === 'visit-info')));
 
             return (
               <button

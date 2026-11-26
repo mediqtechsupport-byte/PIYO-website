@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   X,
   Plus,
@@ -30,6 +31,7 @@ import {
 export function OrderTrayDrawer({
   isOpen,
   onClose,
+  onBrowseMenu,
   items,
   onUpdateQty,
   onRemoveItem,
@@ -70,13 +72,15 @@ export function OrderTrayDrawer({
   };
 
   useEffect(() => {
-    if (!isPrinterOpen) return undefined;
+    if (!isOpen) return undefined;
     const onKeyDown = (e) => {
-      if (e.key === 'Escape') closeReceiptAndDrawer();
+      if (e.key !== 'Escape') return;
+      if (isPrinterOpen) closeReceiptAndDrawer();
+      else onClose();
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [isPrinterOpen]);
+  }, [isOpen, isPrinterOpen, onClose]);
 
   // Live-track kitchen status updates while the receipt modal is open
   useEffect(() => {
@@ -214,16 +218,16 @@ export function OrderTrayDrawer({
     buildSummaryText()
   )}`;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex justify-end bg-[#08130B]/65 backdrop-blur-xs"
+      className="piyo-backdrop-in fixed inset-0 z-[55] flex justify-end bg-[#08130B]/65 backdrop-blur-xs"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-label="Order and table tray"
     >
       <div
-        className="flex h-full w-full max-w-md flex-col bg-[#FAF6EC] text-[#1D231E] shadow-2xl"
+        className="piyo-drawer-in flex h-full w-full max-w-md flex-col bg-[#FAF6EC] text-[#1D231E] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -433,7 +437,10 @@ export function OrderTrayDrawer({
               </p>
               <button
                 type="button"
-                onClick={onClose}
+                onClick={() => {
+                  onClose();
+                  if (onBrowseMenu) onBrowseMenu();
+                }}
                 className="mt-4 rounded-full bg-[#0D1C11] px-5 py-2.5 text-xs font-bold text-[#FAF6EC] transition hover:bg-[#152517]"
               >
                 Browse Menu
@@ -664,7 +671,7 @@ export function OrderTrayDrawer({
         ];
         return (
           <div
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-[#061009]/80 p-3 backdrop-blur-sm sm:p-6"
+            className="piyo-backdrop-in fixed inset-0 z-[60] flex items-center justify-center bg-[#061009]/80 p-3 backdrop-blur-sm sm:p-6"
             onClick={(e) => {
               e.stopPropagation();
               closeReceiptAndDrawer();
@@ -674,7 +681,7 @@ export function OrderTrayDrawer({
             aria-label="Order receipt printer"
           >
             <div
-              className="flex h-[min(94dvh,900px)] w-full max-w-[520px] flex-col overflow-hidden rounded-3xl border border-[#DFB96F]/30 bg-[#FAF6EC] shadow-[0_32px_90px_-12px_rgba(0,0,0,0.75)]"
+              className="piyo-sheet-in flex h-[min(calc(var(--dvh-full,100vh)*0.94),900px)] w-full max-w-[520px] flex-col overflow-hidden rounded-3xl border border-[#DFB96F]/30 bg-[#FAF6EC] shadow-[0_32px_90px_-12px_rgba(0,0,0,0.75)]"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
@@ -777,7 +784,7 @@ export function OrderTrayDrawer({
                   notes={liveOrder.notes}
                   makerMark="PIYO"
                   footerNote="SALAMAT PO · PIYO"
-                  unitFormula="min((min(92vw, 520px) - 32px) / 440, (min(94dvh, 900px) - 224px) / 930)"
+                  unitFormula="min((min(92vw, 520px) - 32px) / 440, (min(calc(var(--dvh-full, 100vh) * 0.94), 900px) - 224px) / 930)"
                 />
               </div>
 
@@ -813,6 +820,7 @@ export function OrderTrayDrawer({
           </div>
         );
       })()}
-    </div>
+    </div>,
+    document.body
   );
 }

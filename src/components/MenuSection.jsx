@@ -147,6 +147,34 @@ export function MenuSection({
 
   const isScrollLocked = menuView === 'customize' || boardCategory !== 'bestsellers';
 
+  // Close full-screen menu portals whenever top-level site navigation is triggered
+  useEffect(() => {
+    const closePortals = () => {
+      setMenuView('board');
+      setBoardCategory('bestsellers');
+    };
+    window.addEventListener('piyo:close-menu-portals', closePortals);
+    return () => window.removeEventListener('piyo:close-menu-portals', closePortals);
+  }, []);
+
+  // Allow Escape key to exit the full-screen Dish Customizer cleanly (only when no drawer/modal sits above it)
+  useEffect(() => {
+    if (menuView !== 'customize') return undefined;
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return;
+      if (
+        document.querySelector(
+          '[role="dialog"][aria-label="Order and table tray"], [role="dialog"][aria-label="Order receipt printer"], [role="dialog"][aria-label$=" details"]'
+        )
+      ) {
+        return;
+      }
+      setMenuView('board');
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuView]);
+
   // Lock background page scrolling & navigation while customizing an order OR browsing a specific menu category
   useEffect(() => {
     if (!isScrollLocked) return;
@@ -337,7 +365,7 @@ export function MenuSection({
       {menuView === 'customize' &&
         createPortal(
           <div
-            className="fixed inset-0 z-[45] flex flex-col overflow-y-auto bg-[#08130B] py-5 text-[#FAF6EC] sm:py-6"
+            className="piyo-portal-in fixed inset-0 z-[46] flex flex-col overflow-y-auto bg-[#08130B] py-5 text-[#FAF6EC] sm:py-6"
             onWheel={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
@@ -789,7 +817,7 @@ export function MenuSection({
                   >
                     <button
                       type="button"
-                      onClick={() => handleSelectFromGrid(pairing)}
+                      onClick={() => handleCustomizeDish(pairing)}
                       className="h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-[#DFB96F]/40 shadow-sm"
                       aria-label={`Inspect ${pairing.name}`}
                     >
@@ -802,7 +830,7 @@ export function MenuSection({
                     <div className="min-w-0 flex-1 pr-6">
                       <button
                         type="button"
-                        onClick={() => handleSelectFromGrid(pairing)}
+                        onClick={() => handleCustomizeDish(pairing)}
                         className="block truncate text-left text-xs font-bold text-[#FAF6EC] hover:text-[#DFB96F]"
                       >
                         {pairing.name}

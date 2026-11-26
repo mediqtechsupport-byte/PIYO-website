@@ -1,33 +1,54 @@
 import React from 'react';
 import { Star, Flame, Wind, Users, Quote } from 'lucide-react';
 import { TESTIMONIALS } from '../data/menuData';
+import { useSectionReveal } from '../hooks/useSectionReveal';
 
 export function HeritageAndReviews() {
+  const [heritageRef, heritageRevealed] = useSectionReveal(0.06);
+  const [reviewsRef, reviewsRevealed] = useSectionReveal(0.06);
+
   return (
     <>
       {/* Negros Heritage & Tagaytay Space Section */}
       <section
+        ref={heritageRef}
         id="heritage"
         className="flex min-h-[var(--stage-h)] flex-col justify-center border-y border-[#0D1C11]/15 bg-[#0D1C11] py-12 text-[#FAF6EC] sm:py-16"
       >
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="grid items-center gap-8 lg:grid-cols-12">
             <div className="lg:col-span-6">
-              <span className="inline-block rounded-full border border-[#D8B36A]/45 bg-[#08130B]/60 px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#D8B36A]">
+              <span
+                data-revealed={heritageRevealed ? 'true' : 'false'}
+                style={{ transitionDelay: '0ms' }}
+                className="piyo-reveal inline-block rounded-full border border-[#D8B36A]/45 bg-[#08130B]/60 px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#D8B36A]"
+              >
                 Our Story &amp; Atmosphere
               </span>
-              <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight sm:text-4xl">
+              <h2
+                data-revealed={heritageRevealed ? 'true' : 'false'}
+                style={{ transitionDelay: '65ms' }}
+                className="piyo-reveal mt-3 font-serif text-3xl font-semibold leading-tight sm:text-4xl"
+              >
                 Negros is known for many things,{' '}
                 <span className="italic font-medium text-[#D8B36A]">
                   its food tells the story.
                 </span>
               </h2>
-              <p className="mt-3 text-sm leading-relaxed text-[#D8E3DB] sm:text-base">
+              <p
+                data-revealed={heritageRevealed ? 'true' : 'false'}
+                style={{ transitionDelay: '125ms' }}
+                className="piyo-reveal mt-3 text-sm leading-relaxed text-[#D8E3DB] sm:text-base"
+              >
                 Along Km. 64 of the Tagaytay–Nasugbu Highway, PIYO Grill &amp; Restaurant brings together warm Negrense hospitality and classic Filipino grill cooking — from real <em>batwan</em>-soured Bacolod Cansi and smoky Chicken Inasal to family-style Crispy Pata and Tagaytay Bulalo.
               </p>
 
               <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                <div className="rounded-2xl border border-white/10 bg-[#08130B]/65 p-4">
+                <div
+                  data-revealed={heritageRevealed ? 'true' : 'false'}
+                  style={{ transitionDelay: '185ms' }}
+                  className="piyo-reveal-scale rounded-2xl border border-white/10 bg-[#08130B]/65 p-4"
+                >
                   <Wind className="h-5 w-5 text-[#D8B36A]" />
                   <h3 className="mt-2 text-sm font-bold text-[#FAF6EC]">
                     Fresh Indoor Comfort
@@ -37,7 +58,11 @@ export function HeritageAndReviews() {
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-[#08130B]/65 p-4">
+                <div
+                  data-revealed={heritageRevealed ? 'true' : 'false'}
+                  style={{ transitionDelay: '245ms' }}
+                  className="piyo-reveal-scale rounded-2xl border border-white/10 bg-[#08130B]/65 p-4"
+                >
                   <Flame className="h-5 w-5 text-[#D8B36A]" />
                   <h3 className="mt-2 text-sm font-bold text-[#FAF6EC]">
                     Free Kansi Soup Refills
@@ -47,7 +72,11 @@ export function HeritageAndReviews() {
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-[#08130B]/65 p-4">
+                <div
+                  data-revealed={heritageRevealed ? 'true' : 'false'}
+                  style={{ transitionDelay: '305ms' }}
+                  className="piyo-reveal-scale rounded-2xl border border-white/10 bg-[#08130B]/65 p-4"
+                >
                   <Users className="h-5 w-5 text-[#D8B36A]" />
                   <h3 className="mt-2 text-sm font-bold text-[#FAF6EC]">
                     6–8 Seater Family Tables
@@ -62,7 +91,11 @@ export function HeritageAndReviews() {
             {/* Collage Showcase */}
             <div className="grid grid-cols-2 gap-3 lg:col-span-6">
               <div className="space-y-3">
-                <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#08130B]">
+                <div
+                  data-revealed={heritageRevealed ? 'true' : 'false'}
+                  style={{ transitionDelay: '110ms' }}
+                  className="piyo-reveal-scale overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#08130B]"
+                >
                   <img
                     src="./images/dish-silog.jpg"
                     alt="A Taste of Home Filipino breakfast silog plate"
@@ -78,7 +111,11 @@ export function HeritageAndReviews() {
                     </p>
                   </div>
                 </div>
-                <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#08130B]">
+                <div
+                  data-revealed={heritageRevealed ? 'true' : 'false'}
+                  style={{ transitionDelay: '220ms' }}
+                  className="piyo-reveal-scale overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#08130B]"
+                >
                   <img
                     src="./images/dish-refreshers.jpg"
                     alt="PIYO Tropical Fruit Coolers and Shakes"
@@ -89,7 +126,11 @@ export function HeritageAndReviews() {
               </div>
 
               <div className="mt-5 space-y-3">
-                <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#08130B]">
+                <div
+                  data-revealed={heritageRevealed ? 'true' : 'false'}
+                  style={{ transitionDelay: '170ms' }}
+                  className="piyo-reveal-scale overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#08130B]"
+                >
                   <img
                     src="./images/dish-pasta-pizza.jpg"
                     alt="Creamy Fettuccine and Filipino Pork Adobo Pizza"
@@ -97,7 +138,11 @@ export function HeritageAndReviews() {
                     className="aspect-[4/3] w-full object-cover"
                   />
                 </div>
-                <div className="overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#08130B]">
+                <div
+                  data-revealed={heritageRevealed ? 'true' : 'false'}
+                  style={{ transitionDelay: '280ms' }}
+                  className="piyo-reveal-scale overflow-hidden rounded-3xl border border-[#D8B36A]/30 bg-[#08130B]"
+                >
                   <img
                     src="./images/dish-specials.jpg"
                     alt="Crispy Pata and Sizzling Sisig platter"
@@ -121,12 +166,16 @@ export function HeritageAndReviews() {
 
       {/* Customer Testimonials (Honoring PIYO's Torn-Parchment on Sage-Green Theme!) */}
       <section
+        ref={reviewsRef}
         id="reviews"
         className="relative flex min-h-[var(--stage-h)] flex-col justify-center overflow-hidden bg-[#112013] py-12 text-[#FAF6EC] sm:py-16"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(216,179,106,0.14),transparent_50%)]" />
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="text-center">
+          <div
+            className="piyo-reveal text-center"
+            data-revealed={reviewsRevealed ? 'true' : 'false'}
+          >
             <p className="font-serif text-3xl italic font-medium text-[#FAF6EC] sm:text-4xl">
               Customer testimonial
             </p>
@@ -136,10 +185,12 @@ export function HeritageAndReviews() {
           </div>
 
           <div className="mt-10 grid grid-cols-1 gap-9 md:grid-cols-3 md:gap-6">
-            {TESTIMONIALS.map((item) => (
+            {TESTIMONIALS.map((item, idx) => (
               <article
                 key={item.id}
-                className="parchment-note relative flex flex-col justify-between rounded-2xl border border-[#E2D6BC] p-5 text-[#222B23] shadow-xl sm:p-6"
+                data-revealed={reviewsRevealed ? 'true' : 'false'}
+                style={{ transitionDelay: `${85 + idx * 85}ms` }}
+                className="piyo-reveal-scale parchment-note relative flex flex-col justify-between rounded-2xl border border-[#E2D6BC] p-5 text-[#222B23] shadow-xl sm:p-6"
               >
                 {/* Decorative Masking Tape Top Accent */}
                 <span

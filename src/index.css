@@ -48,9 +48,8 @@
   }
 
   body {
-    background-color: #f5efe2;
+    background-color: #08130b;
     color: #1d231e;
-    padding-bottom: env(safe-area-inset-bottom);
   }
 
   /* Normalize native iOS Safari date & select controls so they match Android Chrome */
@@ -82,17 +81,29 @@
   }
 }
 
-/* Scroll padding & exact single-page stage height synced to live header + mobile bottom nav */
+/* Scroll padding & exact single-page stage height synced to live header + mobile bottom nav (universal svh/dvh fallbacks for older iPadOS & Linux) */
 :root {
+  --vh-full: 100vh;
+  --dvh-full: 100vh;
   --nav-h: 93px;
   --bottom-nav-h: 72px;
-  --stage-h: calc(100svh - var(--nav-h, 93px) - var(--bottom-nav-h, 72px));
+  --stage-h: calc(var(--vh-full) - var(--nav-h, 93px) - var(--bottom-nav-h, 72px));
+}
+@supports (height: 100svh) {
+  :root {
+    --vh-full: 100svh;
+  }
+}
+@supports (height: 100dvh) {
+  :root {
+    --dvh-full: 100dvh;
+  }
 }
 @media (min-width: 768px) {
   :root {
     --nav-h: 69px;
     --bottom-nav-h: 0px;
-    --stage-h: calc(100svh - var(--nav-h, 69px));
+    --stage-h: calc(var(--vh-full) - var(--nav-h, 69px));
   }
 }
 
@@ -100,40 +111,56 @@ html {
   scroll-padding-top: var(--nav-h, 69px);
 }
 
+/* Smooth GPU-composited Hero plate cross-fade (avoids animating drop-shadow filter on iOS/Linux) */
+.hero-plate-slide {
+  transition-property: transform, opacity;
+  transition-duration: 700ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
 /* Smooth levitating dish float + synced floor shadow for PIYO Menu Workbench */
 @keyframes piyo-float {
   0%,
   100% {
-    transform: translateY(0px);
+    transform: translate3d(0, 0px, 0);
   }
   50% {
-    transform: translateY(-11px);
+    transform: translate3d(0, -11px, 0);
   }
 }
 
 @keyframes piyo-float-shadow {
   0%,
   100% {
-    transform: scale(1);
+    transform: scale3d(1, 1, 1);
     opacity: 0.65;
   }
   50% {
-    transform: scale(0.86);
+    transform: scale3d(0.86, 0.86, 1);
     opacity: 0.34;
   }
 }
 
 .piyo-float-dish {
   animation: piyo-float 4.2s ease-in-out infinite;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   will-change: transform;
 }
 
 .piyo-float-shadow {
   animation: piyo-float-shadow 4.2s ease-in-out infinite;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   will-change: transform, opacity;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-plate-slide {
+    transition-duration: 150ms;
+  }
   .piyo-float-dish,
   .piyo-float-shadow {
     animation: none;
@@ -162,7 +189,7 @@ html {
 
 /* PIYO Signature Dish Orbit Showcase responsive framing for desktop + mobile */
 .piyo-orbit {
-  --piyo-orbit-h: var(--stage-h, calc(100svh - var(--nav-h, 93px) - var(--bottom-nav-h, 72px)));
+  --piyo-orbit-h: var(--stage-h, calc(var(--vh-full, 100vh) - var(--nav-h, 93px) - var(--bottom-nav-h, 72px)));
 }
 .piyo-orbit .dsh-root {
   top: var(--nav-h, 93px);
@@ -175,10 +202,10 @@ html {
 .piyo-orbit .dsh-top {
   display: none;
 }
-/* High-contrast warm parchment wash over backdrop so forest-green headlines & labels read crisply */
+/* High-contrast warm parchment wash over backdrop (zero full-viewport blur filter during sticky scroll) */
 .piyo-orbit .dsh-bd {
-  opacity: 0.22;
-  filter: blur(1.5px) saturate(0.85);
+  opacity: 0.2;
+  filter: saturate(0.85);
 }
 .piyo-orbit .dsh-dim {
   display: none;
@@ -207,7 +234,9 @@ html {
   gap: 14px;
 }
 .piyo-orbit .dsh-card {
-  background: rgba(250, 246, 236, 0.88);
+  background: rgba(250, 246, 236, 0.92);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   border: 1px solid rgba(13, 28, 17, 0.14);
 }
 .piyo-orbit .dsh-rate {
@@ -549,27 +578,61 @@ html {
 
 .cansi-steam {
   animation: cansi-steam-rise 4.8s ease-in-out infinite;
-  will-change: transform, opacity;
+  transform-origin: 50% 85%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .cansi-droplet {
   animation: cansi-droplet-float 3.8s ease-in-out infinite;
-  will-change: transform, opacity;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .cansi-halo {
   animation: cansi-halo-breathe 4.6s ease-in-out infinite;
-  will-change: transform, opacity;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
-/* Scatter-to-Bowl Exploded Bacolod Cansi Choreography — Pure WebKit-Safe Keyframes (Zero var() Inside @keyframes) */
-@keyframes cansi-layer-idle {
+/* Scatter-to-Bowl Exploded Bacolod Cansi Choreography — Pure WebKit/Gecko/Blink-Safe Keyframes (Zero var() Inside @keyframes or animation shorthand) */
+@keyframes cansi-float-bowl {
+  0%,
+  100% {
+    transform: translate3d(0px, 0px, 0px);
+  }
+  50% {
+    transform: translate3d(0px, -5px, 0px);
+  }
+}
+
+@keyframes cansi-float-a {
   0%,
   100% {
     transform: translate3d(0px, 0px, 0px) rotate(0deg);
   }
   50% {
-    transform: translate3d(2px, -9px, 0px) rotate(1.4deg);
+    transform: translate3d(2px, -9px, 0px) rotate(1.5deg);
+  }
+}
+
+@keyframes cansi-float-b {
+  0%,
+  100% {
+    transform: translate3d(0px, 0px, 0px) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-3px, -10px, 0px) rotate(-2deg);
+  }
+}
+
+@keyframes cansi-float-c {
+  0%,
+  100% {
+    transform: translate3d(0px, 0px, 0px) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(4px, -11px, 0px) rotate(2.4deg);
   }
 }
 
@@ -588,59 +651,46 @@ html {
   }
 }
 
-.cansi-stage-root {
-  --scatter-mult: 0.42;
-}
-@media (min-width: 640px) {
-  .cansi-stage-root {
-    --scatter-mult: 0.62;
-  }
-}
-@media (min-width: 1024px) {
-  .cansi-stage-root {
-    --scatter-mult: 0.86;
-  }
-}
-@media (min-width: 1280px) {
-  .cansi-stage-root {
-    --scatter-mult: 1;
-  }
+.cansi-float-bowl {
+  animation-name: cansi-float-bowl;
+  animation-duration: 5.8s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
-.cansi-ingredient-fly {
-  will-change: transform, opacity;
-  transition-property: transform, opacity;
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  transition-duration: var(--fly-dur, 1750ms);
-  transition-delay: var(--fly-delay, 0ms);
+.cansi-float-a {
+  animation-name: cansi-float-a;
+  animation-duration: 5.1s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
-.cansi-ingredient-fly[data-scattered='true'] {
-  transform: translate3d(
-      calc(var(--sx, 0px) * var(--scatter-mult)),
-      calc(var(--sy, 0px) * var(--scatter-mult)),
-      0
-    )
-    rotate(var(--srot, 0deg))
-    scale(var(--sscale, 0.92));
-  opacity: var(--sopacity, 0.96);
-  transition-duration: 500ms;
-  transition-delay: 0ms;
+.cansi-float-b {
+  animation-name: cansi-float-b;
+  animation-duration: 5.5s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
-.cansi-ingredient-fly[data-scattered='false'] {
-  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-  opacity: 1;
-}
-
-.cansi-layer-float {
-  animation: cansi-layer-idle var(--idle-dur, 5.2s) ease-in-out var(--idle-delay, 0s) infinite;
-  will-change: transform;
+.cansi-float-c {
+  animation-name: cansi-float-c;
+  animation-duration: 4.9s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .cansi-bowl-impact {
   animation: cansi-bowl-settle 920ms cubic-bezier(0.22, 1, 0.36, 1) 1.05s both;
-  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -651,13 +701,191 @@ html {
   .cansi-steam,
   .cansi-droplet,
   .cansi-halo,
-  .cansi-layer-float,
-  .cansi-bowl-impact {
-    animation: none;
+  .cansi-float-bowl,
+  .cansi-float-a,
+  .cansi-float-b,
+  .cansi-float-c,
+  .cansi-bowl-impact,
+  .piyo-backdrop-in,
+  .piyo-sheet-in,
+  .piyo-drawer-in,
+  .piyo-portal-in,
+  .piyo-toast-in,
+  .piyo-page-fade,
+  .piyo-hero-in {
+    animation: none !important;
   }
-  .cansi-ingredient-fly {
-    transition: none;
+  .piyo-reveal,
+  .piyo-reveal[data-revealed='false'],
+  .piyo-reveal[data-revealed='true'],
+  .piyo-reveal-scale,
+  .piyo-reveal-scale[data-revealed='false'],
+  .piyo-reveal-scale[data-revealed='true'],
+  .piyo-reveal-zoom,
+  .piyo-reveal-zoom[data-revealed='false'],
+  .piyo-reveal-zoom[data-revealed='true'] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
+}
+
+/* Smooth GPU-Composited Section Entrance & View/Modal Transitions (iOS, iPadOS, Android, Linux, Desktop) */
+.piyo-reveal {
+  transition-property: transform, opacity;
+  transition-duration: 420ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.piyo-reveal[data-revealed='false'] {
+  opacity: 0.38;
+  transform: translate3d(0, 14px, 0);
+}
+
+.piyo-reveal[data-revealed='true'] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Subtle card lift + crisp scale settle for cards, tiles, photos & panels */
+.piyo-reveal-scale {
+  transition-property: transform, opacity;
+  transition-duration: 460ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.piyo-reveal-scale[data-revealed='false'] {
+  opacity: 0.36;
+  transform: translate3d(0, 16px, 0) scale(0.98);
+}
+
+.piyo-reveal-scale[data-revealed='true'] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Gentle atmospheric backdrop zoom-settle (used on #history PIYO facade) */
+.piyo-reveal-zoom {
+  transition-property: transform, opacity;
+  transition-duration: 820ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.piyo-reveal-zoom[data-revealed='false'] {
+  opacity: 0.72;
+  transform: scale3d(1.035, 1.035, 1);
+  transition-duration: 240ms;
+  transition-delay: 0ms !important;
+}
+
+.piyo-reveal-zoom[data-revealed='true'] {
+  opacity: 1;
+  transform: scale3d(1, 1, 1);
+}
+
+/* Immediate above-the-fold Hero stagger (pure CSS — zero JS wait, zero flash on reload) */
+@keyframes piyo-hero-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.piyo-hero-in {
+  animation: piyo-hero-in 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+@keyframes piyo-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes piyo-sheet-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes piyo-drawer-in {
+  from {
+    transform: translate3d(100%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes piyo-portal-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes piyo-toast-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.piyo-backdrop-in {
+  animation: piyo-backdrop-in 220ms ease-out both;
+}
+
+.piyo-sheet-in {
+  animation: piyo-sheet-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.piyo-drawer-in {
+  animation: piyo-drawer-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.piyo-portal-in {
+  animation: piyo-portal-in 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.piyo-toast-in {
+  animation: piyo-toast-in 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.piyo-page-fade {
+  animation: piyo-backdrop-in 260ms ease-out both;
 }
 
 

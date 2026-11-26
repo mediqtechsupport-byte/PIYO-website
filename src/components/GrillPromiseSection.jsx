@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Flame, Soup, UtensilsCrossed, ArrowUpRight } from 'lucide-react';
 import { CANSI_LAYERS, CANSI_STAGE_ASPECT } from '../data/cansiLayers';
+import { useSectionReveal } from '../hooks/useSectionReveal';
 
 // Organic scatter coordinates (relative to each ingredient's final assembled spot in the bowl)
 // Spread wide into the open warm-beige areas around #craft (far left, top sky, center gap, bottom strip, far right)
@@ -252,12 +253,53 @@ const HIGHLIGHTS = [
   },
 ];
 
+const STEAM_RIBBONS = [
+  {
+    id: 'left',
+    delay: '0s',
+    d: 'M95 190 C78 148, 114 114, 92 66 C80 42, 96 22, 106 8',
+    strokeWidth: 10,
+  },
+  {
+    id: 'center',
+    delay: '1.5s',
+    d: 'M134 195 C152 152, 116 112, 140 62 C150 38, 134 18, 126 6',
+    strokeWidth: 11,
+  },
+  {
+    id: 'right',
+    delay: '3.0s',
+    d: 'M170 184 C154 146, 182 110, 162 70 C154 52, 166 30, 174 16',
+    strokeWidth: 9,
+  },
+];
+
+const FLOAT_VARIANTS = ['cansi-float-a', 'cansi-float-b', 'cansi-float-c'];
+
+function addMediaListener(mq, fn) {
+  if (typeof mq.addEventListener === 'function') {
+    mq.addEventListener('change', fn);
+    return () => mq.removeEventListener('change', fn);
+  }
+  if (typeof mq.addListener === 'function') {
+    mq.addListener(fn);
+    return () => mq.removeListener(fn);
+  }
+  return () => {};
+}
+
 export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
+  const [editorialRef, editorialRevealed] = useSectionReveal({ threshold: 0.04 });
   const sectionRef = useRef(null);
-  const timersRef = useRef({ hold: null, settle: null });
+  const timersRef = useRef({ raf1: 0, raf2: 0, hold: null, settle: null });
   const wasInViewRef = useRef(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0, hovered: false });
   const [replayKey, setReplayKey] = useState(0);
+  const [reducedMotion, setReducedMotion] = useState(() =>
+    typeof window !== 'undefined' &&
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
   const [scatterMult, setScatterMult] = useState(() => {
     if (typeof window === 'undefined') return 0.42;
     const w = window.innerWidth;
@@ -266,16 +308,17 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
     if (w >= 640) return 0.62;
     return 0.42;
   });
-  const [phase, setPhase] = useState(() => {
-    if (
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) {
-      return 'assembled';
+  const [phase, setPhase] = useState(() => (reducedMotion ? 'assembled' : 'scattered'));
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+      return undefined;
     }
-    return 'scattered';
-  });
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setReducedMotion(mq.matches);
+    sync();
+    return addMediaListener(mq, sync);
+  }, []);
 
   useEffect(() => {
     const syncScatterMult = () => {
@@ -288,6 +331,14 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
   }, []);
 
   const clearTimers = () => {
+    if (timersRef.current.raf1) {
+      window.cancelAnimationFrame(timersRef.current.raf1);
+      timersRef.current.raf1 = 0;
+    }
+    if (timersRef.current.raf2) {
+      window.cancelAnimationFrame(timersRef.current.raf2);
+      timersRef.current.raf2 = 0;
+    }
     if (timersRef.current.hold) {
       window.clearTimeout(timersRef.current.hold);
       timersRef.current.hold = null;
@@ -299,23 +350,31 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
   };
 
   const triggerBuildSequence = (holdMs = 520) => {
+    if (reducedMotion) {
+      setPhase('assembled');
+      return;
+    }
     clearTimers();
     setPhase('scattered');
     setReplayKey((k) => k + 1);
-    timersRef.current.hold = window.setTimeout(() => {
-      setPhase('building');
-      timersRef.current.settle = window.setTimeout(() => {
-        setPhase('assembled');
-      }, 3050);
-    }, holdMs);
+    // Guarantee at least one painted scattered frame across iOS WebKit, Firefox, and Chrome before starting transition
+    timersRef.current.raf1 = window.requestAnimationFrame(() => {
+      timersRef.current.raf1 = 0;
+      timersRef.current.raf2 = window.requestAnimationFrame(() => {
+        timersRef.current.raf2 = 0;
+        timersRef.current.hold = window.setTimeout(() => {
+          setPhase('building');
+          timersRef.current.settle = window.setTimeout(() => {
+            setPhase('assembled');
+          }, 3050);
+        }, holdMs);
+      });
+    });
   };
 
   useEffect(() => {
-    if (
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) {
+    if (reducedMotion) {
+      clearTimers();
       setPhase('assembled');
       return undefined;
     }
@@ -323,12 +382,18 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
     const node = sectionRef.current;
     if (!node) return undefined;
 
+    if (typeof IntersectionObserver !== 'function') {
+      triggerBuildSequence(420);
+      return () => clearTimers();
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
         if (!entry) return;
 
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.05) {
+        const isTall = entry.boundingClientRect.height > window.innerHeight * 0.9;
+        if (entry.isIntersecting && (entry.intersectionRatio >= 0.02 || isTall)) {
           if (!wasInViewRef.current) {
             wasInViewRef.current = true;
             triggerBuildSequence(520);
@@ -339,7 +404,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
           setPhase('scattered');
         }
       },
-      { threshold: [0, 0.05, 0.2], rootMargin: '40px 0px' },
+      { threshold: [0, 0.02, 0.05, 0.2], rootMargin: '40px 0px' },
     );
 
     observer.observe(node);
@@ -347,7 +412,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
       clearTimers();
       observer.disconnect();
     };
-  }, []);
+  }, [reducedMotion]);
 
   const handleReplayClick = (e) => {
     e.currentTarget.blur();
@@ -389,8 +454,12 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
         <div className="grid items-center gap-7 sm:gap-10 lg:grid-cols-12 lg:gap-10">
           {/* Editorial Column — Below Steaming Bowl on Mobile, Left on Desktop */}
-          <div className="relative z-20 order-2 pb-2 lg:order-1 lg:col-span-6 lg:pb-0">
-            <h2 className="text-center font-serif text-[1.6rem] font-semibold leading-[1.16] tracking-[-0.02em] text-[#0D1C11] sm:text-[2.45rem] sm:leading-[1.12] lg:text-left lg:text-[2.15rem] lg:leading-[1.08] 2xl:text-[2.85rem]">
+          <div ref={editorialRef} className="relative z-20 order-2 pb-2 lg:order-1 lg:col-span-6 lg:pb-0">
+            <h2
+              data-revealed={editorialRevealed ? 'true' : 'false'}
+              style={{ transitionDelay: '0ms' }}
+              className="piyo-reveal text-center font-serif text-[1.6rem] font-semibold leading-[1.16] tracking-[-0.02em] text-[#0D1C11] sm:text-[2.45rem] sm:leading-[1.12] lg:text-left lg:text-[2.15rem] lg:leading-[1.08] 2xl:text-[2.85rem]"
+            >
               PIYO&apos;s{' '}
               <span className="relative inline-block whitespace-nowrap">
                 <span className="relative z-10">#1 House Favorite</span>
@@ -419,7 +488,11 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
               <span className="mt-1 block">Authentic Bacolod Cansi</span>
             </h2>
 
-            <p className="mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-[#425246] sm:mt-5 sm:text-[15px] sm:leading-7 lg:mx-0 lg:mt-2.5 lg:text-left lg:text-[13px] lg:leading-[1.55] 2xl:mt-5 2xl:text-[15px] 2xl:leading-7">
+            <p
+              data-revealed={editorialRevealed ? 'true' : 'false'}
+              style={{ transitionDelay: '70ms' }}
+              className="piyo-reveal mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-[#425246] sm:mt-5 sm:text-[15px] sm:leading-7 lg:mx-0 lg:mt-2.5 lg:text-left lg:text-[13px] lg:leading-[1.55] 2xl:mt-5 2xl:text-[15px] 2xl:leading-7"
+            >
               Loved by Tagaytay families and repeat visitors for our real
               batwan-soured beef shank &amp; bone marrow broth — served piping
               hot on banana leaf alongside outdoor charcoal-grilled favorites.
@@ -427,10 +500,15 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
 
             {/* 3 Tinted Line-Icon Highlights */}
             <div className="mt-6 space-y-3.5 sm:space-y-4 lg:mt-3.5 lg:space-y-2.5 2xl:mt-6 2xl:space-y-4">
-              {HIGHLIGHTS.map((item) => {
+              {HIGHLIGHTS.map((item, idx) => {
                 const Icon = item.icon;
                 return (
-                  <div key={item.title} className="flex items-start gap-3.5 sm:gap-4 lg:gap-3 2xl:gap-4">
+                  <div
+                    key={item.title}
+                    data-revealed={editorialRevealed ? 'true' : 'false'}
+                    style={{ transitionDelay: `${130 + idx * 70}ms` }}
+                    className="piyo-reveal flex items-start gap-3.5 sm:gap-4 lg:gap-3 2xl:gap-4"
+                  >
                     <div
                       className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl shadow-xs ring-1 ring-[#0D1C11]/10 sm:h-14 sm:w-14 lg:h-10 lg:w-10 2xl:h-14 2xl:w-14 ${item.tileClass}`}
                     >
@@ -449,7 +527,11 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
               })}
             </div>
 
-            <div className="mx-auto mt-6 grid w-full max-w-[330px] grid-cols-2 gap-2.5 sm:mt-7 sm:flex sm:w-auto sm:max-w-none sm:flex-wrap sm:items-center sm:gap-3 lg:mx-0 lg:mt-4 2xl:mt-7">
+            <div
+              data-revealed={editorialRevealed ? 'true' : 'false'}
+              style={{ transitionDelay: '330ms' }}
+              className="piyo-reveal mx-auto mt-6 grid w-full max-w-[330px] grid-cols-2 gap-2.5 sm:mt-7 sm:flex sm:w-auto sm:max-w-none sm:flex-wrap sm:items-center sm:gap-3 lg:mx-0 lg:mt-4 2xl:mt-7"
+            >
               <button
                 type="button"
                 onClick={onExploreGrill}
@@ -526,48 +608,48 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                     }}
                   />
 
-                  {/* Rising Translucent Steam Ribbons Directly Above the Stoneware Bowl */}
-                  <svg
-                    viewBox="0 0 260 220"
-                    fill="none"
+                  {/* Rising Translucent Steam Ribbons — HTML-Wrapped for Guaranteed GPU Animation on iOS/iPadOS Safari & Linux */}
+                  <div
                     aria-hidden="true"
                     className="pointer-events-none absolute left-[14%] top-[24%] z-30 h-[38%] w-[70%] opacity-75"
                   >
-                    <path
-                      d="M95 190 C78 148, 114 114, 92 66 C80 42, 96 22, 106 8"
-                      stroke="url(#piyo-steam-grad)"
-                      strokeWidth="10"
-                      strokeLinecap="round"
-                      className="cansi-steam"
-                      style={{ animationDelay: '0s' }}
-                    />
-                    <path
-                      d="M134 195 C152 152, 116 112, 140 62 C150 38, 134 18, 126 6"
-                      stroke="url(#piyo-steam-grad)"
-                      strokeWidth="11"
-                      strokeLinecap="round"
-                      className="cansi-steam"
-                      style={{ animationDelay: '1.5s' }}
-                    />
-                    <path
-                      d="M170 184 C154 146, 182 110, 162 70 C154 52, 166 30, 174 16"
-                      stroke="url(#piyo-steam-grad)"
-                      strokeWidth="9"
-                      strokeLinecap="round"
-                      className="cansi-steam"
-                      style={{ animationDelay: '3.0s' }}
-                    />
-                    <defs>
-                      <linearGradient id="piyo-steam-grad" x1="0" y1="1" x2="0" y2="0">
-                        <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
-                        <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.45" />
-                        <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
+                    {STEAM_RIBBONS.map((ribbon) => (
+                      <div
+                        key={ribbon.id}
+                        className="cansi-steam pointer-events-none absolute inset-0"
+                        style={{ animationDelay: ribbon.delay }}
+                      >
+                        <svg
+                          viewBox="0 0 260 220"
+                          fill="none"
+                          className="h-full w-full overflow-visible"
+                        >
+                          <defs>
+                            <linearGradient
+                              id={`piyo-steam-grad-${ribbon.id}`}
+                              x1="0"
+                              y1="1"
+                              x2="0"
+                              y2="0"
+                            >
+                              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
+                              <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.45" />
+                              <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+                            </linearGradient>
+                          </defs>
+                          <path
+                            d={ribbon.d}
+                            stroke={`url(#piyo-steam-grad-${ribbon.id})`}
+                            strokeWidth={ribbon.strokeWidth}
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                      </div>
+                    ))}
+                  </div>
 
-                  {/* 16 Pixel-Accurate Layered Sprites: Direct WebKit-Safe Inline Transforms */}
-                  {CANSI_LAYERS.map((layer) => {
+                  {/* 16 Pixel-Accurate Layered Sprites: Pure Cross-Engine GPU Transforms (Zero var() Inside Keyframes/Shorthand) */}
+                  {CANSI_LAYERS.map((layer, layerIdx) => {
                     const choreo = LAYER_CHOREOGRAPHY[layer.id] || {};
                     const isBowl = Boolean(choreo.isBowl);
                     const depth = choreo.depth ?? 1;
@@ -580,6 +662,9 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                     const sopacity = choreo.sopacity ?? 0.98;
                     const flyDur = choreo.dur || '1750ms';
                     const flyDelay = choreo.delay || '0ms';
+                    const floatClass = isBowl
+                      ? 'cansi-float-bowl'
+                      : FLOAT_VARIANTS[layerIdx % FLOAT_VARIANTS.length];
 
                     return (
                       <div
@@ -593,9 +678,9 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                           height: `${layer.height}%`,
                           zIndex: layer.zIndex,
                           transform: tilt.hovered
-                            ? `translate3d(${parallaxX.toFixed(1)}px, ${parallaxY.toFixed(1)}px, 0)`
-                            : undefined,
-                          transition: tilt.hovered ? 'transform 320ms ease-out' : undefined,
+                            ? `translate3d(${parallaxX.toFixed(1)}px, ${parallaxY.toFixed(1)}px, 0px)`
+                            : 'translate3d(0px, 0px, 0px)',
+                          transition: 'transform 320ms ease-out',
                         }}
                       >
                         {isBowl ? (
@@ -604,18 +689,16 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                             className={`h-full w-full ${phase !== 'scattered' ? 'cansi-bowl-impact' : ''}`}
                           >
                             <div
-                              className="cansi-layer-float h-full w-full"
+                              className={`${floatClass} h-full w-full`}
                               style={{
-                                '--idle-x': choreo.idleX,
-                                '--idle-y': choreo.idleY,
-                                '--idle-rot': choreo.idleRot,
-                                '--idle-dur': choreo.idleDur,
-                                '--idle-delay': choreo.idleDelay,
+                                animationDuration: choreo.idleDur || '5.8s',
+                                animationDelay: choreo.idleDelay || '0s',
                               }}
                             >
                               <img
                                 src={layer.src}
                                 alt="Steaming stoneware bowl of PIYO Bacolod Cansi with splashing golden batwan broth"
+                                decoding="async"
                                 className="h-full w-full select-none object-contain"
                                 draggable={false}
                               />
@@ -626,7 +709,9 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                             data-scattered={isScattered ? 'true' : 'false'}
                             className="h-full w-full"
                             style={{
-                              willChange: 'transform, opacity',
+                              willChange: phase === 'building' ? 'transform, opacity' : 'auto',
+                              WebkitBackfaceVisibility: 'hidden',
+                              backfaceVisibility: 'hidden',
                               transform: isScattered
                                 ? `translate3d(${sxPx}px, ${syPx}px, 0px) rotate(${srot}) scale(${sscale})`
                                 : 'translate3d(0px, 0px, 0px) rotate(0deg) scale(1)',
@@ -638,19 +723,17 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                             }}
                           >
                             <div
-                              className="cansi-layer-float h-full w-full"
+                              className={`${floatClass} h-full w-full`}
                               style={{
-                                '--idle-x': choreo.idleX,
-                                '--idle-y': choreo.idleY,
-                                '--idle-rot': choreo.idleRot,
-                                '--idle-dur': choreo.idleDur,
-                                '--idle-delay': choreo.idleDelay,
+                                animationDuration: choreo.idleDur || '5.2s',
+                                animationDelay: choreo.idleDelay || '0s',
                               }}
                             >
                               <img
                                 src={layer.src}
                                 alt=""
                                 aria-hidden="true"
+                                decoding="async"
                                 className="h-full w-full select-none object-contain"
                                 draggable={false}
                               />

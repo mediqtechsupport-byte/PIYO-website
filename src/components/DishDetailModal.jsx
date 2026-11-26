@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Plus, Minus, Clock, Flame, Users, Check, ShoppingBag } from 'lucide-react';
 import { formatPeso } from '../utils/hours';
 
@@ -53,16 +54,16 @@ export function DishDetailModal({ dish, onClose, onAddToTray }) {
     onClose();
   };
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-[#08130B]/70 backdrop-blur-sm sm:items-center sm:p-4"
+      className="piyo-backdrop-in fixed inset-0 z-[54] flex items-end justify-center bg-[#08130B]/70 backdrop-blur-sm sm:items-center sm:p-4"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-label={`${dish.name} details`}
     >
       <div
-        className="relative flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-t-3xl bg-[#FAF6EC] text-[#1D231E] shadow-2xl sm:rounded-3xl"
+        className="piyo-sheet-in relative flex max-h-[calc(var(--dvh-full,100vh)*0.9)] w-full max-w-lg flex-col overflow-hidden rounded-t-3xl bg-[#FAF6EC] text-[#1D231E] shadow-2xl sm:rounded-3xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Photo */}
@@ -261,6 +262,7 @@ export function DishDetailModal({ dish, onClose, onAddToTray }) {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

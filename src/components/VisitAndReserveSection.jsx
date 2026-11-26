@@ -14,6 +14,7 @@ import {
   MapPin,
 } from 'lucide-react';
 import { RESTAURANT_INFO } from '../data/menuData';
+import { useSectionReveal } from '../hooks/useSectionReveal';
 
 const SOLIHIYA_LIGHT_BG =
   "url(\"data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%230D1C11' stroke-width='0.9'%3E%3Cpath d='M0 24H48M24 0V48M0 0L48 48M48 0L0 48' opacity='0.4'/%3E%3Crect x='12' y='12' width='24' height='24' rx='3'/%3E%3C/g%3E%3C/svg%3E\")";
@@ -22,6 +23,8 @@ const SOLIHIYA_GOLD_BG =
   "url(\"data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23DFB96F' stroke-width='0.8'%3E%3Cpath d='M0 26H52M26 0V52M0 0L52 52M52 0L0 52' opacity='0.35'/%3E%3Crect x='13' y='13' width='26' height='26' rx='3'/%3E%3C/g%3E%3C/svg%3E\")";
 
 export function VisitAndReserveSection({ openStatus }) {
+  const [infoRef, infoRevealed] = useSectionReveal(0.06);
+  const [bookRef, bookRevealed] = useSectionReveal(0.06);
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [timeSlot, setTimeSlot] = useState('Lunch (12:00 PM)');
@@ -80,10 +83,16 @@ export function VisitAndReserveSection({ openStatus }) {
         <div className="grid items-start gap-0 lg:grid-cols-12 lg:gap-12 xl:gap-14">
           {/* Left Column (Desktop) / Second Page After Book a Table (Mobile): Premier Location, Hours, Warm Beige Space Card & Direct Contacts */}
           <div
+            ref={infoRef}
             id="visit-info"
-            className="order-2 flex min-h-[var(--stage-h)] flex-col justify-center space-y-3.5 py-5 sm:space-y-5 sm:py-10 lg:order-1 lg:col-span-5 lg:block lg:min-h-0 lg:py-0"
+            className="order-2 flex min-h-[var(--stage-h)] flex-col justify-center py-5 sm:py-10 lg:order-1 lg:col-span-5 lg:block lg:min-h-0 lg:py-0"
           >
-            <div>
+            <div className="space-y-3.5 sm:space-y-5">
+            <div
+              data-revealed={infoRevealed ? 'true' : 'false'}
+              style={{ transitionDelay: '0ms' }}
+              className="piyo-reveal"
+            >
               {/* Premier Location Pill */}
               <span className="inline-flex items-center gap-2 rounded-full border border-[#DFB96F]/30 bg-[#0B190F] px-3 py-0.5 text-[9.5px] font-bold uppercase tracking-[0.2em] text-[#DFB96F] sm:px-3.5 sm:py-1 sm:text-[10px] sm:tracking-[0.22em]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#DFB96F]" aria-hidden="true" />
@@ -106,7 +115,11 @@ export function VisitAndReserveSection({ openStatus }) {
             <div className="h-px w-full bg-[#FAF6EC]/10" aria-hidden="true" />
 
             {/* Operating Hours Dark Forest Card */}
-            <div className="relative overflow-hidden rounded-2xl border border-[#DFB96F]/20 bg-gradient-to-b from-[#112013]/95 to-[#0A170E]/95 p-4 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.55)] sm:p-5">
+            <div
+              data-revealed={infoRevealed ? 'true' : 'false'}
+              style={{ transitionDelay: '80ms' }}
+              className="piyo-reveal-scale relative overflow-hidden rounded-2xl border border-[#DFB96F]/20 bg-gradient-to-b from-[#112013]/95 to-[#0A170E]/95 p-4 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.55)] sm:p-5"
+            >
               {/* Subtle top champagne-gold sheen */}
               <div
                 aria-hidden="true"
@@ -172,7 +185,11 @@ export function VisitAndReserveSection({ openStatus }) {
             </div>
 
             {/* Warm Cream Beige "Find Our Space" Contrast Card with Subtle Solihiya Linen & Botanical Flourish */}
-            <div className="relative overflow-hidden rounded-2xl border border-[#DFB96F]/35 bg-[#F5EFE2] p-4 text-[#08130B] shadow-[0_22px_48px_-18px_rgba(0,0,0,0.6)] sm:p-6">
+            <div
+              data-revealed={infoRevealed ? 'true' : 'false'}
+              style={{ transitionDelay: '150ms' }}
+              className="piyo-reveal-scale relative overflow-hidden rounded-2xl border border-[#DFB96F]/35 bg-[#F5EFE2] p-4 text-[#08130B] shadow-[0_22px_48px_-18px_rgba(0,0,0,0.6)] sm:p-6"
+            >
               {/* Whisper-subtle Solihiya woven texture */}
               <div
                 aria-hidden="true"
@@ -246,7 +263,11 @@ export function VisitAndReserveSection({ openStatus }) {
             </div>
 
             {/* Direct Phone Tiles with Subtle Gold Icon Medallion */}
-            <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+            <div
+              data-revealed={infoRevealed ? 'true' : 'false'}
+              style={{ transitionDelay: '220ms' }}
+              className="piyo-reveal grid grid-cols-2 gap-2.5 sm:gap-3"
+            >
               <a
                 href={`tel:${RESTAURANT_INFO.mobileTel}`}
                 className="group relative flex items-center justify-between gap-1.5 overflow-hidden rounded-2xl border border-[#DFB96F]/18 bg-gradient-to-b from-[#112013]/92 to-[#0A170E]/92 p-3 transition hover:border-[#DFB96F]/45 hover:bg-[#112013] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:gap-2 sm:p-4"
@@ -289,14 +310,20 @@ export function VisitAndReserveSection({ openStatus }) {
                 </span>
               </a>
             </div>
+            </div>
           </div>
 
           {/* Right Column (Desktop) / First Page Before PIYO Tagaytay Info (Mobile): Luxury Dark Forest Green "Book a Table" Concierge Card */}
           <div
+            ref={bookRef}
             id="book-table"
             className="order-1 flex min-h-[var(--stage-h)] flex-col justify-center py-4 sm:py-8 lg:order-2 lg:col-span-7 lg:block lg:min-h-0 lg:py-0"
           >
-            <div className="relative overflow-hidden rounded-3xl border border-[#DFB96F]/24 bg-gradient-to-b from-[#112013]/95 via-[#0B190F]/95 to-[#0A170E]/95 p-4.5 shadow-[0_28px_72px_-24px_rgba(0,0,0,0.72)] sm:p-8 lg:p-9">
+            <div
+              data-revealed={bookRevealed ? 'true' : 'false'}
+              style={{ transitionDelay: '70ms' }}
+              className="piyo-reveal-scale relative overflow-hidden rounded-3xl border border-[#DFB96F]/24 bg-gradient-to-b from-[#112013]/95 via-[#0B190F]/95 to-[#0A170E]/95 p-4.5 shadow-[0_28px_72px_-24px_rgba(0,0,0,0.72)] sm:p-8 lg:p-9"
+            >
               {/* Luminous champagne-gold hairline sheen along top rim */}
               <div
                 aria-hidden="true"

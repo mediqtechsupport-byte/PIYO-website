@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { Suspense, lazy, useState, useEffect, useRef } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Facebook, Instagram, Globe, Heart, ArrowRight, ChefHat, QrCode, Bell, X, Check } from 'lucide-react';
 import { RESTAURANT_INFO, MENU_ITEMS } from './data/menuData';
@@ -20,11 +20,20 @@ import { HistorySection } from './components/HistorySection';
 import { GrillPromiseSection } from './components/GrillPromiseSection';
 import { SignatureOrbitSection } from './components/SignatureOrbitSection';
 import { MenuSection } from './components/MenuSection';
-import { DishDetailModal } from './components/DishDetailModal';
-import { OrderTrayDrawer } from './components/OrderTrayDrawer';
 import { HeritageAndReviews } from './components/HeritageAndReviews';
 import { VisitAndReserveSection } from './components/VisitAndReserveSection';
-import { KitchenDashboard } from './components/KitchenDashboard';
+import { useSectionReveal } from './hooks/useSectionReveal';
+
+// Code-split heavy overlays & staff KDS so initial customer page load parses <40% of the JS bundle
+const DishDetailModal = lazy(() =>
+  import('./components/DishDetailModal').then((m) => ({ default: m.DishDetailModal }))
+);
+const OrderTrayDrawer = lazy(() =>
+  import('./components/OrderTrayDrawer').then((m) => ({ default: m.OrderTrayDrawer }))
+);
+const KitchenDashboard = lazy(() =>
+  import('./components/KitchenDashboard').then((m) => ({ default: m.KitchenDashboard }))
+);
 
 function isKitchenLocation() {
   if (typeof window === 'undefined') return false;
@@ -52,8 +61,74 @@ export default function App() {
   );
   const [trackedOrders, setTrackedOrders] = useState([]);
   const [isTrackerExpanded, setIsTrackerExpanded] = useState(false);
+  const [footerRef, footerRevealed] = useSectionReveal({ threshold: 0.05 });
   const lastStatusMapRef = useRef({});
   const snapLockUntilRef = useRef(0);
+  const glideRafRef = useRef(0);
+
+  const cancelActiveGlide = () => {
+    if (glideRafRef.current) {
+      window.cancelAnimationFrame(glideRafRef.current);
+      glideRafRef.current = 0;
+    }
+  };
+
+  const animateScrollTo = (targetY, durationMs = 500, onDone, easeMode = 'inOut') => {
+    cancelActiveGlide();
+    const maxScroll = Math.max(
+      0,
+      document.documentElement.scrollHeight - window.innerHeight
+    );
+    const clamped = Math.max(0, Math.min(Math.round(targetY), maxScroll));
+    const startY = window.scrollY;
+    const dist = clamped - startY;
+
+    ScrollTrigger.getAll().forEach((st) => {
+      st.getTween?.()?.kill();
+    });
+
+    const prefersReduced =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (Math.abs(dist) <= 1 || prefersReduced || durationMs <= 0) {
+      const now = Date.now();
+      snapLockUntilRef.current = now + 220;
+      window.__piyoNavLockUntil = now + 260;
+      window.scrollTo({ top: clamped, behavior: 'auto' });
+      window.dispatchEvent(new CustomEvent('piyo:nav-settled'));
+      onDone?.();
+      return;
+    }
+
+    const now = Date.now();
+    snapLockUntilRef.current = now + durationMs + 140;
+    window.__piyoNavLockUntil = now + durationMs + 120;
+
+    const t0 = performance.now();
+    const step = (ts) => {
+      const p = Math.min(1, (ts - t0) / durationMs);
+      // easeOutQuart for wheel & touch-seam settle (immediate response, silky deceleration);
+      // easeInOutCubic for button/nav clicks (graceful start and cushioned flush arrival)
+      const eased =
+        easeMode === 'out'
+          ? 1 - Math.pow(1 - p, 4)
+          : p < 0.5
+          ? 4 * p * p * p
+          : 1 - Math.pow(-2 * p + 2, 3) / 2;
+      window.scrollTo({ top: Math.round(startY + dist * eased), behavior: 'auto' });
+      if (p < 1) {
+        glideRafRef.current = window.requestAnimationFrame(step);
+      } else {
+        glideRafRef.current = 0;
+        window.scrollTo({ top: clamped, behavior: 'auto' });
+        window.__piyoNavLockUntil = 0;
+        window.dispatchEvent(new CustomEvent('piyo:nav-settled'));
+        onDone?.();
+      }
+    };
+    glideRafRef.current = window.requestAnimationFrame(step);
+  };
 
   // Live-subscribe to ALL active customer orders even across multiple rounds or page reloads
   useEffect(() => {
@@ -128,47 +203,48 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // Full-page boundary-aware scroll snap across every section on BOTH mobile & desktop:
-  // 1. Desktop wheel smoothly steps across landing chapters (#home <-> #history <-> #craft <-> #spotlight <-> #menu)
-  // 2. Touch, momentum, scrollbar, and wheel settle snapping guarantees you ALWAYS land cleanly on each page
-  //    (e.g. #menu with zero #spotlight "198 likes" lapse above it), while letting #spotlight's 5-dish orbit
-  //    and multi-screen sections scroll naturally inside themselves.
+  // 100% Native Compositor-Thread Scrolling + Zero-Reflow Active Nav Tracking + Gentle Seam-Only Settle:
+  // - ZERO non-passive `wheel` listeners (keeps Chrome/Safari/Firefox/iOS/Android on the 60/120Hz GPU compositor thread)
+  // - Cached section offsets (recomputed ONLY on resize/load/fonts, NEVER calling getBoundingClientRect() during scroll!)
+  // - Gently eases flush ONLY if scroll stops straddling a section seam, without ever skipping a section.
   useEffect(() => {
-    const CHAPTER_IDS = ['home', 'history', 'craft', 'spotlight'];
-    const isIOS =
-      typeof navigator !== 'undefined' &&
-      (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
-        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1));
+    if (isKitchenView) return undefined;
     let lastScrollY = window.scrollY;
     let lastDir = 0;
     let isTouching = false;
     let settleTimer = null;
-    let flushTimer = null;
+    let activeRaf = 0;
 
-    const getStickyOffset = () => {
-      const header = document.querySelector('header');
-      return header ? Math.ceil(header.getBoundingClientRect().bottom) : 69;
+    let cachedMetrics = {
+      pages: [],
+      navPages: [],
+      stickyOffset: 69,
+      stageH: 600,
+      maxScroll: 0,
     };
 
-    const getBottomNavHeight = () => {
+    const rebuildMetrics = () => {
+      const header = document.querySelector('header');
+      const stickyOffset = header ? Math.ceil(header.getBoundingClientRect().bottom) : 69;
       const bottomNav = document.querySelector(
         'nav[aria-label="Mobile bottom navigation"]'
       );
-      return bottomNav ? Math.ceil(bottomNav.getBoundingClientRect().height) : 0;
-    };
-
-    const getPageMetrics = () => {
-      const stickyOffset = getStickyOffset();
-      const bottomNavH = getBottomNavHeight();
+      const bottomNavH = bottomNav ? Math.ceil(bottomNav.getBoundingClientRect().height) : 0;
       const stageH = Math.max(280, window.innerHeight - stickyOffset - bottomNavH);
+      const maxScroll = Math.max(
+        0,
+        document.documentElement.scrollHeight - window.innerHeight
+      );
       const isDesktop = window.innerWidth >= 1024;
-      const ids = isDesktop
+      const y = window.scrollY;
+
+      const seamIds = isDesktop
         ? ['home', 'history', 'craft', 'spotlight', 'menu', 'heritage', 'reviews', 'visit']
         : ['home', 'history', 'craft', 'spotlight', 'menu', 'heritage', 'reviews', 'book-table', 'visit-info'];
-      const y = window.scrollY;
-      const pages = [];
+      const navIds = ['home', 'history', 'craft', 'spotlight', 'menu', 'heritage', 'reviews', 'visit'];
 
-      for (const id of ids) {
+      const pages = [];
+      for (const id of seamIds) {
         const el = document.getElementById(id);
         if (!el) continue;
         const rect = el.getBoundingClientRect();
@@ -178,20 +254,39 @@ export default function App() {
         const internalEndY = isSinglePage
           ? startY
           : startY + Math.max(0, height - stageH);
-        pages.push({
+        pages.push({ id, startY, height, internalEndY });
+      }
+
+      const navPages = [];
+      for (const id of navIds) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        navPages.push({
           id,
-          el,
-          startY,
-          endY: startY + height,
-          height,
-          internalEndY,
+          startY: Math.max(0, Math.round(rect.top + y - stickyOffset)),
         });
       }
-      return { pages, stickyOffset, bottomNavH, stageH };
+
+      cachedMetrics = { pages, navPages, stickyOffset, stageH, maxScroll };
+    };
+
+    const updateActiveFromCache = () => {
+      activeRaf = 0;
+      const { navPages, stageH } = cachedMetrics;
+      if (navPages.length === 0) return;
+      const probeY = window.scrollY + Math.max(80, stageH * 0.28);
+      let current = 'home';
+      for (let i = 0; i < navPages.length; i += 1) {
+        if (navPages[i].startY <= probeY) {
+          current = navPages[i].id;
+        }
+      }
+      setActiveSection((prev) => (prev === current ? prev : current));
     };
 
     const isInteractionBlocked = () => {
-      if (selectedDish || isTrayOpen || isKitchenView) return true;
+      if (selectedDish || isTrayOpen || isTrackerExpanded || isKitchenView) return true;
       if (
         document.body.style.overflow === 'hidden' ||
         document.documentElement.style.overflow === 'hidden'
@@ -210,86 +305,48 @@ export default function App() {
       return false;
     };
 
-    const glideFlushTo = (targetY, lockMs = 560) => {
-      const maxScroll = Math.max(
-        0,
-        document.documentElement.scrollHeight - window.innerHeight
-      );
-      const clamped = Math.max(0, Math.min(Math.round(targetY), maxScroll));
-      if (Math.abs(clamped - window.scrollY) <= 1) return;
-
-      const now = Date.now();
-      snapLockUntilRef.current = now + lockMs;
-      window.__piyoNavLockUntil = now + lockMs + 140;
-      ScrollTrigger.getAll().forEach((st) => {
-        st.getTween?.()?.kill();
-      });
-
-      window.scrollTo({ top: clamped, behavior: 'smooth' });
-
-      if (flushTimer) window.clearTimeout(flushTimer);
-      if (!isIOS) {
-        flushTimer = window.setTimeout(() => {
-          if (isTouching || isInteractionBlocked()) return;
-          const delta = Math.abs(window.scrollY - clamped);
-          if (delta > 1 && delta <= 12) {
-            ScrollTrigger.getAll().forEach((st) => {
-              st.getTween?.()?.kill();
-            });
-            window.scrollTo({ top: clamped, behavior: 'instant' });
-          }
-        }, lockMs - 60);
-      }
-    };
-
     const settleToCleanPage = () => {
-      if (isTouching || isInteractionBlocked()) return;
+      if (isTouching || isInteractionBlocked() || glideRafRef.current) return;
       const now = Date.now();
       if (now < snapLockUntilRef.current || now < (window.__piyoNavLockUntil || 0)) {
         return;
       }
 
       const y = window.scrollY;
-      const maxScroll = Math.max(
-        0,
-        document.documentElement.scrollHeight - window.innerHeight
-      );
-      // Guard against iOS Safari negative rubber-band overscroll & bottom bounce
-      if (y <= 1 || y >= maxScroll - 16) return;
-
-      const { pages } = getPageMetrics();
-      if (pages.length < 2) return;
+      const { pages, maxScroll } = cachedMetrics;
+      if (pages.length < 2 || y <= 1 || y >= maxScroll - 16) return;
 
       for (let i = 0; i < pages.length; i += 1) {
         const curr = pages[i];
         const next = pages[i + 1];
 
-        // Inside a page's clean self-contained scroll range (including #spotlight's 5-dish orbit):
-        // zero neighboring section is visible, so leave scroll untouched!
-        if (y >= curr.startY - 2 && y <= curr.internalEndY + 2) {
+        if (y >= curr.startY - 3 && y <= curr.internalEndY + 3) {
           return;
         }
 
-        // In the boundary seam between page `curr` and page `next` (a "page lapse" zone):
-        // snap cleanly to `next.startY` or back to `curr.internalEndY` so zero sliver peeks!
-        if (next && y > curr.internalEndY + 2 && y < next.startY - 2) {
+        if (next && y > curr.internalEndY + 3 && y < next.startY - 3) {
           const span = Math.max(1, next.startY - curr.internalEndY);
           const progress = (y - curr.internalEndY) / span;
-          const forwardThreshold = curr.id === 'spotlight' ? 0.08 : 0.14;
+          const forwardThreshold = curr.id === 'spotlight' ? 0.12 : 0.18;
           const goNext =
             lastDir > 0
               ? progress >= forwardThreshold
               : lastDir < 0
               ? progress > 1 - forwardThreshold
               : progress >= 0.5;
-          glideFlushTo(goNext ? next.startY : curr.internalEndY, 460);
+          animateScrollTo(
+            goNext ? next.startY : curr.internalEndY,
+            300,
+            undefined,
+            'out'
+          );
           return;
         }
       }
     };
 
     const supportsScrollEnd = 'onscrollend' in window;
-    const scheduleSettle = (delayMs = supportsScrollEnd ? 280 : 210) => {
+    const scheduleSettle = (delayMs = supportsScrollEnd ? 260 : 190) => {
       if (settleTimer) window.clearTimeout(settleTimer);
       settleTimer = window.setTimeout(settleToCleanPage, delayMs);
     };
@@ -301,15 +358,19 @@ export default function App() {
         lastDir = diff > 0 ? 1 : -1;
         lastScrollY = currY;
       }
+      if (!activeRaf) {
+        activeRaf = window.requestAnimationFrame(updateActiveFromCache);
+      }
       if (
         isTouching ||
+        glideRafRef.current ||
         isInteractionBlocked() ||
         Date.now() < snapLockUntilRef.current ||
         Date.now() < (window.__piyoNavLockUntil || 0)
       ) {
         return;
       }
-      scheduleSettle(supportsScrollEnd ? 280 : 210);
+      scheduleSettle(supportsScrollEnd ? 260 : 190);
     };
 
     const handleScrollEnd = () => {
@@ -319,215 +380,168 @@ export default function App() {
 
     const handleTouchStart = () => {
       isTouching = true;
+      cancelActiveGlide();
       if (settleTimer) window.clearTimeout(settleTimer);
-      if (flushTimer) window.clearTimeout(flushTimer);
     };
 
     const handleTouchEnd = () => {
       isTouching = false;
-      scheduleSettle(supportsScrollEnd ? 320 : 240);
+      scheduleSettle(supportsScrollEnd ? 300 : 220);
     };
 
-    const handleWheel = (e) => {
-      if (window.innerWidth < 1024 || isInteractionBlocked()) return;
-      if (Math.abs(e.deltaY) < 16 || e.ctrlKey) return;
-
-      const STICKY_OFFSET = getStickyOffset();
-      const spotlightEl = document.getElementById('spotlight');
-      const menuEl = document.getElementById('menu');
-      const goingDown = e.deltaY > 0;
-
-      // Once inside #menu or lower, handle smooth upward return to #spotlight Dish #5
-      // when scrolling up from the top of #menu, and let settle snap keep every lower boundary flush
-      if (menuEl) {
-        const menuTop = menuEl.getBoundingClientRect().top;
-        if (goingDown && menuTop <= STICKY_OFFSET + 16) return;
-        if (!goingDown && menuTop < STICKY_OFFSET - 12) return;
-        if (!goingDown && menuTop >= STICKY_OFFSET - 12 && menuTop <= STICKY_OFFSET + 20 && spotlightEl) {
-          const now = Date.now();
-          if (now < snapLockUntilRef.current) {
-            e.preventDefault();
-            return;
-          }
-          const stageH = Math.max(280, window.innerHeight - STICKY_OFFSET);
-          const sRect = spotlightEl.getBoundingClientRect();
-          const sStart = Math.max(0, Math.round(sRect.top + window.scrollY - STICKY_OFFSET));
-          const sEnd = sStart + Math.max(0, Math.round(sRect.height) - stageH);
-          e.preventDefault();
-          glideFlushTo(sEnd, 460);
-          return;
-        }
-      }
-
-      // Inside #spotlight (GSAP ScrollTrigger Dish Orbit Carousel):
-      // Let native scroll drive the orbiting plates between Dish #1 and Dish #5!
-      if (spotlightEl) {
-        const sRect = spotlightEl.getBoundingClientRect();
-        const inSpotlightZone = sRect.top <= STICKY_OFFSET + 12 && sRect.bottom > STICKY_OFFSET + 40;
-
-        if (inSpotlightZone) {
-          // Only step back UP to #craft if we're right at the top of #spotlight scrolling up
-          if (!goingDown && sRect.top >= STICKY_OFFSET - 14) {
-            const craftEl = document.getElementById('craft');
-            if (craftEl) {
-              const now = Date.now();
-              if (now < snapLockUntilRef.current) {
-                e.preventDefault();
-                return;
-              }
-              const targetY = Math.max(
-                0,
-                Math.round(craftEl.getBoundingClientRect().top + window.scrollY - STICKY_OFFSET)
-              );
-              e.preventDefault();
-              glideFlushTo(targetY, 440);
-            }
-            return;
-          }
-
-          // Only step smoothly into #menu once we've reached the end (Dish #5) of #spotlight
-          if (goingDown && sRect.bottom <= window.innerHeight + 16 && menuEl) {
-            const now = Date.now();
-            if (now < snapLockUntilRef.current) {
-              e.preventDefault();
-              return;
-            }
-            const targetY = Math.max(
-              0,
-              Math.round(menuEl.getBoundingClientRect().top + window.scrollY - STICKY_OFFSET)
-            );
-            e.preventDefault();
-            glideFlushTo(targetY, 460);
-            return;
-          }
-
-          // Otherwise inside #spotlight's 5-dish orbit track -> DO NOT intercept wheel!
-          return;
-        }
-      }
-
-      const now = Date.now();
-      if (now < snapLockUntilRef.current) {
-        e.preventDefault();
-        return;
-      }
-
-      const elements = CHAPTER_IDS.map((id) => document.getElementById(id)).filter(Boolean);
-      if (elements.length < 2) return;
-
-      let currentIdx = 0;
-      for (let i = 0; i < elements.length; i += 1) {
-        const rect = elements[i].getBoundingClientRect();
-        if (rect.top <= STICKY_OFFSET + 90) {
-          currentIdx = i;
-        }
-      }
-
-      const targetIdx = goingDown
-        ? Math.min(currentIdx + 1, elements.length - 1)
-        : Math.max(currentIdx - 1, 0);
-
-      if (targetIdx === currentIdx) return;
-
-      const targetEl = elements[targetIdx];
-      const targetY = Math.max(
-        0,
-        Math.round(targetEl.getBoundingClientRect().top + window.scrollY - STICKY_OFFSET)
-      );
-
-      if (!goingDown && currentIdx === 0 && window.scrollY <= 4) return;
-      if (Math.abs(window.scrollY - targetY) < 8) return;
-
-      e.preventDefault();
-      glideFlushTo(targetY, 440);
+    const handleWheelPassive = () => {
+      // Cancel any programmatic settle/nav glide immediately if user actively wheels
+      if (glideRafRef.current) cancelActiveGlide();
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
+    const handleMetricsRefresh = () => {
+      rebuildMetrics();
+      updateActiveFromCache();
+    };
+
+    rebuildMetrics();
+    updateActiveFromCache();
+
+    const ro =
+      typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(handleMetricsRefresh)
+        : null;
+    ro?.observe(document.body);
+
+    window.addEventListener('wheel', handleWheelPassive, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('scrollend', handleScrollEnd, { passive: true });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchend', handleTouchEnd, { passive: true });
     window.addEventListener('touchcancel', handleTouchEnd, { passive: true });
+    window.addEventListener('resize', handleMetricsRefresh, { passive: true });
+    window.addEventListener('load', handleMetricsRefresh);
+    window.addEventListener('piyo:nav-settled', updateActiveFromCache);
+    let fontsCancelled = false;
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        if (!fontsCancelled) handleMetricsRefresh();
+      });
+    }
     return () => {
+      fontsCancelled = true;
+      cancelActiveGlide();
       if (settleTimer) window.clearTimeout(settleTimer);
-      if (flushTimer) window.clearTimeout(flushTimer);
-      window.removeEventListener('wheel', handleWheel);
+      if (activeRaf) window.cancelAnimationFrame(activeRaf);
+      ro?.disconnect();
+      window.removeEventListener('wheel', handleWheelPassive);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('scrollend', handleScrollEnd);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchend', handleTouchEnd);
       window.removeEventListener('touchcancel', handleTouchEnd);
+      window.removeEventListener('resize', handleMetricsRefresh);
+      window.removeEventListener('load', handleMetricsRefresh);
+      window.removeEventListener('piyo:nav-settled', updateActiveFromCache);
     };
-  }, [selectedDish, isTrayOpen, isKitchenView]);
-
-  // Track active section while scrolling
-  useEffect(() => {
-    const ids = ['home', 'history', 'craft', 'menu', 'heritage', 'reviews', 'visit'];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        }
-      },
-      { rootMargin: '-30% 0px -55% 0px' }
-    );
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, []);
+  }, [selectedDish, isTrayOpen, isTrackerExpanded, isKitchenView]);
 
   const scrollToSection = (id) => {
-    setActiveSection(id);
-    const el = document.getElementById(id);
-    if (!el) return;
+    // Close any open modal/drawer/menu portal so navigation always reveals the destination cleanly
+    setSelectedDish(null);
+    setIsTrayOpen(false);
+    setIsTrackerExpanded(false);
+    window.dispatchEvent(new CustomEvent('piyo:close-menu-portals'));
 
-    // Prevent GSAP #spotlight ScrollTrigger snap from fighting navigation jumps
-    window.__piyoNavLockUntil = Date.now() + 1100;
-    ScrollTrigger.getAll().forEach((st) => {
-      st.getTween?.()?.kill();
-    });
+    const normalizedActive =
+      id === 'book-table' || id === 'visit-info' ? 'visit' : id;
+    setActiveSection(normalizedActive);
 
-    const getTargetY = () => {
-      const header = document.querySelector('header');
-      const offset = header
-        ? Math.ceil(header.getBoundingClientRect().bottom)
-        : 69;
-      return Math.max(
-        0,
-        Math.round(el.getBoundingClientRect().top + window.scrollY - offset)
+    const runGlide = () => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const getTargetY = () => {
+        const header = document.querySelector('header');
+        const offset = header
+          ? Math.ceil(header.getBoundingClientRect().bottom)
+          : 69;
+        return Math.max(
+          0,
+          Math.round(el.getBoundingClientRect().top + window.scrollY - offset)
+        );
+      };
+
+      const targetY = getTargetY();
+      const distance = Math.abs(targetY - window.scrollY);
+      // Snappy yet silky cubic glide: 380ms for neighbor, up to 560ms for full-page jump
+      const durationMs = Math.round(
+        Math.min(560, Math.max(380, 320 + distance * 0.05))
       );
-    };
 
-    const alignFlush = () => {
-      ScrollTrigger.getAll().forEach((st) => {
-        st.getTween?.()?.kill();
+      // Prime the destination section's entrance transition slightly before arrival so it blooms as you land
+      window.setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('piyo:nav-target', { detail: { id } }));
+      }, Math.round(durationMs * 0.45));
+
+      animateScrollTo(targetY, durationMs, () => {
+        // Re-verify flush alignment after sticky chrome or images settle
+        window.setTimeout(() => {
+          const settledY = getTargetY();
+          if (Math.abs(settledY - window.scrollY) > 2) {
+            window.scrollTo({ top: settledY, behavior: 'auto' });
+            window.dispatchEvent(new CustomEvent('piyo:nav-settled'));
+          }
+        }, 60);
       });
-      const settledY = getTargetY();
-      if (Math.abs(settledY - window.scrollY) > 1) {
-        window.scrollTo({ top: settledY, behavior: 'instant' });
-      }
     };
 
-    const targetY = getTargetY();
-    const isLargeJump =
-      Math.abs(targetY - window.scrollY) > window.innerHeight * 0.9 ||
-      id === 'menu' ||
-      id === 'visit' ||
-      id === 'home';
-
-    window.scrollTo({
-      top: targetY,
-      behavior: isLargeJump ? 'instant' : 'smooth',
-    });
-
-    // Double-check flush alignment after GSAP / mobile sticky chrome settles
-    window.setTimeout(alignFlush, isLargeJump ? 40 : 420);
-    window.setTimeout(alignFlush, isLargeJump ? 220 : 720);
+    // Wait one frame if a locked portal/overlay was just dismissed so body overflow unlocks first
+    if (
+      document.body.style.overflow === 'hidden' ||
+      document.documentElement.style.overflow === 'hidden'
+    ) {
+      window.requestAnimationFrame(() => window.requestAnimationFrame(runGlide));
+    } else {
+      runGlide();
+    }
   };
+
+  // Always start cleanly at Home (#home, scrollY=0) on page refresh unless an explicit deep-link hash is present
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    if (isKitchenView) return undefined;
+    const rawHash = window.location.hash.replace(/^#/, '').toLowerCase();
+    const validHashes = new Set([
+      'home',
+      'history',
+      'craft',
+      'spotlight',
+      'menu',
+      'heritage',
+      'reviews',
+      'visit',
+      'book-table',
+      'visit-info',
+    ]);
+    if (!rawHash || !validHashes.has(rawHash)) {
+      if (window.location.href.endsWith('#')) {
+        window.history.replaceState(
+          null,
+          '',
+          `${window.location.pathname}${window.location.search}`
+        );
+      }
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      setActiveSection('home');
+      const raf = window.requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      });
+      return () => window.cancelAnimationFrame(raf);
+    }
+    const t = window.setTimeout(() => {
+      scrollToSection(rawHash);
+    }, 120);
+    return () => window.clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isKitchenView]);
 
   const showToast = (msg) => {
     setToastText(msg);
@@ -585,21 +599,46 @@ export default function App() {
   );
 
   const openKitchenView = () => {
+    cancelActiveGlide();
     window.location.hash = 'kitchen';
+    window.scrollTo({ top: 0, behavior: 'auto' });
     setIsKitchenView(true);
   };
 
   const exitKitchenView = () => {
-    if (window.location.pathname.toLowerCase().endsWith('/kitchen')) {
-      window.history.replaceState(null, '', '/');
-    } else {
-      window.location.hash = '';
+    cancelActiveGlide();
+    if (/\/kitchen\/?$/i.test(window.location.pathname)) {
+      const basePath = window.location.pathname.replace(/\/kitchen\/?$/i, '/');
+      window.history.replaceState(null, '', basePath || '/');
+    } else if (window.location.hash) {
+      window.history.replaceState(
+        null,
+        '',
+        `${window.location.pathname}${window.location.search}`
+      );
     }
     setIsKitchenView(false);
+    setActiveSection('home');
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      window.setTimeout(() => ScrollTrigger.refresh(), 100);
+    });
   };
 
   if (isKitchenView) {
-    return <KitchenDashboard onExit={exitKitchenView} />;
+    return (
+      <div className="piyo-page-fade min-h-screen bg-[#08130B]">
+        <Suspense
+          fallback={
+            <div className="flex min-h-screen items-center justify-center bg-[#08130B] text-sm font-semibold tracking-wider text-[#DFB96F]">
+              Loading PIYO Kitchen…
+            </div>
+          }
+        >
+          <KitchenDashboard onExit={exitKitchenView} />
+        </Suspense>
+      </div>
+    );
   }
 
   const activeTrackedOrders = trackedOrders.filter(
@@ -612,11 +651,7 @@ export default function App() {
     null;
 
   return (
-    <div
-      className={`min-h-screen bg-[#F5EFE2] ${
-        trayCount > 0 && !isTrayOpen ? 'pb-36 md:pb-20' : 'pb-20 md:pb-0'
-      }`}
-    >
+    <div className="min-h-screen bg-[#08130B]">
       <Navbar
         activeSection={activeSection}
         onNavigate={scrollToSection}
@@ -687,8 +722,18 @@ export default function App() {
       </main>
 
       {/* Heritage Forest Green Footer */}
-      <footer className="border-t border-[#D8B36A]/25 bg-[#08130B] py-10 text-[#FAF6EC]">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-5 text-center sm:flex-row sm:px-8 sm:text-left">
+      <footer
+        ref={footerRef}
+        className={`border-t border-[#D8B36A]/25 bg-[#08130B] pt-10 text-[#FAF6EC] ${
+          trayCount > 0 && !isTrayOpen
+            ? 'pb-40 md:pb-24'
+            : 'pb-28 md:pb-10'
+        }`}
+      >
+        <div
+          data-revealed={footerRevealed ? 'true' : 'false'}
+          className="piyo-reveal mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-5 text-center sm:flex-row sm:px-8 sm:text-left"
+        >
           <div className="flex items-center gap-3.5">
             <img
               src="./logo.svg"
@@ -752,39 +797,48 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Dish Detail Sheet/Modal */}
-      <DishDetailModal
-        dish={selectedDish}
-        onClose={() => setSelectedDish(null)}
-        onAddToTray={addToTray}
-      />
+      {/* Lazy-Loaded Dish Detail Sheet/Modal */}
+      {selectedDish && (
+        <Suspense fallback={null}>
+          <DishDetailModal
+            dish={selectedDish}
+            onClose={() => setSelectedDish(null)}
+            onAddToTray={addToTray}
+          />
+        </Suspense>
+      )}
 
-      {/* Order & Table Tray Drawer */}
-      <OrderTrayDrawer
-        isOpen={isTrayOpen}
-        onClose={() => setIsTrayOpen(false)}
-        items={trayItems}
-        onUpdateQty={updateTrayQty}
-        onRemoveItem={removeTrayItem}
-        onClear={() => setTrayItems([])}
-        activeTable={activeTable}
-        trackedOrders={trackedOrders}
-        onDismissTrackedOrder={(orderId) => {
-          const nextIds = removeSavedCustomerOrderId(orderId);
-          setTrackedOrderIds(nextIds);
-          setTrackedOrders((prev) => prev.filter((o) => o.id !== orderId));
-          if (nextIds.length === 0) setIsTrackerExpanded(false);
-        }}
-        onOrderCreated={(created) => {
-          lastStatusMapRef.current[created.id] = created.status;
-          const nextIds = addSavedCustomerOrderId(created.id);
-          setTrackedOrderIds(nextIds);
-          setTrackedOrders((prev) => [
-            created,
-            ...prev.filter((o) => o.id !== created.id),
-          ]);
-        }}
-      />
+      {/* Lazy-Loaded Order & Table Tray Drawer */}
+      {isTrayOpen && (
+        <Suspense fallback={null}>
+          <OrderTrayDrawer
+            isOpen={isTrayOpen}
+            onClose={() => setIsTrayOpen(false)}
+            onBrowseMenu={() => scrollToSection('menu')}
+            items={trayItems}
+            onUpdateQty={updateTrayQty}
+            onRemoveItem={removeTrayItem}
+            onClear={() => setTrayItems([])}
+            activeTable={activeTable}
+            trackedOrders={trackedOrders}
+            onDismissTrackedOrder={(orderId) => {
+              const nextIds = removeSavedCustomerOrderId(orderId);
+              setTrackedOrderIds(nextIds);
+              setTrackedOrders((prev) => prev.filter((o) => o.id !== orderId));
+              if (nextIds.length === 0) setIsTrackerExpanded(false);
+            }}
+            onOrderCreated={(created) => {
+              lastStatusMapRef.current[created.id] = created.status;
+              const nextIds = addSavedCustomerOrderId(created.id);
+              setTrackedOrderIds(nextIds);
+              setTrackedOrders((prev) => [
+                created,
+                ...prev.filter((o) => o.id !== created.id),
+              ]);
+            }}
+          />
+        </Suspense>
+      )}
 
       {/* Persistent Customer Live Order Status Pill (supports 1 or multiple active receipts!) */}
       {headlineTrackedOrder && !isTrayOpen && (() => {
@@ -798,7 +852,7 @@ export default function App() {
         const extraCount = trackedOrders.length - 1;
         return (
           <>
-            <div className="pointer-events-none fixed bottom-[78px] left-4 right-4 z-[36] flex justify-start md:bottom-6 md:left-6 md:right-auto">
+            <div className="pointer-events-none fixed bottom-[78px] left-4 right-4 z-[45] flex justify-start md:bottom-6 md:left-6 md:right-auto">
               <div
                 className={`pointer-events-auto flex w-full max-w-[350px] items-center gap-3 rounded-2xl border px-3.5 py-2.5 text-[#FAF6EC] shadow-[0_20px_44px_-10px_rgba(0,0,0,0.65)] backdrop-blur-md transition ${
                   isReady
@@ -873,14 +927,14 @@ export default function App() {
 
             {isTrackerExpanded && (
               <div
-                className="fixed inset-0 z-[60] flex items-center justify-center bg-[#061009]/75 p-4 backdrop-blur-sm"
+                className="piyo-backdrop-in fixed inset-0 z-[60] flex items-center justify-center bg-[#061009]/75 p-4 backdrop-blur-sm"
                 onClick={() => setIsTrackerExpanded(false)}
                 role="dialog"
                 aria-modal="true"
                 aria-label="Live order status"
               >
                 <div
-                  className="flex max-h-[86dvh] w-full max-w-md flex-col overflow-hidden rounded-3xl border border-[#DFB96F]/35 bg-[#FAF6EC] text-[#08130B] shadow-2xl"
+                  className="piyo-sheet-in flex max-h-[calc(var(--dvh-full,100vh)*0.86)] w-full max-w-md flex-col overflow-hidden rounded-3xl border border-[#DFB96F]/35 bg-[#FAF6EC] text-[#08130B] shadow-2xl"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="flex shrink-0 items-center justify-between bg-[#08130B] px-5 py-4 text-[#FAF6EC]">
@@ -1036,24 +1090,20 @@ export default function App() {
         );
       })()}
 
-      {/* Floating Side Tray Pill (Bottom-Right on Desktop, hidden on Desktop #menu where My Order sidebar is live) */}
+      {/* Floating Cart Pill — Always visible on #menu & inside Category Portals (sits above z-[44] portal, below z-[46] Customizer & z-[55] Tray Drawer) */}
       {trayCount > 0 && !isTrayOpen && (
-        <div
-          className={`pointer-events-none fixed inset-x-0 bottom-[78px] z-[35] flex justify-center px-4 md:inset-x-auto md:bottom-6 md:right-6 md:justify-end md:px-0 ${
-            activeSection === 'menu' ? 'lg:hidden' : ''
-          }`}
-        >
+        <div className="pointer-events-none fixed inset-x-0 bottom-[78px] z-[45] flex justify-center px-4 md:inset-x-auto md:bottom-6 md:right-6 md:justify-end md:px-0">
           <button
             type="button"
             onClick={() => setIsTrayOpen(true)}
-            aria-label={`View your tray (${trayCount} items, ${formatPeso(traySubtotal)})`}
-            className="pointer-events-auto flex w-full max-w-sm items-center justify-between gap-4 rounded-full border border-[#0D1C11]/20 bg-[#DFB96F] px-3.5 py-2.5 text-sm font-bold text-[#08130B] shadow-[0_18px_36px_-8px_rgba(8,19,11,0.45)] transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11] active:scale-[0.99] md:w-auto md:min-w-[248px]"
+            aria-label={`View your cart (${trayCount} items, ${formatPeso(traySubtotal)})`}
+            className="pointer-events-auto flex w-full max-w-sm items-center justify-between gap-4 rounded-full border border-[#0D1C11]/25 bg-[#DFB96F] px-3.5 py-2.5 text-sm font-bold text-[#08130B] shadow-[0_18px_36px_-8px_rgba(8,19,11,0.55)] transition hover:bg-[#E7C88B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D1C11] active:scale-[0.99] md:w-auto md:min-w-[258px]"
           >
             <span className="inline-flex items-center gap-2.5">
               <span className="inline-flex h-7 min-w-7 items-center justify-center rounded-full bg-[#08130B] px-2 text-xs font-bold text-[#DFB96F]">
                 {trayCount}
               </span>
-              <span>View your tray</span>
+              <span>View Cart</span>
             </span>
             <span className="inline-flex items-center gap-1.5 font-serif text-lg font-bold">
               {formatPeso(traySubtotal)}
@@ -1065,8 +1115,10 @@ export default function App() {
 
       {/* Floating Add-to-Tray Toast */}
       {toastText && (
-        <div className="fixed bottom-[138px] left-1/2 z-50 -translate-x-1/2 rounded-full bg-[#0D1C11] px-4 py-2 text-xs font-semibold text-[#FAF6EC] shadow-lg ring-1 ring-[#D8B36A]/50 md:bottom-[84px]">
-          {toastText}
+        <div className="pointer-events-none fixed inset-x-0 bottom-[138px] z-[52] flex justify-center px-4 md:bottom-[84px]">
+          <div className="piyo-toast-in rounded-full bg-[#0D1C11] px-4 py-2 text-xs font-semibold text-[#FAF6EC] shadow-lg ring-1 ring-[#D8B36A]/50">
+            {toastText}
+          </div>
         </div>
       )}
     </div>

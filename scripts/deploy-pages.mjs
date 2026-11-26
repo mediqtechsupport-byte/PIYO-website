@@ -28,6 +28,26 @@ const remoteUrl = execFileSync(
 const runGit = (args) =>
   execFileSync('git', ['-C', stageDir, ...args], { stdio: 'inherit' });
 
+const runGitWithRetry = (args, attempts = 5) => {
+  for (let i = 1; i <= attempts; i += 1) {
+    try {
+      runGit(args);
+      return;
+    } catch (err) {
+      if (i === attempts) throw err;
+      const lockFile = path.join(stageDir, '.git', 'index.lock');
+      if (fs.existsSync(lockFile)) {
+        try {
+          fs.rmSync(lockFile, { force: true });
+        } catch {
+          // Ignore transient lock cleanup failure
+        }
+      }
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 500);
+    }
+  }
+};
+
 try {
   fs.cpSync(distDir, stageDir, { recursive: true });
   fs.writeFileSync(path.join(stageDir, '.nojekyll'), '');
@@ -50,8 +70,8 @@ try {
     'user.email',
     'mediqtechsupport-byte@users.noreply.github.com',
   ]);
-  runGit(['add', '-A']);
-  runGit(['commit', '-m', 'Update live GitHub Pages site']);
+  runGitWithRetry(['add', '-A']);
+  runGitWithRetry(['commit', '-m', 'Update live GitHub Pages site']);
   runGit(['remote', 'add', 'origin', remoteUrl]);
   runGit(['push', '-f', 'origin', 'gh-pages']);
 

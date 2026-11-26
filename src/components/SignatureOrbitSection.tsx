@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, Flame, Sparkles, UtensilsCrossed, MapPin } from 'lucide-react';
 import DishOrbitCarousel, { type Dish } from '@/components/ui/dish-orbit-carousel';
 import { MENU_ITEMS } from '../data/menuData';
@@ -176,6 +176,15 @@ export function SignatureOrbitSection({
 }: SignatureOrbitSectionProps) {
   const [storyIndex, setStoryIndex] = useState<number | null>(null);
 
+  useEffect(() => {
+    if (storyIndex === null) return undefined;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setStoryIndex(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [storyIndex]);
+
   const handleOrder = (_dish: Dish, index: number) => {
     const meta = SPOTLIGHT_META[index];
     const matched = meta
@@ -215,14 +224,14 @@ export function SignatureOrbitSection({
       {/* Kitchen Story Modal triggered by "Play video" / Spotlight preview */}
       {activeStoryDish && activeStoryMeta && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-[#08130B]/75 backdrop-blur-sm sm:items-center sm:p-4"
+          className="piyo-backdrop-in fixed inset-0 z-50 flex items-end justify-center bg-[#08130B]/75 backdrop-blur-sm sm:items-center sm:p-4"
           onClick={() => setStoryIndex(null)}
           role="dialog"
           aria-modal="true"
           aria-label={`${activeStoryDish.title} ${activeStoryDish.subtitle} kitchen spotlight`}
         >
           <div
-            className="w-full max-w-lg overflow-hidden rounded-t-3xl bg-[#FAF6EC] text-[#1D231E] shadow-2xl sm:rounded-3xl pb-safe"
+            className="piyo-sheet-in w-full max-w-lg overflow-hidden rounded-t-3xl bg-[#FAF6EC] text-[#1D231E] shadow-2xl sm:rounded-3xl pb-safe"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative h-48 bg-[#0D1C11] sm:h-56">

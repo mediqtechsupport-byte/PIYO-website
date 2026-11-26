@@ -126,6 +126,7 @@ const ORBIT_X = 299
 const ORBIT_Y = -450
 const ORBIT_R = 650
 const SCROLL_PER_DISH_DESKTOP = 0.7 // stage heights of scroll per dish on desktop
+const SCROLL_PER_DISH_TABLET = 0.44 // balanced thumb/touch scroll travel on iPad & Android tablets
 const SCROLL_PER_DISH_MOBILE = 0.34 // lighter thumb-friendly scroll travel per dish on phones
 const SWING = 50 // degrees the plate travels round the orbit's pivot
 const ITEM = 118 // thumbnail pitch in canvas px
@@ -133,65 +134,100 @@ const VISIBLE = 4
 
 const FONT = "dsh-face"
 
+function addMediaListener(mq: MediaQueryList, fn: () => void) {
+  if (typeof mq.addEventListener === "function") {
+    mq.addEventListener("change", fn)
+    return () => mq.removeEventListener("change", fn)
+  }
+  if (typeof mq.addListener === "function") {
+    mq.addListener(fn)
+    return () => mq.removeListener(fn)
+  }
+  return () => {}
+}
+
+function detectTouchPrimary(): boolean {
+  if (typeof window === "undefined") return false
+  const coarse = typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches
+  const noHover = typeof window.matchMedia === "function" && window.matchMedia("(hover: none)").matches
+  const iosTouch =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+  return coarse || noHover || iosTouch
+}
+
+const COMPACT_RULES =
+  ".dsh-canvas{position:relative;left:auto;top:auto;width:100%;height:auto;transform:none;display:flex;flex-direction:column;align-items:center;padding:14px 16px 18px}" +
+  ".dsh-arc{width:200%;height:auto;left:-60%;top:-30px}" +
+  ".dsh-top{position:relative;left:auto;top:auto;align-self:flex-end}" +
+  ".dsh-pager{left:14px;top:150px}" +
+  ".dsh-plates{position:relative;left:auto;top:auto;width:min(52vw,calc(var(--vh-full,100vh) * 0.32));height:min(52vw,calc(var(--vh-full,100vh) * 0.32));margin-top:0}" +
+  ".dsh-orbit>img{width:100%;height:100%}" +
+  ".dsh-head{position:relative;left:auto;top:auto;width:100%;height:132px;margin-top:10px}" +
+  ".dsh-hd{text-align:center;transform:scale(.78);transform-origin:50% 0}" +
+  ".dsh-acts{position:relative;left:auto;top:auto;margin-top:4px}" +
+  ".dsh-card{position:relative;left:auto;top:auto;width:100%;max-width:420px;margin-top:12px}" +
+  ".dsh-strip{display:none}"
+
 const CSS =
   ".dsh-trk{position:relative;width:100%}" +
-  ".dsh-root{position:-webkit-sticky;position:sticky;top:0;overflow:hidden;width:100%;background:var(--color-background);color:var(--color-foreground);" +
+  ".dsh-root{position:-webkit-sticky;position:sticky;top:0;overflow:hidden;width:100%;background:var(--color-background,#f5efe2);color:var(--color-foreground,#0D1C11);" +
   "font-family:" + FONT + ",ui-sans-serif,system-ui,sans-serif;-webkit-tap-highlight-color:transparent}" +
   ".dsh-stage{position:relative;width:100%;height:100%;container-type:inline-size}" +
   ".dsh-root *{box-sizing:border-box}" +
   ".dsh-bd{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;pointer-events:none}" +
-  ".dsh-wash{position:absolute;inset:0;background:color-mix(in oklab,var(--color-background) 38%,transparent);pointer-events:none}" +
+  ".dsh-wash{position:absolute;inset:0;background:rgba(245,239,226,.38);background:color-mix(in oklab,var(--color-background) 38%,transparent);pointer-events:none}" +
   // multiply by the background: a no-op on a light theme, lights-off on a dark one
-  ".dsh-dim{position:absolute;inset:0;background:var(--color-background);mix-blend-mode:multiply;opacity:.72;pointer-events:none}" +
+  ".dsh-dim{position:absolute;inset:0;background:var(--color-background,#f5efe2);mix-blend-mode:multiply;opacity:.72;pointer-events:none}" +
   ".dsh-root:focus-visible{outline:2px solid var(--color-primary);outline-offset:-4px}" +
   ".dsh-canvas{position:absolute;left:50%;top:50%;width:960px;height:520px;transform:translate(-50%,-50%) scale(var(--dsh-s,1));transform-origin:50% 50%}" +
   ".dsh-arc{position:absolute;left:0;top:0;width:960px;height:520px;overflow:visible;pointer-events:none}" +
-  ".dsh-btn{appearance:none;border:0;background:none;color:inherit;font:inherit;padding:0;margin:0;cursor:pointer}" +
+  ".dsh-btn{-webkit-appearance:none;appearance:none;border:0;background:none;color:inherit;font:inherit;padding:0;margin:0;cursor:pointer}" +
   ".dsh-btn:focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:10px}" +
   ".dsh-ico{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}" +
   ".dsh-top{position:absolute;left:800px;top:52px;display:flex;gap:14px}" +
   ".dsh-top .dsh-btn{width:36px;height:36px;display:grid;place-items:center;border-radius:10px}" +
   ".dsh-pager{position:absolute;left:76px;top:172px;display:flex;flex-direction:column;align-items:center;gap:7px}" +
   ".dsh-dot{width:14px;height:10px;display:grid;place-items:center}" +
-  ".dsh-dot i{display:block;width:3px;height:3px;border-radius:3px;background:var(--color-foreground);opacity:.45;transition:height .45s cubic-bezier(.3,.7,.2,1),opacity .3s}" +
+  ".dsh-dot i{display:block;width:3px;height:3px;border-radius:3px;background:var(--color-foreground,#0D1C11);opacity:.45;transition:height .45s cubic-bezier(.3,.7,.2,1),opacity .3s}" +
   ".dsh-dot[aria-current] i{height:22px;opacity:.9}" +
   ".dsh-dot[aria-current]{height:26px}" +
   ".dsh-dot{transition:height .45s cubic-bezier(.3,.7,.2,1)}" +
   ".dsh-plates{position:absolute;left:130px;top:82px;width:245px;height:245px;touch-action:pan-y}" +
-  ".dsh-orbit{position:absolute;inset:0;transform-origin:69% -217%;visibility:hidden;will-change:transform}" +
-  ".dsh-orbit>img{display:block;width:245px;height:245px;max-width:none;object-fit:contain;user-select:none;-webkit-user-drag:none;" +
+  ".dsh-orbit{position:absolute;inset:0;-webkit-transform-origin:69% -217%;transform-origin:69% -217%;visibility:hidden;-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform}" +
+  ".dsh-orbit>img{display:block;width:245px;height:245px;max-width:none;object-fit:contain;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;" +
   "filter:drop-shadow(0 16px 22px rgba(0,0,0,.2)) drop-shadow(0 3px 5px rgba(0,0,0,.12))}" +
   ".dsh-head{position:absolute;left:388px;top:96px;width:330px;height:150px}" +
   ".dsh-hd{position:absolute;inset:0;visibility:hidden}" +
   ".dsh-eye{font-size:12.5px;font-weight:600;letter-spacing:.01em;margin:0 0 4px 2px}" +
-  ".dsh-t1,.dsh-t2{display:block;white-space:nowrap;line-height:1;text-transform:uppercase;margin:0}" +
+  ".dsh-t1,.dsh-t2{display:block;white-space:nowrap;line-height:1;text-transform:uppercase;margin:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;transform:translateZ(0)}" +
   ".dsh-t1{font-weight:200;letter-spacing:-.015em;margin-top:6px}" +
-  ".dsh-t2{font-weight:800;letter-spacing:-.025em;margin-top:6px;color:color-mix(in oklab,var(--color-foreground) 86%,transparent)}" +
+  ".dsh-t2{font-weight:800;letter-spacing:-.025em;margin-top:6px;color:rgba(13,28,17,.86);color:color-mix(in oklab,var(--color-foreground) 86%,transparent)}" +
   ".dsh-acts{position:absolute;left:396px;top:280px;display:flex;gap:44px;font-size:12.5px;font-weight:500}" +
   ".dsh-acts .dsh-btn{display:flex;align-items:center;gap:9px;padding:4px 0}" +
   ".dsh-acts .dsh-ico{width:13px;height:13px}" +
   ".dsh-acts .dsh-fill{fill:currentColor;stroke:none}" +
   ".dsh-card{position:absolute;left:722px;top:137px;width:223px;padding:18px 20px 20px;border-radius:20px;" +
-  "background:color-mix(in oklab,var(--color-background) 72%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);" +
-  "box-shadow:0 1px 0 color-mix(in oklab,var(--color-foreground) 6%,transparent) inset,0 18px 40px -24px rgba(0,0,0,.25)}" +
+  "background:rgba(245,239,226,.78);background:color-mix(in oklab,var(--color-background) 72%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);" +
+  "box-shadow:0 1px 0 rgba(13,28,17,.06) inset,0 18px 40px -24px rgba(0,0,0,.25)}" +
   ".dsh-tabs{display:flex;justify-content:space-between;padding:0 6px 0 20px;font-size:12px;margin-bottom:20px}" +
-  ".dsh-tab{color:var(--color-muted-foreground);font-weight:500;padding:3px 0}" +
-  ".dsh-tab[aria-selected=true]{color:var(--color-foreground);font-weight:600}" +
+  ".dsh-tab{color:var(--color-muted-foreground,#3f5244);font-weight:500;padding:3px 0}" +
+  ".dsh-tab[aria-selected=true]{color:var(--color-foreground,#0D1C11);font-weight:600}" +
   ".dsh-bodies{display:grid}" +
   ".dsh-body{grid-area:1/1;visibility:hidden}" +
   ".dsh-rate{position:relative;height:62px;margin:0 0 14px 6px}" +
   ".dsh-badge{position:absolute;left:0;top:0;width:46px;height:62px;border-radius:10px}" +
-  ".dsh-badge svg{position:absolute;left:17px;bottom:9px;width:12px;height:12px;fill:var(--color-foreground);opacity:.8}" +
+  ".dsh-badge svg{position:absolute;left:17px;bottom:9px;width:12px;height:12px;fill:var(--color-foreground,#0D1C11);opacity:.8}" +
   ".dsh-num{position:absolute;left:10px;top:4px;font-size:36px;font-weight:700;letter-spacing:-.04em;line-height:1}" +
   ".dsh-chef{font-size:19px;font-weight:600;letter-spacing:-.01em;margin:0}" +
-  ".dsh-kit{font-size:10.5px;color:var(--color-muted-foreground);margin:3px 0 12px}" +
+  ".dsh-kit{font-size:10.5px;color:var(--color-muted-foreground,#3f5244);margin:3px 0 12px}" +
   ".dsh-desc{font-size:12.5px;line-height:1.38;margin:0;min-height:52px}" +
   ".dsh-ing{display:flex;flex-wrap:wrap;gap:5px;margin:0;padding:0;list-style:none;min-height:52px}" +
-  ".dsh-ing li{font-size:11px;padding:4px 9px;border-radius:99px;background:color-mix(in oklab,var(--color-foreground) 7%,transparent)}" +
+  ".dsh-ing li{font-size:11px;padding:4px 9px;border-radius:99px;background:rgba(13,28,17,.07);background:color-mix(in oklab,var(--color-foreground) 7%,transparent)}" +
   ".dsh-react{display:flex;gap:12px;margin-top:20px}" +
   ".dsh-like{display:flex;align-items:center;gap:8px;height:34px;padding:0 14px 0 10px;border-radius:99px;font-size:10.5px;" +
-  "background:color-mix(in oklab,var(--color-foreground) 6%,transparent);transition:background .25s}" +
-  ".dsh-meh{width:34px;height:34px;display:grid;place-items:center;border-radius:99px;background:color-mix(in oklab,var(--color-foreground) 6%,transparent)}" +
+  "background:rgba(13,28,17,.06);background:color-mix(in oklab,var(--color-foreground) 6%,transparent);transition:background .25s}" +
+  ".dsh-meh{width:34px;height:34px;display:grid;place-items:center;border-radius:99px;background:rgba(13,28,17,.06);background:color-mix(in oklab,var(--color-foreground) 6%,transparent)}" +
   ".dsh-react .dsh-ico{width:16px;height:16px}" +
   ".dsh-react [aria-pressed=true] .dsh-ico{fill:currentColor}" +
   ".dsh-strip{position:absolute;left:130px;top:362px;width:550px;height:122px;display:flex;align-items:center}" +
@@ -199,28 +235,16 @@ const CSS =
   ".dsh-arrow svg{width:12px;height:16px;fill:currentColor}" +
   ".dsh-win{position:relative;width:" + ITEM * VISIBLE + "px;height:122px;overflow:hidden;flex:none;margin:0 2px;" +
   "-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}" +
-  ".dsh-track{position:absolute;left:0;top:0;display:flex;transition:transform .6s cubic-bezier(.65,0,.35,1)}" +
+  ".dsh-track{position:absolute;left:0;top:0;display:flex;will-change:transform;transition:transform .6s cubic-bezier(.65,0,.35,1)}" +
   ".dsh-th{width:" + ITEM + "px;height:122px;display:flex;justify-content:center;padding-top:3px}" +
   ".dsh-th .dsh-btn{width:80px;height:116px;border-radius:14px;display:flex;flex-direction:column;align-items:center;gap:7px;padding-top:9px;transition:background .45s}" +
-  ".dsh-th .dsh-btn[aria-current]{background:color-mix(in oklab,var(--color-background) 62%,transparent);box-shadow:0 10px 24px -16px rgba(0,0,0,.3)}" +
+  ".dsh-th .dsh-btn[aria-current]{background:rgba(245,239,226,.65);background:color-mix(in oklab,var(--color-background) 62%,transparent);box-shadow:0 10px 24px -16px rgba(0,0,0,.3)}" +
   ".dsh-th img{width:56px;height:56px;max-width:none;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(0,0,0,.18));transition:transform .45s}" +
   ".dsh-th .dsh-btn[aria-current] img{transform:scale(1.06)}" +
-  ".dsh-th span{font-size:10px;line-height:1.25;text-align:center;font-weight:500;color:color-mix(in oklab,var(--color-foreground) 78%,transparent);max-width:78px}" +
+  ".dsh-th span{font-size:10px;line-height:1.25;text-align:center;font-weight:500;color:rgba(13,28,17,.78);color:color-mix(in oklab,var(--color-foreground) 78%,transparent);max-width:78px}" +
   ".dsh-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}" +
-  "@container (max-width:639px){" +
-  ".dsh-canvas{position:relative;left:auto;top:auto;width:100%;height:auto;transform:none;display:flex;flex-direction:column;align-items:center;padding:14px 16px 18px}" +
-  ".dsh-arc{width:200%;height:auto;left:-60%;top:-30px}" +
-  ".dsh-top{position:relative;left:auto;top:auto;align-self:flex-end}" +
-  ".dsh-pager{left:14px;top:150px}" +
-  ".dsh-plates{position:relative;left:auto;top:auto;width:min(52vw,32svh);height:min(52vw,32svh);margin-top:0}" +
-  ".dsh-orbit>img{width:100%;height:100%}" +
-  ".dsh-head{position:relative;left:auto;top:auto;width:100%;height:132px;margin-top:10px}" +
-  ".dsh-hd{text-align:center;transform:scale(.78);transform-origin:50% 0}" +
-  ".dsh-acts{position:relative;left:auto;top:auto;margin-top:4px}" +
-  ".dsh-card{position:relative;left:auto;top:auto;width:100%;max-width:420px;margin-top:12px}" +
-  // phone: the pinned stage has to fit one screen; the pager, swipes and scroll cover the strip
-  ".dsh-strip{display:none}" +
-  "}" +
+  "@container (max-width:639px){" + COMPACT_RULES + "}" +
+  "@supports not (container-type:inline-size){@media (max-width:639px){" + COMPACT_RULES + "}}" +
   "@media (prefers-reduced-motion:reduce){.dsh-track,.dsh-dot,.dsh-dot i,.dsh-th .dsh-btn,.dsh-th img,.dsh-like{transition:none}}"
 
 const HIDE_1 = "inset(0% 0% 0% 100%)" // thin line: wipes in from the right
@@ -255,13 +279,22 @@ export function DishOrbitCarousel({
   const [isCompact, setIsCompact] = useState(() =>
     typeof window !== "undefined" ? window.innerWidth < 768 : false
   )
+  const [isTouchPrimary, setIsTouchPrimary] = useState(() => detectTouchPrimary())
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 767px)")
-    const sync = () => setIsCompact(mq.matches)
+    const mqCoarse = window.matchMedia("(pointer: coarse)")
+    const sync = () => {
+      setIsCompact(mq.matches)
+      setIsTouchPrimary(detectTouchPrimary())
+    }
     sync()
-    mq.addEventListener("change", sync)
-    return () => mq.removeEventListener("change", sync)
+    const unsub1 = addMediaListener(mq, sync)
+    const unsub2 = addMediaListener(mqCoarse, sync)
+    return () => {
+      unsub1()
+      unsub2()
+    }
   }, [])
 
   const trackRef = useRef(null as HTMLDivElement | null)
@@ -301,8 +334,7 @@ export function DishOrbitCarousel({
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
     const on = () => (reducedRef.current = mq.matches)
     on()
-    mq.addEventListener("change", on)
-    return () => mq.removeEventListener("change", on)
+    return addMediaListener(mq, on)
   }, [])
 
   // The swap. Every dish is in the DOM; GSAP only moves the outgoing and incoming ones.
@@ -343,32 +375,32 @@ export function DishOrbitCarousel({
     }
     const a = parts(from)
     const d = dirRef.current
-    const s = isCompact ? 0.65 : 1
+    const s = isCompact ? 0.65 : isTouchPrimary ? 0.8 : 1
     const tl = gsap.timeline({ onComplete: () => { tlRef.current = null } })
     tlRef.current = tl
     // plate: out over the top on the orbit, the next one swings in from the far side
-    tl.to(a.orbit, { rotation: SWING * d, duration: 0.62 * s, ease: "power2.in" }, 0)
+    tl.to(a.orbit, { rotation: SWING * d, force3D: true, duration: 0.62 * s, ease: "power2.in" }, 0)
       .set(a.orbit, { autoAlpha: 0, rotation: 0 }, 0.62 * s)
-      .fromTo(b.orbit, { autoAlpha: 1, rotation: -SWING * d }, { rotation: 0, duration: 0.95 * s, ease: "power3.out" }, 0.3 * s)
+      .fromTo(b.orbit, { autoAlpha: 1, rotation: -SWING * d, force3D: true }, { rotation: 0, force3D: true, duration: 0.95 * s, ease: "power3.out" }, 0.3 * s)
     // title: thin line clips away to the right, heavy line to the left, then the next wipes in
     tl.to(a.t1, { clipPath: HIDE_1, WebkitClipPath: HIDE_1, duration: 0.42 * s, ease: "power2.in" }, 0)
       .to(a.t2, { clipPath: HIDE_2, WebkitClipPath: HIDE_2, duration: 0.42 * s, ease: "power2.in" }, 0.06 * s)
       .to(a.eye, { autoAlpha: 0, duration: 0.25 * s }, 0)
       .set(a.head, { autoAlpha: 0 }, 0.5 * s)
       .set(b.head, { autoAlpha: 1 }, 0.5 * s)
-      .fromTo(b.eye, { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: 0.4 * s, ease: "power2.out" }, 0.55 * s)
+      .fromTo(b.eye, { autoAlpha: 0, y: 6, force3D: true }, { autoAlpha: 1, y: 0, force3D: true, duration: 0.4 * s, ease: "power2.out" }, 0.55 * s)
       .fromTo(b.t1, { clipPath: HIDE_1, WebkitClipPath: HIDE_1 }, { clipPath: SHOW, WebkitClipPath: SHOW, duration: 0.7 * s, ease: "power3.out" }, 0.55 * s)
       .fromTo(b.t2, { clipPath: HIDE_2, WebkitClipPath: HIDE_2 }, { clipPath: SHOW, WebkitClipPath: SHOW, duration: 0.7 * s, ease: "power3.out" }, 0.62 * s)
     // card: cross-fade, the incoming rows rise in turn
-    tl.to(a.body, { autoAlpha: 0, y: -6, duration: 0.3 * s, ease: "power1.in" }, 0.05 * s)
+    tl.to(a.body, { autoAlpha: 0, y: -6, force3D: true, duration: 0.3 * s, ease: "power1.in" }, 0.05 * s)
       .set(b.body, { autoAlpha: 1, y: 0 }, 0.4 * s)
-    if (b.body) tl.fromTo(b.body.children, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.5 * s, stagger: 0.05 * s, ease: "power2.out" }, 0.4 * s)
+    if (b.body) tl.fromTo(b.body.children, { autoAlpha: 0, y: 10, force3D: true }, { autoAlpha: 1, y: 0, force3D: true, duration: 0.5 * s, stagger: 0.05 * s, ease: "power2.out" }, 0.4 * s)
     // the band stretches along the orbit with the plates, then settles into the next dish's span, morphing colour
     tl.to(arc.current, { a0: ARC_SWEEP[0], a1: ARC_SWEEP[1], duration: 0.6 * s, ease: "power2.inOut", onUpdate: drawArc }, 0)
       .to(arc.current, { a0: rest[0], a1: rest[1], duration: 0.85 * s, ease: "power3.out", onUpdate: drawArc }, 0.6 * s)
     if (arcRef.current) tl.to(arcRef.current, { fill: tint, duration: 1.1 * s, ease: "power1.inOut" }, 0.1 * s)
     shown.current = to
-  }, [index, n, dishes, isCompact])
+  }, [index, n, dishes, isCompact, isTouchPrimary])
 
   useEffect(() => () => { tlRef.current?.kill() }, [])
 
@@ -400,8 +432,8 @@ export function DishOrbitCarousel({
         return `bottom ${Math.round(stickyTop + r.clientHeight)}px`
       },
       invalidateOnRefresh: true,
-      // On phones, let native 120Hz touch inertia glide freely through dishes without JS backward-snap resistance.
-      snap: isCompact
+      // On phones, iPads, and Android tablets, let native touch inertia glide freely through dishes without JS backward-snap resistance.
+      snap: isCompact || isTouchPrimary
         ? undefined
         : {
             snapTo: (value) => {
@@ -415,6 +447,8 @@ export function DishOrbitCarousel({
             ease: "power2.inOut",
           },
       onUpdate: (self) => {
+        const navLock = (window as unknown as { __piyoNavLockUntil?: number }).__piyoNavLockUntil ?? 0
+        if (Date.now() < navLock) return
         // Looping: the last stretch shows the first dish, so jump back to the top unseen.
         if (loop && self.progress >= 1 && self.direction > 0) {
           segRef.current = 0
@@ -429,6 +463,13 @@ export function DishOrbitCarousel({
         select(wrapIndex(seg, n), dir)
       },
     })
+    const syncAfterNav = () => {
+      const seg = Math.round(trigger.progress * steps)
+      if (seg === segRef.current) return
+      const dir = seg > segRef.current ? 1 : -1
+      segRef.current = seg
+      select(wrapIndex(seg, n), dir)
+    }
     // At the very top no scroll is left to fire onUpdate, so scrolling up there wraps round to the last dish.
     // Deferred a frame so the browser's own wheel scroll has landed first.
     let raf = 0
@@ -443,14 +484,16 @@ export function DishOrbitCarousel({
       })
     }
     window.addEventListener("wheel", onWheel, { passive: true })
+    window.addEventListener("piyo:nav-settled", syncAfterNav)
     stRef.current = trigger
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener("wheel", onWheel)
+      window.removeEventListener("piyo:nav-settled", syncAfterNav)
       trigger.kill()
       stRef.current = null
     }
-  }, [steps, loop, n, isCompact])
+  }, [steps, loop, n, isCompact, isTouchPrimary])
 
   // Buttons, keys and swipes jump to a dish and move the scroll to its stretch, so the two stay in step.
   const go = (to: number, dir?: 1 | -1) => {
@@ -460,6 +503,7 @@ export function DishOrbitCarousel({
     const st = stRef.current
     const y = st ? st.scroll() : 0
     if (st && y >= st.start - 1 && y <= st.end + 1) {
+      ;(window as unknown as { __piyoNavLockUntil?: number }).__piyoNavLockUntil = Date.now() + 700
       const seg = segmentFor(next, segRef.current, n, loop)
       segRef.current = seg
       st.scroll(st.start + ((st.end - st.start) * seg) / steps)
@@ -484,7 +528,11 @@ export function DishOrbitCarousel({
   const start = stripStart(index, n, VISIBLE)
   const dish = dishes[index]
 
-  const scrollPerDish = isCompact ? SCROLL_PER_DISH_MOBILE : SCROLL_PER_DISH_DESKTOP
+  const scrollPerDish = isCompact
+    ? SCROLL_PER_DISH_MOBILE
+    : isTouchPrimary
+      ? SCROLL_PER_DISH_TABLET
+      : SCROLL_PER_DISH_DESKTOP
 
   return (
     <div ref={trackRef} className={"dsh-trk" + (className ? " " + className : "")} style={{ height: "calc(" + height + " * " + (1 + steps * scrollPerDish) + ")" }}>
@@ -594,7 +642,7 @@ export function DishOrbitCarousel({
             <svg viewBox="0 0 12 16" aria-hidden="true"><path d="M11 0v16L0 8z" /></svg>
           </button>
           <div className="dsh-win">
-            <div className="dsh-track" style={{ transform: "translateX(" + -start * ITEM + "px)" }}>
+            <div className="dsh-track" style={{ transform: "translate3d(" + -start * ITEM + "px, 0, 0)" }}>
               {dishes.map((d, i) => (
                 <div key={i} className="dsh-th">
                   <button type="button" className="dsh-btn" aria-current={i === index ? "true" : undefined} onClick={() => go(i)}>

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useSectionReveal } from '../hooks/useSectionReveal';
 
 const HERO_PLATES = [
   {
     id: 'bacolod-chicken-inasal',
     name: 'Chicken Inasal',
     price: '₱366',
+    webp: './images/hero-plate-inasal.webp',
     image: './images/hero-plate-inasal.png',
     alt: 'Overhead matte black stoneware plate of PIYO charcoal-grilled Bacolod Chicken Inasal with garlic java rice, banana leaf, charred calamansi, and chili',
   },
@@ -13,6 +15,7 @@ const HERO_PLATES = [
     id: 'bacolod-cansi',
     name: 'Bacolod Cansi',
     price: '₱666',
+    webp: './images/hero-plate-cansi.webp',
     image: './images/hero-plate-cansi.png',
     alt: 'Overhead matte black stoneware bowl of PIYO authentic Bacolod Cansi beef bone marrow soup with langka, sili haba, lemongrass, and toasted garlic',
   },
@@ -20,6 +23,7 @@ const HERO_PLATES = [
     id: 'pork-liempo-grilled',
     name: 'Grilled Pork Liempo',
     price: '₱401',
+    webp: './images/hero-plate-liempo.webp',
     image: './images/hero-plate-liempo.png',
     alt: 'Overhead matte black stoneware plate of PIYO charcoal-grilled marinated Pork Liempo with garlic rice and charred calamansi',
   },
@@ -30,12 +34,21 @@ export function HeroSection({
   onExploreStory,
   onSelectDishById,
 }) {
+  const [heroRef, heroRevealed] = useSectionReveal({ threshold: 0.04 });
   const [activeIdx, setActiveIdx] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (isPaused) return undefined;
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return undefined;
+
     const timer = window.setInterval(() => {
+      if (document.hidden) return;
       setActiveIdx((prev) => (prev + 1) % HERO_PLATES.length);
     }, 6500);
     return () => window.clearInterval(timer);
@@ -45,6 +58,7 @@ export function HeroSection({
 
   return (
     <section
+      ref={heroRef}
       id="home"
       className="relative flex min-h-[var(--stage-h)] flex-col justify-center overflow-hidden bg-[#F5EFE2] text-[#08130B]"
     >
@@ -147,24 +161,40 @@ export function HeroSection({
           {/* Editorial Text Column — Below Plate on Mobile, Left on Desktop */}
           <div className="relative z-10 order-2 mx-auto w-full max-w-[490px] text-center lg:order-1 lg:col-span-5 lg:mx-0 lg:text-left">
             {/* Punchy Warm Terracotta-Gold Eyebrow */}
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#8A5316] sm:text-xs">
+            <p
+              data-revealed={heroRevealed ? 'true' : 'false'}
+              style={{ transitionDelay: '0ms', animationDelay: '0ms' }}
+              className="piyo-hero-in piyo-reveal text-[11px] font-bold uppercase tracking-[0.22em] text-[#8A5316] sm:text-xs"
+            >
               Chef&apos;s Special · Tagaytay
             </p>
 
             {/* Bold Ultra-Clean 2-Line Display Headline */}
-            <h1 className="mt-2.5 font-serif text-[2.35rem] font-semibold leading-[1.06] tracking-[-0.028em] text-[#08130B] sm:mt-3.5 sm:text-[3.3rem] lg:text-[3.75rem] xl:text-[4.2rem]">
+            <h1
+              data-revealed={heroRevealed ? 'true' : 'false'}
+              style={{ transitionDelay: '70ms', animationDelay: '70ms' }}
+              className="piyo-hero-in piyo-reveal mt-2.5 font-serif text-[2.35rem] font-semibold leading-[1.06] tracking-[-0.028em] text-[#08130B] sm:mt-3.5 sm:text-[3.3rem] lg:text-[3.75rem] xl:text-[4.2rem]"
+            >
               Bringing smiles
               <span className="block">to every plate.</span>
             </h1>
 
             {/* Crisp Minimalist 2-Line Description */}
-            <p className="mx-auto mt-3.5 max-w-[36ch] text-sm font-medium leading-6 text-[#18291D] sm:mt-5 sm:text-[15px] sm:leading-7 lg:mx-0 lg:max-w-[38ch]">
+            <p
+              data-revealed={heroRevealed ? 'true' : 'false'}
+              style={{ transitionDelay: '130ms', animationDelay: '130ms' }}
+              className="piyo-hero-in piyo-reveal mx-auto mt-3.5 max-w-[36ch] text-sm font-medium leading-6 text-[#18291D] sm:mt-5 sm:text-[15px] sm:leading-7 lg:mx-0 lg:max-w-[38ch]"
+            >
               Slow-simmered Bacolod Cansi with free refills, charcoal chicken
               inasal, and sizzling Negrense favorites along Km.&nbsp;64.
             </p>
 
             {/* Minimal Equal-Size Pill CTA Pair on Mobile, Editorial Pair on Desktop */}
-            <div className="mx-auto mt-6 grid w-full max-w-[330px] grid-cols-2 gap-2.5 sm:mt-8 sm:max-w-[380px] sm:gap-3 lg:mx-0 lg:flex lg:w-auto lg:max-w-none lg:flex-wrap lg:items-center lg:justify-start lg:gap-4">
+            <div
+              data-revealed={heroRevealed ? 'true' : 'false'}
+              style={{ transitionDelay: '190ms', animationDelay: '190ms' }}
+              className="piyo-hero-in piyo-reveal mx-auto mt-6 grid w-full max-w-[330px] grid-cols-2 gap-2.5 sm:mt-8 sm:max-w-[380px] sm:gap-3 lg:mx-0 lg:flex lg:w-auto lg:max-w-none lg:flex-wrap lg:items-center lg:justify-start lg:gap-4"
+            >
               <button
                 type="button"
                 onClick={onExploreMenu}
@@ -218,11 +248,25 @@ export function HeroSection({
           </div>
 
           {/* Overhead Circular Matte-Stoneware Plate Carousel — TOP on Mobile, Right Straddling S-Wave on Desktop */}
-          <div className="relative order-1 flex flex-col items-center justify-center lg:order-2 lg:col-span-7">
+          <div
+            data-revealed={heroRevealed ? 'true' : 'false'}
+            style={{ transitionDelay: '90ms', animationDelay: '90ms' }}
+            className="piyo-hero-in piyo-reveal-scale relative order-1 flex flex-col items-center justify-center lg:order-2 lg:col-span-7"
+          >
             <div
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-              className="relative flex aspect-square w-[min(250px,33svh)] items-center justify-center sm:w-[340px] lg:w-[min(520px,calc(var(--stage-h)-68px))] lg:translate-x-8 xl:w-[min(585px,calc(var(--stage-h)-68px))] xl:translate-x-12"
+              onPointerEnter={(e) => {
+                if (e.pointerType === 'mouse') {
+                  setIsPaused(true);
+                  setIsHovered(true);
+                }
+              }}
+              onPointerLeave={(e) => {
+                if (e.pointerType === 'mouse') {
+                  setIsPaused(false);
+                  setIsHovered(false);
+                }
+              }}
+              className="relative flex aspect-square w-[min(250px,calc(var(--vh-full,100vh)*0.33))] items-center justify-center sm:w-[340px] lg:w-[min(520px,calc(var(--stage-h)-68px))] lg:translate-x-8 xl:w-[min(585px,calc(var(--stage-h)-68px))] xl:translate-x-12"
             >
               {/* Realistic Soft Overhead Contact Shadow Under the Circular Plate */}
               <div
@@ -239,18 +283,27 @@ export function HeroSection({
               >
                 {HERO_PLATES.map((plate, idx) => {
                   const isActive = idx === activeIdx;
+                  const scale = isActive ? (isHovered ? 1.025 : 1) : 0.95;
+                  const rot = isActive ? 0 : -6;
                   return (
-                    <img
-                      key={plate.id}
-                      src={plate.image}
-                      alt={plate.alt}
-                      draggable={false}
-                      className={`absolute inset-0 h-full w-full select-none rounded-full object-contain drop-shadow-[0_24px_34px_rgba(8,19,11,0.42)] transition-all duration-700 ease-out lg:drop-shadow-[0_28px_40px_rgba(8,19,11,0.42)] ${
-                        isActive
-                          ? 'scale-100 rotate-0 opacity-100 group-hover:scale-[1.025]'
-                          : 'pointer-events-none scale-95 -rotate-6 opacity-0'
-                      }`}
-                    />
+                    <picture key={plate.id}>
+                      <source srcSet={plate.webp} type="image/webp" />
+                      <img
+                        src={plate.image}
+                        alt={plate.alt}
+                        loading={idx === 0 ? 'eager' : 'lazy'}
+                        fetchPriority={idx === 0 ? 'high' : 'low'}
+                        decoding="async"
+                        draggable={false}
+                        style={{
+                          transform: `translate3d(0px, 0px, 0px) scale(${scale}) rotate(${rot}deg)`,
+                          opacity: isActive ? 1 : 0,
+                        }}
+                        className={`hero-plate-slide absolute inset-0 h-full w-full select-none rounded-full object-contain drop-shadow-[0_24px_34px_rgba(8,19,11,0.42)] lg:drop-shadow-[0_28px_40px_rgba(8,19,11,0.42)] ${
+                          isActive ? '' : 'pointer-events-none'
+                        }`}
+                      />
+                    </picture>
                   );
                 })}
               </button>

@@ -13,6 +13,7 @@ import {
 import { MENU_CATEGORIES, MENU_ITEMS, RESTAURANT_INFO } from '../data/menuData';
 import { formatPeso } from '../utils/hours';
 import { SushiConveyorMenu } from './ui/sushi-conveyor-menu';
+import { useSectionReveal } from '../hooks/useSectionReveal';
 
 // Authentic Filipino Solihiya (octagonal rattan cane weave) pattern in warm beige on deep forest green
 const SOLIHIYA_BG = `url("data:image/svg+xml,${encodeURIComponent(
@@ -117,6 +118,7 @@ export function RestaurantMenuBoard({
   onCustomizeDish,
   onOpenTray,
 }) {
+  const [boardRevealRef, boardRevealed] = useSectionReveal({ threshold: 0.04 });
   const lockedScrollRef = useRef(null);
   const catRailRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -130,6 +132,24 @@ export function RestaurantMenuBoard({
     setCanScrollLeft(el.scrollLeft > 4);
     setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
   };
+
+  // Allow Escape key to exit the locked Full-Screen Category Portal cleanly (only when no drawer/modal sits above it)
+  useEffect(() => {
+    if (!isLockedCategory) return undefined;
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return;
+      if (
+        document.querySelector(
+          '[role="dialog"][aria-label="Order and table tray"], [role="dialog"][aria-label="Order receipt printer"], [role="dialog"][aria-label$=" details"]'
+        )
+      ) {
+        return;
+      }
+      if (onSelectCat) onSelectCat('bestsellers');
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isLockedCategory, onSelectCat]);
 
   // Reset locked-category scroll container to top & keep active category pill scrolled into view
   useEffect(() => {
@@ -401,13 +421,20 @@ export function RestaurantMenuBoard({
   return (
     <>
       {/* Inline Whole-Page Menu Landing ("Best Sellers" Highlight Conveyor — allows scrolling freely to other sections) */}
-      <div className="flex min-h-[var(--stage-h)] w-full flex-col justify-between bg-[#0B190F] text-[#0D1C11]">
+      <div
+        ref={boardRevealRef}
+        className="flex min-h-[var(--stage-h)] w-full flex-col justify-between bg-[#0B190F] text-[#0D1C11]"
+      >
         {/* Full-Bleed Warm Sunlit Beige Editorial Title Banner with Tropical Palm Frond Shadows */}
         <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#F1E8D5] pb-2.5 pt-2.5 lg:pb-3 lg:pt-3">
           <PalmFrondSvg className="pointer-events-none absolute -right-4 -top-3 h-36 w-52 text-[#0D1C11] sm:h-40 sm:w-60" />
           <PalmFrondSvg className="pointer-events-none absolute -left-8 -top-2 h-32 w-48 -scale-x-100 text-[#0D1C11] opacity-75 sm:h-36 sm:w-52" />
 
-          <div className="relative z-10 mx-auto w-full max-w-7xl px-5 text-center sm:px-8">
+          <div
+            data-revealed={boardRevealed ? 'true' : 'false'}
+            style={{ transitionDelay: '0ms' }}
+            className="piyo-reveal relative z-10 mx-auto w-full max-w-7xl px-5 text-center sm:px-8"
+          >
             <p className="font-script text-[38px] leading-[1.02] text-[#7E5A30] sm:text-[48px]">
               Hapag ng PIYO
             </p>
@@ -463,11 +490,17 @@ export function RestaurantMenuBoard({
               <button
                 type="button"
                 onClick={onOpenTray}
-                className="inline-flex min-h-[34px] shrink-0 items-center gap-2 rounded-full bg-[#0D1C11] px-4 py-1.5 text-xs font-bold text-[#F5EFE2] shadow-sm transition hover:bg-[#162719]"
+                className={`inline-flex min-h-[34px] shrink-0 items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold shadow-sm transition ${
+                  trayCount > 0
+                    ? 'bg-[#DFB96F] text-[#08130B] ring-1 ring-[#0D1C11]/20 hover:bg-[#E7C88B]'
+                    : 'bg-[#0D1C11] text-[#F5EFE2] hover:bg-[#162719]'
+                }`}
               >
                 <ShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>
-                  {trayCount > 0 ? `${trayCount} · ${formatPeso(trayTotal)}` : 'Cart'}
+                  {trayCount > 0
+                    ? `Cart (${trayCount}) · ${formatPeso(trayTotal)}`
+                    : 'Cart'}
                 </span>
               </button>
             </div>
@@ -492,6 +525,11 @@ export function RestaurantMenuBoard({
             backgroundSize: '64px 64px',
           }}
         >
+          <div
+            data-revealed={boardRevealed ? 'true' : 'false'}
+            style={{ transitionDelay: '60ms' }}
+            className="piyo-reveal-scale w-full"
+          >
           <SushiConveyorMenu
             items={conveyorItems}
             legend={[]}
@@ -521,6 +559,7 @@ export function RestaurantMenuBoard({
               </button>
             }
           />
+          </div>
         </div>
 
         {/* Full-Bleed Bottom Warm Beige Filipino Heritage Banner Strip */}
@@ -544,7 +583,7 @@ export function RestaurantMenuBoard({
       {isLockedCategory &&
         createPortal(
           <div
-            className="fixed inset-0 z-[44] flex h-[100dvh] flex-col overflow-hidden bg-[#0B190F] text-[#0D1C11]"
+            className="piyo-portal-in fixed inset-0 z-[44] flex h-[var(--dvh-full,100vh)] flex-col overflow-hidden bg-[#0B190F] text-[#0D1C11]"
             onWheel={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
@@ -598,16 +637,22 @@ export function RestaurantMenuBoard({
                         : 'Open order cart'
                     }
                     title="Open order cart"
-                    className="relative inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0D1C11] text-[#F5EFE2] shadow-sm transition hover:bg-[#162719] sm:h-auto sm:min-h-[34px] sm:w-auto sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs sm:font-bold"
+                    className={`relative inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full shadow-sm transition sm:h-auto sm:min-h-[34px] sm:w-auto sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs sm:font-bold ${
+                      trayCount > 0
+                        ? 'bg-[#DFB96F] text-[#08130B] ring-1 ring-[#0D1C11]/20 hover:bg-[#E7C88B]'
+                        : 'bg-[#0D1C11] text-[#F5EFE2] hover:bg-[#162719]'
+                    }`}
                   >
                     <ShoppingBag className="h-4 w-4 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
                     {trayCount > 0 && (
-                      <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#DFB96F] px-1 text-[10px] font-extrabold text-[#08130B] ring-2 ring-[#F5EFE2] sm:hidden">
+                      <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#0D1C11] px-1 text-[10px] font-extrabold text-[#DFB96F] ring-2 ring-[#F5EFE2] sm:hidden">
                         {trayCount}
                       </span>
                     )}
                     <span className="hidden sm:inline">
-                      {trayCount > 0 ? `${trayCount} · ${formatPeso(trayTotal)}` : 'Cart'}
+                      {trayCount > 0
+                        ? `Cart (${trayCount}) · ${formatPeso(trayTotal)}`
+                        : 'Cart'}
                     </span>
                   </button>
                 </div>
@@ -724,7 +769,9 @@ export function RestaurantMenuBoard({
                 WebkitOverflowScrolling: 'touch',
               }}
             >
-              {renderDishCards(visibleItems)}
+              <div key={selectedCat} className="piyo-page-fade">
+                {renderDishCards(visibleItems)}
+              </div>
             </div>
 
             {/* Pinned Bottom Warm Beige Heritage Banner Strip */}
