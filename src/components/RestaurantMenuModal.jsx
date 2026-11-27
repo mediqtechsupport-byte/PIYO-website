@@ -5,10 +5,14 @@ import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
+  Clock,
+  Flame,
   Plus,
   Minus,
   ShoppingBag,
   SlidersHorizontal,
+  Sparkles,
+  Users,
 } from 'lucide-react';
 import { MENU_CATEGORIES, MENU_ITEMS, RESTAURANT_INFO } from '../data/menuData';
 import { formatPeso } from '../utils/hours';
@@ -18,6 +22,11 @@ import { useSectionReveal } from '../hooks/useSectionReveal';
 // Authentic Filipino Solihiya (octagonal rattan cane weave) pattern in warm beige on deep forest green
 const SOLIHIYA_BG = `url("data:image/svg+xml,${encodeURIComponent(
   `<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64' fill='none' stroke='#EDE2CB' stroke-width='0.85' stroke-opacity='0.09'><path d='M0 16L64 16M0 48L64 48M16 0L16 64M48 0L48 64'/><path d='M0 0L64 64M64 0L0 64' stroke-opacity='0.06'/><polygon points='24,16 40,16 48,24 48,40 40,48 24,48 16,40 16,24' stroke-opacity='0.14'/></svg>`
+)}")`;
+
+// Whisper-light Solihiya cane-weave paper texture for warm parchment dish cards
+const SOLIHIYA_CARD_BG = `url("data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none' stroke='#7A5A2B' stroke-width='0.8'><path d='M0 24H48M24 0V48M0 0L48 48M48 0L0 48' stroke-opacity='0.45'/><rect x='12' y='12' width='24' height='24' rx='3' stroke-opacity='0.7'/></svg>`
 )}")`;
 
 // Delicate Filipino Banig diamond woven border divider
@@ -246,65 +255,102 @@ export function RestaurantMenuBoard({
     if (realDish && onCustomizeDish) onCustomizeDish(realDish);
   };
 
+  const openDishModal = (dish) => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      if (onSelectDish) onSelectDish(dish);
+    } else if (onCustomizeDish) {
+      onCustomizeDish(dish);
+    }
+  };
+
+  const getDishHighlightChip = (dish) => {
+    if (dish.variants && dish.variants.length > 1) {
+      return { icon: 'sparkles', label: `${dish.variants.length} Choices` };
+    }
+    if (dish.tags?.includes('negros')) {
+      return { icon: 'flame', label: 'Negros Heritage' };
+    }
+    if (dish.tags?.includes('bestseller')) {
+      return { icon: 'sparkles', label: 'House Favorite' };
+    }
+    if (dish.tags?.includes('sharing')) {
+      return { icon: 'users', label: 'For Sharing' };
+    }
+    if (dish.spiceLevel && dish.spiceLevel !== 'None') {
+      const cleanNote = dish.spiceLevel.split('(')[0].trim();
+      if (cleanNote && cleanNote.length <= 18) {
+        return { icon: 'sparkles', label: cleanNote };
+      }
+    }
+    return null;
+  };
+
   const renderDishCards = (items) => (
-    <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-x-6 gap-y-6 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-3 xl:grid-cols-4 xl:gap-y-7">
+    <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-x-6 gap-y-7 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-3 xl:grid-cols-4 xl:gap-y-8">
       {items.map((dish) => {
         const stats = trayStatsByDishId[dish.id] || {
           totalQty: 0,
           latestEntry: null,
         };
+        const inCart = stats.totalQty > 0 && Boolean(stats.latestEntry);
         const arcText = (
           dish.badge ||
           CATEGORY_ARC_FALLBACK[dish.category] ||
           'LUTONG BAHAY'
         ).toUpperCase();
         const arcPathId = `piyo-arc-locked-${dish.id}`;
+        const highlightChip = getDishHighlightChip(dish);
 
         return (
           <article
             key={dish.id}
             className="group relative flex flex-col items-center pt-0"
           >
-            {/* Overlapping Ceramic-Rimmed Dish Medallion + Curved Heritage Arc Caption */}
+            {/* Overlapping Gilded Ceramic Dish Medallion + Engraved Curved Heritage Arc */}
             <button
               type="button"
-              onClick={() => {
-                if (typeof window !== 'undefined' && window.innerWidth < 768) {
-                  if (onSelectDish) onSelectDish(dish);
-                } else if (onCustomizeDish) {
-                  onCustomizeDish(dish);
-                }
-              }}
+              onClick={() => openDishModal(dish)}
               aria-label={`View ${dish.name}`}
-              className="relative z-20 -mb-[74px] flex h-[148px] w-[148px] items-center justify-center transition-transform duration-300 group-hover:-translate-y-1"
+              className="relative z-20 -mb-[76px] flex h-[152px] w-[152px] items-center justify-center transition-transform duration-300 group-hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] focus-visible:rounded-full"
             >
-              <span className="block h-[132px] w-[132px] overflow-hidden rounded-full bg-[#F5EFE2] p-[5px] shadow-[0_14px_28px_-8px_rgba(5,13,7,0.75)] ring-2 ring-[#DFD0B2]">
-                <span className="block h-full w-full overflow-hidden rounded-full ring-1 ring-[#0D1C11]/25">
-                  <img
-                    src={dish.image}
-                    alt={dish.name}
-                    decoding="async"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
+              <span className="block h-[136px] w-[136px] rounded-full bg-gradient-to-br from-[#ECD296] via-[#C69745] to-[#8C6324] p-[2.5px] shadow-[0_12px_22px_-10px_rgba(6,16,9,0.78)] transition-shadow duration-300 group-hover:shadow-[0_16px_28px_-10px_rgba(6,16,9,0.88)]">
+                <span className="block h-full w-full overflow-hidden rounded-full bg-[#FAF6EC] p-[4px]">
+                  <span className="block h-full w-full overflow-hidden rounded-full ring-1 ring-[#0D1C11]/20">
+                    <img
+                      src={dish.image}
+                      alt={dish.name}
+                      decoding="async"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </span>
                 </span>
               </span>
 
               <svg
-                viewBox="0 0 192 192"
-                className="pointer-events-none absolute -inset-4 h-[180px] w-[180px]"
+                viewBox="0 0 200 200"
+                className="pointer-events-none absolute -inset-[24px] h-[200px] w-[200px]"
                 aria-hidden="true"
               >
                 <defs>
                   <path
                     id={arcPathId}
-                    d="M 10,96 A 86,86 0 0,0 182,96"
+                    d="M 15,100 A 85,85 0 0,0 185,100"
                     fill="none"
                   />
                 </defs>
+                {/* Delicate antique-gold cradle hairline beneath the stoneware plate */}
+                <path
+                  d="M 33,131 A 74,74 0 0,0 167,131"
+                  fill="none"
+                  stroke="#B88B3D"
+                  strokeWidth="0.95"
+                  strokeOpacity="0.48"
+                  strokeDasharray="2 3"
+                />
                 <text
-                  fill="#182A1B"
-                  fontSize="8.6"
-                  fontWeight="700"
+                  fill="#2C2214"
+                  fontSize="8.5"
+                  fontWeight="800"
                   letterSpacing="2.1"
                 >
                   <textPath
@@ -312,102 +358,281 @@ export function RestaurantMenuBoard({
                     startOffset="50%"
                     textAnchor="middle"
                   >
-                    · {arcText} ·
+                    <tspan fill="#B88B3D">•</tspan>
+                    {'  '}
+                    {arcText}
+                    {'  '}
+                    <tspan fill="#B88B3D">•</tspan>
                   </textPath>
                 </text>
               </svg>
             </button>
 
-            {/* Tall Vertical Rectangular Warm Beige Heritage Menu Card */}
-            <div className="relative z-10 flex w-full flex-1 flex-col justify-between rounded-[18px] border border-[#DFD0B2] bg-[#F5EFE2] px-4 pb-4 pt-[96px] text-center shadow-[0_18px_38px_-16px_rgba(0,0,0,0.72)] transition-colors group-hover:border-[#FAF6EC] group-hover:bg-[#F8F3E8]">
+            {/* Artisan Sunlit Parchment Heritage Menu Plaque */}
+            <div
+              className={`relative z-10 flex w-full flex-1 flex-col justify-between overflow-hidden rounded-[20px] border bg-gradient-to-b from-[#FAF5E7] via-[#F4EBD7] to-[#E8D9B8] px-4 pb-4 pt-[98px] text-center shadow-[0_20px_42px_-16px_rgba(0,0,0,0.78),inset_0_1px_0_rgba(255,255,255,0.85)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-[#E5C685] group-hover:shadow-[0_26px_48px_-14px_rgba(0,0,0,0.86)] ${
+                inCart
+                  ? 'border-[#DFB96F] ring-1 ring-[#DFB96F]/55'
+                  : 'border-[#D4B475]/80'
+              }`}
+            >
+              {/* Whisper-light Solihiya cane-weave parchment texture */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-2 rounded-[12px] border border-[#0D1C11]/16"
+                className="pointer-events-none absolute inset-0 opacity-[0.08]"
+                style={{
+                  backgroundImage: SOLIHIYA_CARD_BG,
+                  backgroundSize: '44px 44px',
+                }}
+              />
+
+              {/* Warm sunlit champagne-gold radial halo cradling the dish medallion */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-0 h-32"
+                style={{
+                  background:
+                    'radial-gradient(ellipse 72% 62% at 50% 0%, rgba(223,185,111,0.3) 0%, rgba(223,185,111,0.08) 56%, transparent 78%)',
+                }}
+              />
+
+              {/* Symmetrical delicate tropical palm-leaf silhouettes in upper flanks */}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 96 96"
+                fill="none"
+                className="pointer-events-none absolute -left-2 -top-2 h-20 w-20 text-[#0D1C11]/[0.075]"
+              >
+                <path
+                  d="M10 10C30 24 50 44 74 72"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M28 24C22 40 28 54 40 64M42 38C38 52 44 64 56 72M34 30C48 26 62 30 74 42M48 44C60 42 70 46 78 56"
+                  stroke="currentColor"
+                  strokeWidth="1.35"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 96 96"
+                fill="none"
+                className="pointer-events-none absolute -right-2 -top-2 h-20 w-20 -scale-x-100 text-[#0D1C11]/[0.075]"
+              >
+                <path
+                  d="M10 10C30 24 50 44 74 72"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M28 24C22 40 28 54 40 64M42 38C38 52 44 64 56 72M34 30C48 26 62 30 74 42M48 44C60 42 70 46 78 56"
+                  stroke="currentColor"
+                  strokeWidth="1.35"
+                  strokeLinecap="round"
+                />
+              </svg>
+
+              {/* Top metallic champagne-gold edge sheen */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-8 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#C69745]/80 to-transparent"
+              />
+
+              {/* Inner antique-gold double-frame border */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-[9px] rounded-[13px] border border-[#B88B3D]/40"
+              />
+
+              {/* Four Sculpted Heritage Corner Brackets */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-[13px] top-[13px] h-3.5 w-3.5 rounded-tl-[4px] border-l-[1.5px] border-t-[1.5px] border-[#B88B3D]/70"
               />
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute bottom-3 left-3 h-1.5 w-1.5 rotate-45 bg-[#0D1C11]/25"
+                className="pointer-events-none absolute right-[13px] top-[13px] h-3.5 w-3.5 rounded-tr-[4px] border-r-[1.5px] border-t-[1.5px] border-[#B88B3D]/70"
               />
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute bottom-3 right-3 h-1.5 w-1.5 rotate-45 bg-[#0D1C11]/25"
+                className="pointer-events-none absolute bottom-[13px] left-[13px] h-3.5 w-3.5 rounded-bl-[4px] border-b-[1.5px] border-l-[1.5px] border-[#B88B3D]/70"
+              />
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute bottom-[13px] right-[13px] h-3.5 w-3.5 rounded-br-[4px] border-b-[1.5px] border-r-[1.5px] border-[#B88B3D]/70"
               />
 
-              <div className="relative z-10">
-                <h3 className="font-serif text-[20px] font-bold leading-snug tracking-tight text-[#0D1C11]">
-                  {dish.name}
-                </h3>
-                <p className="mt-1.5 line-clamp-3 text-[11.5px] leading-relaxed text-[#3E5346]">
-                  {dish.shortDesc}
-                </p>
-              </div>
+              {/* Compact Gold "In Cart" Count Stamp tucked inside top-right corner */}
+              {inCart && (
+                <span
+                  aria-label={`${stats.totalQty} in cart`}
+                  className="pointer-events-none absolute right-[18px] top-[18px] z-10 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#0D1C11] px-1.5 text-[10px] font-extrabold tabular-nums text-[#DFB96F] shadow-xs ring-1 ring-[#DFB96F]/55"
+                >
+                  ×{stats.totalQty}
+                </span>
+              )}
 
-              <div className="relative z-10 mt-3.5 flex items-center justify-between gap-3 border-t border-[#0D1C11]/14 pt-3 md:block md:border-t-0 md:pt-0">
-                <div className="min-w-0 text-left md:flex md:items-baseline md:justify-center md:gap-2 md:text-center">
-                  <p className="font-sans text-lg font-extrabold leading-tight tracking-tight text-[#0D1C11]">
-                    {formatPeso(dish.price)}
-                  </p>
-                  {dish.serving && (
-                    <span className="mt-0.5 block truncate text-[10.5px] font-medium text-[#755C3B] md:mt-0 md:inline">
-                      <span className="hidden md:inline">· </span>
-                      {dish.serving}
-                    </span>
-                  )}
+              {/* Dish Title, Gold Flourish, Description & Single-Line Culinary Ribbon */}
+              <div className="relative z-10 px-1">
+                <button
+                  type="button"
+                  onClick={() => openDishModal(dish)}
+                  className="inline-block max-w-full cursor-pointer rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C29645]"
+                >
+                  <h3 className="font-serif text-[21px] font-bold leading-snug tracking-tight text-[#0D1C11] transition-colors group-hover:text-[#5B3E16] md:text-[19.5px]">
+                    {dish.name}
+                  </h3>
+                </button>
+
+                {/* Centered Antique-Gold Diamond Ornament */}
+                <div
+                  aria-hidden="true"
+                  className="mx-auto mt-1.5 flex items-center justify-center gap-2"
+                >
+                  <span className="h-px w-8 bg-gradient-to-r from-transparent to-[#C29645]/80" />
+                  <span className="h-1.5 w-1.5 rotate-45 border border-[#A97B2E] bg-[#DFB96F]/80" />
+                  <span className="h-px w-8 bg-gradient-to-l from-transparent to-[#C29645]/80" />
                 </div>
 
-                <div className="flex shrink-0 items-center justify-end gap-2 md:mt-3 md:justify-center md:border-t md:border-[#0D1C11]/14 md:pt-3">
-                  <button
-                    type="button"
-                    onClick={() => onCustomizeDish && onCustomizeDish(dish)}
-                    className="hidden min-h-[32px] items-center gap-1 rounded-full border border-[#0D1C11]/28 bg-[#EAE0CA] px-3 py-1 text-[11px] font-semibold text-[#0D1C11] transition hover:border-[#0D1C11] hover:bg-[#DFD2B6] md:inline-flex"
-                  >
-                    <SlidersHorizontal
-                      className="h-3 w-3"
-                      aria-hidden="true"
-                    />
-                    <span>Customize</span>
-                  </button>
+                <p className="mt-2 line-clamp-3 text-[12px] leading-relaxed text-[#384C40] md:text-[11.5px]">
+                  {dish.shortDesc}
+                </p>
 
-                  {stats.totalQty > 0 && stats.latestEntry ? (
-                    <div className="inline-flex h-[34px] items-center gap-1.5 rounded-full bg-[#0D1C11] px-2.5 text-xs font-extrabold text-[#F5EFE2] md:h-auto md:min-h-[32px] md:px-2 md:py-0.5">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          onUpdateTrayQty &&
-                          onUpdateTrayQty(
-                            stats.latestEntry.key,
-                            stats.latestEntry.quantity - 1
-                          )
-                        }
-                        aria-label={`Remove one ${dish.name}`}
-                        className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-[#F5EFE2]/15"
-                      >
-                        <Minus className="h-3 w-3" aria-hidden="true" />
-                      </button>
-                      <span className="min-w-[14px] text-center">
-                        {stats.totalQty}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => onQuickAdd && onQuickAdd(dish)}
-                        aria-label={`Add one more ${dish.name}`}
-                        className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-[#F5EFE2]/15"
-                      >
-                        <Plus className="h-3 w-3" aria-hidden="true" />
-                      </button>
+                {/* Single-Row Unified Culinary Detail Ribbon */}
+                {(dish.prepTime || highlightChip) && (
+                  <div className="mt-2.5 flex justify-center">
+                    <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-[#C69C4E]/40 bg-[#FAF6EC]/88 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-[#5C4320] shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]">
+                      {dish.prepTime && (
+                        <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap">
+                          <Clock
+                            className="h-2.5 w-2.5 shrink-0 text-[#B08334]"
+                            aria-hidden="true"
+                          />
+                          <span>{dish.prepTime}</span>
+                        </span>
+                      )}
+                      {dish.prepTime && highlightChip && (
+                        <span
+                          aria-hidden="true"
+                          className="h-2.5 w-px shrink-0 bg-[#C69C4E]/45"
+                        />
+                      )}
+                      {highlightChip && (
+                        <span className="inline-flex min-w-0 items-center gap-1 truncate whitespace-nowrap">
+                          {highlightChip.icon === 'flame' ? (
+                            <Flame
+                              className="h-2.5 w-2.5 shrink-0 text-[#B08334]"
+                              aria-hidden="true"
+                            />
+                          ) : highlightChip.icon === 'users' ? (
+                            <Users
+                              className="h-2.5 w-2.5 shrink-0 text-[#B08334]"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <Sparkles
+                              className="h-2.5 w-2.5 shrink-0 text-[#B08334]"
+                              aria-hidden="true"
+                            />
+                          )}
+                          <span className="truncate">{highlightChip.label}</span>
+                        </span>
+                      )}
                     </div>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => onQuickAdd && onQuickAdd(dish)}
-                      className="inline-flex h-[34px] items-center gap-1 whitespace-nowrap rounded-full bg-[#0D1C11] px-4 text-xs font-bold text-[#F5EFE2] transition hover:bg-[#182A1B] active:scale-95 md:h-auto md:min-h-[32px] md:px-3.5 md:py-1 md:text-[11px]"
-                    >
-                      <Plus
-                        className="h-3.5 w-3.5 stroke-[2.5]"
-                        aria-hidden="true"
-                      />
-                      <span>Add</span>
-                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Recessed Warm-Parchment Heritage Price & Action Footer Band */}
+              <div className="relative z-10 mt-3.5 rounded-[12px] border border-[#C69C4E]/42 bg-gradient-to-b from-[#EDE1C5]/92 to-[#E2D1AD]/95 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.68)]">
+                {/* Mobile: Price + Action on clean top row, full untruncated serving highlight underneath · Desktop: Centered Price, Serving, Divider, Customize + Add */}
+                <div className="md:block">
+                  <div className="flex items-center justify-between gap-2.5 md:block">
+                    <div className="min-w-0 text-left md:text-center">
+                      <p className="font-sans text-[20px] font-extrabold leading-none tracking-tight tabular-nums text-[#0D1C11] md:text-[18.5px]">
+                        {formatPeso(dish.price)}
+                      </p>
+                      {dish.serving && (
+                        <p className="mt-1 hidden truncate text-[10.5px] font-semibold text-[#6A4E27] md:block">
+                          {dish.serving}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Subtle antique-gold tapered divider on desktop */}
+                    <div
+                      aria-hidden="true"
+                      className="my-2 hidden h-px w-full bg-gradient-to-r from-transparent via-[#B88B3D]/45 to-transparent md:block"
+                    />
+
+                    <div className="flex shrink-0 items-center justify-end gap-2 md:justify-center">
+                      <button
+                        type="button"
+                        onClick={() => onCustomizeDish && onCustomizeDish(dish)}
+                        className="hidden min-h-[32px] items-center gap-1 rounded-full border border-[#B88B3D]/48 bg-[#FAF6EC]/94 px-3 py-1 text-[11px] font-semibold text-[#0D1C11] shadow-xs transition hover:border-[#0D1C11] hover:bg-[#FAF6EC] md:inline-flex"
+                      >
+                        <SlidersHorizontal
+                          className="h-3 w-3 text-[#8E6526]"
+                          aria-hidden="true"
+                        />
+                        <span>Customize</span>
+                      </button>
+
+                      {inCart ? (
+                        <div className="inline-flex h-[34px] items-center gap-1.5 rounded-full border border-[#DFB96F]/65 bg-gradient-to-b from-[#172B1C] to-[#0B190F] px-2 text-xs font-extrabold text-[#FAF6EC] shadow-[0_6px_14px_-5px_rgba(8,19,11,0.75)] md:h-auto md:min-h-[32px] md:px-2 md:py-0.5">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              onUpdateTrayQty &&
+                              onUpdateTrayQty(
+                                stats.latestEntry.key,
+                                stats.latestEntry.quantity - 1
+                              )
+                            }
+                            aria-label={`Remove one ${dish.name}`}
+                            className="flex h-6 w-6 items-center justify-center rounded-full text-[#DFB96F] transition hover:bg-[#FAF6EC]/12"
+                          >
+                            <Minus className="h-3 w-3" aria-hidden="true" />
+                          </button>
+                          <span className="min-w-[16px] text-center tabular-nums">
+                            {stats.totalQty}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => onQuickAdd && onQuickAdd(dish)}
+                            aria-label={`Add one more ${dish.name}`}
+                            className="flex h-6 w-6 items-center justify-center rounded-full text-[#DFB96F] transition hover:bg-[#FAF6EC]/12"
+                          >
+                            <Plus className="h-3 w-3" aria-hidden="true" />
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => onQuickAdd && onQuickAdd(dish)}
+                          className="inline-flex h-[34px] items-center gap-1.5 whitespace-nowrap rounded-full border border-[#DFB96F]/45 bg-gradient-to-b from-[#172B1C] to-[#0B190F] px-4 text-xs font-bold text-[#FAF6EC] shadow-[0_6px_14px_-5px_rgba(8,19,11,0.75)] transition hover:border-[#DFB96F]/80 hover:from-[#1F3725] hover:to-[#112416] active:scale-95 md:h-auto md:min-h-[32px] md:px-3.5 md:py-1 md:text-[11px]"
+                        >
+                          <Plus
+                            className="h-3.5 w-3.5 stroke-[2.5] text-[#DFB96F]"
+                            aria-hidden="true"
+                          />
+                          <span>Add</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Mobile full-width serving detail so "Free Soup Refills" / "Good for 2–3" is never clipped */}
+                  {dish.serving && (
+                    <div className="mt-2 border-t border-[#B88B3D]/25 pt-1.5 text-left md:hidden">
+                      <p className="text-[11px] font-semibold leading-snug text-[#6A4E27]">
+                        {dish.serving}
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>
@@ -762,14 +987,37 @@ export function RestaurantMenuBoard({
             {/* Independently Scrollable Solihiya Grid */}
             <div
               ref={lockedScrollRef}
-              className="relative z-10 min-h-0 flex-1 overflow-y-auto overscroll-contain bg-[#0B190F] py-6 lg:py-7"
+              className={`relative z-10 min-h-0 flex-1 overflow-y-auto overscroll-contain bg-[#0B190F] pt-4 sm:pt-5 lg:pt-6 ${
+                trayCount > 0 ? 'pb-24 sm:pb-20' : 'pb-8 lg:pb-9'
+              }`}
               style={{
-                backgroundImage: SOLIHIYA_BG,
-                backgroundSize: '64px 64px',
+                backgroundImage: `radial-gradient(ellipse 64% 38% at 50% 0%, rgba(223,185,111,0.11) 0%, transparent 72%), ${SOLIHIYA_BG}`,
+                backgroundSize: '100% 100%, 64px 64px',
                 WebkitOverflowScrolling: 'touch',
               }}
             >
               <div key={selectedCat} className="piyo-page-fade">
+                {activeCategoryMeta?.subtitle && (
+                  <div className="mx-auto mb-5 flex max-w-2xl flex-col items-center px-5 text-center sm:mb-6 sm:px-8">
+                    <div className="flex items-center justify-center gap-2.5 text-[10px] font-bold uppercase tracking-[0.22em] text-[#DFB96F]/85">
+                      <span
+                        aria-hidden="true"
+                        className="h-px w-6 bg-gradient-to-r from-transparent to-[#DFB96F]/55 sm:w-10"
+                      />
+                      <span>
+                        {visibleItems.length}{' '}
+                        {visibleItems.length === 1 ? 'Selection' : 'Selections'}
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        className="h-px w-6 bg-gradient-to-l from-transparent to-[#DFB96F]/55 sm:w-10"
+                      />
+                    </div>
+                    <p className="mt-1 font-serif text-[12.5px] italic leading-relaxed text-[#E7DEC9]/88 sm:text-[13.5px]">
+                      {activeCategoryMeta.subtitle}
+                    </p>
+                  </div>
+                )}
                 {renderDishCards(visibleItems)}
               </div>
             </div>
