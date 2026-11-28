@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <defs>
+    <path id="bottomArc" d="M 42,126 A 78,78 0 0,0 198,126" />
+  </defs>
+  <circle cx="120" cy="120" r="116" fill="#0B2718" stroke="#FAF6EC" stroke-width="4" />
+  <circle cx="120" cy="120" r="106" fill="none" stroke="#C8A15A" stroke-width="1.75" opacity="0.9" />
+  <text
+    x="120"
+    y="114"
+    text-anchor="middle"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="48"
+    font-weight="600"
+    letter-spacing="4"
+    fill="#FAF6EC"
+  >PIYO</text>
+  <text
+    x="120"
+    y="138"
+    text-anchor="middle"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="13"
+    letter-spacing="2.5"
+    fill="#D8B36A"
+  >Est. 2025</text>
+  <text
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="15.5"
+    letter-spacing="2.4"
+    fill="#FAF6EC"
+  >
+    <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">Grill &amp; Restaurant</textPath>
+  </text>
+</svg>

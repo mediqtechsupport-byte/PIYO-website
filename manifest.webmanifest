@@ -1,0 +1,18 @@
+{
+  "name": "PIYO Grill & Restaurant",
+  "short_name": "PIYO Grill",
+  "description": "Authentic Negros Heritage & Filipino Grill in Tagaytay City. Explore our digital menu, bestsellers, hours, and directions.",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F5F0E4",
+  "theme_color": "#0B2718",
+  "icons": [
+    {
+      "src": "./logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
