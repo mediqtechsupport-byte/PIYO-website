@@ -29,31 +29,22 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
       id="history"
       className="relative flex min-h-[var(--stage-h)] flex-col justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#08130B]/30 pb-6 pt-[clamp(210px,33svh,290px)] text-[#FAF6EC] sm:pb-12 sm:pt-[clamp(290px,45svh,440px)] lg:justify-center lg:py-10 2xl:py-14"
     >
-      {/* Mobile / Tablet Top-Framed PIYO House Nestled Inside the Site-Wide Tagaytay Pine Forest */}
+      {/* Mobile / Tablet Top-Framed Transparent PIYO House Directly Over the Live Tagaytay Pine Forest */}
       <div
         aria-hidden="true"
         data-revealed={revealed ? 'true' : 'false'}
-        className="piyo-reveal-zoom pointer-events-none absolute inset-x-0 top-0 mx-auto h-[clamp(250px,42svh,345px)] w-full max-w-[960px] overflow-hidden sm:h-[clamp(360px,56svh,520px)] lg:hidden"
-        style={{
-          WebkitMaskImage:
-            'linear-gradient(180deg, rgba(0,0,0,0.75) 0%, #000 12%, #000 54%, rgba(0,0,0,0.45) 74%, transparent 96%)',
-          maskImage:
-            'linear-gradient(180deg, rgba(0,0,0,0.75) 0%, #000 12%, #000 54%, rgba(0,0,0,0.45) 74%, transparent 96%)',
-        }}
+        className="piyo-reveal-zoom pointer-events-none absolute inset-x-0 top-3 mx-auto flex h-[clamp(215px,36svh,305px)] w-full max-w-[680px] items-center justify-center px-2 sm:top-5 sm:h-[clamp(300px,46svh,440px)] lg:hidden"
       >
-        <img
-          src="./images/piyo-facade-centered.jpg"
-          alt=""
-          loading="lazy"
-          decoding="async"
-          className="h-full w-full object-cover object-[50%_10%] brightness-[1.03] contrast-[1.04] saturate-[1.06]"
-          style={{
-            WebkitMaskImage:
-              'linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%)',
-            maskImage:
-              'linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%)',
-          }}
-        />
+        <picture className="block h-full w-full">
+          <source srcSet="./images/piyo-house-cutout.webp" type="image/webp" />
+          <img
+            src="./images/piyo-house-cutout.png"
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full translate-x-[3%] object-contain object-center drop-shadow-[0_24px_38px_rgba(4,12,7,0.85)]"
+          />
+        </picture>
       </div>
 
       {/* Atmospheric Contrast Scrim — Keeps Both Left Editorial Copy & Right House Crisp Over Pine Forest */}
@@ -176,34 +167,28 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
             </div>
           </div>
 
-          {/* Right Column (Desktop): Full Uncropped PIYO Tagaytay House Seamlessly Blended Into the Pine Forest */}
+          {/* Right Column (Desktop): True Alpha-Transparent PIYO Tagaytay House Directly Inside the Live Pine Forest */}
           <div
             data-revealed={revealed ? 'true' : 'false'}
             style={{ transitionDelay: '110ms' }}
             className="piyo-reveal-zoom relative hidden lg:col-span-7 lg:flex lg:items-center lg:justify-end"
           >
-            <div
-              className="relative w-full lg:-mr-6 xl:-mr-10"
-              style={{
-                WebkitMaskImage:
-                  'linear-gradient(180deg, transparent 0%, #000 13%, #000 84%, transparent 100%)',
-                maskImage:
-                  'linear-gradient(180deg, transparent 0%, #000 13%, #000 84%, transparent 100%)',
-              }}
-            >
-              <img
-                src="./images/piyo-facade-centered.jpg"
-                alt="PIYO Grill & Restaurant Tagaytay illuminated gable house surrounded by pine trees at twilight"
-                loading="lazy"
-                decoding="async"
-                className="h-auto w-full select-none object-contain brightness-[1.04] contrast-[1.05] saturate-[1.08]"
-                style={{
-                  WebkitMaskImage:
-                    'linear-gradient(90deg, transparent 0%, #000 15%, #000 87%, transparent 100%)',
-                  maskImage:
-                    'linear-gradient(90deg, transparent 0%, #000 15%, #000 87%, transparent 100%)',
-                }}
+            <div className="relative w-full lg:-mr-4 xl:-mr-8">
+              {/* Soft grounded forest shadow directly beneath the house foundation */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -bottom-3 inset-x-[6%] h-10 rounded-full bg-[#040B06]/85 blur-xl"
               />
+              <picture className="relative block w-full">
+                <source srcSet="./images/piyo-house-cutout.webp" type="image/webp" />
+                <img
+                  src="./images/piyo-house-cutout.png"
+                  alt="PIYO Grill & Restaurant Tagaytay illuminated gable house nestled among pine trees at twilight"
+                  loading="lazy"
+                  decoding="async"
+                  className="h-auto w-full select-none object-contain drop-shadow-[0_26px_44px_rgba(3,10,6,0.82)]"
+                />
+              </picture>
             </div>
           </div>
         </div>
