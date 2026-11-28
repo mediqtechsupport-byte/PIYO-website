@@ -29,11 +29,11 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
       id="history"
       className="relative flex min-h-[var(--stage-h)] flex-col justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#08130B]/30 pb-6 pt-[clamp(210px,33svh,290px)] text-[#FAF6EC] sm:pb-12 sm:pt-[clamp(290px,45svh,440px)] lg:justify-center lg:py-10 2xl:py-14"
     >
-      {/* Mobile / Tablet Top-Framed Transparent PIYO House Directly Over the Live Tagaytay Pine Forest */}
+      {/* Mobile / Tablet Top-Framed Symmetrical Transparent PIYO House Directly Over the Live Tagaytay Pine Forest */}
       <div
         aria-hidden="true"
         data-revealed={revealed ? 'true' : 'false'}
-        className="piyo-reveal-zoom pointer-events-none absolute inset-x-0 top-3 mx-auto flex h-[clamp(215px,36svh,305px)] w-full max-w-[680px] items-center justify-center px-2 sm:top-5 sm:h-[clamp(300px,46svh,440px)] lg:hidden"
+        className="piyo-reveal-zoom pointer-events-none absolute inset-x-0 top-2 mx-auto flex h-[clamp(225px,37svh,315px)] w-full max-w-[660px] items-center justify-center px-1 sm:top-4 sm:h-[clamp(310px,48svh,450px)] lg:hidden"
       >
         <picture className="block h-full w-full">
           <source srcSet="./images/piyo-house-cutout.webp" type="image/webp" />
@@ -42,7 +42,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
             alt=""
             loading="lazy"
             decoding="async"
-            className="h-full w-full translate-x-[3%] object-contain object-center drop-shadow-[0_24px_38px_rgba(4,12,7,0.85)]"
+            className="h-full w-full object-contain object-center drop-shadow-[0_24px_38px_rgba(4,12,7,0.85)]"
           />
         </picture>
       </div>
@@ -167,26 +167,26 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
             </div>
           </div>
 
-          {/* Right Column (Desktop): True Alpha-Transparent PIYO Tagaytay House Directly Inside the Live Pine Forest */}
+          {/* Right Column (Desktop): Stately Full-Scale Symmetrical PIYO Tagaytay House Directly Inside the Live Pine Forest */}
           <div
             data-revealed={revealed ? 'true' : 'false'}
             style={{ transitionDelay: '110ms' }}
-            className="piyo-reveal-zoom relative hidden lg:col-span-7 lg:flex lg:items-center lg:justify-end"
+            className="piyo-reveal-zoom relative hidden lg:col-span-7 lg:flex lg:items-center lg:justify-center"
           >
-            <div className="relative w-full lg:-mr-4 xl:-mr-8">
+            <div className="relative w-full max-w-[780px] lg:w-[108%] lg:-mr-6 xl:w-[114%] xl:-mr-12 2xl:max-w-[860px]">
               {/* Soft grounded forest shadow directly beneath the house foundation */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute -bottom-3 inset-x-[6%] h-10 rounded-full bg-[#040B06]/85 blur-xl"
+                className="pointer-events-none absolute -bottom-3 inset-x-[8%] h-12 rounded-full bg-[#040B06]/88 blur-xl"
               />
               <picture className="relative block w-full">
                 <source srcSet="./images/piyo-house-cutout.webp" type="image/webp" />
                 <img
                   src="./images/piyo-house-cutout.png"
-                  alt="PIYO Grill & Restaurant Tagaytay illuminated gable house nestled among pine trees at twilight"
+                  alt="PIYO Grill & Restaurant Tagaytay illuminated A-frame house nestled among pine trees at twilight"
                   loading="lazy"
                   decoding="async"
-                  className="h-auto w-full select-none object-contain drop-shadow-[0_26px_44px_rgba(3,10,6,0.82)]"
+                  className="h-auto w-full select-none object-contain drop-shadow-[0_28px_48px_rgba(3,10,6,0.86)]"
                 />
               </picture>
             </div>
