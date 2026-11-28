@@ -27,67 +27,48 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
     <section
       ref={revealRef}
       id="history"
-      className="relative flex min-h-[var(--stage-h)] flex-col items-center justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#08130B] pb-5 pt-[clamp(146px,25svh,215px)] text-[#FAF6EC] sm:pb-12 sm:pt-[clamp(260px,42svh,440px)] lg:pb-6 lg:pt-[clamp(165px,30svh,280px)] 2xl:pb-12 2xl:pt-[clamp(200px,33svh,320px)]"
+      className="relative flex min-h-[var(--stage-h)] flex-col items-center justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#08130B] pb-6 pt-[clamp(210px,33svh,290px)] text-[#FAF6EC] sm:pb-12 sm:pt-[clamp(290px,45svh,440px)] lg:pb-7 lg:pt-[clamp(260px,42svh,365px)] 2xl:pb-12 2xl:pt-[clamp(300px,44svh,420px)]"
     >
-      {/* Mobile / Fold / Tablet Top-Framed PIYO Facade — Full Illuminated Gable & PIYO Sign Centered Above Text */}
+      {/* True-Centered, Uncropped PIYO Tagaytay Facade — Crisp Intact Gable Roof & Luminous Signage */}
       <div
         aria-hidden="true"
         data-revealed={revealed ? 'true' : 'false'}
-        className="piyo-reveal-zoom pointer-events-none absolute inset-x-0 top-0 h-[clamp(220px,37svh,315px)] overflow-hidden sm:h-[clamp(360px,58svh,580px)] lg:hidden"
+        className="piyo-reveal-zoom pointer-events-none absolute inset-x-0 top-0 mx-auto h-[clamp(250px,42svh,345px)] w-full max-w-[1440px] overflow-hidden sm:h-[clamp(360px,56svh,520px)] lg:h-[clamp(390px,62svh,540px)]"
       >
         <img
-          src="./images/piyo-place-mobile.jpg"
+          src="./images/piyo-facade-centered.jpg"
           alt=""
           loading="lazy"
-          className="h-full w-full object-cover object-[15%_18%] opacity-90 brightness-[0.96] contrast-[1.06] saturate-[0.98] sm:translate-x-[10.5%] sm:scale-[1.2] sm:object-[50%_20%]"
+          decoding="async"
+          className="h-full w-full object-cover object-[50%_10%] brightness-[1.03] contrast-[1.04] saturate-[1.06]"
         />
-        {/* Subtle side vignette so roof eaves melt naturally into #08130B */}
+        {/* Seamless side feather so Tagaytay pines melt naturally into #08130B on wide displays */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(90deg, rgba(8,19,11,0.55) 0%, rgba(8,19,11,0) 14%, rgba(8,19,11,0) 86%, rgba(8,19,11,0.55) 100%)',
+              'linear-gradient(90deg, #08130B 0%, rgba(8,19,11,0.46) 7%, rgba(8,19,11,0) 18%, rgba(8,19,11,0) 82%, rgba(8,19,11,0.46) 93%, #08130B 100%)',
           }}
         />
-        {/* Crisp unobstructed sign at top, dissolving smoothly into solid #08130B behind the story copy */}
+        {/* Preserves crisp luminous PIYO sign & warm eaves while smoothly dissolving lower porch into #08130B */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(180deg, rgba(8,19,11,0.35) 0%, rgba(8,19,11,0.04) 22%, rgba(8,19,11,0.08) 54%, rgba(8,19,11,0.74) 78%, #08130B 97%)',
+              'linear-gradient(180deg, rgba(8,19,11,0.46) 0%, rgba(8,19,11,0.03) 12%, rgba(8,19,11,0) 48%, rgba(8,19,11,0.52) 68%, rgba(8,19,11,0.92) 86%, #08130B 99%)',
           }}
         />
       </div>
 
-      {/* Desktop Full-Bleed Centered PIYO Facade — Illuminated Roof & PIYO Sign Clearly Visible at Top */}
+      {/* Subtle warm golden hearth glow behind lower editorial story stack */}
       <div
         aria-hidden="true"
-        data-revealed={revealed ? 'true' : 'false'}
-        className="piyo-reveal-zoom pointer-events-none absolute inset-0 hidden lg:block"
-      >
-        <img
-          src="./images/piyo-place-mobile.jpg"
-          alt=""
-          loading="lazy"
-          className="h-full w-full translate-x-[12.2%] -translate-y-[3%] scale-[1.24] object-cover object-[50%_28%] opacity-72 brightness-[0.94] contrast-[1.06] saturate-[0.95]"
-        />
-        {/* Seamless left & right atmospheric fade into #08130B */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(90deg, #08130B 0%, rgba(8,19,11,0.42) 15%, rgba(8,19,11,0) 32%, rgba(8,19,11,0) 68%, rgba(8,19,11,0.42) 85%, #08130B 100%)',
-          }}
-        />
-        {/* Keeps top PIYO gable sign bright & unobstructed while smoothly darkening the lower half behind text */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(180deg, rgba(8,19,11,0.72) 0%, rgba(8,19,11,0.12) 16%, rgba(8,19,11,0.06) 33%, rgba(8,19,11,0.68) 52%, rgba(8,19,11,0.90) 74%, #08130B 98%)',
-          }}
-        />
-      </div>
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse 52% 38% at 50% 66%, rgba(223,185,111,0.07) 0%, transparent 72%)',
+        }}
+      />
 
       {/* Centered Ultra-Minimalist Editorial Content Positioned Cleanly Below the Illuminated PIYO Sign */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-8">
