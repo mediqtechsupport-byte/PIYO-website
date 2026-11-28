@@ -111,6 +111,43 @@ html {
   scroll-padding-top: var(--nav-h, 69px);
 }
 
+/* Mobile & Touch devices: native 60/120Hz hardware compositor full-page snapping (zero JS touch hijacking) */
+@media (pointer: coarse), (hover: none), (max-width: 1023px) {
+  html {
+    scroll-snap-type: y mandatory;
+  }
+
+  #home,
+  #history,
+  #craft,
+  #menu,
+  #heritage,
+  #reviews,
+  #book-table,
+  #visit-info,
+  footer {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .piyo-snap-end {
+    scroll-snap-align: end;
+    scroll-snap-stop: normal;
+  }
+
+  .dsh-snap-stop {
+    display: block !important;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-snap-type: none !important;
+  }
+}
+
 /* Smooth GPU-composited Hero plate cross-fade (avoids animating drop-shadow filter on iOS/Linux) */
 .hero-plate-slide {
   transition-property: transform, opacity;
@@ -595,44 +632,44 @@ html {
   backface-visibility: hidden;
 }
 
-/* Scatter-to-Bowl Exploded Bacolod Cansi Choreography — Pure WebKit/Gecko/Blink-Safe Keyframes (Zero var() Inside @keyframes or animation shorthand) */
+/* Continuous Lively Zero-Gravity Exploded Bacolod Cansi Choreography — Pure WebKit/Gecko/Blink-Safe GPU Keyframes */
 @keyframes cansi-float-bowl {
   0%,
   100% {
-    transform: translate3d(0px, 0px, 0px);
+    transform: translate3d(0px, 0px, 0px) scale(1);
   }
   50% {
-    transform: translate3d(0px, -5px, 0px);
+    transform: translate3d(0px, -9px, 0px) scale(1.015);
   }
 }
 
 @keyframes cansi-float-a {
   0%,
   100% {
-    transform: translate3d(0px, 0px, 0px) rotate(0deg);
+    transform: translate3d(0px, 0px, 0px) rotate(-2.5deg);
   }
   50% {
-    transform: translate3d(2px, -9px, 0px) rotate(1.5deg);
+    transform: translate3d(5px, -15px, 0px) rotate(3.5deg);
   }
 }
 
 @keyframes cansi-float-b {
   0%,
   100% {
-    transform: translate3d(0px, 0px, 0px) rotate(0deg);
+    transform: translate3d(0px, 0px, 0px) rotate(2.5deg);
   }
   50% {
-    transform: translate3d(-3px, -10px, 0px) rotate(-2deg);
+    transform: translate3d(-6px, -16px, 0px) rotate(-4deg);
   }
 }
 
 @keyframes cansi-float-c {
   0%,
   100% {
-    transform: translate3d(0px, 0px, 0px) rotate(0deg);
+    transform: translate3d(0px, 0px, 0px) rotate(-3deg);
   }
   50% {
-    transform: translate3d(4px, -11px, 0px) rotate(2.4deg);
+    transform: translate3d(7px, -18px, 0px) rotate(4.5deg);
   }
 }
 
@@ -730,18 +767,69 @@ html {
   }
 }
 
-/* Smooth GPU-Composited Section Entrance & View/Modal Transitions (iOS, iPadOS, Android, Linux, Desktop) */
+/* Subtle top champagne-gold horizon transition hairline on each incoming page */
+.piyo-page-seam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  pointer-events: none;
+  z-index: 25;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(223, 185, 111, 0.25) 18%,
+    rgba(223, 185, 111, 0.85) 50%,
+    rgba(223, 185, 111, 0.25) 82%,
+    transparent 100%
+  );
+  transform-origin: center center;
+  transform: scaleX(0.2);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Smooth GPU-promoted stage wrapper for continuous scroll-driven page-to-page depth transitions */
+[data-page-stage] {
+  transform-origin: center center;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+/* Brief silk veil overlay during multi-section Navbar / Bottom Nav page jumps */
+@keyframes piyo-nav-veil {
+  0% {
+    opacity: 0;
+  }
+  38% {
+    opacity: 0.42;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.piyo-nav-veil-active {
+  animation: piyo-nav-veil 480ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Smooth GPU-Composited Page-by-Page Entrance Choreography (iOS, iPadOS, Android, Linux, Desktop) */
 .piyo-reveal {
   transition-property: transform, opacity;
-  transition-duration: 420ms;
+  transition-duration: 720ms;
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  will-change: transform, opacity;
 }
 
 .piyo-reveal[data-revealed='false'] {
-  opacity: 0.38;
-  transform: translate3d(0, 14px, 0);
+  opacity: 0;
+  transform: translate3d(0, 30px, 0);
+  transition-duration: 0ms;
+  transition-delay: 0ms !important;
 }
 
 .piyo-reveal[data-revealed='true'] {
@@ -749,44 +837,76 @@ html {
   transform: translate3d(0, 0, 0);
 }
 
-/* Subtle card lift + crisp scale settle for cards, tiles, photos & panels */
+/* Lush card rise + gentle scale bloom for pillars, photos, review notes, hours & forms */
 .piyo-reveal-scale {
   transition-property: transform, opacity;
-  transition-duration: 460ms;
+  transition-duration: 780ms;
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  will-change: transform, opacity;
 }
 
 .piyo-reveal-scale[data-revealed='false'] {
-  opacity: 0.36;
-  transform: translate3d(0, 16px, 0) scale(0.98);
+  opacity: 0;
+  transform: translate3d(0, 32px, 0) scale3d(0.95, 0.95, 1);
+  transition-duration: 0ms;
+  transition-delay: 0ms !important;
 }
 
 .piyo-reveal-scale[data-revealed='true'] {
   opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
+  transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
 }
 
-/* Gentle atmospheric backdrop zoom-settle (used on #history PIYO facade) */
+/* Cinematic architectural arrival for the symmetrical PIYO Tagaytay house cutout */
 .piyo-reveal-zoom {
   transition-property: transform, opacity;
-  transition-duration: 820ms;
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  transition-duration: 900ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  will-change: transform, opacity;
 }
 
 .piyo-reveal-zoom[data-revealed='false'] {
-  opacity: 0.72;
-  transform: scale3d(1.035, 1.035, 1);
-  transition-duration: 240ms;
+  opacity: 0;
+  transform: translate3d(0, 24px, 0) scale3d(0.93, 0.93, 1);
+  transition-duration: 0ms;
   transition-delay: 0ms !important;
+}
+
+@media (min-width: 1024px) {
+  .piyo-reveal-zoom[data-revealed='false'] {
+    transform: translate3d(28px, 14px, 0) scale3d(0.94, 0.94, 1);
+  }
 }
 
 .piyo-reveal-zoom[data-revealed='true'] {
   opacity: 1;
-  transform: scale3d(1, 1, 1);
+  transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+}
+
+/* Mobile-tuned travel & snappier timing so thumb swipes feel crisp and effortless */
+@media (max-width: 767px) {
+  .piyo-reveal {
+    transition-duration: 560ms;
+  }
+  .piyo-reveal[data-revealed='false'] {
+    transform: translate3d(0, 20px, 0);
+  }
+  .piyo-reveal-scale {
+    transition-duration: 600ms;
+  }
+  .piyo-reveal-scale[data-revealed='false'] {
+    transform: translate3d(0, 22px, 0) scale3d(0.96, 0.96, 1);
+  }
+  .piyo-reveal-zoom {
+    transition-duration: 680ms;
+  }
+  .piyo-reveal-zoom[data-revealed='false'] {
+    transform: translate3d(0, 16px, 0) scale3d(0.95, 0.95, 1);
+  }
 }
 
 /* Immediate above-the-fold Hero stagger (pure CSS — zero JS wait, zero flash on reload) */

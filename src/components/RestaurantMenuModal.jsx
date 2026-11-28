@@ -750,11 +750,12 @@ export function RestaurantMenuBoard({
             backgroundSize: '64px 64px',
           }}
         >
-          <div
-            data-revealed={boardRevealed ? 'true' : 'false'}
-            style={{ transitionDelay: '60ms' }}
-            className="piyo-reveal-scale w-full"
-          >
+          <div data-page-stage="menu" className="w-full">
+            <div
+              data-revealed={boardRevealed ? 'true' : 'false'}
+              style={{ transitionDelay: '60ms' }}
+              className="piyo-reveal-scale w-full"
+            >
           <SushiConveyorMenu
             items={conveyorItems}
             legend={[]}
@@ -784,6 +785,7 @@ export function RestaurantMenuBoard({
               </button>
             }
           />
+            </div>
           </div>
         </div>
 

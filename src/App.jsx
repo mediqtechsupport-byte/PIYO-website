@@ -65,15 +65,26 @@ export default function App() {
   const lastStatusMapRef = useRef({});
   const snapLockUntilRef = useRef(0);
   const glideRafRef = useRef(0);
+  const pineParallaxRef = useRef(null);
+  const navVeilRef = useRef(null);
 
   const cancelActiveGlide = () => {
     if (glideRafRef.current) {
       window.cancelAnimationFrame(glideRafRef.current);
       glideRafRef.current = 0;
     }
+    if (typeof document !== 'undefined') {
+      document.documentElement.style.scrollSnapType = '';
+    }
   };
 
-  const animateScrollTo = (targetY, durationMs = 500, onDone, easeMode = 'inOut') => {
+  const animateScrollTo = (
+    targetY,
+    durationMs = 640,
+    onDone,
+    easeMode = 'inOut',
+    lockOrbit = true
+  ) => {
     cancelActiveGlide();
     const maxScroll = Math.max(
       0,
@@ -93,23 +104,34 @@ export default function App() {
 
     if (Math.abs(dist) <= 1 || prefersReduced || durationMs <= 0) {
       const now = Date.now();
-      snapLockUntilRef.current = now + 220;
-      window.__piyoNavLockUntil = now + 260;
+      snapLockUntilRef.current = now + 180;
+      if (lockOrbit) window.__piyoNavLockUntil = now + 220;
       window.scrollTo({ top: clamped, behavior: 'auto' });
       window.dispatchEvent(new CustomEvent('piyo:nav-settled'));
       onDone?.();
       return;
     }
 
+    // Temporarily suspend native mobile snap during programmatic multi-page glides so intermediate sections never catch
+    document.documentElement.style.scrollSnapType = 'none';
+    if (lockOrbit && Math.abs(dist) > window.innerHeight * 1.15 && navVeilRef.current) {
+      const veil = navVeilRef.current;
+      veil.classList.remove('piyo-nav-veil-active');
+      void veil.offsetWidth;
+      veil.classList.add('piyo-nav-veil-active');
+    }
     const now = Date.now();
-    snapLockUntilRef.current = now + durationMs + 140;
-    window.__piyoNavLockUntil = now + durationMs + 120;
+    snapLockUntilRef.current = now + durationMs + 120;
+    if (lockOrbit) {
+      window.__piyoNavLockUntil = now + durationMs + 100;
+    } else {
+      window.__piyoNavLockUntil = 0;
+    }
 
     const t0 = performance.now();
     const step = (ts) => {
       const p = Math.min(1, (ts - t0) / durationMs);
-      // easeOutQuart for wheel & touch-seam settle (immediate response, silky deceleration);
-      // easeInOutCubic for button/nav clicks (graceful start and cushioned flush arrival)
+      // Silky quintic/cubic full-page easing curve — immediate lift-off, plush cushioned landing
       const eased =
         easeMode === 'out'
           ? 1 - Math.pow(1 - p, 4)
@@ -122,6 +144,7 @@ export default function App() {
       } else {
         glideRafRef.current = 0;
         window.scrollTo({ top: clamped, behavior: 'auto' });
+        document.documentElement.style.scrollSnapType = '';
         window.__piyoNavLockUntil = 0;
         window.dispatchEvent(new CustomEvent('piyo:nav-settled'));
         onDone?.();
@@ -203,17 +226,34 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // 100% Native Compositor-Thread Scrolling + Zero-Reflow Active Nav Tracking:
-  // - ZERO non-passive `wheel` listeners and ZERO scroll-end auto-yanking/snapping (scroll glides freely with native 60/120Hz inertia)
-  // - Cached section offsets (recomputed ONLY on resize/load/fonts, NEVER calling getBoundingClientRect() during scroll!)
+  // Full-Page Desktop Wheel & Keyboard Page-Turn Controller + Mobile Native Mandatory Snap + Continuous GPU Depth Transitions:
+  // - Desktop mouse/trackpad: 1 scroll gesture transitions directly page-to-page (zero half-cut seams between pages!)
+  //   with trackpad momentum debouncing so 1 swipe = 1 clean page, stepping smoothly dish-by-dish through #spotlight.
+  // - Mobile/touch: native 60/120Hz hardware `scroll-snap-type: y mandatory` (zero JS touch hijacking).
+  // - Cached section metrics (zero getBoundingClientRect() during scroll!).
   useEffect(() => {
     if (isKitchenView) return undefined;
     let activeRaf = 0;
+    let wheelLockUntil = 0;
+    let lastWheelAbs = 0;
+    let lastWheelTs = 0;
+    let scrollbarSettleTimer = null;
 
     let cachedMetrics = {
       navPages: [],
+      stagePages: [],
+      pageStops: [],
+      stickyOffset: 69,
       stageH: 600,
+      winH: 800,
+      isMobile: false,
+      isTouchDevice: false,
+      maxScroll: 1,
     };
+
+    const prefersReduced =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const rebuildMetrics = () => {
       const header = document.querySelector('header');
@@ -222,29 +262,239 @@ export default function App() {
         'nav[aria-label="Mobile bottom navigation"]'
       );
       const bottomNavH = bottomNav ? Math.ceil(bottomNav.getBoundingClientRect().height) : 0;
-      const stageH = Math.max(280, window.innerHeight - stickyOffset - bottomNavH);
+      const winH = window.innerHeight || 800;
+      const isMobile = window.innerWidth < 768;
+      const isTouchDevice =
+        window.innerWidth < 1024 ||
+        (typeof window.matchMedia === 'function' &&
+          (window.matchMedia('(pointer: coarse)').matches ||
+            window.matchMedia('(hover: none)').matches));
+      const stageH = Math.max(280, winH - stickyOffset - bottomNavH);
+      const maxScroll = Math.max(
+        1,
+        document.documentElement.scrollHeight - winH
+      );
       const y = window.scrollY;
       const navIds = ['home', 'history', 'craft', 'spotlight', 'menu', 'heritage', 'reviews', 'visit'];
 
       const navPages = [];
+      const stagePages = [];
+      const pageStops = [];
+
       for (const id of navIds) {
         const el = document.getElementById(id);
         if (!el) continue;
         const rect = el.getBoundingClientRect();
-        navPages.push({
-          id,
-          startY: Math.max(0, Math.round(rect.top + y - stickyOffset)),
-        });
+        const startY = Math.max(0, Math.min(maxScroll, Math.round(rect.top + y - stickyOffset)));
+        const height = Math.round(rect.height);
+        navPages.push({ id, startY });
+
+        const stageEl = el.querySelector('[data-page-stage]');
+        const seamEl = el.querySelector('[data-page-seam]');
+        if (stageEl || seamEl) {
+          stagePages.push({
+            id,
+            startY,
+            endY: startY + height,
+            height,
+            stageEl,
+            seamEl,
+          });
+        }
+
+        if (id === 'spotlight') {
+          // Expose all 5 dishes inside #spotlight as individual smooth page stops so nothing is ever skipped
+          const internalSpan = Math.max(0, height - stageH);
+          const dishSteps = 4; // 5 dishes => 4 intervals
+          for (let k = 0; k <= dishSteps; k += 1) {
+            const stopY = Math.max(
+              0,
+              Math.min(maxScroll, Math.round(startY + (internalSpan * k) / dishSteps))
+            );
+            pageStops.push({ id: 'spotlight', sub: k, y: stopY });
+          }
+        } else {
+          pageStops.push({ id, sub: 0, y: startY });
+          // If a desktop section is noticeably taller than 1 viewport, add its clean bottom reading frame too
+          if (height > stageH + 140) {
+            const endStop = Math.max(
+              0,
+              Math.min(maxScroll, Math.round(startY + height - stageH))
+            );
+            if (endStop - startY > 120) {
+              pageStops.push({ id, sub: 1, y: endStop });
+            }
+          }
+        }
       }
 
-      cachedMetrics = { navPages, stageH };
+      // Include footer bottom if footer extends meaningfully past #visit
+      const lastStop = pageStops[pageStops.length - 1];
+      if (!lastStop || maxScroll - lastStop.y > 90) {
+        pageStops.push({ id: 'footer', sub: 0, y: maxScroll });
+      }
+
+      cachedMetrics = {
+        navPages,
+        stagePages,
+        pageStops,
+        stickyOffset,
+        stageH,
+        winH,
+        isMobile,
+        isTouchDevice,
+        maxScroll,
+      };
+    };
+
+    const isOverlayOrInputActive = (target) => {
+      if (selectedDish || isTrayOpen || isTrackerExpanded || isKitchenView) return true;
+      if (
+        document.body.style.overflow === 'hidden' ||
+        document.documentElement.style.overflow === 'hidden'
+      ) {
+        return true;
+      }
+      if (target && typeof target.closest === 'function') {
+        if (target.closest('[role="dialog"]')) return true;
+        // Respect any inner scrollable container (e.g. menu rails, modals, textareas)
+        let cur = target;
+        while (cur && cur !== document.body && cur !== document.documentElement) {
+          const style = window.getComputedStyle(cur);
+          const oy = style.overflowY;
+          if (
+            (oy === 'auto' || oy === 'scroll') &&
+            cur.scrollHeight > cur.clientHeight + 4
+          ) {
+            return true;
+          }
+          cur = cur.parentElement;
+        }
+      }
+      return false;
+    };
+
+    const findNearestStopIndex = (sy, stops) => {
+      if (stops.length === 0) return 0;
+      let bestIdx = 0;
+      let bestDist = Infinity;
+      for (let i = 0; i < stops.length; i += 1) {
+        const d = Math.abs(stops[i].y - sy);
+        if (d < bestDist) {
+          bestDist = d;
+          bestIdx = i;
+        }
+      }
+      return bestIdx;
+    };
+
+    const jumpByPageStep = (dir) => {
+      const { pageStops } = cachedMetrics;
+      if (pageStops.length < 2) return;
+      const sy = window.scrollY;
+      const currIdx = findNearestStopIndex(sy, pageStops);
+      const nextIdx = Math.max(0, Math.min(pageStops.length - 1, currIdx + dir));
+      const currStop = pageStops[currIdx];
+      const targetStop = pageStops[nextIdx];
+      if (!targetStop) return;
+
+      // If already at top/bottom boundary, do nothing
+      if (nextIdx === currIdx && Math.abs(sy - targetStop.y) <= 3) return;
+
+      const isSpotlightDishStep =
+        currStop.id === 'spotlight' && targetStop.id === 'spotlight';
+      const duration = isSpotlightDishStep ? 520 : 660;
+      wheelLockUntil = Date.now() + duration + 160;
+      window.dispatchEvent(
+        new CustomEvent('piyo:nav-target', { detail: { id: targetStop.id } })
+      );
+      animateScrollTo(targetStop.y, duration, undefined, 'inOut', !isSpotlightDishStep);
     };
 
     const updateActiveFromCache = () => {
       activeRaf = 0;
-      const { navPages, stageH } = cachedMetrics;
+      const { navPages, stagePages, stageH, winH, isMobile, maxScroll } = cachedMetrics;
+      const sy = window.scrollY;
+
+      // 1. Subtle GPU-only vertical pine canopy drift across page-by-page scrolling (zero layout reads)
+      const pineEl = pineParallaxRef.current;
+      if (pineEl && !prefersReduced) {
+        const ratio = Math.max(0, Math.min(1, sy / maxScroll));
+        const shiftPx = (ratio * 52).toFixed(1);
+        pineEl.style.transform = `translate3d(0, -${shiftPx}px, 0) scale(1.08)`;
+      }
+
+      // 2. Continuous 60/120fps GPU page-to-page depth & horizon transition (desktop + mobile)
+      if (!prefersReduced && stagePages.length > 0) {
+        const enterScaleMin = isMobile ? 0.96 : 0.935;
+        const enterTyMax = isMobile ? 22 : 38;
+        const enterOpMin = isMobile ? 0.36 : 0.2;
+        const exitScaleDrop = isMobile ? 0.035 : 0.05;
+        const exitTyMax = isMobile ? 12 : 22;
+        const exitOpDrop = isMobile ? 0.42 : 0.56;
+
+        for (let i = 0; i < stagePages.length; i += 1) {
+          const p = stagePages[i];
+          const { stageEl, seamEl } = p;
+          const visibleStart = p.startY - winH;
+          const visibleEnd = p.endY + 120;
+
+          if (sy < visibleStart || sy > visibleEnd) {
+            if (stageEl && p.id !== 'home') {
+              stageEl.style.transform = `translate3d(0, ${enterTyMax}px, 0) scale3d(${enterScaleMin}, ${enterScaleMin}, 1)`;
+              stageEl.style.opacity = String(enterOpMin);
+            }
+            if (seamEl) {
+              seamEl.style.transform = 'scaleX(0.15)';
+              seamEl.style.opacity = '0';
+            }
+            continue;
+          }
+
+          let scale = 1;
+          let ty = 0;
+          let op = 1;
+          let seamP = 1;
+
+          if (p.id !== 'home' && sy < p.startY) {
+            const raw = Math.max(0, Math.min(1, (sy + winH - p.startY) / (stageH * 0.76)));
+            const eased = 1 - Math.pow(1 - raw, 3);
+            scale = enterScaleMin + (1 - enterScaleMin) * eased;
+            ty = (1 - eased) * enterTyMax;
+            op = enterOpMin + (1 - enterOpMin) * eased;
+            seamP = eased;
+          } else {
+            const exitStart = Math.max(p.startY, p.endY - stageH * 0.52);
+            if (sy > exitStart) {
+              const raw = Math.max(0, Math.min(1, (sy - exitStart) / (stageH * 0.62)));
+              const eased = raw * raw * (3 - 2 * raw);
+              scale = 1 - exitScaleDrop * eased;
+              ty = -exitTyMax * eased;
+              op = 1 - exitOpDrop * eased;
+              seamP = 1 - eased;
+            }
+          }
+
+          if (stageEl) {
+            if (scale > 0.999 && Math.abs(ty) < 0.2 && op > 0.995) {
+              stageEl.style.transform = '';
+              stageEl.style.opacity = '1';
+            } else {
+              stageEl.style.transform = `translate3d(0, ${ty.toFixed(1)}px, 0) scale3d(${scale.toFixed(4)}, ${scale.toFixed(4)}, 1)`;
+              stageEl.style.opacity = op.toFixed(3);
+            }
+          }
+
+          if (seamEl) {
+            const sx = 0.15 + 0.85 * seamP;
+            seamEl.style.transform = `scaleX(${sx.toFixed(3)})`;
+            seamEl.style.opacity = (seamP * 0.9).toFixed(3);
+          }
+        }
+      }
+
       if (navPages.length === 0) return;
-      const probeY = window.scrollY + Math.max(80, stageH * 0.28);
+      const probeY = sy + Math.max(80, stageH * 0.28);
       let current = 'home';
       for (let i = 0; i < navPages.length; i += 1) {
         if (navPages[i].startY <= probeY) {
@@ -254,14 +504,68 @@ export default function App() {
       setActiveSection((prev) => (prev === current ? prev : current));
     };
 
+    // Desktop single-gesture wheel page-turner: directly glides page-to-page so users never land halfway between pages
+    const handleWheel = (e) => {
+      if (prefersReduced || cachedMetrics.isTouchDevice) return;
+      if (e.ctrlKey || e.metaKey) return; // Keep browser pinch-zoom intact
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // Keep horizontal swipes intact
+      if (isOverlayOrInputActive(e.target)) return;
+
+      const absY = Math.abs(e.deltaY);
+      if (absY < 4) return;
+
+      // Prevent raw stepped mouse-wheel jump so the page glides directly to the next full page
+      e.preventDefault();
+
+      const now = Date.now();
+      const dt = now - lastWheelTs;
+      const isDecayingInertia = dt < 140 && absY <= lastWheelAbs + 2;
+      lastWheelAbs = absY;
+      lastWheelTs = now;
+
+      if (glideRafRef.current || now < wheelLockUntil || isDecayingInertia) {
+        return;
+      }
+
+      jumpByPageStep(e.deltaY > 0 ? 1 : -1);
+    };
+
+    const handleKeyDown = (e) => {
+      if (prefersReduced || cachedMetrics.isTouchDevice) return;
+      if (isOverlayOrInputActive(e.target)) return;
+      const tag = e.target?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || tag === 'BUTTON') return;
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+        e.preventDefault();
+        if (!glideRafRef.current && Date.now() >= wheelLockUntil) jumpByPageStep(1);
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault();
+        if (!glideRafRef.current && Date.now() >= wheelLockUntil) jumpByPageStep(-1);
+      }
+    };
+
     const handleScroll = () => {
       if (!activeRaf) {
         activeRaf = window.requestAnimationFrame(updateActiveFromCache);
       }
+      // If user dragged the desktop scrollbar thumb manually and stopped halfway between pages, gently settle onto nearest page
+      if (!cachedMetrics.isTouchDevice && !prefersReduced && !glideRafRef.current && Date.now() >= wheelLockUntil) {
+        if (scrollbarSettleTimer) window.clearTimeout(scrollbarSettleTimer);
+        scrollbarSettleTimer = window.setTimeout(() => {
+          if (glideRafRef.current || Date.now() < wheelLockUntil || isOverlayOrInputActive(null)) return;
+          const { pageStops } = cachedMetrics;
+          if (pageStops.length < 2) return;
+          const sy = window.scrollY;
+          const idx = findNearestStopIndex(sy, pageStops);
+          const nearest = pageStops[idx];
+          if (nearest && Math.abs(sy - nearest.y) > 8 && Math.abs(sy - nearest.y) < cachedMetrics.stageH * 0.65) {
+            animateScrollTo(nearest.y, 380, undefined, 'out', nearest.id !== 'spotlight');
+          }
+        }, 220);
+      }
     };
 
-    const handleUserScrollInterrupt = () => {
-      // Cancel any programmatic button-click nav glide immediately if the user scrolls manually
+    const handleTouchStart = () => {
       if (glideRafRef.current) cancelActiveGlide();
     };
 
@@ -279,8 +583,9 @@ export default function App() {
         : null;
     ro?.observe(document.body);
 
-    window.addEventListener('wheel', handleUserScrollInterrupt, { passive: true });
-    window.addEventListener('touchstart', handleUserScrollInterrupt, { passive: true });
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleMetricsRefresh, { passive: true });
     window.addEventListener('load', handleMetricsRefresh);
@@ -294,16 +599,18 @@ export default function App() {
     return () => {
       fontsCancelled = true;
       cancelActiveGlide();
+      if (scrollbarSettleTimer) window.clearTimeout(scrollbarSettleTimer);
       if (activeRaf) window.cancelAnimationFrame(activeRaf);
       ro?.disconnect();
-      window.removeEventListener('wheel', handleUserScrollInterrupt);
-      window.removeEventListener('touchstart', handleUserScrollInterrupt);
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleMetricsRefresh);
       window.removeEventListener('load', handleMetricsRefresh);
       window.removeEventListener('piyo:nav-settled', updateActiveFromCache);
     };
-  }, [isKitchenView]);
+  }, [selectedDish, isTrayOpen, isTrackerExpanded, isKitchenView]);
 
   const scrollToSection = (id) => {
     // Close any open modal/drawer/menu portal so navigation always reveals the destination cleanly
@@ -516,21 +823,26 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-[#08130B]">
-      {/* Global Tagaytay Twilight Pine Forest Backdrop — Single GPU-Composited Layer Behind All Dark Sections */}
+      {/* Global Tagaytay Twilight Pine Forest Backdrop — Single GPU-Composited Layer with Subtle Scroll Parallax */}
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#08130B]"
-        style={{ transform: 'translateZ(0)' }}
       >
-        <picture>
-          <source srcSet="./images/piyo-pine-forest-bg.webp" type="image/webp" />
-          <img
-            src="./images/piyo-pine-forest-bg.jpg"
-            alt=""
-            decoding="async"
-            className="h-full w-full object-cover object-center opacity-[0.72] brightness-[0.95] contrast-[1.06] saturate-[0.96]"
-          />
-        </picture>
+        <div
+          ref={pineParallaxRef}
+          className="h-full w-full will-change-transform"
+          style={{ transform: 'translate3d(0, 0px, 0) scale(1.08)' }}
+        >
+          <picture>
+            <source srcSet="./images/piyo-pine-forest-bg.webp" type="image/webp" />
+            <img
+              src="./images/piyo-pine-forest-bg.jpg"
+              alt=""
+              decoding="async"
+              className="h-full w-full object-cover object-center opacity-[0.72] brightness-[0.95] contrast-[1.06] saturate-[0.96]"
+            />
+          </picture>
+        </div>
         <div
           className="absolute inset-0"
           style={{
@@ -539,6 +851,54 @@ export default function App() {
           }}
         />
       </div>
+
+      {/* Brief GPU Silk Veil Transition Overlay During Multi-Page Nav Jumps */}
+      <div
+        ref={navVeilRef}
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-[38] opacity-0"
+        style={{
+          background:
+            'radial-gradient(ellipse 80% 60% at 50% 45%, rgba(223,185,111,0.16) 0%, rgba(8,19,11,0.88) 72%)',
+        }}
+      />
+
+      {/* Subtle Desktop Page-by-Page Dot Indicator Rail (Right Edge) */}
+      <nav
+        aria-label="Page section indicator"
+        className="fixed right-3.5 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-center gap-2 rounded-full border border-[#DFB96F]/18 bg-[#08130B]/55 px-1.5 py-2.5 shadow-lg xl:flex"
+      >
+        {[
+          { id: 'home', label: 'Home' },
+          { id: 'history', label: 'Our Story' },
+          { id: 'craft', label: 'House Cansi' },
+          { id: 'spotlight', label: 'Signature Dishes' },
+          { id: 'menu', label: 'Menu' },
+          { id: 'heritage', label: 'Heritage' },
+          { id: 'reviews', label: 'Reviews' },
+          { id: 'visit', label: 'Visit' },
+        ].map((item) => {
+          const active = activeSection === item.id;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => scrollToSection(item.id)}
+              aria-label={`Jump to ${item.label}`}
+              title={item.label}
+              className="group flex h-4 w-4 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#DFB96F]"
+            >
+              <span
+                className={`block rounded-full transition-all duration-300 ${
+                  active
+                    ? 'h-4 w-1.5 bg-[#DFB96F] shadow-[0_0_8px_rgba(223,185,111,0.7)]'
+                    : 'h-1.5 w-1.5 bg-[#FAF6EC]/35 group-hover:bg-[#DFB96F]/80'
+                }`}
+              />
+            </button>
+          );
+        })}
+      </nav>
 
       <Navbar
         activeSection={activeSection}

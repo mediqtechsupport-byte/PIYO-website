@@ -351,6 +351,7 @@ export function MenuSection({
       id="menu"
       className="relative flex min-h-[var(--stage-h)] flex-col overflow-x-clip border-t border-[#DFB96F]/15 bg-transparent p-0 text-[#FAF6EC]"
     >
+      <div aria-hidden="true" data-page-seam className="piyo-page-seam" />
       <RestaurantMenuBoard
         selectedCat={boardCategory}
         onSelectCat={setBoardCategory}

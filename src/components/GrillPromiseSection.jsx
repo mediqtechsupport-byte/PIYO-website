@@ -20,6 +20,9 @@ const LAYER_CHOREOGRAPHY = {
     sx: '-190px',
     sy: '-240px',
     srot: '-24deg',
+    bx: '-10px',
+    by: '-52px',
+    brot: '-9deg',
     sscale: 0.88,
     delay: '0ms',
     dur: '1600ms',
@@ -34,6 +37,9 @@ const LAYER_CHOREOGRAPHY = {
     sx: '-230px',
     sy: '205px',
     srot: '-32deg',
+    bx: '-58px',
+    by: '-26px',
+    brot: '-15deg',
     sscale: 0.9,
     delay: '120ms',
     dur: '1650ms',
@@ -48,6 +54,9 @@ const LAYER_CHOREOGRAPHY = {
     sx: '235px',
     sy: '115px',
     srot: '26deg',
+    bx: '54px',
+    by: '-30px',
+    brot: '14deg',
     sscale: 0.9,
     delay: '220ms',
     dur: '1680ms',
@@ -62,6 +71,9 @@ const LAYER_CHOREOGRAPHY = {
     sx: '-245px',
     sy: '-190px',
     srot: '-26deg',
+    bx: '8px',
+    by: '-64px',
+    brot: '-8deg',
     sscale: 0.84,
     delay: '360ms',
     dur: '1900ms',
@@ -76,6 +88,9 @@ const LAYER_CHOREOGRAPHY = {
     sx: '210px',
     sy: '-165px',
     srot: '30deg',
+    bx: '50px',
+    by: '-50px',
+    brot: '15deg',
     sscale: 0.9,
     delay: '540ms',
     dur: '1750ms',
@@ -90,6 +105,9 @@ const LAYER_CHOREOGRAPHY = {
     sx: '-510px',
     sy: '-275px',
     srot: '-38deg',
+    bx: '-84px',
+    by: '-58px',
+    brot: '-14deg',
     sscale: 0.9,
     delay: '640ms',
     dur: '1850ms',
@@ -104,6 +122,9 @@ const LAYER_CHOREOGRAPHY = {
     sx: '-425px',
     sy: '-165px',
     srot: '-65deg',
+    bx: '-74px',
+    by: '-78px',
+    brot: '-22deg',
     sscale: 0.92,
     delay: '780ms',
     dur: '1700ms',
@@ -118,6 +139,9 @@ const LAYER_CHOREOGRAPHY = {
     sx: '-985px',
     sy: '110px',
     srot: '42deg',
+    bx: '-92px',
+    by: '-22px',
+    brot: '18deg',
     sscale: 0.94,
     delay: '860ms',
     dur: '1800ms',
@@ -132,6 +156,9 @@ const LAYER_CHOREOGRAPHY = {
     sx: '-920px',
     sy: '265px',
     srot: '-44deg',
+    bx: '-96px',
+    by: '14px',
+    brot: '-18deg',
     sscale: 0.94,
     delay: '940ms',
     dur: '1820ms',
@@ -146,6 +173,9 @@ const LAYER_CHOREOGRAPHY = {
     sx: '-315px',
     sy: '320px',
     srot: '55deg',
+    bx: '-78px',
+    by: '42px',
+    brot: '22deg',
     sscale: 0.92,
     delay: '1020ms',
     dur: '1750ms',
@@ -160,6 +190,9 @@ const LAYER_CHOREOGRAPHY = {
     sx: '215px',
     sy: '-45px',
     srot: '38deg',
+    bx: '44px',
+    by: '-18px',
+    brot: '14deg',
     sscale: 0.92,
     delay: '1100ms',
     dur: '1650ms',
@@ -174,6 +207,9 @@ const LAYER_CHOREOGRAPHY = {
     sx: '190px',
     sy: '205px',
     srot: '-42deg',
+    bx: '42px',
+    by: '24px',
+    brot: '-16deg',
     sscale: 0.94,
     delay: '1180ms',
     dur: '1620ms',
@@ -188,6 +224,9 @@ const LAYER_CHOREOGRAPHY = {
     sx: '-125px',
     sy: '-150px',
     srot: '24deg',
+    bx: '-6px',
+    by: '-48px',
+    brot: '12deg',
     sscale: 0.94,
     delay: '1260ms',
     dur: '1600ms',
@@ -202,6 +241,9 @@ const LAYER_CHOREOGRAPHY = {
     sx: '165px',
     sy: '-135px',
     srot: '-28deg',
+    bx: '44px',
+    by: '-54px',
+    brot: '-14deg',
     sscale: 0.94,
     delay: '1340ms',
     dur: '1580ms',
@@ -216,7 +258,11 @@ const LAYER_CHOREOGRAPHY = {
     sx: '0px',
     sy: '-40px',
     srot: '0deg',
+    bx: '0px',
+    by: '-24px',
+    brot: '0deg',
     sscale: 1.18,
+    bscale: 1.1,
     sopacity: 0,
     delay: '1420ms',
     dur: '1350ms',
@@ -291,10 +337,12 @@ function addMediaListener(mq, fn) {
 export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
   const [editorialRef, editorialRevealed] = useSectionReveal({ threshold: 0.04 });
   const sectionRef = useRef(null);
-  const timersRef = useRef({ raf1: 0, raf2: 0, hold: null, settle: null });
+  const timersRef = useRef({ raf1: 0, raf2: 0, hold: null, settle: null, loop: null });
   const wasInViewRef = useRef(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0, hovered: false });
   const [replayKey, setReplayKey] = useState(0);
+  const [isLoopCycle, setIsLoopCycle] = useState(false);
+  const [hasAssembledOnce, setHasAssembledOnce] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(() =>
     typeof window !== 'undefined' &&
     typeof window.matchMedia === 'function' &&
@@ -308,6 +356,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
     if (w >= 640) return 0.62;
     return 0.42;
   });
+  // 'scattered' (wide initial burst), 'breathing' (continuous 360° exploded blossom), 'building', 'assembled'
   const [phase, setPhase] = useState(() => (reducedMotion ? 'assembled' : 'scattered'));
 
   useEffect(() => {
@@ -347,26 +396,43 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
       window.clearTimeout(timersRef.current.settle);
       timersRef.current.settle = null;
     }
+    if (timersRef.current.loop) {
+      window.clearTimeout(timersRef.current.loop);
+      timersRef.current.loop = null;
+    }
   };
 
-  const triggerBuildSequence = (holdMs = 520) => {
+  const triggerBuildSequence = (holdMs = 460, burstPhase = 'scattered') => {
     if (reducedMotion) {
       setPhase('assembled');
+      setHasAssembledOnce(true);
       return;
     }
+    const isLoop = burstPhase === 'breathing';
     clearTimers();
-    setPhase('scattered');
-    setReplayKey((k) => k + 1);
-    // Guarantee at least one painted scattered frame across iOS WebKit, Firefox, and Chrome before starting transition
+    setIsLoopCycle(isLoop);
+    setPhase(burstPhase);
+    // Only remount bowl impact animation on initial entry or manual scatter tap (never jolt bowl during continuous loop)
+    if (!isLoop) {
+      setReplayKey((k) => k + 1);
+    }
+    // Guarantee at least one painted expanded frame across iOS WebKit, Firefox, and Chrome before gliding back into the bowl
     timersRef.current.raf1 = window.requestAnimationFrame(() => {
       timersRef.current.raf1 = 0;
       timersRef.current.raf2 = window.requestAnimationFrame(() => {
         timersRef.current.raf2 = 0;
         timersRef.current.hold = window.setTimeout(() => {
           setPhase('building');
+          const settleMs = isLoop ? 1900 : 2600;
           timersRef.current.settle = window.setTimeout(() => {
             setPhase('assembled');
-          }, 3050);
+            setHasAssembledOnce(true);
+            // Continuous non-stop breathing/exploding cycle while #craft remains in view
+            timersRef.current.loop = window.setTimeout(() => {
+              if (!wasInViewRef.current || document.hidden) return;
+              triggerBuildSequence(1550, 'breathing');
+            }, 850);
+          }, settleMs);
         }, holdMs);
       });
     });
@@ -375,6 +441,8 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
   useEffect(() => {
     if (reducedMotion) {
       clearTimers();
+      setIsLoopCycle(false);
+      setHasAssembledOnce(true);
       setPhase('assembled');
       return undefined;
     }
@@ -383,7 +451,8 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
     if (!node) return undefined;
 
     if (typeof IntersectionObserver !== 'function') {
-      triggerBuildSequence(420);
+      wasInViewRef.current = true;
+      triggerBuildSequence(420, 'scattered');
       return () => clearTimers();
     }
 
@@ -396,27 +465,38 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
         if (entry.isIntersecting && (entry.intersectionRatio >= 0.02 || isTall)) {
           if (!wasInViewRef.current) {
             wasInViewRef.current = true;
-            triggerBuildSequence(520);
+            triggerBuildSequence(460, 'scattered');
           }
         } else if (!entry.isIntersecting) {
           wasInViewRef.current = false;
           clearTimers();
+          setIsLoopCycle(false);
+          setHasAssembledOnce(false);
           setPhase('scattered');
         }
       },
       { threshold: [0, 0.02, 0.05, 0.2], rootMargin: '260px 0px' },
     );
 
+    const onVisibility = () => {
+      if (!document.hidden && wasInViewRef.current && !timersRef.current.hold && !timersRef.current.settle && !timersRef.current.loop) {
+        triggerBuildSequence(1450, 'breathing');
+      }
+    };
+
     observer.observe(node);
+    document.addEventListener('visibilitychange', onVisibility);
     return () => {
       clearTimers();
       observer.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
     };
   }, [reducedMotion]);
 
   const handleReplayClick = (e) => {
     e.currentTarget.blur();
-    triggerBuildSequence(600);
+    wasInViewRef.current = true;
+    triggerBuildSequence(520, 'scattered');
   };
 
   const handleStageMove = (e) => {
@@ -432,6 +512,8 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
   };
 
   const isScattered = phase === 'scattered';
+  const isBreathing = phase === 'breathing';
+  const isExpanded = isScattered || isBreathing;
 
   return (
     <section
@@ -440,6 +522,9 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
       data-cansi-phase={phase}
       className="cansi-stage-root relative flex min-h-[var(--stage-h)] flex-col justify-center overflow-hidden border-b border-[#0D1C11]/12 bg-[#F5EFE2] pb-14 pt-10 text-[#0D1C11] sm:py-16 lg:py-4 2xl:py-8"
     >
+      {/* Expanding Champagne-Gold Page Transition Seam */}
+      <div aria-hidden="true" data-page-seam className="piyo-page-seam" />
+
       {/* Top-Left Open Flame Accent blended cleanly into warm beige (Desktop / Tablet only so it never overlaps mobile headline) */}
       <img
         src="./images/flame-corner.jpg"
@@ -451,7 +536,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
         }}
       />
 
-      <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
+      <div data-page-stage="craft" className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
         <div className="grid items-center gap-7 sm:gap-10 lg:grid-cols-12 lg:gap-10">
           {/* Editorial Column — Below Steaming Bowl on Mobile, Left on Desktop */}
           <div ref={editorialRef} className="relative z-20 order-2 pb-2 lg:order-1 lg:col-span-6 lg:pb-0">
@@ -553,7 +638,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
           </div>
 
           {/* Interactive Scatter-to-Bowl Animated Exploded Bacolod Cansi — TOP on Mobile, Right on Desktop */}
-          <div className="relative z-10 order-1 lg:order-2 lg:col-span-6 lg:translate-x-4 xl:translate-x-8 2xl:translate-x-16">
+          <div className="relative z-10 order-1 lg:order-2 lg:col-span-6 lg:translate-x-1 xl:translate-x-2 2xl:translate-x-8">
             <div
               onPointerMove={handleStageMove}
               onPointerLeave={handleStageLeave}
@@ -581,7 +666,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                 <span
                   aria-hidden="true"
                   className={`pointer-events-none absolute -bottom-3 left-1/2 z-30 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap text-[11px] font-medium tracking-[0.18em] uppercase text-[#0D1C11]/55 transition-all duration-500 group-hover:text-[#0D1C11]/85 ${
-                    phase === 'assembled' ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
+                    hasAssembledOnce && !isScattered ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
                   }`}
                 >
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#C29645]" />
@@ -604,7 +689,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                       background:
                         'radial-gradient(ellipse at center, rgba(54,40,24,0.32) 0%, rgba(54,40,24,0.14) 48%, rgba(54,40,24,0) 76%)',
                       filter: 'blur(7px)',
-                      transform: isScattered ? 'scale(0.92)' : 'scale(1)',
+                      transform: isExpanded ? 'scale(0.91)' : 'scale(1)',
                     }}
                   />
 
@@ -655,10 +740,16 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                     const depth = choreo.depth ?? 1;
                     const parallaxX = tilt.hovered ? tilt.x * 9 * depth : 0;
                     const parallaxY = tilt.hovered ? tilt.y * 7 * depth : 0;
-                    const sxPx = (parseFloat(choreo.sx || '0') * scatterMult).toFixed(1);
-                    const syPx = (parseFloat(choreo.sy || '0') * scatterMult).toFixed(1);
-                    const srot = choreo.srot || '0deg';
-                    const sscale = choreo.sscale ?? 0.92;
+                    const sxPx = (
+                      parseFloat((isBreathing ? choreo.bx : choreo.sx) || '0') * scatterMult
+                    ).toFixed(1);
+                    const syPx = (
+                      parseFloat((isBreathing ? choreo.by : choreo.sy) || '0') * scatterMult
+                    ).toFixed(1);
+                    const srot = (isBreathing ? choreo.brot : choreo.srot) || '0deg';
+                    const sscale = isBreathing
+                      ? (choreo.bscale ?? Math.min(1, (choreo.sscale ?? 0.92) + 0.06))
+                      : (choreo.sscale ?? 0.92);
                     const sopacity = choreo.sopacity ?? 0.98;
                     const flyDur = choreo.dur || '1750ms';
                     const flyDelay = choreo.delay || '0ms';
@@ -686,12 +777,12 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                         {isBowl ? (
                           <div
                             key={`bowl-${replayKey}`}
-                            className={`h-full w-full ${phase !== 'scattered' ? 'cansi-bowl-impact' : ''}`}
+                            className={`h-full w-full ${!isScattered && !isLoopCycle ? 'cansi-bowl-impact' : ''}`}
                           >
                             <div
                               className={`${floatClass} h-full w-full`}
                               style={{
-                                animationDuration: choreo.idleDur || '5.8s',
+                                animationDuration: choreo.idleDur || '4.6s',
                                 animationDelay: choreo.idleDelay || '0s',
                               }}
                             >
@@ -706,26 +797,40 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
                           </div>
                         ) : (
                           <div
-                            data-scattered={isScattered ? 'true' : 'false'}
+                            data-scattered={isExpanded ? 'true' : 'false'}
                             className="h-full w-full"
                             style={{
-                              willChange: phase === 'building' ? 'transform, opacity' : 'auto',
+                              willChange: 'transform, opacity',
                               WebkitBackfaceVisibility: 'hidden',
                               backfaceVisibility: 'hidden',
-                              transform: isScattered
+                              transform: isExpanded
                                 ? `translate3d(${sxPx}px, ${syPx}px, 0px) rotate(${srot}) scale(${sscale})`
                                 : 'translate3d(0px, 0px, 0px) rotate(0deg) scale(1)',
                               opacity: isScattered ? sopacity : 1,
                               transitionProperty: 'transform, opacity',
-                              transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
-                              transitionDuration: isScattered ? '450ms' : flyDur,
-                              transitionDelay: isScattered ? '0ms' : flyDelay,
+                              transitionTimingFunction: isBreathing
+                                ? 'cubic-bezier(0.37, 0, 0.22, 1)'
+                                : 'cubic-bezier(0.22, 1, 0.36, 1)',
+                              transitionDuration: isBreathing
+                                ? '1400ms'
+                                : isScattered
+                                ? '450ms'
+                                : isLoopCycle
+                                ? '1500ms'
+                                : flyDur,
+                              transitionDelay: isBreathing
+                                ? `${Math.round((parseFloat(flyDelay) || 0) * 0.16)}ms`
+                                : isScattered
+                                ? '0ms'
+                                : isLoopCycle
+                                ? `${Math.round((parseFloat(flyDelay) || 0) * 0.24)}ms`
+                                : flyDelay,
                             }}
                           >
                             <div
                               className={`${floatClass} h-full w-full`}
                               style={{
-                                animationDuration: choreo.idleDur || '5.2s',
+                                animationDuration: choreo.idleDur || '4.4s',
                                 animationDelay: choreo.idleDelay || '0s',
                               }}
                             >

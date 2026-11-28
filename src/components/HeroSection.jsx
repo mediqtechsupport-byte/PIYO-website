@@ -189,7 +189,10 @@ export function HeroSection({
       />
 
       {/* Main Two-Column Hero Stage — Uniform max-w-7xl Rail */}
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center px-5 pb-10 pt-5 sm:px-8 sm:pb-12 sm:pt-7 lg:py-8">
+      <div
+        data-page-stage="home"
+        className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center px-5 pb-10 pt-5 sm:px-8 sm:pb-12 sm:pt-7 lg:py-8"
+      >
         <div className="grid w-full items-center gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-8">
           {/* Editorial Text Column — Below Plate on Mobile, Left on Desktop */}
           <div className="relative z-10 order-2 mx-auto w-full max-w-[490px] text-center lg:order-1 lg:col-span-5 lg:mx-0 lg:text-left">

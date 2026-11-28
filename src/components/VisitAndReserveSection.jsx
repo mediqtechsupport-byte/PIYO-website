@@ -69,6 +69,9 @@ export function VisitAndReserveSection({ openStatus }) {
       id="visit"
       className="relative overflow-hidden border-t border-[#DFB96F]/15 bg-[#08130B]/58 py-0 text-[#FAF6EC] lg:flex lg:min-h-[var(--stage-h)] lg:items-center lg:py-8 xl:py-14"
     >
+      {/* Expanding Champagne-Gold Page Transition Seam */}
+      <div aria-hidden="true" data-page-seam className="piyo-page-seam" />
+
       {/* Subtle Ambient Warm Gold & Deep Emerald Radial Atmosphere */}
       <div
         aria-hidden="true"
@@ -79,7 +82,7 @@ export function VisitAndReserveSection({ openStatus }) {
         }}
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
+      <div data-page-stage="visit" className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
         <div className="grid items-start gap-0 lg:grid-cols-12 lg:gap-12 xl:gap-14">
           {/* Left Column (Desktop) / Second Page After Book a Table (Mobile): Premier Location, Hours, Warm Beige Space Card & Direct Contacts */}
           <div

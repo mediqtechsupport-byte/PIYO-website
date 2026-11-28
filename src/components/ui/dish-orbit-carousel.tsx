@@ -524,6 +524,23 @@ export function DishOrbitCarousel({
 
   return (
     <div ref={trackRef} className={"dsh-trk" + (className ? " " + className : "")} style={{ height: "calc(" + height + " * " + (1 + steps * scrollPerDish) + ")" }}>
+    {/* Mobile/touch native full-page snap markers aligned to each dish step */}
+    {dishes.map((d, i) => (
+      <div
+        key={"snap-" + d.title + "-" + i}
+        aria-hidden="true"
+        className="dsh-snap-stop"
+        style={{
+          display: "none",
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: "calc(" + height + " * " + (i * scrollPerDish) + ")",
+          height: "2px",
+          pointerEvents: "none",
+        }}
+      />
+    ))}
     <div
       ref={rootRef}
       className="dsh-root"

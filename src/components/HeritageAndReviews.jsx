@@ -13,9 +13,10 @@ export function HeritageAndReviews() {
       <section
         ref={heritageRef}
         id="heritage"
-        className="relative flex min-h-[var(--stage-h)] flex-col justify-center border-y border-[#DFB96F]/15 bg-[#0A180E]/58 py-12 text-[#FAF6EC] sm:py-16"
+        className="relative flex min-h-[var(--stage-h)] flex-col justify-center overflow-hidden border-y border-[#DFB96F]/15 bg-[#0A180E]/58 py-12 text-[#FAF6EC] sm:py-16"
       >
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div aria-hidden="true" data-page-seam className="piyo-page-seam" />
+        <div data-page-stage="heritage" className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="grid items-center gap-8 lg:grid-cols-12">
             <div className="lg:col-span-6">
               <span
@@ -162,6 +163,7 @@ export function HeritageAndReviews() {
             </div>
           </div>
         </div>
+        <div aria-hidden="true" className="piyo-snap-end pointer-events-none h-px w-full" />
       </section>
 
       {/* Customer Testimonials (Honoring PIYO's Torn-Parchment Over Tagaytay Pine Forest!) */}
@@ -170,8 +172,9 @@ export function HeritageAndReviews() {
         id="reviews"
         className="relative flex min-h-[var(--stage-h)] flex-col justify-center overflow-hidden bg-[#0C1B11]/54 py-12 text-[#FAF6EC] sm:py-16"
       >
+        <div aria-hidden="true" data-page-seam className="piyo-page-seam" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(216,179,106,0.14),transparent_50%)]" />
-        <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+        <div data-page-stage="reviews" className="relative mx-auto max-w-7xl px-5 sm:px-8">
           <div
             className="piyo-reveal text-center"
             data-revealed={reviewsRevealed ? 'true' : 'false'}
@@ -241,6 +244,7 @@ export function HeritageAndReviews() {
             ))}
           </div>
         </div>
+        <div aria-hidden="true" className="piyo-snap-end pointer-events-none h-px w-full" />
       </section>
     </>
   );

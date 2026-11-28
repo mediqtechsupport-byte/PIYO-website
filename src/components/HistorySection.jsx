@@ -29,6 +29,9 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
       id="history"
       className="relative flex min-h-[var(--stage-h)] flex-col justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#08130B]/30 pb-6 pt-[clamp(210px,33svh,290px)] text-[#FAF6EC] sm:pb-12 sm:pt-[clamp(290px,45svh,440px)] lg:justify-center lg:py-10 2xl:py-14"
     >
+      {/* Expanding Champagne-Gold Page Transition Seam */}
+      <div aria-hidden="true" data-page-seam className="piyo-page-seam" />
+
       {/* Mobile / Tablet Top-Framed Symmetrical Transparent PIYO House Directly Over the Live Tagaytay Pine Forest */}
       <div
         aria-hidden="true"
@@ -76,7 +79,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
       />
 
       {/* Split Editorial Stage: Story Copy on Left · PIYO Tagaytay House on Right — Both Over Pine Forest */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-8">
+      <div data-page-stage="history" className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-8">
         <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-6 xl:gap-10">
           {/* Left Column (Desktop) / Bottom Stack (Mobile): Story Copy, 3 Pillars & CTAs */}
           <div className="mx-auto flex max-w-3xl flex-col items-center text-center lg:col-span-5 lg:mx-0 lg:max-w-none lg:items-start lg:text-left">
