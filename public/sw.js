@@ -1,4 +1,4 @@
-const CACHE_NAME = 'piyo-grill-v10';
+const CACHE_NAME = 'piyo-grill-v11';
 
 self.addEventListener('install', () => {
   self.skipWaiting();

@@ -404,7 +404,7 @@ export function GrillPromiseSection({ onInspectDish, onExploreGrill }) {
           setPhase('scattered');
         }
       },
-      { threshold: [0, 0.02, 0.05, 0.2], rootMargin: '40px 0px' },
+      { threshold: [0, 0.02, 0.05, 0.2], rootMargin: '260px 0px' },
     );
 
     observer.observe(node);

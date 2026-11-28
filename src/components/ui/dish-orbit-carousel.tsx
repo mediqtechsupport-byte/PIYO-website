@@ -125,7 +125,7 @@ export const ARC_SWEEP = [38, 146]
 const ORBIT_X = 299
 const ORBIT_Y = -450
 const ORBIT_R = 650
-const SCROLL_PER_DISH_DESKTOP = 0.7 // stage heights of scroll per dish on desktop
+const SCROLL_PER_DISH_DESKTOP = 0.56 // breezy, smooth scroll travel per dish on desktop
 const SCROLL_PER_DISH_TABLET = 0.44 // balanced thumb/touch scroll travel on iPad & Android tablets
 const SCROLL_PER_DISH_MOBILE = 0.34 // lighter thumb-friendly scroll travel per dish on phones
 const SWING = 50 // degrees the plate travels round the orbit's pivot
@@ -432,20 +432,8 @@ export function DishOrbitCarousel({
         return `bottom ${Math.round(stickyTop + r.clientHeight)}px`
       },
       invalidateOnRefresh: true,
-      // On phones, iPads, and Android tablets, let native touch inertia glide freely through dishes without JS backward-snap resistance.
-      snap: isCompact || isTouchPrimary
-        ? undefined
-        : {
-            snapTo: (value) => {
-              const navLock = (window as unknown as { __piyoNavLockUntil?: number }).__piyoNavLockUntil ?? 0
-              if (Date.now() < navLock) return value
-              if (value <= 0.04 || value >= 0.94) return value
-              return Math.round(value * steps) / steps
-            },
-            duration: { min: 0.2, max: 0.45 },
-            delay: 0.1,
-            ease: "power2.inOut",
-          },
+      // Keep native scroll inertia 100% free of JS backward/forward snap resistance across both desktop mouse wheels and touch screens.
+      snap: undefined,
       onUpdate: (self) => {
         const navLock = (window as unknown as { __piyoNavLockUntil?: number }).__piyoNavLockUntil ?? 0
         if (Date.now() < navLock) return

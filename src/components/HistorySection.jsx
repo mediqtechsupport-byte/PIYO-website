@@ -42,7 +42,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
             alt=""
             loading="lazy"
             decoding="async"
-            className="h-full w-full object-contain object-center drop-shadow-[0_24px_38px_rgba(4,12,7,0.85)]"
+            className="h-full w-full object-contain object-center"
           />
         </picture>
       </div>
@@ -117,7 +117,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
             <dl
               data-revealed={revealed ? 'true' : 'false'}
               style={{ transitionDelay: '190ms' }}
-              className="piyo-reveal-scale mt-5 grid w-full max-w-2xl grid-cols-3 divide-x divide-[#FAF6EC]/12 rounded-2xl border border-[#DFB96F]/18 bg-[#08130B]/55 backdrop-blur-[3px] sm:mt-7 lg:mt-6 lg:max-w-none"
+              className="piyo-reveal-scale mt-5 grid w-full max-w-2xl grid-cols-3 divide-x divide-[#FAF6EC]/12 rounded-2xl border border-[#DFB96F]/18 bg-[#08130B]/74 sm:mt-7 lg:mt-6 lg:max-w-none"
             >
               {PILLARS.map((item) => (
                 <div key={item.num} className="px-2 py-2.5 sm:px-4 sm:py-4 lg:px-3.5 lg:py-3.5">
@@ -156,7 +156,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
               <button
                 type="button"
                 onClick={onVisitPlace}
-                className="group inline-flex h-[40px] w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#FAF6EC]/28 bg-[#08130B]/60 px-3 text-[11.5px] font-medium tracking-wide text-[#FAF6EC] backdrop-blur-xs transition hover:border-[#DFB96F]/65 hover:text-[#DFB96F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:h-auto sm:min-h-[44px] sm:w-auto sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm"
+                className="group inline-flex h-[40px] w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#FAF6EC]/28 bg-[#08130B]/75 px-3 text-[11.5px] font-medium tracking-wide text-[#FAF6EC] transition hover:border-[#DFB96F]/65 hover:text-[#DFB96F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFB96F] sm:h-auto sm:min-h-[44px] sm:w-auto sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm"
               >
                 <MapPin
                   className="h-3.5 w-3.5 shrink-0 text-[#DFB96F]"
@@ -186,7 +186,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
                   alt="PIYO Grill & Restaurant Tagaytay illuminated A-frame house nestled among pine trees at twilight"
                   loading="lazy"
                   decoding="async"
-                  className="h-auto w-full select-none object-contain drop-shadow-[0_28px_48px_rgba(3,10,6,0.86)]"
+                  className="h-auto w-full select-none object-contain"
                 />
               </picture>
             </div>
