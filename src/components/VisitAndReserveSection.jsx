@@ -67,7 +67,7 @@ export function VisitAndReserveSection({ openStatus }) {
   return (
     <section
       id="visit"
-      className="relative overflow-hidden border-t border-[#DFB96F]/15 bg-[#08130B] py-0 text-[#FAF6EC] lg:flex lg:min-h-[var(--stage-h)] lg:items-center lg:py-8 xl:py-14"
+      className="relative overflow-hidden border-t border-[#DFB96F]/15 bg-[#08130B]/58 py-0 text-[#FAF6EC] lg:flex lg:min-h-[var(--stage-h)] lg:items-center lg:py-8 xl:py-14"
     >
       {/* Subtle Ambient Warm Gold & Deep Emerald Radial Atmosphere */}
       <div

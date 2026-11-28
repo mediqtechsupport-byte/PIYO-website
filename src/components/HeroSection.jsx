@@ -83,7 +83,7 @@ export function HeroSection({
         />
       </div>
 
-      {/* Dramatic Organic Flowing Deep Obsidian-Pine S-Wave Sweeping Down the Right Half */}
+      {/* Dramatic Organic Flowing Deep Obsidian-Pine S-Wave with Tagaytay Pine Forest Inside */}
       <svg
         aria-hidden="true"
         viewBox="0 0 1440 900"
@@ -96,18 +96,51 @@ export function HeroSection({
             <stop offset="52%" stopColor="#08130B" />
             <stop offset="100%" stopColor="#061009" />
           </linearGradient>
+          <clipPath id="piyo-hero-wave-clip">
+            <path d="M 1190 0 C 1110 115, 965 135, 915 265 C 865 395, 905 510, 825 655 C 760 770, 750 845, 785 900 L 1440 900 L 1440 0 Z" />
+          </clipPath>
         </defs>
         <path
           d="M 1190 0 C 1110 115, 965 135, 915 265 C 865 395, 905 510, 825 655 C 760 770, 750 845, 785 900 L 1440 900 L 1440 0 Z"
           fill="url(#piyo-hero-wave-grad)"
         />
+        <g clipPath="url(#piyo-hero-wave-clip)">
+          <image
+            href="./images/piyo-pine-forest-bg.jpg"
+            x="640"
+            y="0"
+            width="860"
+            height="900"
+            preserveAspectRatio="xMidYMid slice"
+            opacity="0.62"
+          />
+          <rect
+            x="720"
+            y="0"
+            width="720"
+            height="900"
+            fill="url(#piyo-hero-wave-grad)"
+            opacity="0.34"
+          />
+        </g>
       </svg>
 
-      {/* Mobile / Tablet Curved Top Dark Obsidian-Pine Wave Framing the Plate Carousel Above the Text */}
+      {/* Mobile / Tablet Curved Top Dark Obsidian-Pine Wave with Tagaytay Pine Silhouettes */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[min(215px,28svh)] rounded-b-[46%] bg-gradient-to-b from-[#08130B] to-[#0D1C11] sm:h-[275px] lg:hidden"
-      />
+        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[min(215px,28svh)] overflow-hidden rounded-b-[46%] bg-gradient-to-b from-[#08130B] to-[#0D1C11] sm:h-[275px] lg:hidden"
+      >
+        <picture>
+          <source srcSet="./images/piyo-pine-forest-bg.webp" type="image/webp" />
+          <img
+            src="./images/piyo-pine-forest-bg.jpg"
+            alt=""
+            decoding="async"
+            className="h-full w-full object-cover object-top opacity-[0.65]"
+          />
+        </picture>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#08130B]/35 via-transparent to-[#08130B]/65" />
+      </div>
 
       {/* Framing Warm Filipino Aromatics — Top-Left Corner (Cinnamon Bark, Dried Laurel Leaf & Star Anise) */}
       <img

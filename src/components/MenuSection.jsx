@@ -349,7 +349,7 @@ export function MenuSection({
   return (
     <section
       id="menu"
-      className="relative flex min-h-[var(--stage-h)] flex-col overflow-x-clip border-t border-[#DFB96F]/15 bg-[#08130B] p-0 text-[#FAF6EC]"
+      className="relative flex min-h-[var(--stage-h)] flex-col overflow-x-clip border-t border-[#DFB96F]/15 bg-transparent p-0 text-[#FAF6EC]"
     >
       <RestaurantMenuBoard
         selectedCat={boardCategory}
@@ -371,11 +371,19 @@ export function MenuSection({
             aria-modal="true"
             aria-label="Customize your PIYO order"
           >
-            {/* Subtle Dark Forest Ambient Glow */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(19,35,22,0.55),transparent_50%),radial-gradient(circle_at_85%_82%,rgba(223,185,111,0.08),transparent_48%)]"
-            />
+            {/* Tagaytay Pine Forest Silhouette Atmosphere Inside Customizer */}
+            <div aria-hidden="true" className="pointer-events-none fixed inset-0 overflow-hidden">
+              <picture>
+                <source srcSet="./images/piyo-pine-forest-bg.webp" type="image/webp" />
+                <img
+                  src="./images/piyo-pine-forest-bg.jpg"
+                  alt=""
+                  decoding="async"
+                  className="h-full w-full object-cover object-center opacity-[0.42]"
+                />
+              </picture>
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(12,30,18,0.45),rgba(8,19,11,0.82)_72%),radial-gradient(circle_at_85%_82%,rgba(223,185,111,0.08),transparent_48%)]" />
+            </div>
 
             {/* Full-Screen Dedicated Customizer Container */}
             <div className="relative z-10 mx-auto my-auto w-full max-w-7xl px-5 sm:px-8">

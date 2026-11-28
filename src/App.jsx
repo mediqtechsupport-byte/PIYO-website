@@ -651,7 +651,31 @@ export default function App() {
     null;
 
   return (
-    <div className="min-h-screen bg-[#08130B]">
+    <div className="relative min-h-screen bg-[#08130B]">
+      {/* Global Tagaytay Twilight Pine Forest Backdrop — Single GPU-Composited Layer Behind All Dark Sections */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#08130B]"
+        style={{ transform: 'translateZ(0)' }}
+      >
+        <picture>
+          <source srcSet="./images/piyo-pine-forest-bg.webp" type="image/webp" />
+          <img
+            src="./images/piyo-pine-forest-bg.jpg"
+            alt=""
+            decoding="async"
+            className="h-full w-full object-cover object-center opacity-[0.72] brightness-[0.95] contrast-[1.06] saturate-[0.96]"
+          />
+        </picture>
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 90% 70% at 50% 24%, rgba(10,30,22,0.08) 0%, rgba(8,19,11,0.48) 70%, rgba(6,15,9,0.78) 100%)',
+          }}
+        />
+      </div>
+
       <Navbar
         activeSection={activeSection}
         onNavigate={scrollToSection}
@@ -664,7 +688,7 @@ export default function App() {
 
       {/* Active Table QR Check-In Strip (shown automatically when opened via ?table=5) */}
       {activeTable && (
-        <div className="border-b border-[#DFB96F]/30 bg-[#08130B] px-4 py-2 text-center text-xs text-[#FAF6EC]">
+        <div className="relative z-10 border-b border-[#DFB96F]/30 bg-[#08130B]/85 px-4 py-2 text-center text-xs text-[#FAF6EC] backdrop-blur-xs">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-2">
             <QrCode className="h-3.5 w-3.5 text-[#DFB96F]" />
             <span>
@@ -675,7 +699,7 @@ export default function App() {
         </div>
       )}
 
-      <main>
+      <main className="relative z-10">
         <HeroSection
           onExploreMenu={() => scrollToSection('menu')}
           onExploreStory={() => scrollToSection('history')}
@@ -724,7 +748,7 @@ export default function App() {
       {/* Heritage Forest Green Footer */}
       <footer
         ref={footerRef}
-        className={`border-t border-[#D8B36A]/25 bg-[#08130B] pt-10 text-[#FAF6EC] ${
+        className={`relative z-10 border-t border-[#D8B36A]/25 bg-[#08130B]/68 pt-10 text-[#FAF6EC] backdrop-blur-[2px] ${
           trayCount > 0 && !isTrayOpen
             ? 'pb-40 md:pb-24'
             : 'pb-28 md:pb-10'

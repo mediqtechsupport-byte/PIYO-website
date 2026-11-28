@@ -27,13 +27,19 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
     <section
       ref={revealRef}
       id="history"
-      className="relative flex min-h-[var(--stage-h)] flex-col items-center justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#08130B] pb-6 pt-[clamp(210px,33svh,290px)] text-[#FAF6EC] sm:pb-12 sm:pt-[clamp(290px,45svh,440px)] lg:pb-7 lg:pt-[clamp(260px,42svh,365px)] 2xl:pb-12 2xl:pt-[clamp(300px,44svh,420px)]"
+      className="relative flex min-h-[var(--stage-h)] flex-col items-center justify-end overflow-hidden border-y border-[#DFB96F]/15 bg-[#08130B]/35 pb-6 pt-[clamp(210px,33svh,290px)] text-[#FAF6EC] sm:pb-12 sm:pt-[clamp(290px,45svh,440px)] lg:pb-7 lg:pt-[clamp(260px,42svh,365px)] 2xl:pb-12 2xl:pt-[clamp(300px,44svh,420px)]"
     >
-      {/* True-Centered, Uncropped PIYO Tagaytay Facade — Crisp Intact Gable Roof & Luminous Signage */}
+      {/* True-Centered, Uncropped PIYO Tagaytay Facade Nestled Seamlessly Inside the Site-Wide Pine Forest */}
       <div
         aria-hidden="true"
         data-revealed={revealed ? 'true' : 'false'}
         className="piyo-reveal-zoom pointer-events-none absolute inset-x-0 top-0 mx-auto h-[clamp(250px,42svh,345px)] w-full max-w-[1440px] overflow-hidden sm:h-[clamp(360px,56svh,520px)] lg:h-[clamp(390px,62svh,540px)]"
+        style={{
+          WebkitMaskImage:
+            'linear-gradient(180deg, rgba(0,0,0,0.72) 0%, #000 12%, #000 54%, rgba(0,0,0,0.45) 74%, transparent 96%)',
+          maskImage:
+            'linear-gradient(180deg, rgba(0,0,0,0.72) 0%, #000 12%, #000 54%, rgba(0,0,0,0.45) 74%, transparent 96%)',
+        }}
       >
         <img
           src="./images/piyo-facade-centered.jpg"
@@ -41,24 +47,24 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
           loading="lazy"
           decoding="async"
           className="h-full w-full object-cover object-[50%_10%] brightness-[1.03] contrast-[1.04] saturate-[1.06]"
-        />
-        {/* Seamless side feather so Tagaytay pines melt naturally into #08130B on wide displays */}
-        <div
-          className="absolute inset-0"
           style={{
-            background:
-              'linear-gradient(90deg, #08130B 0%, rgba(8,19,11,0.46) 7%, rgba(8,19,11,0) 18%, rgba(8,19,11,0) 82%, rgba(8,19,11,0.46) 93%, #08130B 100%)',
-          }}
-        />
-        {/* Preserves crisp luminous PIYO sign & warm eaves while smoothly dissolving lower porch into #08130B */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(180deg, rgba(8,19,11,0.46) 0%, rgba(8,19,11,0.03) 12%, rgba(8,19,11,0) 48%, rgba(8,19,11,0.52) 68%, rgba(8,19,11,0.92) 86%, #08130B 99%)',
+            WebkitMaskImage:
+              'linear-gradient(90deg, transparent 0%, #000 16%, #000 84%, transparent 100%)',
+            maskImage:
+              'linear-gradient(90deg, transparent 0%, #000 16%, #000 84%, transparent 100%)',
           }}
         />
       </div>
+
+      {/* Soft dark velvet base behind lower editorial story copy so typography stays ultra-crisp over pines */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(180deg, transparent 0%, transparent 40%, rgba(8,19,11,0.45) 60%, rgba(8,19,11,0.76) 82%, rgba(8,19,11,0.88) 100%)',
+        }}
+      />
 
       {/* Subtle warm golden hearth glow behind lower editorial story stack */}
       <div
@@ -66,7 +72,7 @@ export function HistorySection({ onExploreCraft, onVisitPlace }) {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 52% 38% at 50% 66%, rgba(223,185,111,0.07) 0%, transparent 72%)',
+            'radial-gradient(ellipse 52% 38% at 50% 66%, rgba(223,185,111,0.08) 0%, transparent 72%)',
         }}
       />
 

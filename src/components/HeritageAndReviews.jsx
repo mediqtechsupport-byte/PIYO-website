@@ -13,7 +13,7 @@ export function HeritageAndReviews() {
       <section
         ref={heritageRef}
         id="heritage"
-        className="flex min-h-[var(--stage-h)] flex-col justify-center border-y border-[#0D1C11]/15 bg-[#0D1C11] py-12 text-[#FAF6EC] sm:py-16"
+        className="relative flex min-h-[var(--stage-h)] flex-col justify-center border-y border-[#DFB96F]/15 bg-[#0A180E]/58 py-12 text-[#FAF6EC] sm:py-16"
       >
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="grid items-center gap-8 lg:grid-cols-12">
@@ -164,11 +164,11 @@ export function HeritageAndReviews() {
         </div>
       </section>
 
-      {/* Customer Testimonials (Honoring PIYO's Torn-Parchment on Sage-Green Theme!) */}
+      {/* Customer Testimonials (Honoring PIYO's Torn-Parchment Over Tagaytay Pine Forest!) */}
       <section
         ref={reviewsRef}
         id="reviews"
-        className="relative flex min-h-[var(--stage-h)] flex-col justify-center overflow-hidden bg-[#112013] py-12 text-[#FAF6EC] sm:py-16"
+        className="relative flex min-h-[var(--stage-h)] flex-col justify-center overflow-hidden bg-[#0C1B11]/54 py-12 text-[#FAF6EC] sm:py-16"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(216,179,106,0.14),transparent_50%)]" />
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8">

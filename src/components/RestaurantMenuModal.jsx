@@ -648,7 +648,7 @@ export function RestaurantMenuBoard({
       {/* Inline Whole-Page Menu Landing ("Best Sellers" Highlight Conveyor — allows scrolling freely to other sections) */}
       <div
         ref={boardRevealRef}
-        className="flex min-h-[var(--stage-h)] w-full flex-col justify-between bg-[#0B190F] text-[#0D1C11]"
+        className="flex min-h-[var(--stage-h)] w-full flex-col justify-between bg-transparent text-[#0D1C11]"
       >
         {/* Full-Bleed Warm Sunlit Beige Editorial Title Banner with Tropical Palm Frond Shadows */}
         <div className="relative z-10 shrink-0 overflow-hidden bg-gradient-to-b from-[#F7F2E6] via-[#F5EFE2] to-[#F1E8D5] pb-2.5 pt-2.5 lg:pb-3 lg:pt-3">
@@ -742,9 +742,9 @@ export function RestaurantMenuBoard({
           />
         </div>
 
-        {/* Full-Bleed Deep Forest Green Solihiya-Woven Best Sellers Conveyor Highlight */}
+        {/* Full-Bleed Deep Forest Green Solihiya-Woven Best Sellers Conveyor Over Tagaytay Pine Forest */}
         <div
-          className="relative z-10 flex flex-1 items-center bg-[#0B190F]"
+          className="relative z-10 flex flex-1 items-center bg-[#0B190F]/54"
           style={{
             backgroundImage: SOLIHIYA_BG,
             backgroundSize: '64px 64px',
@@ -984,41 +984,56 @@ export function RestaurantMenuBoard({
               }}
             />
 
-            {/* Independently Scrollable Solihiya Grid */}
-            <div
-              ref={lockedScrollRef}
-              className={`relative z-10 min-h-0 flex-1 overflow-y-auto overscroll-contain bg-[#0B190F] pt-4 sm:pt-5 lg:pt-6 ${
-                trayCount > 0 ? 'pb-24 sm:pb-20' : 'pb-8 lg:pb-9'
-              }`}
-              style={{
-                backgroundImage: `radial-gradient(ellipse 64% 38% at 50% 0%, rgba(223,185,111,0.11) 0%, transparent 72%), ${SOLIHIYA_BG}`,
-                backgroundSize: '100% 100%, 64px 64px',
-                WebkitOverflowScrolling: 'touch',
-              }}
-            >
-              <div key={selectedCat} className="piyo-page-fade">
-                {activeCategoryMeta?.subtitle && (
-                  <div className="mx-auto mb-5 flex max-w-2xl flex-col items-center px-5 text-center sm:mb-6 sm:px-8">
-                    <div className="flex items-center justify-center gap-2.5 text-[10px] font-bold uppercase tracking-[0.22em] text-[#DFB96F]/85">
-                      <span
-                        aria-hidden="true"
-                        className="h-px w-6 bg-gradient-to-r from-transparent to-[#DFB96F]/55 sm:w-10"
-                      />
-                      <span>
-                        {visibleItems.length}{' '}
-                        {visibleItems.length === 1 ? 'Selection' : 'Selections'}
-                      </span>
-                      <span
-                        aria-hidden="true"
-                        className="h-px w-6 bg-gradient-to-l from-transparent to-[#DFB96F]/55 sm:w-10"
-                      />
+            {/* Independently Scrollable Solihiya Grid Over Tagaytay Pine Forest Atmosphere */}
+            <div className="relative z-10 flex min-h-0 flex-1 flex-col overflow-hidden bg-[#08130B]">
+              <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+                <picture>
+                  <source srcSet="./images/piyo-pine-forest-bg.webp" type="image/webp" />
+                  <img
+                    src="./images/piyo-pine-forest-bg.jpg"
+                    alt=""
+                    decoding="async"
+                    className="h-full w-full object-cover object-center opacity-[0.58]"
+                  />
+                </picture>
+                <div className="absolute inset-0 bg-[#0B190F]/48" />
+              </div>
+
+              <div
+                ref={lockedScrollRef}
+                className={`relative z-10 min-h-0 flex-1 overflow-y-auto overscroll-contain pt-4 sm:pt-5 lg:pt-6 ${
+                  trayCount > 0 ? 'pb-24 sm:pb-20' : 'pb-8 lg:pb-9'
+                }`}
+                style={{
+                  backgroundImage: `radial-gradient(ellipse 64% 38% at 50% 0%, rgba(223,185,111,0.11) 0%, transparent 72%), ${SOLIHIYA_BG}`,
+                  backgroundSize: '100% 100%, 64px 64px',
+                  WebkitOverflowScrolling: 'touch',
+                }}
+              >
+                <div key={selectedCat} className="piyo-page-fade">
+                  {activeCategoryMeta?.subtitle && (
+                    <div className="mx-auto mb-5 flex max-w-2xl flex-col items-center px-5 text-center sm:mb-6 sm:px-8">
+                      <div className="flex items-center justify-center gap-2.5 text-[10px] font-bold uppercase tracking-[0.22em] text-[#DFB96F]/85">
+                        <span
+                          aria-hidden="true"
+                          className="h-px w-6 bg-gradient-to-r from-transparent to-[#DFB96F]/55 sm:w-10"
+                        />
+                        <span>
+                          {visibleItems.length}{' '}
+                          {visibleItems.length === 1 ? 'Selection' : 'Selections'}
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className="h-px w-6 bg-gradient-to-l from-transparent to-[#DFB96F]/55 sm:w-10"
+                        />
+                      </div>
+                      <p className="mt-1 font-serif text-[12.5px] italic leading-relaxed text-[#E7DEC9]/88 sm:text-[13.5px]">
+                        {activeCategoryMeta.subtitle}
+                      </p>
                     </div>
-                    <p className="mt-1 font-serif text-[12.5px] italic leading-relaxed text-[#E7DEC9]/88 sm:text-[13.5px]">
-                      {activeCategoryMeta.subtitle}
-                    </p>
-                  </div>
-                )}
-                {renderDishCards(visibleItems)}
+                  )}
+                  {renderDishCards(visibleItems)}
+                </div>
               </div>
             </div>
 
